@@ -16,6 +16,7 @@
 #include "components/ImageComponent.h"
 #include "components/ScrollIndicatorComponent.h"
 #include "components/TextComponent.h"
+#include "ThemeData.h"
 #include "utils/LocalizationUtil.h"
 #include "utils/StringUtil.h"
 
@@ -47,7 +48,7 @@ public:
                       bool invert_when_selected = true)
     {
         ComponentListRow row;
-        row.addElement(std::make_shared<TextComponent>(label, Font::get(FONT_SIZE_MEDIUM),
+        row.addElement(std::make_shared<TextComponent>(label, getMenuFont(FONT_SIZE_MEDIUM),
                                                        mMenuColorPrimary, ALIGN_LEFT, ALIGN_CENTER,
                                                        glm::ivec2 {0, 0}),
                        true);
@@ -86,6 +87,16 @@ public:
     std::vector<HelpPrompt> getHelpPrompts() override { return mGrid.getHelpPrompts(); }
 
 private:
+    // Returns the font to use for menu text, which is the font from the theme's "menu" view if
+    // one is defined, otherwise the default font for the given size.
+    static std::shared_ptr<Font> getMenuFont(const float defaultSize)
+    {
+        if (const auto& menuTheme {ThemeData::getMenuTheme()};
+            menuTheme->loadedFromTheme && menuTheme->Text.font != nullptr)
+            return menuTheme->Text.font;
+        return Font::get(defaultSize);
+    }
+
     void updateSize();
     void updateGrid();
     float getButtonGridHeight() const;

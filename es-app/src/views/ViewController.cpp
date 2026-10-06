@@ -70,6 +70,38 @@ ViewController* ViewController::getInstance()
 
 void ViewController::setMenuColors()
 {
+    // If the theme defines a "menu" view then the menu styling is taken from the theme, otherwise
+    // the built-in MenuColorScheme values below are used.
+    if (const auto& menuTheme {ThemeData::getMenuTheme()}; menuTheme->loadedFromTheme) {
+        mMenuColorFrame = menuTheme->Background.color;
+        mMenuColorFrameLaunchScreen = menuTheme->Background.color;
+        mMenuColorFrameBusyComponent = menuTheme->Background.color;
+
+        mMenuColorTitle = menuTheme->Title.color;
+        mMenuColorPrimary = menuTheme->Text.color;
+        mMenuColorSecondary = menuTheme->TextSmall.color;
+        mMenuColorTertiary = menuTheme->TextSmall.color;
+
+        mMenuColorSelector = menuTheme->Text.selectorColor;
+        mMenuColorSeparators = menuTheme->Grid.hasSeparatorColor ?
+                                   menuTheme->Grid.separatorColor :
+                                   menuTheme->Text.separatorColor;
+        mMenuColorScrollIndicators = menuTheme->TextSmall.color;
+
+        mMenuColorButtonFocused = menuTheme->Text.color;
+        mMenuColorButtonTextFocused = menuTheme->Text.selectedColor;
+        mMenuColorButtonTextUnfocused = menuTheme->Text.color;
+        mMenuColorButtonFlatFocused = menuTheme->Text.color;
+        mMenuColorButtonFlatUnfocused = menuTheme->TextSmall.color;
+
+        mMenuColorTextInputFrameFocused = menuTheme->Text.selectorColor;
+        mMenuColorTextInputFrameUnfocused = menuTheme->Text.selectorColor;
+        mMenuColorKeyboardCursorFocused = menuTheme->Text.selectorColor;
+        mMenuColorKeyboardText = menuTheme->Text.color;
+
+        return;
+    }
+
     if (Settings::getInstance()->getString("MenuColorScheme") == "light") {
         mMenuColorFrame = 0xEFEFEFFF;
         mMenuColorFrameLaunchScreen = 0xDFDFDFFF;
@@ -1538,6 +1570,10 @@ void ViewController::reloadAll()
 
     mGamelistViews.clear();
     mCurrentView = nullptr;
+
+    // Reload the global menu theme since the selected theme may have changed.
+    ThemeData::loadMenuTheme();
+    setMenuColors();
 
     // Load themes, create GamelistViews and reset filters.
     for (auto it = cursorMap.cbegin(); it != cursorMap.cend(); ++it) {

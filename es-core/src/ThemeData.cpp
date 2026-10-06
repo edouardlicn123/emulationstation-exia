@@ -14,6 +14,7 @@
 #include "Settings.h"
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"
+#include "resources/Font.h"
 #include "utils/FileSystemUtil.h"
 #include "utils/LocalizationUtil.h"
 #include "utils/StringUtil.h"
@@ -29,7 +30,8 @@
 std::vector<std::string> ThemeData::sSupportedViews {
     {"all"},
     {"system"},
-    {"gamelist"}};
+    {"gamelist"},
+    {"menu"}};
 
 std::vector<std::string> ThemeData::sSupportedMediaTypes {
     {"miximage"},
@@ -642,7 +644,41 @@ std::map<std::string, std::map<std::string, ThemeData::ElementPropertyType>>
        {"format", STRING},
        {"opacity", FLOAT}}},
      {"sound",
-      {{"path", PATH}}}};
+      {{"path", PATH}}},
+     // The elements below belong to the "menu" view which makes the menus themable.
+     {"menuBackground",
+      {{"color", COLOR},
+       {"centerColor", COLOR},
+       {"cornerSize", NORMALIZED_PAIR},
+       {"dimming", COLOR},
+       {"blur", BOOLEAN}}},
+     {"menuText",
+      {{"fontPath", PATH},
+       {"fontSize", FLOAT},
+       {"color", COLOR},
+       {"selectedColor", COLOR},
+       {"selectorColor", COLOR},
+       {"selectorColorEnd", COLOR},
+       {"selectorGradientType", STRING},
+       {"separatorColor", COLOR}}},
+     {"menuTextSmall",
+      {{"fontPath", PATH},
+       {"fontSize", FLOAT},
+       {"color", COLOR}}},
+     {"menuGrid", {{"separatorColor", COLOR}}},
+     {"menuIcons",
+      {{"iconSystem", PATH},
+       {"iconUpdates", PATH},
+       {"iconControllers", PATH},
+       {"iconGames", PATH},
+       {"iconUI", PATH},
+       {"iconSound", PATH},
+       {"iconNetwork", PATH},
+       {"iconScraper", PATH},
+       {"iconAdvanced", PATH},
+       {"iconQuit", PATH},
+       {"iconNetplay", PATH},
+       {"iconRetroachievements", PATH}}}};
 // clang-format on
 
 ThemeData::ThemeData()
@@ -840,6 +876,147 @@ const ThemeData::ThemeElement* ThemeData::getElement(const std::string& view,
     }
 
     return &elemIt->second;
+}
+
+void ThemeData::loadMenuTheme()
+{
+    if (sThemes.empty())
+        populateThemes();
+
+    std::map<std::string, Theme, StringComparator>::const_iterator themeIt {
+        sThemes.find(Settings::getInstance()->getString("Theme"))};
+    if (themeIt == sThemes.cend())
+        themeIt = sThemes.cbegin();
+
+    const std::string rootThemeFile {themeIt->second.path + "/theme.xml"};
+
+    auto menuThemeSource = std::make_shared<ThemeData>();
+
+    if (Utils::FileSystem::exists(rootThemeFile)) {
+        // The root theme file also holds the views for the system and gamelist screens. Those use
+        // system-specific variables and are irrelevant for the menu, so only the "menu" view is
+        // parsed here and blank property values are tolerated in the other views.
+        menuThemeSource->mMenuThemeOnly = true;
+
+        std::map<std::string, std::string> sysData;
+
+        try {
+            menuThemeSource->loadFile(sysData, rootThemeFile, ThemeTriggers::TriggerType::NONE,
+                                      false);
+
+            if (menuThemeSource->hasView("menu"))
+                LOG(LogInfo) << "ThemeData::loadMenuTheme(): Using \"menu\" view from \""
+                             << rootThemeFile << "\"";
+        }
+        catch (ThemeException& e) {
+            LOG(LogWarning) << "ThemeData::loadMenuTheme(): " << e.what() << ", the built-in menu "
+                                                                    "colors will be used";
+            menuThemeSource = std::make_shared<ThemeData>();
+        }
+    }
+
+    setDefaultTheme(menuThemeSource.get());
+    sMenuThemeOwner = menuThemeSource;
+}
+
+void ThemeData::setDefaultTheme(ThemeData* theme)
+{
+    if (sMenuThemeSource == theme)
+        return;
+
+    sMenuThemeSource = theme;
+    sMenuTheme.reset();
+}
+
+const std::shared_ptr<ThemeData::ThemeMenu>& ThemeData::getMenuTheme()
+{
+    if (sMenuTheme == nullptr) {
+        sMenuTheme = std::make_shared<ThemeMenu>();
+
+        // Without a theme that defines a "menu" view we keep the built-in values, which means
+        // the MenuColorScheme setting remains in effect.
+        if (sMenuThemeSource == nullptr || !sMenuThemeSource->hasView("menu"))
+            return sMenuTheme;
+
+        auto parseText = [](const ThemeElement* elem,
+                            MenuTextElement& target,
+                            const std::shared_ptr<Font>& defaultFont) -> bool {
+            if (elem == nullptr)
+                return false;
+
+            if (elem->has("fontPath") || elem->has("fontSize"))
+                target.font = Font::getFromTheme(elem, ThemeFlags::ALL, defaultFont, 1.0f, 1.0f);
+            if (elem->has("color"))
+                target.color = elem->get<unsigned int>("color");
+            if (elem->has("selectedColor"))
+                target.selectedColor = elem->get<unsigned int>("selectedColor");
+            if (elem->has("selectorColor"))
+                target.selectorColor = elem->get<unsigned int>("selectorColor");
+            if (elem->has("selectorColorEnd"))
+                target.selectorGradientColor = elem->get<unsigned int>("selectorColorEnd");
+            if (elem->has("separatorColor"))
+                target.separatorColor = elem->get<unsigned int>("separatorColor");
+            if (elem->has("selectorGradientType"))
+                target.selectorGradientType = (elem->get<std::string>("selectorGradientType") !=
+                                              "vertical");
+
+            return true;
+        };
+
+        const ThemeElement* elem {sMenuThemeSource->getElement("menu", "menuBackground_menubg",
+                                                               "menuBackground")};
+        if (elem != nullptr) {
+            if (elem->has("color")) {
+                sMenuTheme->Background.color = elem->get<unsigned int>("color");
+                sMenuTheme->Background.centerColor = sMenuTheme->Background.color;
+            }
+            if (elem->has("centerColor")) {
+                sMenuTheme->Background.centerColor = elem->get<unsigned int>("centerColor");
+                if (!elem->has("color"))
+                    sMenuTheme->Background.color = sMenuTheme->Background.centerColor;
+            }
+            // The corner size is a normalized value in the theme while BackgroundComponent works
+            // with values relative to 1080 lines (i.e. multiplied by the screen resolution
+            // modifier), hence the conversion.
+            if (elem->has("cornerSize"))
+                sMenuTheme->Background.cornerSize = elem->get<glm::vec2>("cornerSize") * 1080.0f;
+            if (elem->has("dimming"))
+                sMenuTheme->Background.dimming = elem->get<unsigned int>("dimming");
+            if (elem->has("blur"))
+                sMenuTheme->Background.blur = elem->get<bool>("blur");
+
+            sMenuTheme->loadedFromTheme = true;
+        }
+
+        parseText(sMenuThemeSource->getElement("menu", "menuText_menutitle", "menuText"),
+                  sMenuTheme->Title, Font::get(FONT_SIZE_LARGE));
+
+        if (parseText(sMenuThemeSource->getElement("menu", "menuText_menutext", "menuText"),
+                      sMenuTheme->Text, Font::get(FONT_SIZE_MEDIUM)))
+            sMenuTheme->loadedFromTheme = true;
+
+        parseText(sMenuThemeSource->getElement("menu", "menuTextSmall_menutextsmall",
+                                                "menuTextSmall"),
+                  sMenuTheme->TextSmall, Font::get(FONT_SIZE_SMALL));
+
+        if (const ThemeElement* gridElem {
+                sMenuThemeSource->getElement("menu", "menuGrid_menugrid", "menuGrid")}) {
+            if (gridElem->has("separatorColor")) {
+                sMenuTheme->Grid.hasSeparatorColor = true;
+                sMenuTheme->Grid.separatorColor = gridElem->get<unsigned int>("separatorColor");
+            }
+        }
+
+        if (const ThemeElement* iconsElem {
+                sMenuThemeSource->getElement("menu", "menuIcons_menuicons", "menuIcons")}) {
+            for (const auto& prop : iconsElem->properties) {
+                if (!prop.second.s.empty() && Utils::FileSystem::exists(prop.second.s))
+                    sMenuTheme->Icons.icons[prop.first] = prop.second.s;
+            }
+        }
+    }
+
+    return sMenuTheme;
 }
 
 void ThemeData::populateThemes()
@@ -2179,12 +2356,16 @@ void ThemeData::parseViews(const pugi::xml_node& root)
 
             if (std::find(sSupportedViews.cbegin(), sSupportedViews.cend(), viewKey) !=
                 sSupportedViews.cend()) {
+                // When only the menu theme is being loaded the other views are simply skipped.
+                if (mMenuThemeOnly && viewKey != "menu")
+                    continue;
+
                 ThemeView& view {
                     mViews.insert(std::pair<std::string, ThemeView>(viewKey, ThemeView()))
                         .first->second};
                 parseView(node, view);
             }
-            else {
+            else if (!mMenuThemeOnly) {
                 throw error << ": Unsupported \"" << viewKey << "\" view style defined";
             }
         }
@@ -2255,10 +2436,15 @@ void ThemeData::parseElement(const pugi::xml_node& root,
         if (str == "\b")
             continue;
 
-        // Strictly enforce that there are no blank values in the theme configuration.
-        if (str == "")
+        // Strictly enforce that there are no blank values in the theme configuration. When only the
+        // menu theme is being loaded the other views may contain values that are resolved
+        // later, so blank values are tolerated in that case.
+        if (str == "" && !mMenuThemeOnly)
             throw error << ": Property \"" << typeIt->first << "\" for element \"" << element.type
                         << "\" has no value defined";
+
+        if (str == "")
+            continue;
 
         std::string nodeName {node.name()};
 

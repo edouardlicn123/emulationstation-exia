@@ -9,6 +9,7 @@
 #include "components/MenuComponent.h"
 
 #include "Settings.h"
+#include "ThemeData.h"
 #include "components/ButtonComponent.h"
 
 #define BUTTON_GRID_VERT_PADDING Font::get(FONT_SIZE_MEDIUM)->getLetterHeight() * 0.915f
@@ -24,6 +25,10 @@ MenuComponent::MenuComponent(std::string title, const std::shared_ptr<Font>& tit
     , mGrid {glm::ivec2 {2, 4}}
     , mNeedsSaving {false}
 {
+    // Apply the corner size from the theme if the "menu" view defines one.
+    if (const auto& menuTheme {ThemeData::getMenuTheme()}; menuTheme->loadedFromTheme)
+        mBackground.setCornerSize(menuTheme->Background.cornerSize);
+
     addChild(&mBackground);
     addChild(&mGrid);
 
@@ -32,6 +37,9 @@ MenuComponent::MenuComponent(std::string title, const std::shared_ptr<Font>& tit
     mTitle->setAutoCalcExtent(glm::ivec2 {0, 0});
     mTitle->setHorizontalAlignment(ALIGN_CENTER);
     mTitle->setColor(mMenuColorTitle);
+    if (const auto& menuTheme {ThemeData::getMenuTheme()};
+        menuTheme->loadedFromTheme && menuTheme->Title.font != nullptr)
+        mTitle->setFont(menuTheme->Title.font);
     setTitle(title, titleFont);
     mGrid.setEntry(mTitle, glm::ivec2 {0, 0}, false, true, glm::ivec2 {2, 2});
 

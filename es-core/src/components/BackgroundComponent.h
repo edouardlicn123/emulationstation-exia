@@ -22,6 +22,7 @@ public:
                glm::vec3 position = {0.0f, 0.0f, 0.0f},
                glm::vec2 padding = {0.0f, 0.0f});
     void setFrameColor(unsigned int frameColor) { mFrameColor = frameColor; }
+    void setCornerSize(const glm::vec2 cornerSize) { mCornerSize = cornerSize; }
 
     void render(const glm::mat4& parentTrans) override;
 

@@ -1060,6 +1060,7 @@ int main(int argc, char* argv[])
     renderer = Renderer::getInstance();
     window = Window::getInstance();
 
+    ThemeData::loadMenuTheme();
     ViewController::getInstance()->setMenuColors();
     CollectionSystemsManager::getInstance();
     Screensaver screensaver;

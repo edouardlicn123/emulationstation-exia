@@ -88,9 +88,70 @@ public:
     }
 };
 
+struct MenuGridElement {
+    bool hasSeparatorColor {false};
+    unsigned int separatorColor {0xC6C7C6FF};
+};
+
+struct MenuTextElement {
+    unsigned int color {0x777777FF};
+    unsigned int selectedColor {0xFFFFFFFF};
+    unsigned int selectorColor {0x878787FF};
+    unsigned int selectorGradientColor {0x878787FF};
+    unsigned int separatorColor {0xC6C7C6FF};
+    bool selectorGradientType {true};
+    std::shared_ptr<Font> font;
+};
+
+struct MenuBackgroundElement {
+    unsigned int color {0xFFFFFFFF};
+    unsigned int centerColor {0xFFFFFFFF};
+    glm::vec2 cornerSize {30.0f, 30.0f};
+    unsigned int dimming {0x000000CC};
+    bool blur {false};
+};
+
+struct MenuIconElement {
+    std::map<std::string, std::string> icons;
+};
+
 class ThemeData
 {
 public:
+    class ThemeMenu
+    {
+    public:
+        MenuBackgroundElement Background {};
+
+        // The title color defaults to the built-in value, the remaining properties are only
+        // applied if the theme defines them.
+        MenuTextElement Title {[&]() {
+            MenuTextElement elem;
+            elem.color = 0x555555FF;
+            elem.selectedColor = 0x555555FF;
+            elem.selectorColor = 0x555555FF;
+            elem.selectorGradientColor = 0x555555FF;
+            elem.separatorColor = 0xFFFFFFFF;
+            return elem;
+        }()};
+        MenuTextElement Text {};
+        MenuTextElement TextSmall {};
+        MenuGridElement Grid {};
+        MenuIconElement Icons {};
+
+        // Set to true if the theme actually defined a "menu" view, otherwise the built-in
+        // color scheme values are in effect and the menu should not be overridden.
+        bool loadedFromTheme {false};
+
+        std::string getMenuIcon(const std::string& name)
+        {
+            auto it = Icons.icons.find(name);
+            if (it != Icons.icons.cend())
+                return it->second;
+            return "";
+        }
+    };
+
     class ThemeElement
     {
     public:
@@ -221,6 +282,16 @@ public:
                                    const std::string& element,
                                    const std::string& expectedType) const;
 
+    // The menu is a global UI element and is therefore themed from the theme root (rather than
+    // from a per-system theme file). The active menu theme is set via setDefaultTheme() whenever
+    // the theme changes and is then parsed lazily by getMenuTheme().
+    static void setDefaultTheme(ThemeData* theme);
+    static const std::shared_ptr<ThemeMenu>& getMenuTheme();
+
+    // Loads the root theme.xml for the currently selected theme and makes it the source for the
+    // menu theme. This is done separately from the per-system themes because the menus are global.
+    static void loadMenuTheme();
+
     static void populateThemes();
     const static std::map<std::string, Theme, StringComparator>& getThemes() { return sThemes; }
     const static std::string getSystemThemeFile(const std::string& system);
@@ -302,6 +373,15 @@ private:
     static inline bool sAspectRatioMatch {false};
     static inline std::string sThemeLanguage;
     bool mCustomCollection;
+
+    // When set, only the "menu" view is parsed and blank property values are tolerated. This is
+    // used when loading the theme root for the global menu theme.
+    bool mMenuThemeOnly {false};
+
+    static inline ThemeData* sMenuThemeSource {nullptr};
+    static inline std::shared_ptr<ThemeMenu> sMenuTheme {nullptr};
+    // Owns the ThemeData instance that sMenuThemeSource points to.
+    static inline std::shared_ptr<ThemeData> sMenuThemeOwner {nullptr};
 };
 
 #endif // ES_CORE_THEME_DATA_H
