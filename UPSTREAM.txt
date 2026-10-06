@@ -1,0 +1,5 @@
+Upstream: https://gitlab.com/es-de/emulationstation-de
+Branch:   stable-3.5-AUR
+Commit:   50e4b600ae533d772bae3ff880d11a09b05dbe84
+Date:     2026-10-06
+Note:     es-exia derivative baseline (menu theming port from batocera-emulationstation)
