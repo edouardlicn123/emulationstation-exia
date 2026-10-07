@@ -100,7 +100,13 @@ struct MenuTextElement {
     unsigned int selectorGradientColor {0x878787FF};
     unsigned int separatorColor {0xC6C7C6FF};
     bool selectorGradientType {true};
-    std::shared_ptr<Font> font;
+
+    // The font is described by path and size rather than being held as a Font object, as the
+    // menu theme is a static object whose lifetime outlives the font subsystem.
+    std::string fontPath;
+    float fontSize {0.0f};
+
+    bool hasFont() const { return !fontPath.empty() || fontSize != 0.0f; }
 };
 
 struct MenuBackgroundElement {
@@ -142,6 +148,11 @@ public:
         // Set to true if the theme actually defined a "menu" view, otherwise the built-in
         // color scheme values are in effect and the menu should not be overridden.
         bool loadedFromTheme {false};
+
+        // Returns the font to use for menu text, or the default font for the given size if the
+        // theme does not define a font for the given element. The theme font size is a
+        // normalized value that is scaled against the screen height.
+        std::shared_ptr<Font> getFont(const MenuTextElement& elem, float defaultSize) const;
 
         std::string getMenuIcon(const std::string& name)
         {

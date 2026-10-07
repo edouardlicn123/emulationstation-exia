@@ -91,9 +91,11 @@ private:
     // one is defined, otherwise the default font for the given size.
     static std::shared_ptr<Font> getMenuFont(const float defaultSize)
     {
-        if (const auto& menuTheme {ThemeData::getMenuTheme()};
-            menuTheme->loadedFromTheme && menuTheme->Text.font != nullptr)
-            return menuTheme->Text.font;
+        const auto& menuTheme {ThemeData::getMenuTheme()};
+
+        if (menuTheme->loadedFromTheme && menuTheme->Text.hasFont())
+            return menuTheme->getFont(menuTheme->Text, defaultSize);
+
         return Font::get(defaultSize);
     }
 

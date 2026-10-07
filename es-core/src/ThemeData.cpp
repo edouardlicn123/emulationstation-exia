@@ -919,6 +919,33 @@ void ThemeData::loadMenuTheme()
     sMenuThemeOwner = menuThemeSource;
 }
 
+std::shared_ptr<Font> ThemeData::ThemeMenu::getFont(const MenuTextElement& elem,
+                                                    float defaultSize) const
+{
+    if (!loadedFromTheme || !elem.hasFont())
+        return Font::get(defaultSize);
+
+    float size {defaultSize};
+
+    if (elem.fontSize != 0.0f) {
+        const float screenSize {Renderer::getIsVerticalOrientation() ?
+                                    static_cast<float>(Renderer::getScreenWidth()) :
+                                    static_cast<float>(Renderer::getScreenHeight())};
+        size = glm::clamp(screenSize * elem.fontSize, screenSize * 0.001f, screenSize * 1.5f);
+    }
+
+    std::string path {elem.fontPath.empty() ? Font::getDefaultPath() : elem.fontPath};
+
+    if (path[0] != ':' && !Utils::FileSystem::exists(path)) {
+        LOG(LogWarning) << "ThemeData::getFont(): Font file \"" << path
+                        << "\" defined for the menu does not exist, falling back to \""
+                        << Font::getDefaultPath() << "\"";
+        path = Font::getDefaultPath();
+    }
+
+    return Font::get(size, path);
+}
+
 void ThemeData::setDefaultTheme(ThemeData* theme)
 {
     if (sMenuThemeSource == theme)
@@ -938,14 +965,14 @@ const std::shared_ptr<ThemeData::ThemeMenu>& ThemeData::getMenuTheme()
         if (sMenuThemeSource == nullptr || !sMenuThemeSource->hasView("menu"))
             return sMenuTheme;
 
-        auto parseText = [](const ThemeElement* elem,
-                            MenuTextElement& target,
-                            const std::shared_ptr<Font>& defaultFont) -> bool {
+        auto parseText = [](const ThemeElement* elem, MenuTextElement& target) -> bool {
             if (elem == nullptr)
                 return false;
 
-            if (elem->has("fontPath") || elem->has("fontSize"))
-                target.font = Font::getFromTheme(elem, ThemeFlags::ALL, defaultFont, 1.0f, 1.0f);
+            if (elem->has("fontPath"))
+                target.fontPath = elem->get<std::string>("fontPath");
+            if (elem->has("fontSize"))
+                target.fontSize = elem->get<float>("fontSize");
             if (elem->has("color"))
                 target.color = elem->get<unsigned int>("color");
             if (elem->has("selectedColor"))
@@ -989,15 +1016,15 @@ const std::shared_ptr<ThemeData::ThemeMenu>& ThemeData::getMenuTheme()
         }
 
         parseText(sMenuThemeSource->getElement("menu", "menuText_menutitle", "menuText"),
-                  sMenuTheme->Title, Font::get(FONT_SIZE_LARGE));
+                  sMenuTheme->Title);
 
         if (parseText(sMenuThemeSource->getElement("menu", "menuText_menutext", "menuText"),
-                      sMenuTheme->Text, Font::get(FONT_SIZE_MEDIUM)))
+                      sMenuTheme->Text))
             sMenuTheme->loadedFromTheme = true;
 
         parseText(sMenuThemeSource->getElement("menu", "menuTextSmall_menutextsmall",
                                                 "menuTextSmall"),
-                  sMenuTheme->TextSmall, Font::get(FONT_SIZE_SMALL));
+                  sMenuTheme->TextSmall);
 
         if (const ThemeElement* gridElem {
                 sMenuThemeSource->getElement("menu", "menuGrid_menugrid", "menuGrid")}) {

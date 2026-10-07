@@ -11,6 +11,7 @@
 
 #include "FileData.h"
 #include "GuiComponent.h"
+#include "MultiStateInput.h"
 #include "SystemData.h"
 #include "ThemeData.h"
 #include "Window.h"
@@ -37,6 +38,9 @@ public:
 
     bool input(InputConfig* config, Input input) override;
     void enterDirectory(FileData* cursor);
+
+    // Launches the selected game or enters the selected folder.
+    void acceptEntry();
 
     FileData* getNextEntry() { return mPrimary->getNext(); }
     FileData* getPreviousEntry() { return mPrimary->getPrevious(); }
@@ -74,6 +78,10 @@ protected:
     GamelistBase(FileData* root);
 
     PrimaryComponent<FileData*>* getPrimary() { return mPrimary; }
+
+    // Used to distinguish between short and long presses of the "a" button, where a short press
+    // launches the game and a long press opens the game options menu.
+    MultiStateInput mOKButton {"a"};
 
     // Called when a FileData* is added, has its metadata changed, or is removed.
     virtual void onFileChanged(FileData* file, bool reloadGamelist) = 0;

@@ -12,6 +12,7 @@
 #include "Scripting.h"
 #include "UIModeController.h"
 #include "animations/LambdaAnimation.h"
+#include "guis/GuiGameOptions.h"
 #include "utils/LocalizationUtil.h"
 
 #define FADE_IN_START_OPACITY 0.5f
@@ -430,6 +431,14 @@ void GamelistView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
 
 void GamelistView::update(int deltaTime)
 {
+    // A long press of the "a" button opens the game options menu. This is handled before the
+    // regular update logic so that the pending button release is consumed and does not launch
+    // the game.
+    if (mOKButton.isLongPressed(deltaTime)) {
+        showSelectedGameOptions();
+        return;
+    }
+
     if (ViewController::getInstance()->getGameLaunchTriggered()) {
         for (auto& image : mImageComponents) {
             if (image->isAnimationPlaying(0))
@@ -464,6 +473,23 @@ void GamelistView::update(int deltaTime)
     }
 
     updateChildren(deltaTime);
+}
+
+void GamelistView::showSelectedGameOptions()
+{
+    FileData* cursor {getCursor()};
+
+    if (cursor == nullptr || cursor->getType() != GAME)
+        return;
+
+    NavigationSounds::getInstance().playThemeNavigationSound(SELECTSOUND);
+
+    stopListScrolling();
+    stopGamelistFadeAnimations();
+    ViewController::getInstance()->cancelViewTransitions();
+    ViewController::getInstance()->setHelpComponentsVisibility(false);
+
+    mWindow->pushGui(new GuiGameOptions(cursor));
 }
 
 void GamelistView::render(const glm::mat4& parentTrans)

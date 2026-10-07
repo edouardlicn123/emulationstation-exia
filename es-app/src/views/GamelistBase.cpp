@@ -65,75 +65,84 @@ void GamelistBase::setCursor(FileData* cursor)
     }
 }
 
+void GamelistBase::acceptEntry()
+{
+    FileData* cursor {getCursor()};
+    if (cursor->getType() == GAME) {
+        pauseViewVideos();
+        ViewController::getInstance()->cancelViewTransitions();
+        stopListScrolling();
+        stopGamelistFadeAnimations();
+        launch(cursor);
+    }
+    else {
+        // It's a folder.
+        if (cursor->getChildren().size() > 0) {
+            ViewController::getInstance()->cancelViewTransitions();
+            // If a folder link entry has been set on the folder, then check if it
+            // corresponds to an actual child entry, and if so then launch this child
+            // instead of entering the folder.
+            if (!CollectionSystemsManager::getInstance()->isEditing() &&
+                cursor->metadata.get("folderlink") != "") {
+                std::string folderLink;
+                folderLink.append(cursor->getPath())
+                    .append("/")
+                    .append(Utils::String::replace(cursor->metadata.get("folderlink"), "\\", "/"));
+                for (auto child : cursor->getChildrenRecursive()) {
+                    if (child->getPath() == folderLink) {
+                        pauseViewVideos();
+                        ViewController::getInstance()->cancelViewTransitions();
+                        stopListScrolling();
+                        stopGamelistFadeAnimations();
+                        launch(child);
+                        return;
+                    }
+                }
+            }
+
+            NavigationSounds::getInstance().playThemeNavigationSound(SELECTSOUND);
+            mCursorStack.push(cursor);
+            populateList(cursor->getChildrenListToDisplay(), cursor);
+
+            FileData* newCursor {nullptr};
+            std::vector<FileData*> listEntries {cursor->getChildrenListToDisplay()};
+            // Check if there is an entry in the cursor stack history matching any entry
+            // in the currect folder. If so, select that entry.
+            for (auto it = mCursorStackHistory.begin(); // Line break.
+                 it != mCursorStackHistory.end(); ++it) {
+                if (std::find(listEntries.begin(), listEntries.end(), *it) != listEntries.end()) {
+                    newCursor = *it;
+                    mCursorStackHistory.erase(it);
+                    break;
+                }
+            }
+
+            // If there was no match in the cursor history, simply select the first entry.
+            if (!newCursor)
+                newCursor = getCursor();
+            setCursor(newCursor);
+            stopListScrolling();
+            if (mRoot->getSystem()->getThemeFolder() == "custom-collections")
+                updateHelpPrompts();
+        }
+        else {
+            NavigationSounds::getInstance().playThemeNavigationSound(SCROLLSOUND);
+        }
+    }
+}
+
 bool GamelistBase::input(InputConfig* config, Input input)
 {
+    // The "a" button is handled through MultiStateInput so that a short press can be
+    // distinguished from a long press, where the long press opens the game options menu.
+    // This means that a game is launched when the button is released rather than pressed.
+    if (mOKButton.isShortPressed(config, input)) {
+        acceptEntry();
+        return true;
+    }
+
     if (input.value != 0) {
         if (config->isMappedTo("a", input)) {
-            FileData* cursor {getCursor()};
-            if (cursor->getType() == GAME) {
-                pauseViewVideos();
-                ViewController::getInstance()->cancelViewTransitions();
-                stopListScrolling();
-                stopGamelistFadeAnimations();
-                launch(cursor);
-            }
-            else {
-                // It's a folder.
-                if (cursor->getChildren().size() > 0) {
-                    ViewController::getInstance()->cancelViewTransitions();
-                    // If a folder link entry has been set on the folder, then check if it
-                    // corresponds to an actual child entry, and if so then launch this child
-                    // instead of entering the folder.
-                    if (!CollectionSystemsManager::getInstance()->isEditing() &&
-                        cursor->metadata.get("folderlink") != "") {
-                        std::string folderLink;
-                        folderLink.append(cursor->getPath())
-                            .append("/")
-                            .append(Utils::String::replace(cursor->metadata.get("folderlink"), "\\",
-                                                           "/"));
-                        for (auto child : cursor->getChildrenRecursive()) {
-                            if (child->getPath() == folderLink) {
-                                pauseViewVideos();
-                                ViewController::getInstance()->cancelViewTransitions();
-                                stopListScrolling();
-                                stopGamelistFadeAnimations();
-                                launch(child);
-                                return true;
-                            }
-                        }
-                    }
-
-                    NavigationSounds::getInstance().playThemeNavigationSound(SELECTSOUND);
-                    mCursorStack.push(cursor);
-                    populateList(cursor->getChildrenListToDisplay(), cursor);
-
-                    FileData* newCursor {nullptr};
-                    std::vector<FileData*> listEntries {cursor->getChildrenListToDisplay()};
-                    // Check if there is an entry in the cursor stack history matching any entry
-                    // in the currect folder. If so, select that entry.
-                    for (auto it = mCursorStackHistory.begin(); // Line break.
-                         it != mCursorStackHistory.end(); ++it) {
-                        if (std::find(listEntries.begin(), listEntries.end(), *it) !=
-                            listEntries.end()) {
-                            newCursor = *it;
-                            mCursorStackHistory.erase(it);
-                            break;
-                        }
-                    }
-
-                    // If there was no match in the cursor history, simply select the first entry.
-                    if (!newCursor)
-                        newCursor = getCursor();
-                    setCursor(newCursor);
-                    stopListScrolling();
-                    if (mRoot->getSystem()->getThemeFolder() == "custom-collections")
-                        updateHelpPrompts();
-                }
-                else {
-                    NavigationSounds::getInstance().playThemeNavigationSound(SCROLLSOUND);
-                }
-            }
-
             return true;
         }
         else if (config->isMappedTo("b", input)) {

@@ -115,6 +115,7 @@ public:
 private:
     void updateView(const CursorState& state);
     void setGameImage(FileData* file, GuiComponent* comp);
+    void showSelectedGameOptions();
 
     Renderer* mRenderer;
     bool mStaticVideoAudio;

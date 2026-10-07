@@ -38,8 +38,8 @@ MenuComponent::MenuComponent(std::string title, const std::shared_ptr<Font>& tit
     mTitle->setHorizontalAlignment(ALIGN_CENTER);
     mTitle->setColor(mMenuColorTitle);
     if (const auto& menuTheme {ThemeData::getMenuTheme()};
-        menuTheme->loadedFromTheme && menuTheme->Title.font != nullptr)
-        mTitle->setFont(menuTheme->Title.font);
+        menuTheme->loadedFromTheme && menuTheme->Title.hasFont())
+        mTitle->setFont(menuTheme->getFont(menuTheme->Title, FONT_SIZE_LARGE));
     setTitle(title, titleFont);
     mGrid.setEntry(mTitle, glm::ivec2 {0, 0}, false, true, glm::ivec2 {2, 2});
 
