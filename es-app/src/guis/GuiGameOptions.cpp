@@ -17,6 +17,7 @@
 #include "GuiMetaDataEd.h"
 #include "Sound.h"
 #include "UIModeController.h"
+#include "guis/GuiEmulatorSelector.h"
 #include "guis/GuiMsgBox.h"
 #include "guis/GuiScraperMenu.h"
 #include "scrapers/Scraper.h"
@@ -49,6 +50,17 @@ GuiGameOptions::GuiGameOptions(FileData* game)
         mWindow->pushGui(new GuiScraperMenu(_("SCRAPE")));
         close();
     });
+
+    // Offer the per-game emulator choice when the system actually has more than one launch
+    // command to choose between.
+    if (mGame->getSystem()->getSystemEnvData()->mLaunchCommands.size() > 1) {
+        addEntry(_("SELECT EMULATOR"), [this] {
+            SystemData* system {mGame->getSystem()};
+            FileData* game {mGame};
+            close();
+            mWindow->pushGui(new GuiEmulatorSelector(system, game));
+        });
+    }
 
     addEntry(_("EDIT THIS GAME'S METADATA"), [this] {
         openMetaDataEd();
