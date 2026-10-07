@@ -126,6 +126,9 @@ msgstr ""
 msgid "DELETED COLLECTION '%s'"
 msgstr ""
 
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr ""
+
 msgctxt "theme"
 msgid "unknown"
 msgstr ""
@@ -494,6 +497,9 @@ msgstr ""
 msgid "DELETE CUSTOM COLLECTION"
 msgstr ""
 
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr ""
+
 msgid "COLLECTION TO DELETE"
 msgstr ""
 
@@ -574,6 +580,9 @@ msgid "MIXIMAGES"
 msgstr ""
 
 msgid "IMPORT MEDIA"
+msgstr ""
+
+msgid "VIEW GAME MEDIA"
 msgstr ""
 
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
@@ -690,6 +699,9 @@ msgid "close (cancel)"
 msgstr ""
 
 msgid "LAUNCHING GAME"
+msgstr ""
+
+msgid "LAUNCH"
 msgstr ""
 
 msgid "HELP PROMPTS"
@@ -1363,6 +1375,9 @@ msgstr ""
 msgid "DELETE"
 msgstr ""
 
+msgid "DELETE GAME"
+msgstr ""
+
 msgid "delete game"
 msgstr ""
 
@@ -1580,6 +1595,12 @@ msgid "ALL GAMES"
 msgstr ""
 
 msgid "FAVORITE GAMES"
+msgstr ""
+
+msgid "REMOVE FROM FAVORITES"
+msgstr ""
+
+msgid "ADD TO FAVORITES"
 msgstr ""
 
 msgid "NO METADATA"
@@ -2536,8 +2557,14 @@ msgstr ""
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr ""
 
+msgid "ADDED GAME TO FAVORITES"
+msgstr ""
+
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
 msgstr ""
 
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"

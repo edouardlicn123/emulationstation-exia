@@ -141,6 +141,8 @@ msgstr "'%s' تم تصفيتها حتى يكون هناك المزيد من ال
 msgid "DELETED COLLECTION '%s'"
 msgstr "'%s' مجموعة المحذوفة"
 
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "تمت إزالة اللعبة من المجموعة المخصصة"
 msgctxt "theme"
 msgid "unknown"
 msgstr "مجهول"
@@ -517,6 +519,8 @@ msgstr "إنشاء مجموعة؟"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "حذف مجموعة مخصصة"
 
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "إزالة من المجموعة المخصصة"
 msgid "COLLECTION TO DELETE"
 msgstr "مجموعة للحذف"
 
@@ -602,6 +606,8 @@ msgstr "الصور المخطلطة"
 msgid "IMPORT MEDIA"
 msgstr "استيراد وسائط"
 
+msgid "VIEW GAME MEDIA"
+msgstr "عرض وسائط اللعبة"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "استيراد لافتات أو شعارات إذا كانت متوفرة"
 
@@ -726,6 +732,8 @@ msgstr "(إلغاء) إغلاق"
 msgid "LAUNCHING GAME"
 msgstr "تشغيل لعبة"
 
+msgid "LAUNCH"
+msgstr "تشغيل"
 msgid "HELP PROMPTS"
 msgstr "مطالبات المساعدة"
 
@@ -1433,6 +1441,8 @@ msgstr ""
 msgid "DELETE"
 msgstr "حذف"
 
+msgid "DELETE GAME"
+msgstr "حذف اللعبة"
 msgid "delete game"
 msgstr "حذف اللعبة"
 
@@ -1667,6 +1677,10 @@ msgstr "جميع الألعاب"
 msgid "FAVORITE GAMES"
 msgstr "الألعاب المفضلة"
 
+msgid "REMOVE FROM FAVORITES"
+msgstr "إزالة من المفضلة"
+msgid "ADD TO FAVORITES"
+msgstr "إضافة إلى المفضلة"
 msgid "NO METADATA"
 msgstr "لا توجد بيانات تعريف"
 
@@ -2671,10 +2685,14 @@ msgstr "لا يمكن إضافة مجلدات إلى مجموعات مخصصة"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "تم وضع علامة على المجلد '%s' كمفضل"
 
+msgid "ADDED GAME TO FAVORITES"
+msgstr "تمت إضافة اللعبة إلى المفضلة"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "تمت إزالة هذا اللمجلد '%s' كمفضل"
 
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "تمت إزالة اللعبة من المفضلة"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr "لا يمكن إضافة إدخالات لا يتم احتسابها كألعاب إلى مجموعات مخصصة"
 

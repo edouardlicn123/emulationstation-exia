@@ -131,6 +131,8 @@ msgstr "'%s' je filtrováno, takže může být k dispozici více her"
 msgid "DELETED COLLECTION '%s'"
 msgstr "KOLEKCE '%s' SMAZÁNA"
 
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "HRY ODEBRÁNA Z VLASTNÍ KOLEKCE"
 msgctxt "theme"
 msgid "unknown"
 msgstr "neznámý"
@@ -502,6 +504,8 @@ msgstr "VYTVOŘIT KOLEKCI?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "SMAZAT VLASTNÍ KOLEKCI"
 
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "ODEBRAT Z VLASTNÍ KOLEKCE"
 msgid "COLLECTION TO DELETE"
 msgstr "KOLEKCE KE SMAZÁNÍ"
 
@@ -587,6 +591,8 @@ msgstr "MIXOBRÁZKY"
 msgid "IMPORT MEDIA"
 msgstr "IMPORTOVAT MÉDIA"
 
+msgid "VIEW GAME MEDIA"
+msgstr "ZOBRAZIT MEDIA HRY"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "IMPORTOVAT BANNERY NEBO LOGA, POKUD JSOU K DISPOZICI"
 
@@ -708,6 +714,8 @@ msgstr "zavřít (zrušit)"
 msgid "LAUNCHING GAME"
 msgstr "SPOUŠTĚNÍ HRY"
 
+msgid "LAUNCH"
+msgstr "SPUSTIT"
 msgid "HELP PROMPTS"
 msgstr "NÁPOVĚDNÉ TIPY"
 
@@ -1418,6 +1426,8 @@ msgstr ""
 msgid "DELETE"
 msgstr "SMAZAT"
 
+msgid "DELETE GAME"
+msgstr "ODSTRANIT HRU"
 msgid "delete game"
 msgstr "smazat hru"
 
@@ -1650,6 +1660,10 @@ msgstr "VŠECHNY HRY"
 msgid "FAVORITE GAMES"
 msgstr "OBLÍBENÉ HRY"
 
+msgid "REMOVE FROM FAVORITES"
+msgstr "ODEBRAT Z OBLÍBENÝCH"
+msgid "ADD TO FAVORITES"
+msgstr "PŘIDAT DO OBLÍBENÝCH"
 msgid "NO METADATA"
 msgstr "BEZ METADAT"
 
@@ -2648,10 +2662,14 @@ msgstr "NELZE PŘIDAT SLOŽKY DO VLASTNÍCH KOLEKCÍ"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "SLOŽKA '%s' OZNAČENA JAKO OBLÍBENÁ"
 
+msgid "ADDED GAME TO FAVORITES"
+msgstr "HRY PŘIDÁNA DO OBLÍBENÝCH"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "ODSTRANĚNO OZNAČENÍ OBLÍBENÉ PRO SLOŽKU '%s'"
 
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "HRY ODEBRÁNA Z OBLÍBENÝCH"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "NELZE PŘIDAT POLOŽKY, KTERÉ NEJSOU POČÍTÁNY JAKO HRY, DO VLASTNÍCH KOLEKCÍ"

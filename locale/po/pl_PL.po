@@ -132,6 +132,8 @@ msgstr "'%s' jest filtrowana, więc może być dostępnych więcej gier"
 msgid "DELETED COLLECTION '%s'"
 msgstr "USUNIĘTO KOLEKCJĘ '%s'"
 
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "GRA USUNIĘTA Z KOL. WŁASNEJ"
 msgctxt "theme"
 msgid "unknown"
 msgstr "nieznane"
@@ -519,6 +521,8 @@ msgstr "STWORZYĆ KOLEKCJĘ?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "USUŃ KOLEKCJĘ WŁASNĄ"
 
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "USUŃ Z KOL. WŁASNEJ"
 msgid "COLLECTION TO DELETE"
 msgstr "KOLEKCJA DO USUNIĘCIA"
 
@@ -604,6 +608,8 @@ msgstr "OBRAZY MIXIMAGE"
 msgid "IMPORT MEDIA"
 msgstr "IMPORTUJ MEDIA"
 
+msgid "VIEW GAME MEDIA"
+msgstr "POKAŻ MEDIA GRY"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "IMPORTUJ BANERY / LOGO, JEŚLI DOSTĘPNE"
 
@@ -725,6 +731,8 @@ msgstr "zamknij (anuluj)"
 msgid "LAUNCHING GAME"
 msgstr "URUCHAMIANIE GRY"
 
+msgid "LAUNCH"
+msgstr "URUCHOM"
 msgid "HELP PROMPTS"
 msgstr "WSKAZÓWKI POMOCY"
 
@@ -1437,6 +1445,8 @@ msgstr ""
 msgid "DELETE"
 msgstr "USUŃ"
 
+msgid "DELETE GAME"
+msgstr "USUŃ GRĘ"
 msgid "delete game"
 msgstr "usuń grę"
 
@@ -1675,6 +1685,10 @@ msgstr "WSZYSTKIE GRY"
 msgid "FAVORITE GAMES"
 msgstr "ULUBIONE GRY"
 
+msgid "REMOVE FROM FAVORITES"
+msgstr "USUŃ Z ULUBIONYCH"
+msgid "ADD TO FAVORITES"
+msgstr "DODAJ DO ULUBIONYCH"
 msgid "NO METADATA"
 msgstr "BRAK METADANYCH GRY"
 
@@ -2685,10 +2699,14 @@ msgstr "NIE MOŻNA DODAWAĆ FOLDERÓW DO KOLEKCJI WŁASNYCH"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "ZAZNACZONY FOLDER '%s' JAKO ULUBIONY"
 
+msgid "ADDED GAME TO FAVORITES"
+msgstr "GRA DODANA DO ULUBIONYCH"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "USUNIĘTO OZNACZENIE ULUBIONE DLA FOLDERU '%s'"
 
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "GRA USUNIĘTA Z ULUBIONYCH"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "NIE MOŻNA DODAWAĆ WPISÓW, KTÓRE NIE SĄ LICZONE JAKO GRY DO KOLEKCJI WŁASNYCH"

@@ -130,6 +130,8 @@ msgstr "%s“ wird gefiltert, so dass möglicherweise mehr Spiele verfügbar sin
 msgid "DELETED COLLECTION '%s'"
 msgstr "SAMMLUNG '%s' GELÖSCHT"
 
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "SPIEL AUS EIGENER SAMMLUNG ENTFERNT"
 msgctxt "theme"
 msgid "unknown"
 msgstr "unbekannt"
@@ -517,6 +519,8 @@ msgstr "SAMMLUNG ERZEUGEN?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "EIGENE SAMMLUNG LÖSCHEN"
 
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "AUS EIGENER SAMMLUNG ENTFERNEN"
 msgid "COLLECTION TO DELETE"
 msgstr "ZU LÖSCHENDE SAMMLUNG"
 
@@ -602,6 +606,8 @@ msgstr "MIXIMAGES"
 msgid "IMPORT MEDIA"
 msgstr "MEDIEN IMPORTIEREN"
 
+msgid "VIEW GAME MEDIA"
+msgstr "SPIELMEDIEN ANZEIGEN"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "IMPORT VON BANNERN ODER LOGOS, FALLS VORHANDEN"
 
@@ -723,6 +729,8 @@ msgstr "Schließen (Abbruch)"
 msgid "LAUNCHING GAME"
 msgstr "STARTE SPIEL"
 
+msgid "LAUNCH"
+msgstr "STARTEN"
 msgid "HELP PROMPTS"
 msgstr "HILFE ABFRAGE"
 
@@ -1435,6 +1443,8 @@ msgstr ""
 msgid "DELETE"
 msgstr "LÖSCHEN"
 
+msgid "DELETE GAME"
+msgstr "SPIEL LÖSCHEN"
 msgid "delete game"
 msgstr "Spiel löschen"
 
@@ -1684,6 +1694,10 @@ msgstr "ALLE SPIELE"
 msgid "FAVORITE GAMES"
 msgstr "FAVORITEN"
 
+msgid "REMOVE FROM FAVORITES"
+msgstr "AUS FAVORITEN ENTFERNEN"
+msgid "ADD TO FAVORITES"
+msgstr "ZU FAVORITEN HINZUFÜGEN"
 msgid "NO METADATA"
 msgstr "KEINE METADATEN"
 
@@ -2695,10 +2709,14 @@ msgstr ""
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "MARKIERE ORDNER '%s' ALS FAVORIT"
 
+msgid "ADDED GAME TO FAVORITES"
+msgstr "SPIEL ZU FAVORITEN HINZUFÜGEN"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "FAVORITENMARKIERUNG FÜR ORDNER '%s' ENTFERNT"
 
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "SPIEL AUS FAVORITEN ENTFERNT"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "EINTRÄGE, DIE NICHT ALS SPIELE GEZÄHLT WERDEN, KÖNNEN NICHT ZU "

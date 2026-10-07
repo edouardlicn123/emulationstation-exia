@@ -1063,7 +1063,6 @@ int main(int argc, char* argv[])
     renderer = Renderer::getInstance();
     window = Window::getInstance();
 
-    ThemeData::loadMenuTheme();
     ViewController::getInstance()->setMenuColors();
     CollectionSystemsManager::getInstance();
     Screensaver screensaver;
@@ -1172,6 +1171,12 @@ int main(int argc, char* argv[])
     SystemStatus::getInstance();
     MameNames::getInstance();
     ThemeData::populateThemes();
+
+    // Load the global menu theme now that the theme list is available. This is done here
+    // rather than earlier so that the themes are only scanned once. The menu colors are
+    // then applied, as the earlier call above could not yet know about the menu theme.
+    ThemeData::loadMenuTheme();
+    ViewController::getInstance()->setMenuColors();
     loadSystemsReturnCode loadSystemsStatus {loadSystemConfigFile()};
 
     if (!SystemData::sStartupExitSignal) {

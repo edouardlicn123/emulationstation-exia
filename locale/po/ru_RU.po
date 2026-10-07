@@ -134,6 +134,8 @@ msgstr "'%s' отфильтрован - без фильтра может быт�
 msgid "DELETED COLLECTION '%s'"
 msgstr "УДАЛЕНА КОЛЛЕКЦИЯ '%s'"
 
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "ИГРА УДАЛЕНА ИЗ ПОЛЬЗОВАТЕЛЬСКОЙ КОЛЛЕКЦИИ"
 msgctxt "theme"
 msgid "unknown"
 msgstr "неизвестно"
@@ -510,6 +512,8 @@ msgstr "СОЗДАТЬ КОЛЛЕКЦИЮ?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "УДАЛИТЬ ПОЛЬЗ. КОЛЛЕКЦИЮ"
 
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "УДАЛИТЬ ИЗ ПОЛЬЗОВАТЕЛЬСКОЙ КОЛЛЕКЦИИ"
 msgid "COLLECTION TO DELETE"
 msgstr "КОЛЛЕКЦИЯ К УДАЛЕНИЮ"
 
@@ -595,6 +599,8 @@ msgstr "МИКС-ИЗОБРАЖЕНИЯ"
 msgid "IMPORT MEDIA"
 msgstr "ИМПОРТИРОВАТЬ МЕДИА"
 
+msgid "VIEW GAME MEDIA"
+msgstr "ПОКАЗАТЬ МЕДИАФАЙЛЫ ИГРЫ"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "ИМПОРТИРОВАТЬ БАННЕРЫ ИЛИ ЛОГОТИПЫ ЕСЛИ ДОСТУПНО"
 
@@ -716,6 +722,8 @@ msgstr "закр (отм.)"
 msgid "LAUNCHING GAME"
 msgstr "ЗАПУСК ИГРЫ"
 
+msgid "LAUNCH"
+msgstr "ЗАПУСТИТЬ"
 msgid "HELP PROMPTS"
 msgstr "ПОДСКАЗКИ"
 
@@ -1428,6 +1436,8 @@ msgstr ""
 msgid "DELETE"
 msgstr "УДАЛИТЬ"
 
+msgid "DELETE GAME"
+msgstr "УДАЛИТЬ ИГРУ"
 msgid "delete game"
 msgstr "удал. игру"
 
@@ -1664,6 +1674,10 @@ msgstr "ВСЕ ИГРЫ"
 msgid "FAVORITE GAMES"
 msgstr "ИЗБРАННЫЕ ИГРЫ"
 
+msgid "REMOVE FROM FAVORITES"
+msgstr "УДАЛИТЬ ИЗ ИЗБРАННОГО"
+msgid "ADD TO FAVORITES"
+msgstr "ДОБАВИТЬ В ИЗБРАННОЕ"
 msgid "NO METADATA"
 msgstr "БЕЗ МЕТАДАННЫХ"
 
@@ -2677,10 +2691,14 @@ msgstr "НЕВОЗМОЖНО ДОБАВИТЬ ПАПКИ В ПОЛЬЗОВАТЕ
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "ПОМЕТИЛ ПАПКУ '%s' КАК ИЗБРАННУЮ"
 
+msgid "ADDED GAME TO FAVORITES"
+msgstr "ИГРА ДОБАВЛЕНА В ИЗБРАННОЕ"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "УДАЛЕНА ПОМЕТКА \"ИЗБРАННОЕ\" ДЛЯ ПАПКИ '%s'"
 
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "ИГРА УДАЛЕНА ИЗ ИЗБРАННОГО"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "НЕЛЬЗЯ ДОБАВЛЯТЬ ЗАПИСИ, КОТОРЫЕ НЕ СЧИТАЮТСЯ ИГРАМИ, В ПОЛЬЗОВАТЕЛЬСКИЕ "

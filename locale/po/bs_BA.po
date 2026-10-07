@@ -135,6 +135,8 @@ msgstr "Igra '%s' je filtrirana tako da bi moglo biti dostupno više igara"
 msgid "DELETED COLLECTION '%s'"
 msgstr "KOLEKCIJA '%s' JE IZBRISANA"
 
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "IGRA UKLONJENA IZ PRILAGOĐENE ZBIRKE"
 msgctxt "theme"
 msgid "unknown"
 msgstr "nepoznato"
@@ -519,6 +521,8 @@ msgstr "KREIRATI KOLEKCIJU?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "IZBRIŠI PRILAGOĐENU KOLEKCIJU"
 
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "UKLONI IZ PRILAGOĐENE ZBIRKE"
 msgid "COLLECTION TO DELETE"
 msgstr "KOLEKCIJA ZA BRISANJE"
 
@@ -604,6 +608,8 @@ msgstr "MIXIMAGES"
 msgid "IMPORT MEDIA"
 msgstr "UVEZITE MEDIJ"
 
+msgid "VIEW GAME MEDIA"
+msgstr "PREGLEDAJ MEDIJE IGRE"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "UVEZITE BARJAK ILI LOGO AKO SU DOSTUPNI"
 
@@ -725,6 +731,8 @@ msgstr "zatvori (otkazati)"
 msgid "LAUNCHING GAME"
 msgstr "POČETAK IGRE"
 
+msgid "LAUNCH"
+msgstr "POKRENI"
 msgid "HELP PROMPTS"
 msgstr "UPUTE ZA POMOĆ"
 
@@ -1436,6 +1444,8 @@ msgstr ""
 msgid "DELETE"
 msgstr "IZBRIŠI"
 
+msgid "DELETE GAME"
+msgstr "OBRIŠI IGRU"
 msgid "delete game"
 msgstr "obriši igru"
 
@@ -1679,6 +1689,10 @@ msgstr "SVE IGRE"
 msgid "FAVORITE GAMES"
 msgstr "OMILJENE IGRE"
 
+msgid "REMOVE FROM FAVORITES"
+msgstr "UKLONI IZ OMILJENIH"
+msgid "ADD TO FAVORITES"
+msgstr "DODAJ U OMILJENE"
 msgid "NO METADATA"
 msgstr "NEMA METAPODATAKA"
 
@@ -2683,10 +2697,14 @@ msgstr "NE MOGU SE DODATI FOLDERI U PRILAGOĐENE KOLEKCIJE"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "OZNAČENA MAPA '%s' KAO OMILJENA"
 
+msgid "ADDED GAME TO FAVORITES"
+msgstr "IGRA DODANA U OMILJENE"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "UKLONILA JE OZNAKA OMILJENOG ZA MAPU '%s'"
 
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "IGRA UKLONJENA IZ OMILJENIH"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "PREDMETI KOJI SE NE RAČUNAJU KAO IGRE NE MOGU SE DODATI U PRILAGOĐENE "

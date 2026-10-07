@@ -124,6 +124,8 @@ msgstr "'%s' 个游戏被筛选，现新增了更多可游玩的游戏"
 msgid "DELETED COLLECTION '%s'"
 msgstr "已删除收藏'%s'"
 
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "已从自定义收藏中移除"
 msgctxt "theme"
 msgid "unknown"
 msgstr "未知"
@@ -490,6 +492,8 @@ msgstr "创建游戏收藏？"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "删除自定义游戏收藏"
 
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "从自定义收藏中移除"
 msgid "COLLECTION TO DELETE"
 msgstr "收藏删除"
 
@@ -575,6 +579,8 @@ msgstr "混合图像"
 msgid "IMPORT MEDIA"
 msgstr "导入媒体"
 
+msgid "VIEW GAME MEDIA"
+msgstr "查看游戏媒体"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "如有可能导入横幅或LOGO"
 
@@ -693,6 +699,8 @@ msgstr "关闭（取消）"
 msgid "LAUNCHING GAME"
 msgstr "启动游戏"
 
+msgid "LAUNCH"
+msgstr "启动"
 msgid "HELP PROMPTS"
 msgstr "帮助提示"
 
@@ -1394,6 +1402,8 @@ msgstr ""
 msgid "DELETE"
 msgstr "删除"
 
+msgid "DELETE GAME"
+msgstr "删除游戏"
 msgid "delete game"
 msgstr "删除游戏"
 
@@ -1620,6 +1630,10 @@ msgstr "所有游戏"
 msgid "FAVORITE GAMES"
 msgstr "喜爱的游戏"
 
+msgid "REMOVE FROM FAVORITES"
+msgstr "从收藏中移除"
+msgid "ADD TO FAVORITES"
+msgstr "添加到收藏"
 msgid "NO METADATA"
 msgstr "无元数据的游戏"
 
@@ -2593,10 +2607,14 @@ msgstr "无法将文件夹添加到自定义收藏夹"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "已将文件夹'%s'标记为喜爱"
 
+msgid "ADDED GAME TO FAVORITES"
+msgstr "已添加到收藏"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "删除文件夹'%s'的喜爱标记"
 
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "已从收藏中移除"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr "无法将不属于游戏的条目添加到自定义收藏中"
 

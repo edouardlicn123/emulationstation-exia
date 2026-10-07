@@ -127,6 +127,8 @@ msgstr "'%s' Đã được lọc, có thể còn nhiều trò chơi khác"
 msgid "DELETED COLLECTION '%s'"
 msgstr "ĐÃ XÓA BỘ SƯU TẬP '%s'"
 
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "ĐÃ XÓA TRÒ CHƠI KHỎI BỘ SƯU TẬP TÙY CHỈNH"
 msgctxt "theme"
 msgid "unknown"
 msgstr "không rõ"
@@ -500,6 +502,8 @@ msgstr "TẠO BỘ SƯU TẬP?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "XÓA BỘ SƯU TẬP TÙY CHỈNH"
 
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "XÓA KHỎI BỘ SƯU TẬP TÙY CHỈNH"
 msgid "COLLECTION TO DELETE"
 msgstr "BỘ SƯU TẬP CẦN XÓA"
 
@@ -585,6 +589,8 @@ msgstr "ẢNH TỔNG HỢP"
 msgid "IMPORT MEDIA"
 msgstr "NHẬP PHƯƠNG TIỆN"
 
+msgid "VIEW GAME MEDIA"
+msgstr "XEM PHƯƠNG TIỆN TRÒ CHƠI"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "NHẬP BIỂU NGỮ HOẶC LOGO NẾU CÓ"
 
@@ -704,6 +710,8 @@ msgstr "đóng (hủy)"
 msgid "LAUNCHING GAME"
 msgstr "ĐANG KHỞI CHẠY TRÒ CHƠI"
 
+msgid "LAUNCH"
+msgstr "CHẠY"
 msgid "HELP PROMPTS"
 msgstr "GỢI Ý TRỢ GIÚP"
 
@@ -1414,6 +1422,8 @@ msgstr ""
 msgid "DELETE"
 msgstr "XÓA"
 
+msgid "DELETE GAME"
+msgstr "XÓA TRÒ CHƠI"
 msgid "delete game"
 msgstr "xóa trò chơi"
 
@@ -1650,6 +1660,10 @@ msgstr "TẤT CẢ TRÒ CHƠI"
 msgid "FAVORITE GAMES"
 msgstr "TRÒ CHƠI YÊU THÍCH"
 
+msgid "REMOVE FROM FAVORITES"
+msgstr "XÓA KHỎI YÊU THÍCH"
+msgid "ADD TO FAVORITES"
+msgstr "THÊM VÀO YÊU THÍCH"
 msgid "NO METADATA"
 msgstr "KHÔNG CÓ SIÊU DỮ LIỆU"
 
@@ -2647,10 +2661,14 @@ msgstr "KHÔNG THỂ THÊM THƯ MỤC VÀO BỘ SƯU TẬP TÙY CHỈNH"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "ĐÃ ĐÁNH DẤU THƯ MỤC '%s' LÀ MỤC YÊU THÍCH"
 
+msgid "ADDED GAME TO FAVORITES"
+msgstr "ĐÃ THÊM TRÒ CHƠI VÀO YÊU THÍCH"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "ĐÃ XÓA ĐÁNH DẤU YÊU THÍCH CHO THƯ MỤC '%s'"
 
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "ĐÃ XÓA TRÒ CHƠI KHỎI YÊU THÍCH"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "KHÔNG THỂ THÊM MỤC KHÔNG PHẢI TRÒ CHƠI VÀO BỘ SƯU TẬP TÙY CHỈNHBỘ SƯU TẬP"

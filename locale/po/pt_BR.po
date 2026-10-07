@@ -128,6 +128,8 @@ msgstr "'%s' foi filtrado, é possível que mais jogos estejam disponíveis"
 msgid "DELETED COLLECTION '%s'"
 msgstr "A COLEÇÃO '%s' FOI EXCLUÍDA"
 
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "JOGO REMOVIDO DA COLEÇÃO PERSONALIZADA"
 msgctxt "theme"
 msgid "unknown"
 msgstr "desconhecido"
@@ -508,6 +510,8 @@ msgstr "CRIAR A COLEÇÃO?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "EXCLUIR COLEÇÃO ADAPTADA"
 
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "REMOVER DA COLEÇÃO PERSONALIZADA"
 msgid "COLLECTION TO DELETE"
 msgstr "COLEÇÃO PARA EXCLUIR"
 
@@ -593,6 +597,8 @@ msgstr "IMAGENS MIX"
 msgid "IMPORT MEDIA"
 msgstr "IMPORTAR MÍDIA"
 
+msgid "VIEW GAME MEDIA"
+msgstr "VER MÍDIA DO JOGO"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "IMPORTAR BANNERS OU LOGOTIPOS SE DISPONÍVEIS"
 
@@ -713,6 +719,8 @@ msgstr "fechar (cancelar)"
 msgid "LAUNCHING GAME"
 msgstr "ABRINDO O JOGO"
 
+msgid "LAUNCH"
+msgstr "INICIAR"
 msgid "HELP PROMPTS"
 msgstr "COMANDOS DE AJUDA"
 
@@ -1425,6 +1433,8 @@ msgstr ""
 msgid "DELETE"
 msgstr "EXCLUIR"
 
+msgid "DELETE GAME"
+msgstr "EXCLUIR JOGO"
 msgid "delete game"
 msgstr "excluir o jogo"
 
@@ -1666,6 +1676,10 @@ msgstr "TODOS OS JOGOS"
 msgid "FAVORITE GAMES"
 msgstr "JOGOS FAVORITOS"
 
+msgid "REMOVE FROM FAVORITES"
+msgstr "REMOVER DOS FAVORITOS"
+msgid "ADD TO FAVORITES"
+msgstr "ADICIONAR AOS FAVORITOS"
 msgid "NO METADATA"
 msgstr "SEM METADADOS"
 
@@ -2674,10 +2688,14 @@ msgstr "NÃO DÁ PARA ADICIONAR PASTAS NAS COLEÇÕES ADAPTADAS"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "A PASTA '%s' FOI MARCADA COMO FAVORITA"
 
+msgid "ADDED GAME TO FAVORITES"
+msgstr "JOGO ADICIONADO AOS FAVORITOS"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "A MARCAÇÃO DE FAVORITO DA PASTA '%s' FOI RETIRADA"
 
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "JOGO REMOVIDO DOS FAVORITOS"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "NÃO DÁ PARA ADICIONAR ITENS QUE NÃO CONTAM COMO JOGOS NAS COLEÇÕES ADAPTADAS"

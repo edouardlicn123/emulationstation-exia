@@ -129,6 +129,8 @@ msgstr "'%s' が絞り込まれ、可能なゲームが増えました"
 msgid "DELETED COLLECTION '%s'"
 msgstr "コレクション '%s' を削除しました"
 
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "ゲームカスタムコレクションから削除しました"
 msgctxt "theme"
 msgid "unknown"
 msgstr "未知"
@@ -513,6 +515,8 @@ msgstr "コレクションを作成しますか？"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "カスタムコレクションを削除"
 
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "カスタムコレクションから削除"
 msgid "COLLECTION TO DELETE"
 msgstr "削除したいコレクション"
 
@@ -598,6 +602,8 @@ msgstr "ミックス画像"
 msgid "IMPORT MEDIA"
 msgstr "メディアをインポート"
 
+msgid "VIEW GAME MEDIA"
+msgstr "ゲームのメディアを表示"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "可能であればバナーかロゴをインポート"
 
@@ -717,6 +723,8 @@ msgstr "閉じる（キャンセル）"
 msgid "LAUNCHING GAME"
 msgstr "ゲームを起動"
 
+msgid "LAUNCH"
+msgstr "起動"
 msgid "HELP PROMPTS"
 msgstr "ヘルププロンプト"
 
@@ -1429,6 +1437,8 @@ msgstr ""
 msgid "DELETE"
 msgstr "削除"
 
+msgid "DELETE GAME"
+msgstr "ゲームを削除"
 msgid "delete game"
 msgstr "ゲームを削除する"
 
@@ -1677,6 +1687,10 @@ msgstr "すべてのゲーム"
 msgid "FAVORITE GAMES"
 msgstr "お気に入りのゲーム"
 
+msgid "REMOVE FROM FAVORITES"
+msgstr "お気に入りから削除"
+msgid "ADD TO FAVORITES"
+msgstr "お気に入りに追加"
 msgid "NO METADATA"
 msgstr "メタデータを除く"
 
@@ -2681,10 +2695,14 @@ msgstr "カスタムコレクションにフォルダを追加できません"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "フォルダ '%s' がお気に入りにマークされました"
 
+msgid "ADDED GAME TO FAVORITES"
+msgstr "ゲームをお気に入りに追加しました"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "フォルダ '%s' のお気に入りマークを削除しました"
 
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "ゲームをお気に入りから削除しました"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr "該当項目はゲームではないので、カスタムコレクションに追加できません"
 
