@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-09-08 20:53+0200\n"
 "Last-Translator: wakeboxer <ljhmd0825@gmail.com>\n"
 "Language-Team: 한국어 <info@es-de.org>\n"
@@ -125,8 +125,6 @@ msgstr "'%s'이(가) 필터되었으므로 이용 가능한 게임이 더 있을
 msgid "DELETED COLLECTION '%s'"
 msgstr "컬렉션 '%s' 이 삭제됨"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "게임을 컬렉션에서 제거했습니다"
 msgctxt "theme"
 msgid "unknown"
 msgstr "알수없음"
@@ -497,8 +495,6 @@ msgstr "컬렉션을 생성할까요?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "커스텀 컬렉션 삭제"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "컬렉션에서 제거"
 msgid "COLLECTION TO DELETE"
 msgstr "삭제할 컬렉션"
 
@@ -535,6 +531,119 @@ msgstr "커스텀 컬렉션에서 즐겨찾기를 최상단에 표시"
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "커스텀 컬렉션에서 별 표시하기"
+
+msgid "SELECT EMULATOR"
+msgstr "에뮬레이터 선택"
+
+msgid "CLEAR ENTRY"
+msgstr "항목 비우기"
+
+msgid "SYSTEM-WIDE"
+msgstr "시스템-전체"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "기본 폰트(일본어)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "중국어 폰트(galgame용)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "텐카고메니(중국어)"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "기본 BIOS"
+
+msgid "CHINESE BIOS"
+msgstr "중국어 BIOS"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "BIOS 전환"
+
+msgid "ES-DE PATHS"
+msgstr "ES-DE 경로"
+
+msgid "SYSTEM STATISTICS"
+msgstr "시스템 통계"
+
+msgid "GIT PROXY"
+msgstr "Git 프록시"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "기본 세션 상태"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "LightDM 카운트다운"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "LightDM 카운트다운(초, 0~60)"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "0~60 사이의 숫자를 입력하세요"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr "lightdm.conf 업데이트 실패. sudo 비밀번호가 잘못되었나요?"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "LightDM 카운트다운을 %s초로 설정했습니다"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "~/biosalt 에 일치하는 BIOS 파일이 없습니다"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "BIOS 파일 복사 실패. 로그 파일을 확인하세요"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "BIOS 파일을(를) %s(으)로 복사했습니다"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "값은 exia.conf에서 읽습니다"
+
+msgid "SYSTEMS"
+msgstr "시스템"
+
+msgid "GAMES"
+msgstr "게임"
+
+msgid "FAVORITES"
+msgstr "즐겨찾기"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "ES-DE 시스템 목록의 실시간 집계"
+
+msgid "ENABLED"
+msgstr "활성화"
+
+msgid "DISABLED"
+msgstr "비활성화"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "git 실행 실패. 설치되어 있나요?"
+
+msgid "GIT PROXY ENABLED"
+msgstr "Git 프록시 활성화됨"
+
+msgid "GIT PROXY DISABLED"
+msgstr "Git 프록시 비활성화됨"
+
+msgid "GIT PROXY URL"
+msgstr "Git 프록시 URL"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "Git 프록시 URL 저장됨"
+
+msgid "SUDO PASSWORD"
+msgstr "sudo 비밀번호"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "시스템으로 가져오기"
@@ -584,8 +693,6 @@ msgstr "믹스이미지"
 msgid "IMPORT MEDIA"
 msgstr "미디어 가져오기"
 
-msgid "VIEW GAME MEDIA"
-msgstr "게임 미디어 보기"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "배너 또는 로고 이용 가능하면 가져오기"
 
@@ -702,11 +809,45 @@ msgstr "닫기 (적용)"
 msgid "close (cancel)"
 msgstr "닫기 (취소)"
 
+msgid "LAUNCH"
+msgstr "실행"
+
+msgid "VIEW GAME MEDIA"
+msgstr "게임 미디어 보기"
+
+msgid "SCRAPE"
+msgstr "스크랩"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "즐겨찾기에서 제거"
+
+msgid "ADD TO FAVORITES"
+msgstr "즐겨찾기에 추가"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "컬렉션에서 제거"
+
+msgid "DELETE GAME"
+msgstr "게임 삭제"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "게임을 즐겨찾기에서 제거했습니다"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "게임을 즐겨찾기에 추가했습니다"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "게임을 컬렉션에서 제거했습니다"
+
 msgid "LAUNCHING GAME"
 msgstr "게임 시작"
 
-msgid "LAUNCH"
-msgstr "실행"
 msgid "HELP PROMPTS"
 msgstr "헬프 프롬프트"
 
@@ -715,9 +856,6 @@ msgstr "상단"
 
 msgid "BOTTOM"
 msgstr "하단"
-
-msgid "DISABLED"
-msgstr "비활성화"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "디스플레이 미디어 유형"
@@ -740,6 +878,9 @@ msgstr "스크린샷과 타이틀에 스캔라인 렌더링 적용"
 msgid "MAIN MENU"
 msgstr "메인 메뉴"
 
+msgid "EXIA SETTINGS"
+msgstr "EXIA 설정"
+
 msgid "SCRAPER"
 msgstr "스크래퍼"
 
@@ -760,9 +901,9 @@ msgstr "기타 설정"
 
 msgid "UTILITIES"
 msgstr "유틸리티"
+
 msgid "RESTART ES-DE"
 msgstr "ES-DE 다시 시작"
-
 
 msgid "QUIT ES-DE"
 msgstr "ES-DE 종료"
@@ -1294,14 +1435,15 @@ msgstr ""
 "추가되거나 제거된 게임 및 시스템과 같은 변경 사항이 있는지 롬 디렉터리를 다"
 "시 재스캔합니다"
 
+msgid "REALLY RESTART?"
+msgstr "정말 다시 시작할까요?"
+
 msgid "REALLY QUIT?"
 msgstr "정말로 종료합니까?"
 
 msgid "REALLY REBOOT?"
 msgstr "정말로 재부팅 합니까?"
 
-msgid "REALLY RESTART?"
-msgstr "정말 다시 시작할까요?"
 msgid "REBOOT SYSTEM"
 msgstr "시스템 재부팅"
 
@@ -1353,20 +1495,8 @@ msgstr "항상 첫 번째 화면에 표시"
 msgid "EDIT METADATA"
 msgstr "메타데이터 편집"
 
-msgid "CLEAR ENTRY"
-msgstr "항목 비우기"
-
-msgid "SELECT EMULATOR"
-msgstr "에뮬레이터 선택"
-
-msgid "SYSTEM-WIDE"
-msgstr "시스템-전체"
-
 msgid "unknown"
 msgstr "알수없음"
-
-msgid "SCRAPE"
-msgstr "스크랩"
 
 msgid "scrape"
 msgstr "스크랩"
@@ -1414,8 +1544,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "삭제"
 
-msgid "DELETE GAME"
-msgstr "게임 삭제"
 msgid "delete game"
 msgstr "게임 삭제"
 
@@ -1643,10 +1771,6 @@ msgstr "모든 게임"
 msgid "FAVORITE GAMES"
 msgstr "즐겨 찾는 게임"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "즐겨찾기에서 제거"
-msgid "ADD TO FAVORITES"
-msgstr "즐겨찾기에 추가"
 msgid "NO METADATA"
 msgstr "메타데이터가 없는 게임"
 
@@ -2636,14 +2760,10 @@ msgstr "커스텀 컬렉션에 폴더를 추가할 수 없습니다"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "폴더 '%s' 즐겨찾기로 표시함"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "게임을 즐겨찾기에 추가했습니다"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "폴더 '%s'에 대한 즐겨찾기 표시가 제거함"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "게임을 즐겨찾기에서 제거했습니다"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr "게임으로 간주되지 않는 항목은 커스텀 컬렉션에 추가할 수 없습니다"
 

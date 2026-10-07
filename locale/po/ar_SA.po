@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-09-05 18:04+0300\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Arabic (Classical Arabic) <info@es-de.org>\n"
@@ -141,8 +141,6 @@ msgstr "'%s' تم تصفيتها حتى يكون هناك المزيد من ال
 msgid "DELETED COLLECTION '%s'"
 msgstr "'%s' مجموعة المحذوفة"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "تمت إزالة اللعبة من المجموعة المخصصة"
 msgctxt "theme"
 msgid "unknown"
 msgstr "مجهول"
@@ -519,8 +517,6 @@ msgstr "إنشاء مجموعة؟"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "حذف مجموعة مخصصة"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "إزالة من المجموعة المخصصة"
 msgid "COLLECTION TO DELETE"
 msgstr "مجموعة للحذف"
 
@@ -557,6 +553,119 @@ msgstr "فرز المفضلة في الأعلى للمجموعات المخصص�
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "عرض علامات النجوم للمجموعات المخصصة"
+
+msgid "SELECT EMULATOR"
+msgstr "حدد المحاكي"
+
+msgid "CLEAR ENTRY"
+msgstr "دخول نظيف"
+
+msgid "SYSTEM-WIDE"
+msgstr "على مستوى النظام"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "الخط الأصلي (اليابانية)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "الخط الصيني (لألعاب galgame)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "إدو العظيم (الصينية)"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "BIOS الأصلي"
+
+msgid "CHINESE BIOS"
+msgstr "BIOS الصيني"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "تبديل BIOS"
+
+msgid "ES-DE PATHS"
+msgstr "مسارات ES-DE"
+
+msgid "SYSTEM STATISTICS"
+msgstr "إحصاءات النظام"
+
+msgid "GIT PROXY"
+msgstr "وسيط Git"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "حالة الجلسة الافتراضية"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "عدّاد LightDM التنازلي"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "عدّاد LightDM التنازلي بالثواني، من 0 إلى 60"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "أدخل رقمًا من 0 إلى 60 ثانية"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr "فشل تحديث lightdm.conf، هل كلمة مرور sudo خاطئة؟"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "عيّن عدّاد LightDM التنازلي إلى %s ثانية"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "لا يوجد ملف BIOS مطابق في ~/biosalt"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "فشل نسخ ملف BIOS، راجع ملف السجل"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "تم نسخ ملف BIOS إلى %s"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "تُقرأ القيم من exia.conf"
+
+msgid "SYSTEMS"
+msgstr "الأنظمة"
+
+msgid "GAMES"
+msgstr "الألعاب"
+
+msgid "FAVORITES"
+msgstr "المفضلة"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "أعداد حية من قائمة أنظمة ES-DE"
+
+msgid "ENABLED"
+msgstr "مفعّل"
+
+msgid "DISABLED"
+msgstr "إيقاف"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "فشل تشغيل git، هل هو مثبت؟"
+
+msgid "GIT PROXY ENABLED"
+msgstr "تم تفعيل وسيط Git"
+
+msgid "GIT PROXY DISABLED"
+msgstr "تم إيقاف وسيط Git"
+
+msgid "GIT PROXY URL"
+msgstr "عنوان وسيط Git"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "تم حفظ عنوان وسيط Git"
+
+msgid "SUDO PASSWORD"
+msgstr "كلمة مرور sudo"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "الاستيراد إلى النظام"
@@ -606,8 +715,6 @@ msgstr "الصور المخطلطة"
 msgid "IMPORT MEDIA"
 msgstr "استيراد وسائط"
 
-msgid "VIEW GAME MEDIA"
-msgstr "عرض وسائط اللعبة"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "استيراد لافتات أو شعارات إذا كانت متوفرة"
 
@@ -729,11 +836,45 @@ msgstr "(تطبيق) إغلاق"
 msgid "close (cancel)"
 msgstr "(إلغاء) إغلاق"
 
+msgid "LAUNCH"
+msgstr "تشغيل"
+
+msgid "VIEW GAME MEDIA"
+msgstr "عرض وسائط اللعبة"
+
+msgid "SCRAPE"
+msgstr "كشط"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "إزالة من المفضلة"
+
+msgid "ADD TO FAVORITES"
+msgstr "إضافة إلى المفضلة"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "إزالة من المجموعة المخصصة"
+
+msgid "DELETE GAME"
+msgstr "حذف اللعبة"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "تمت إزالة اللعبة من المفضلة"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "تمت إضافة اللعبة إلى المفضلة"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "تمت إزالة اللعبة من المجموعة المخصصة"
+
 msgid "LAUNCHING GAME"
 msgstr "تشغيل لعبة"
 
-msgid "LAUNCH"
-msgstr "تشغيل"
 msgid "HELP PROMPTS"
 msgstr "مطالبات المساعدة"
 
@@ -742,9 +883,6 @@ msgstr "أعلي"
 
 msgid "BOTTOM"
 msgstr "أسفل"
-
-msgid "DISABLED"
-msgstr "إيقاف"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "عرض أنواع الوسائط"
@@ -767,6 +905,9 @@ msgstr "عرض خطوط في للقطات الشاشة والعناوين"
 msgid "MAIN MENU"
 msgstr "القائمة الرئيسية"
 
+msgid "EXIA SETTINGS"
+msgstr "إعدادات EXIA"
+
 msgid "SCRAPER"
 msgstr "مكشطة"
 
@@ -787,9 +928,9 @@ msgstr "إعدادات أخرى"
 
 msgid "UTILITIES"
 msgstr "الفحص"
+
 msgid "RESTART ES-DE"
 msgstr "إعادة تشغيل ES-DE"
-
 
 msgid "QUIT ES-DE"
 msgstr "ES-DE إغلاق"
@@ -1321,14 +1462,15 @@ msgstr ""
 "سيؤدي هذا إلى إعادة فحص مسار الروم الخاص بك بحثًا عن تغييرات مثل الألعاب "
 "والأنظمة المضافة أو المحذوفة"
 
+msgid "REALLY RESTART?"
+msgstr "هل تريد إعادة التشغيل حقًا؟"
+
 msgid "REALLY QUIT?"
 msgstr "متأكد من خروج؟"
 
 msgid "REALLY REBOOT?"
 msgstr "متأكد من إعادة التشغيل؟"
 
-msgid "REALLY RESTART?"
-msgstr "هل تريد إعادة التشغيل حقًا؟"
 msgid "REBOOT SYSTEM"
 msgstr "إعادة تشغيل النظام"
 
@@ -1380,20 +1522,8 @@ msgstr "دائماً على الأساسي"
 msgid "EDIT METADATA"
 msgstr "تحرير البيانات الوصفية"
 
-msgid "CLEAR ENTRY"
-msgstr "دخول نظيف"
-
-msgid "SELECT EMULATOR"
-msgstr "حدد المحاكي"
-
-msgid "SYSTEM-WIDE"
-msgstr "على مستوى النظام"
-
 msgid "unknown"
 msgstr "مجهول"
-
-msgid "SCRAPE"
-msgstr "كشط"
 
 msgid "scrape"
 msgstr "كشط"
@@ -1441,8 +1571,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "حذف"
 
-msgid "DELETE GAME"
-msgstr "حذف اللعبة"
 msgid "delete game"
 msgstr "حذف اللعبة"
 
@@ -1677,10 +1805,6 @@ msgstr "جميع الألعاب"
 msgid "FAVORITE GAMES"
 msgstr "الألعاب المفضلة"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "إزالة من المفضلة"
-msgid "ADD TO FAVORITES"
-msgstr "إضافة إلى المفضلة"
 msgid "NO METADATA"
 msgstr "لا توجد بيانات تعريف"
 
@@ -2685,14 +2809,10 @@ msgstr "لا يمكن إضافة مجلدات إلى مجموعات مخصصة"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "تم وضع علامة على المجلد '%s' كمفضل"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "تمت إضافة اللعبة إلى المفضلة"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "تمت إزالة هذا اللمجلد '%s' كمفضل"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "تمت إزالة اللعبة من المفضلة"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr "لا يمكن إضافة إدخالات لا يتم احتسابها كألعاب إلى مجموعات مخصصة"
 

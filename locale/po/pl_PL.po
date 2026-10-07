@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-09-07 21:33+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Polski <info@es-de.org>\n"
@@ -132,8 +132,6 @@ msgstr "'%s' jest filtrowana, więc może być dostępnych więcej gier"
 msgid "DELETED COLLECTION '%s'"
 msgstr "USUNIĘTO KOLEKCJĘ '%s'"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "GRA USUNIĘTA Z KOL. WŁASNEJ"
 msgctxt "theme"
 msgid "unknown"
 msgstr "nieznane"
@@ -521,8 +519,6 @@ msgstr "STWORZYĆ KOLEKCJĘ?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "USUŃ KOLEKCJĘ WŁASNĄ"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "USUŃ Z KOL. WŁASNEJ"
 msgid "COLLECTION TO DELETE"
 msgstr "KOLEKCJA DO USUNIĘCIA"
 
@@ -559,6 +555,119 @@ msgstr "SORTUJ ULUBIONE PONAD KOLEKCJAMI WŁASNYMI"
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "POKAŻ GWIAZDKI DLA KOLEKCJI WŁASNYCH"
+
+msgid "SELECT EMULATOR"
+msgstr "WYBIERZ EMULATOR"
+
+msgid "CLEAR ENTRY"
+msgstr "WYCZYŚĆ WPIS"
+
+msgid "SYSTEM-WIDE"
+msgstr "W CAŁYM SYSTEMIE"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "ORYGINALNA CZCIONKA (JP)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "CHIŃSKA CZCIONKA (DO GALGAME)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "EDO THE GREAT (CHIŃSKI)"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "ORYGINALNY BIOS"
+
+msgid "CHINESE BIOS"
+msgstr "CHIŃSKI BIOS"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "ZMIANA BIOSU"
+
+msgid "ES-DE PATHS"
+msgstr "ŚCIEŻKI ES-DE"
+
+msgid "SYSTEM STATISTICS"
+msgstr "STATYSTYKI SYSTEMU"
+
+msgid "GIT PROXY"
+msgstr "PROXY GITA"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "STAN DOMYŚLNEJ SESJI"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "ODLICZANIE LIGHTDM"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "ODLICZANIE LIGHTDM W SEKUNDACH, OD 0 DO 60"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "WPISZ LICZBĘ OD 0 DO 60 SEKUND"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr "NIE UDAŁO SIĘ ZAKTUALIZOWAĆ LIGHTDM.CONF, BŁĘDNE HASŁO SUDO?"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "ODLICZANIE LIGHTDM USTAWIONE NA %s SEKUND"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "BRAK PASUJĄCEGO PLIKU BIOS W ~/biosalt"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "NIE UDAŁO SIĘ SKOPIOWAĆ PLIKU BIOS, SPRAWDŹ PLIK DZIENNIKA"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "PLIK BIOS SKOPIOWANY DO %s"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "WARTOŚCI SĄ ODCZYTYWANE Z EXIA.CONF"
+
+msgid "SYSTEMS"
+msgstr "SYSTEMY"
+
+msgid "GAMES"
+msgstr "GRY"
+
+msgid "FAVORITES"
+msgstr "ULUBIONE"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "LICZNIKI NA ŻYWO Z LISTY SYSTEMÓW ES-DE"
+
+msgid "ENABLED"
+msgstr "WŁĄCZONE"
+
+msgid "DISABLED"
+msgstr "WYŁĄCZONE"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "NIE UDAŁO SIĘ URUCHOMIĆ GITA, CZY JEST ZAINSTALOWANY?"
+
+msgid "GIT PROXY ENABLED"
+msgstr "PROXY GITA WŁĄCZONE"
+
+msgid "GIT PROXY DISABLED"
+msgstr "PROXY GITA WYŁĄCZONE"
+
+msgid "GIT PROXY URL"
+msgstr "ADRES URL PROXY GITA"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "ADRES URL PROXY GITA ZAPISANY"
+
+msgid "SUDO PASSWORD"
+msgstr "HASŁO SUDO"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "IMPORTUJ DO SYSTEMU"
@@ -608,8 +717,6 @@ msgstr "OBRAZY MIXIMAGE"
 msgid "IMPORT MEDIA"
 msgstr "IMPORTUJ MEDIA"
 
-msgid "VIEW GAME MEDIA"
-msgstr "POKAŻ MEDIA GRY"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "IMPORTUJ BANERY / LOGO, JEŚLI DOSTĘPNE"
 
@@ -728,11 +835,45 @@ msgstr "zamknij (zastosuj)"
 msgid "close (cancel)"
 msgstr "zamknij (anuluj)"
 
+msgid "LAUNCH"
+msgstr "URUCHOM"
+
+msgid "VIEW GAME MEDIA"
+msgstr "POKAŻ MEDIA GRY"
+
+msgid "SCRAPE"
+msgstr "SCRAP'UJ"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "USUŃ Z ULUBIONYCH"
+
+msgid "ADD TO FAVORITES"
+msgstr "DODAJ DO ULUBIONYCH"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "USUŃ Z KOL. WŁASNEJ"
+
+msgid "DELETE GAME"
+msgstr "USUŃ GRĘ"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "GRA USUNIĘTA Z ULUBIONYCH"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "GRA DODANA DO ULUBIONYCH"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "GRA USUNIĘTA Z KOL. WŁASNEJ"
+
 msgid "LAUNCHING GAME"
 msgstr "URUCHAMIANIE GRY"
 
-msgid "LAUNCH"
-msgstr "URUCHOM"
 msgid "HELP PROMPTS"
 msgstr "WSKAZÓWKI POMOCY"
 
@@ -741,9 +882,6 @@ msgstr "GÓRA"
 
 msgid "BOTTOM"
 msgstr "DÓŁ"
-
-msgid "DISABLED"
-msgstr "WYŁĄCZONE"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "POKAŻ TYPY MEDIÓW"
@@ -766,6 +904,9 @@ msgstr "RENDERUJ LINIE SKANOWANIA DLA ZRZUTÓW I TYTUŁÓW"
 msgid "MAIN MENU"
 msgstr "MENU GŁÓWNE"
 
+msgid "EXIA SETTINGS"
+msgstr "USTAWIENIA EXIA"
+
 msgid "SCRAPER"
 msgstr "SCRAPER"
 
@@ -786,9 +927,9 @@ msgstr "POZOSTAŁE USTAWIENIA"
 
 msgid "UTILITIES"
 msgstr "NARZĘDZIA"
+
 msgid "RESTART ES-DE"
 msgstr "UURUCHOM PONOWNIE ES-DE"
-
 
 msgid "QUIT ES-DE"
 msgstr "WYJDŹ Z ES-DE"
@@ -1323,14 +1464,15 @@ msgstr ""
 "SPOWODUJE TO PONOWNE PRZESKANOWANIE KATALOGU ROM'ÓW W POSZUKIWANIU ZMIAN, "
 "TAKICH JAK DODANE LUB USUNIĘTE GRY I SYSTEMY"
 
+msgid "REALLY RESTART?"
+msgstr "NA PEWNO UURUCHOMIĆ PONOWNIE?"
+
 msgid "REALLY QUIT?"
 msgstr "NAPRAWDĘ WYJŚĆ?"
 
 msgid "REALLY REBOOT?"
 msgstr "NAPRAWDĘ RESTARTOWAĆ?"
 
-msgid "REALLY RESTART?"
-msgstr "NA PEWNO UURUCHOMIĆ PONOWNIE?"
 msgid "REBOOT SYSTEM"
 msgstr "RESTARTUJ SYSTEM"
 
@@ -1382,20 +1524,8 @@ msgstr "Zawsze na głównym"
 msgid "EDIT METADATA"
 msgstr "EDYTUJ META DANE"
 
-msgid "CLEAR ENTRY"
-msgstr "WYCZYŚĆ WPIS"
-
-msgid "SELECT EMULATOR"
-msgstr "WYBIERZ EMULATOR"
-
-msgid "SYSTEM-WIDE"
-msgstr "W CAŁYM SYSTEMIE"
-
 msgid "unknown"
 msgstr "nieznane"
-
-msgid "SCRAPE"
-msgstr "SCRAP'UJ"
 
 msgid "scrape"
 msgstr "scrap'uj"
@@ -1445,8 +1575,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "USUŃ"
 
-msgid "DELETE GAME"
-msgstr "USUŃ GRĘ"
 msgid "delete game"
 msgstr "usuń grę"
 
@@ -1685,10 +1813,6 @@ msgstr "WSZYSTKIE GRY"
 msgid "FAVORITE GAMES"
 msgstr "ULUBIONE GRY"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "USUŃ Z ULUBIONYCH"
-msgid "ADD TO FAVORITES"
-msgstr "DODAJ DO ULUBIONYCH"
 msgid "NO METADATA"
 msgstr "BRAK METADANYCH GRY"
 
@@ -2699,14 +2823,10 @@ msgstr "NIE MOŻNA DODAWAĆ FOLDERÓW DO KOLEKCJI WŁASNYCH"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "ZAZNACZONY FOLDER '%s' JAKO ULUBIONY"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "GRA DODANA DO ULUBIONYCH"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "USUNIĘTO OZNACZENIE ULUBIONE DLA FOLDERU '%s'"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "GRA USUNIĘTA Z ULUBIONYCH"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "NIE MOŻNA DODAWAĆ WPISÓW, KTÓRE NIE SĄ LICZONE JAKO GRY DO KOLEKCJI WŁASNYCH"

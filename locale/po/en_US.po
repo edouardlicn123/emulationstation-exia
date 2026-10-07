@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-09-01 18:43+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: English (United States) <info@es-de.org>\n"
@@ -132,8 +132,6 @@ msgstr "'%s' is filtered so there may be more games available"
 msgid "DELETED COLLECTION '%s'"
 msgstr "DELETED COLLECTION '%s'"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "REMOVED GAME FROM CUSTOM COLLECTION"
 msgctxt "theme"
 msgid "unknown"
 msgstr "unknown"
@@ -503,8 +501,6 @@ msgstr "CREATE COLLECTION?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "DELETE CUSTOM COLLECTION"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "REMOVE FROM CUSTOM COLLECTION"
 msgid "COLLECTION TO DELETE"
 msgstr "COLLECTION TO DELETE"
 
@@ -541,6 +537,119 @@ msgstr "SORT FAVORITES ON TOP FOR CUSTOM COLLECTIONS"
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
+
+msgid "SELECT EMULATOR"
+msgstr "SELECT EMULATOR"
+
+msgid "CLEAR ENTRY"
+msgstr "CLEAR ENTRY"
+
+msgid "SYSTEM-WIDE"
+msgstr "SYSTEM-WIDE"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "ORIGINAL FONT (JAPANESE)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "CHINESE FONT (FOR GALGAMES)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "EDO THE GREAT (CHINESE)"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "ORIGINAL BIOS"
+
+msgid "CHINESE BIOS"
+msgstr "CHINESE BIOS"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "BIOS SWITCH"
+
+msgid "ES-DE PATHS"
+msgstr "ES-DE PATHS"
+
+msgid "SYSTEM STATISTICS"
+msgstr "SYSTEM STATISTICS"
+
+msgid "GIT PROXY"
+msgstr "GIT PROXY"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "DEFAULT SESSION STATUS"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "LIGHTDM COUNTDOWN"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "NO MATCHING BIOS FILE IN ~/biosalt"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "BIOS FILE COPIED TO %s"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "VALUES ARE READ FROM EXIA.CONF"
+
+msgid "SYSTEMS"
+msgstr "SYSTEMS"
+
+msgid "GAMES"
+msgstr "GAMES"
+
+msgid "FAVORITES"
+msgstr "FAVORITES"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+
+msgid "ENABLED"
+msgstr "ENABLED"
+
+msgid "DISABLED"
+msgstr "DISABLED"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "FAILED TO RUN GIT, IS IT INSTALLED?"
+
+msgid "GIT PROXY ENABLED"
+msgstr "GIT PROXY ENABLED"
+
+msgid "GIT PROXY DISABLED"
+msgstr "GIT PROXY DISABLED"
+
+msgid "GIT PROXY URL"
+msgstr "GIT PROXY URL"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "GIT PROXY URL SAVED"
+
+msgid "SUDO PASSWORD"
+msgstr "SUDO PASSWORD"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "IMPORT TO SYSTEM"
@@ -590,8 +699,6 @@ msgstr "MIXIMAGES"
 msgid "IMPORT MEDIA"
 msgstr "IMPORT MEDIA"
 
-msgid "VIEW GAME MEDIA"
-msgstr "VIEW GAME MEDIA"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 
@@ -709,11 +816,45 @@ msgstr "close (apply)"
 msgid "close (cancel)"
 msgstr "close (cancel)"
 
+msgid "LAUNCH"
+msgstr "LAUNCH"
+
+msgid "VIEW GAME MEDIA"
+msgstr "VIEW GAME MEDIA"
+
+msgid "SCRAPE"
+msgstr "SCRAPE"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "REMOVE FROM FAVORITES"
+
+msgid "ADD TO FAVORITES"
+msgstr "ADD TO FAVORITES"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "REMOVE FROM CUSTOM COLLECTION"
+
+msgid "DELETE GAME"
+msgstr "DELETE GAME"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "REMOVED GAME FROM FAVORITES"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "ADDED GAME TO FAVORITES"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "REMOVED GAME FROM CUSTOM COLLECTION"
+
 msgid "LAUNCHING GAME"
 msgstr "LAUNCHING GAME"
 
-msgid "LAUNCH"
-msgstr "LAUNCH"
 msgid "HELP PROMPTS"
 msgstr "HELP PROMPTS"
 
@@ -722,9 +863,6 @@ msgstr "TOP"
 
 msgid "BOTTOM"
 msgstr "BOTTOM"
-
-msgid "DISABLED"
-msgstr "DISABLED"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "DISPLAY MEDIA TYPES"
@@ -747,6 +885,9 @@ msgstr "RENDER SCANLINES FOR SCREENSHOTS AND TITLES"
 msgid "MAIN MENU"
 msgstr "MAIN MENU"
 
+msgid "EXIA SETTINGS"
+msgstr "EXIA SETTINGS"
+
 msgid "SCRAPER"
 msgstr "SCRAPER"
 
@@ -767,9 +908,9 @@ msgstr "OTHER SETTINGS"
 
 msgid "UTILITIES"
 msgstr "UTILITIES"
+
 msgid "RESTART ES-DE"
 msgstr "RESTART ES-DE"
-
 
 msgid "QUIT ES-DE"
 msgstr "QUIT ES-DE"
@@ -1304,14 +1445,15 @@ msgstr ""
 "THIS WILL RESCAN YOUR ROM DIRECTORY FOR CHANGES SUCH AS ADDED OR REMOVED "
 "GAMES AND SYSTEMS"
 
+msgid "REALLY RESTART?"
+msgstr "REALLY RESTART?"
+
 msgid "REALLY QUIT?"
 msgstr "REALLY QUIT?"
 
 msgid "REALLY REBOOT?"
 msgstr "REALLY REBOOT?"
 
-msgid "REALLY RESTART?"
-msgstr "REALLY RESTART?"
 msgid "REBOOT SYSTEM"
 msgstr "REBOOT SYSTEM"
 
@@ -1363,20 +1505,8 @@ msgstr "Always on primary"
 msgid "EDIT METADATA"
 msgstr "EDIT METADATA"
 
-msgid "CLEAR ENTRY"
-msgstr "CLEAR ENTRY"
-
-msgid "SELECT EMULATOR"
-msgstr "SELECT EMULATOR"
-
-msgid "SYSTEM-WIDE"
-msgstr "SYSTEM-WIDE"
-
 msgid "unknown"
 msgstr "unknown"
-
-msgid "SCRAPE"
-msgstr "SCRAPE"
 
 msgid "scrape"
 msgstr "scrape"
@@ -1424,8 +1554,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "DELETE"
 
-msgid "DELETE GAME"
-msgstr "DELETE GAME"
 msgid "delete game"
 msgstr "delete game"
 
@@ -1657,10 +1785,6 @@ msgstr "ALL GAMES"
 msgid "FAVORITE GAMES"
 msgstr "FAVORITE GAMES"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "REMOVE FROM FAVORITES"
-msgid "ADD TO FAVORITES"
-msgstr "ADD TO FAVORITES"
 msgid "NO METADATA"
 msgstr "NO METADATA"
 
@@ -2657,14 +2781,10 @@ msgstr "CAN'T ADD FOLDERS TO CUSTOM COLLECTIONS"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "MARKED FOLDER '%s' AS FAVORITE"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "ADDED GAME TO FAVORITES"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "REMOVED GAME FROM FAVORITES"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 

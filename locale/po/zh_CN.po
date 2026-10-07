@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-09-09 19:24+0800\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: 简体中文 <info@es-de.org>\n"
@@ -124,8 +124,6 @@ msgstr "'%s' 个游戏被筛选，现新增了更多可游玩的游戏"
 msgid "DELETED COLLECTION '%s'"
 msgstr "已删除收藏'%s'"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "已从自定义收藏中移除"
 msgctxt "theme"
 msgid "unknown"
 msgstr "未知"
@@ -492,8 +490,6 @@ msgstr "创建游戏收藏？"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "删除自定义游戏收藏"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "从自定义收藏中移除"
 msgid "COLLECTION TO DELETE"
 msgstr "收藏删除"
 
@@ -530,6 +526,119 @@ msgstr "将喜爱的游戏排序在顶部以进行自定义收藏"
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "显示自定义收藏的星形标记"
+
+msgid "SELECT EMULATOR"
+msgstr "选择模拟器"
+
+msgid "CLEAR ENTRY"
+msgstr "清除条目"
+
+msgid "SYSTEM-WIDE"
+msgstr "全平台"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "原版字库(日文)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "中文字库(galgame)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "中文《天下御免》"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "原版 BIOS"
+
+msgid "CHINESE BIOS"
+msgstr "中文 BIOS"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "BIOS 切换"
+
+msgid "ES-DE PATHS"
+msgstr "ES-DE 路径"
+
+msgid "SYSTEM STATISTICS"
+msgstr "系统统计"
+
+msgid "GIT PROXY"
+msgstr "Git 代理"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "默认会话状态"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "LightDM 倒计时"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "LightDM 倒计时(秒,0 到 60)"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "请输入 0 到 60 的数字(秒)"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr "更新 lightdm.conf 失败,sudo 密码是否错误?"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "LightDM 倒计时已设为 %s 秒"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "~/biosalt 中没有匹配的 BIOS 文件"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "复制 BIOS 文件失败,请查看日志文件"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "BIOS 文件已复制到 %s"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "数值读取自 exia.conf"
+
+msgid "SYSTEMS"
+msgstr "系统"
+
+msgid "GAMES"
+msgstr "游戏"
+
+msgid "FAVORITES"
+msgstr "收藏"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "取自 ES-DE 系统列表的实时计数"
+
+msgid "ENABLED"
+msgstr "启用"
+
+msgid "DISABLED"
+msgstr "禁用"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "运行 git 失败,是否已安装?"
+
+msgid "GIT PROXY ENABLED"
+msgstr "Git 代理已启用"
+
+msgid "GIT PROXY DISABLED"
+msgstr "Git 代理已关闭"
+
+msgid "GIT PROXY URL"
+msgstr "Git 代理地址"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "Git 代理地址已保存"
+
+msgid "SUDO PASSWORD"
+msgstr "sudo 密码"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "导入系统"
@@ -579,8 +688,6 @@ msgstr "混合图像"
 msgid "IMPORT MEDIA"
 msgstr "导入媒体"
 
-msgid "VIEW GAME MEDIA"
-msgstr "查看游戏媒体"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "如有可能导入横幅或LOGO"
 
@@ -696,11 +803,45 @@ msgstr "关闭（应用）"
 msgid "close (cancel)"
 msgstr "关闭（取消）"
 
+msgid "LAUNCH"
+msgstr "启动"
+
+msgid "VIEW GAME MEDIA"
+msgstr "查看游戏媒体"
+
+msgid "SCRAPE"
+msgstr "刮削/抓取"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "从收藏中移除"
+
+msgid "ADD TO FAVORITES"
+msgstr "添加到收藏"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "从自定义收藏中移除"
+
+msgid "DELETE GAME"
+msgstr "删除游戏"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "已从收藏中移除"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "已添加到收藏"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "已从自定义收藏中移除"
+
 msgid "LAUNCHING GAME"
 msgstr "启动游戏"
 
-msgid "LAUNCH"
-msgstr "启动"
 msgid "HELP PROMPTS"
 msgstr "帮助提示"
 
@@ -709,9 +850,6 @@ msgstr "顶部"
 
 msgid "BOTTOM"
 msgstr "底部"
-
-msgid "DISABLED"
-msgstr "禁用"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "显示媒体类型"
@@ -734,6 +872,9 @@ msgstr "渲染屏幕截图和标题的扫描线"
 msgid "MAIN MENU"
 msgstr "主菜单"
 
+msgid "EXIA SETTINGS"
+msgstr "EXIA 设置"
+
 msgid "SCRAPER"
 msgstr "刮削/抓取"
 
@@ -754,9 +895,9 @@ msgstr "其他设置"
 
 msgid "UTILITIES"
 msgstr "工具"
+
 msgid "RESTART ES-DE"
 msgstr "重启 ES-DE"
-
 
 msgid "QUIT ES-DE"
 msgstr "退出ES-DE"
@@ -1283,14 +1424,15 @@ msgid ""
 "GAMES AND SYSTEMS"
 msgstr "这将重新扫描你的 ROM 目录以查找更改，例如添加或删除的游戏和平台"
 
+msgid "REALLY RESTART?"
+msgstr "确定要重启吗?"
+
 msgid "REALLY QUIT?"
 msgstr "真的要退出吗？"
 
 msgid "REALLY REBOOT?"
 msgstr "真的要重启吗？"
 
-msgid "REALLY RESTART?"
-msgstr "确定要重启吗?"
 msgid "REBOOT SYSTEM"
 msgstr "重启"
 
@@ -1342,20 +1484,8 @@ msgstr "总是在首选"
 msgid "EDIT METADATA"
 msgstr "编辑元数据"
 
-msgid "CLEAR ENTRY"
-msgstr "清除条目"
-
-msgid "SELECT EMULATOR"
-msgstr "选择模拟器"
-
-msgid "SYSTEM-WIDE"
-msgstr "全平台"
-
 msgid "unknown"
 msgstr "未知"
-
-msgid "SCRAPE"
-msgstr "刮削/抓取"
 
 msgid "scrape"
 msgstr "刮削/抓取"
@@ -1402,8 +1532,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "删除"
 
-msgid "DELETE GAME"
-msgstr "删除游戏"
 msgid "delete game"
 msgstr "删除游戏"
 
@@ -1630,10 +1758,6 @@ msgstr "所有游戏"
 msgid "FAVORITE GAMES"
 msgstr "喜爱的游戏"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "从收藏中移除"
-msgid "ADD TO FAVORITES"
-msgstr "添加到收藏"
 msgid "NO METADATA"
 msgstr "无元数据的游戏"
 
@@ -2607,14 +2731,10 @@ msgstr "无法将文件夹添加到自定义收藏夹"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "已将文件夹'%s'标记为喜爱"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "已添加到收藏"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "删除文件夹'%s'的喜爱标记"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "已从收藏中移除"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr "无法将不属于游戏的条目添加到自定义收藏中"
 

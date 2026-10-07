@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-09-12 19:35+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Čeština <info@es-de.org>\n"
@@ -131,8 +131,6 @@ msgstr "'%s' je filtrováno, takže může být k dispozici více her"
 msgid "DELETED COLLECTION '%s'"
 msgstr "KOLEKCE '%s' SMAZÁNA"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "HRY ODEBRÁNA Z VLASTNÍ KOLEKCE"
 msgctxt "theme"
 msgid "unknown"
 msgstr "neznámý"
@@ -504,8 +502,6 @@ msgstr "VYTVOŘIT KOLEKCI?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "SMAZAT VLASTNÍ KOLEKCI"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "ODEBRAT Z VLASTNÍ KOLEKCE"
 msgid "COLLECTION TO DELETE"
 msgstr "KOLEKCE KE SMAZÁNÍ"
 
@@ -542,6 +538,119 @@ msgstr "ŘADIT OBLÍBENÉ NAVRCH VE VLASTNÍCH KOLEKCÍCH"
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "ZOBRAZIT HVĚZDIČKY VE VLASTNÍCH KOLEKCÍCH"
+
+msgid "SELECT EMULATOR"
+msgstr "VYBRAT EMULÁTOR"
+
+msgid "CLEAR ENTRY"
+msgstr "VYMAZAT POLOŽKU"
+
+msgid "SYSTEM-WIDE"
+msgstr "CELÝ SYSTÉM"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "ORIGINÁLNÍ PÍSMO (JAPONSKY)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "ČÍNSKÉ PÍSMO (PRO GALGAME)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "EDO VELIKÝ (ČÍNSKY)"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "ORIGINÁLNÍ BIOS"
+
+msgid "CHINESE BIOS"
+msgstr "ČÍNSKÝ BIOS"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "PŘEPNUTÍ BIOSU"
+
+msgid "ES-DE PATHS"
+msgstr "CESTY ES-DE"
+
+msgid "SYSTEM STATISTICS"
+msgstr "STATISTIKA SYSTÉMU"
+
+msgid "GIT PROXY"
+msgstr "GIT PROXY"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "STAV VÝCHOZÍ RELACE"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "ODPOČET LIGHTDM"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "ODPOČET LIGHTDM V SEKUNDÁCH, 0 AŽ 60"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "ZADEJTE ČÍSLO OD 0 DO 60 SEKUND"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr "AKTUALIZACE LIGHTDM.CONF SELHALA, ŠPATNÉ HESLO SUDO?"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "ODPOČET LIGHTDM NASTAVEN NA %s SEKUND"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "V ~/biosalt ŽÁDNÁ ODPOVÍDAJÍCÍ BIOS SOUBOR"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "KOPIOVÁNÍ BIOS SOUBORU SELHALO, ZKONTROLUJTE LOG SOUBOR"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "BIOS SOUBOR KOPIOVÁN DO %s"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "HODNOTY SE ČTOU Z EXIA.CONF"
+
+msgid "SYSTEMS"
+msgstr "SYSTÉMY"
+
+msgid "GAMES"
+msgstr "HRY"
+
+msgid "FAVORITES"
+msgstr "OBLÍBENÉ"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "ŽIVÉ POČTY ZE SEZNAMU SYSTÉMŮ ES-DE"
+
+msgid "ENABLED"
+msgstr "ZAPNUTO"
+
+msgid "DISABLED"
+msgstr "ZAKÁZÁNO"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "SPUŠTĚNÍ GITU SELHALO, JE NAINSTALOVÁN?"
+
+msgid "GIT PROXY ENABLED"
+msgstr "GIT PROXY ZAPNUT"
+
+msgid "GIT PROXY DISABLED"
+msgstr "GIT PROXY VYPNUT"
+
+msgid "GIT PROXY URL"
+msgstr "URL GIT PROXY"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "URL GIT PROXY ULOŽENO"
+
+msgid "SUDO PASSWORD"
+msgstr "HESLO SUDO"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "IMPORTOVAT DO SYSTÉMU"
@@ -591,8 +700,6 @@ msgstr "MIXOBRÁZKY"
 msgid "IMPORT MEDIA"
 msgstr "IMPORTOVAT MÉDIA"
 
-msgid "VIEW GAME MEDIA"
-msgstr "ZOBRAZIT MEDIA HRY"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "IMPORTOVAT BANNERY NEBO LOGA, POKUD JSOU K DISPOZICI"
 
@@ -711,11 +818,45 @@ msgstr "zavřít (použít)"
 msgid "close (cancel)"
 msgstr "zavřít (zrušit)"
 
+msgid "LAUNCH"
+msgstr "SPUSTIT"
+
+msgid "VIEW GAME MEDIA"
+msgstr "ZOBRAZIT MEDIA HRY"
+
+msgid "SCRAPE"
+msgstr "STÁHNOUT DATA"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "ODEBRAT Z OBLÍBENÝCH"
+
+msgid "ADD TO FAVORITES"
+msgstr "PŘIDAT DO OBLÍBENÝCH"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "ODEBRAT Z VLASTNÍ KOLEKCE"
+
+msgid "DELETE GAME"
+msgstr "ODSTRANIT HRU"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "HRY ODEBRÁNA Z OBLÍBENÝCH"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "HRY PŘIDÁNA DO OBLÍBENÝCH"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "HRY ODEBRÁNA Z VLASTNÍ KOLEKCE"
+
 msgid "LAUNCHING GAME"
 msgstr "SPOUŠTĚNÍ HRY"
 
-msgid "LAUNCH"
-msgstr "SPUSTIT"
 msgid "HELP PROMPTS"
 msgstr "NÁPOVĚDNÉ TIPY"
 
@@ -724,9 +865,6 @@ msgstr "NAHOŘE"
 
 msgid "BOTTOM"
 msgstr "DOLE"
-
-msgid "DISABLED"
-msgstr "ZAKÁZÁNO"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "ZOBRAZIT TYPY MÉDIÍ"
@@ -749,6 +887,9 @@ msgstr "VYKRESLOVAT ŘÁDKOVÁNÍ U SNÍMKŮ A TITULNÍCH OBRAZOVEK"
 msgid "MAIN MENU"
 msgstr "HLAVNÍ NABÍDKA"
 
+msgid "EXIA SETTINGS"
+msgstr "NASTAVENÍ EXIA"
+
 msgid "SCRAPER"
 msgstr "SCRAPER"
 
@@ -769,9 +910,9 @@ msgstr "OSTATNÍ NASTAVENÍ"
 
 msgid "UTILITIES"
 msgstr "NÁSTROJE"
+
 msgid "RESTART ES-DE"
 msgstr "RESTARTOVAT ES-DE"
-
 
 msgid "QUIT ES-DE"
 msgstr "UKONČIT ES-DE"
@@ -1306,14 +1447,15 @@ msgstr ""
 "TOTO ZNOVU PROHLEDÁ VÁŠ ADRESÁŘ ROM PRO ZMĚNY JAKO PŘIDANÉ NEBO ODEBRANÉ HRY "
 "A SYSTÉMY"
 
+msgid "REALLY RESTART?"
+msgstr "OPRAVDU RESTARTOVAT?"
+
 msgid "REALLY QUIT?"
 msgstr "OPRAVDU UKONČIT?"
 
 msgid "REALLY REBOOT?"
 msgstr "OPRAVDU RESTARTOVAT?"
 
-msgid "REALLY RESTART?"
-msgstr "OPRAVDU RESTARTOVAT?"
 msgid "REBOOT SYSTEM"
 msgstr "RESTARTOVAT SYSTÉM"
 
@@ -1365,20 +1507,8 @@ msgstr "Vždy na primárním"
 msgid "EDIT METADATA"
 msgstr "UPRAVIT METADATA"
 
-msgid "CLEAR ENTRY"
-msgstr "VYMAZAT POLOŽKU"
-
-msgid "SELECT EMULATOR"
-msgstr "VYBRAT EMULÁTOR"
-
-msgid "SYSTEM-WIDE"
-msgstr "CELÝ SYSTÉM"
-
 msgid "unknown"
 msgstr "neznámý"
-
-msgid "SCRAPE"
-msgstr "STÁHNOUT DATA"
 
 msgid "scrape"
 msgstr "stáhnout data"
@@ -1426,8 +1556,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "SMAZAT"
 
-msgid "DELETE GAME"
-msgstr "ODSTRANIT HRU"
 msgid "delete game"
 msgstr "smazat hru"
 
@@ -1660,10 +1788,6 @@ msgstr "VŠECHNY HRY"
 msgid "FAVORITE GAMES"
 msgstr "OBLÍBENÉ HRY"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "ODEBRAT Z OBLÍBENÝCH"
-msgid "ADD TO FAVORITES"
-msgstr "PŘIDAT DO OBLÍBENÝCH"
 msgid "NO METADATA"
 msgstr "BEZ METADAT"
 
@@ -2662,14 +2786,10 @@ msgstr "NELZE PŘIDAT SLOŽKY DO VLASTNÍCH KOLEKCÍ"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "SLOŽKA '%s' OZNAČENA JAKO OBLÍBENÁ"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "HRY PŘIDÁNA DO OBLÍBENÝCH"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "ODSTRANĚNO OZNAČENÍ OBLÍBENÉ PRO SLOŽKU '%s'"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "HRY ODEBRÁNA Z OBLÍBENÝCH"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "NELZE PŘIDAT POLOŽKY, KTERÉ NEJSOU POČÍTÁNY JAKO HRY, DO VLASTNÍCH KOLEKCÍ"

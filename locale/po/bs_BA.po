@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-09-04 12:33+0200\n"
 "Last-Translator: SecularSteve <info@es-de.org>\n"
 "Language-Team: Bosnian (Bosnia & Herzegovina) <info@es-de.org>\n"
@@ -135,8 +135,6 @@ msgstr "Igra '%s' je filtrirana tako da bi moglo biti dostupno više igara"
 msgid "DELETED COLLECTION '%s'"
 msgstr "KOLEKCIJA '%s' JE IZBRISANA"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "IGRA UKLONJENA IZ PRILAGOĐENE ZBIRKE"
 msgctxt "theme"
 msgid "unknown"
 msgstr "nepoznato"
@@ -521,8 +519,6 @@ msgstr "KREIRATI KOLEKCIJU?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "IZBRIŠI PRILAGOĐENU KOLEKCIJU"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "UKLONI IZ PRILAGOĐENE ZBIRKE"
 msgid "COLLECTION TO DELETE"
 msgstr "KOLEKCIJA ZA BRISANJE"
 
@@ -559,6 +555,119 @@ msgstr "SORTIRAJTE FAVORITE NA VRH ZA PRILAGOĐENE KOLEKCIJE"
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "PRIKAŽI ZVJEZDIČKE OZNAKE ZA PRILAGOĐENE KOLEKCIJE"
+
+msgid "SELECT EMULATOR"
+msgstr "ODABERITE EMULATOR"
+
+msgid "CLEAR ENTRY"
+msgstr "BESPLATAN ULAZ"
+
+msgid "SYSTEM-WIDE"
+msgstr "CIJELI SISTEM"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "IZVORNI FONT (JAPANSKI)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "KINESKI FONT (ZA GALGAME)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "EDO VELIKI (KINESKI)"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "IZVORNI BIOS"
+
+msgid "CHINESE BIOS"
+msgstr "KINESKI BIOS"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "MIJENJANJE BIOS-A"
+
+msgid "ES-DE PATHS"
+msgstr "ES-DE PUTANJE"
+
+msgid "SYSTEM STATISTICS"
+msgstr "STATISTIKA SISTEMA"
+
+msgid "GIT PROXY"
+msgstr "GIT PROXY"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "STATUS PODRAZUMJEVANE SESIJE"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "LIGHTDM ODBROJAVANJE"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "LIGHTDM ODBROJAVANJE U SEKUNDAMA, OD 0 DO 60"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "UNESITE BROJ OD 0 DO 60 SEKUNDI"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr "AZURIRANJE LIGHTDM.CONF NIJE USPIJELO, POGREŠNA SUDO LOZINKA?"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "LIGHTDM ODBROJAVANJE POSTAVLJENO NA %s SEKUNDI"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "NEMA ODGOVARAJUĆE BIOS DATOTEKE U ~/biosalt"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "KOPIRANJE BIOS DATOTEKE NIJE USPIJELO, PROVJERITE DATOTEKU DNEVNIKA"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "BIOS DATOTEKA KOPIRANA U %s"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "VRIJEDNOSTI SE ČITAJU IZ EXIA.CONF"
+
+msgid "SYSTEMS"
+msgstr "SISTEMI"
+
+msgid "GAMES"
+msgstr "IGRE"
+
+msgid "FAVORITES"
+msgstr "OMILJENO"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "BROJANJA UŽIVO S LISTE ES-DE SISTEMA"
+
+msgid "ENABLED"
+msgstr "AKTIVIRANO"
+
+msgid "DISABLED"
+msgstr "INVALIDITET"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "POKRETANJE GITA NIJE USPIJELO, JE LI INSTALIRAN?"
+
+msgid "GIT PROXY ENABLED"
+msgstr "GIT PROXY AKTIVIRAN"
+
+msgid "GIT PROXY DISABLED"
+msgstr "GIT PROXY DEAKTIVIRAN"
+
+msgid "GIT PROXY URL"
+msgstr "GIT PROXY URL"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "GIT PROXY URL SAČUVAN"
+
+msgid "SUDO PASSWORD"
+msgstr "SUDO LOZINKA"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "UVEZI U SISTEM"
@@ -608,8 +717,6 @@ msgstr "MIXIMAGES"
 msgid "IMPORT MEDIA"
 msgstr "UVEZITE MEDIJ"
 
-msgid "VIEW GAME MEDIA"
-msgstr "PREGLEDAJ MEDIJE IGRE"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "UVEZITE BARJAK ILI LOGO AKO SU DOSTUPNI"
 
@@ -728,11 +835,45 @@ msgstr "zatvori (primijeni)"
 msgid "close (cancel)"
 msgstr "zatvori (otkazati)"
 
+msgid "LAUNCH"
+msgstr "POKRENI"
+
+msgid "VIEW GAME MEDIA"
+msgstr "PREGLEDAJ MEDIJE IGRE"
+
+msgid "SCRAPE"
+msgstr "STRUŽI"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "UKLONI IZ OMILJENIH"
+
+msgid "ADD TO FAVORITES"
+msgstr "DODAJ U OMILJENE"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "UKLONI IZ PRILAGOĐENE ZBIRKE"
+
+msgid "DELETE GAME"
+msgstr "OBRIŠI IGRU"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "IGRA UKLONJENA IZ OMILJENIH"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "IGRA DODANA U OMILJENE"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "IGRA UKLONJENA IZ PRILAGOĐENE ZBIRKE"
+
 msgid "LAUNCHING GAME"
 msgstr "POČETAK IGRE"
 
-msgid "LAUNCH"
-msgstr "POKRENI"
 msgid "HELP PROMPTS"
 msgstr "UPUTE ZA POMOĆ"
 
@@ -741,9 +882,6 @@ msgstr "VRH"
 
 msgid "BOTTOM"
 msgstr "DNO"
-
-msgid "DISABLED"
-msgstr "INVALIDITET"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "VRSTE MEDIJA ZA PRIKAZIVANJE"
@@ -766,6 +904,9 @@ msgstr "PRIKAŽI LINIJE SKENIRANJA ZA SNIMKE EKRANA I NASLOV"
 msgid "MAIN MENU"
 msgstr "GLAVNI MENI"
 
+msgid "EXIA SETTINGS"
+msgstr "EXIA POSTAVKE"
+
 msgid "SCRAPER"
 msgstr "STRUGAČ"
 
@@ -786,9 +927,9 @@ msgstr "OSTALE POSTAVKE"
 
 msgid "UTILITIES"
 msgstr "KOMUNALNE USLUGE"
+
 msgid "RESTART ES-DE"
 msgstr "PONOVNO POKRENI ES-DE"
-
 
 msgid "QUIT ES-DE"
 msgstr "IZLAZ IZ ES-DE"
@@ -1323,14 +1464,15 @@ msgstr ""
 "OVO ĆE PONOVO SKENIRATI VAŠ ROM DIREKTORIJ ZA PROMJENE KAO ŠTO SU IGRE I "
 "SISTEMI DODANI ILI UKLONJENI"
 
+msgid "REALLY RESTART?"
+msgstr "JELI SIGURNO ŽELITE POKRENUTI PONOVNO?"
+
 msgid "REALLY QUIT?"
 msgstr "ZAISTA ODUSTAJETE?"
 
 msgid "REALLY REBOOT?"
 msgstr "SIGURNO RESTARTUJETE?"
 
-msgid "REALLY RESTART?"
-msgstr "JELI SIGURNO ŽELITE POKRENUTI PONOVNO?"
 msgid "REBOOT SYSTEM"
 msgstr "RESTARTUJ SISTEM"
 
@@ -1382,20 +1524,8 @@ msgstr "Uvijek na primarnom"
 msgid "EDIT METADATA"
 msgstr "UREDI METAPODATEKE"
 
-msgid "CLEAR ENTRY"
-msgstr "BESPLATAN ULAZ"
-
-msgid "SELECT EMULATOR"
-msgstr "ODABERITE EMULATOR"
-
-msgid "SYSTEM-WIDE"
-msgstr "CIJELI SISTEM"
-
 msgid "unknown"
 msgstr "nepoznato"
-
-msgid "SCRAPE"
-msgstr "STRUŽI"
 
 msgid "scrape"
 msgstr "stružnite"
@@ -1444,8 +1574,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "IZBRIŠI"
 
-msgid "DELETE GAME"
-msgstr "OBRIŠI IGRU"
 msgid "delete game"
 msgstr "obriši igru"
 
@@ -1689,10 +1817,6 @@ msgstr "SVE IGRE"
 msgid "FAVORITE GAMES"
 msgstr "OMILJENE IGRE"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "UKLONI IZ OMILJENIH"
-msgid "ADD TO FAVORITES"
-msgstr "DODAJ U OMILJENE"
 msgid "NO METADATA"
 msgstr "NEMA METAPODATAKA"
 
@@ -2697,14 +2821,10 @@ msgstr "NE MOGU SE DODATI FOLDERI U PRILAGOĐENE KOLEKCIJE"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "OZNAČENA MAPA '%s' KAO OMILJENA"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "IGRA DODANA U OMILJENE"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "UKLONILA JE OZNAKA OMILJENOG ZA MAPU '%s'"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "IGRA UKLONJENA IZ OMILJENIH"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "PREDMETI KOJI SE NE RAČUNAJU KAO IGRE NE MOGU SE DODATI U PRILAGOĐENE "

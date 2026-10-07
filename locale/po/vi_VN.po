@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-09-12 19:49+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Tiếng Việt <info@es-de.org>\n"
@@ -127,8 +127,6 @@ msgstr "'%s' Đã được lọc, có thể còn nhiều trò chơi khác"
 msgid "DELETED COLLECTION '%s'"
 msgstr "ĐÃ XÓA BỘ SƯU TẬP '%s'"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "ĐÃ XÓA TRÒ CHƠI KHỎI BỘ SƯU TẬP TÙY CHỈNH"
 msgctxt "theme"
 msgid "unknown"
 msgstr "không rõ"
@@ -502,8 +500,6 @@ msgstr "TẠO BỘ SƯU TẬP?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "XÓA BỘ SƯU TẬP TÙY CHỈNH"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "XÓA KHỎI BỘ SƯU TẬP TÙY CHỈNH"
 msgid "COLLECTION TO DELETE"
 msgstr "BỘ SƯU TẬP CẦN XÓA"
 
@@ -540,6 +536,119 @@ msgstr "ƯU TIÊN YÊU THÍCH TRONG BỘ SƯU TẬP"
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "HIỂN THỊ DẤU SAO CHO BỘ SƯU TẬP"
+
+msgid "SELECT EMULATOR"
+msgstr "CHỌN TRÌNH GIẢ LẬP"
+
+msgid "CLEAR ENTRY"
+msgstr "XÓA MỤC"
+
+msgid "SYSTEM-WIDE"
+msgstr "TOÀN HỆ THỐNG"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "PHÔNG CHỮ GỐC (NHẬT)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "PHÔNG CHỮ TRUNG QUỐC (CHO GALGAME)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "EDO THE GREAT (TRUNG QUỐC)"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "BIOS GỐC"
+
+msgid "CHINESE BIOS"
+msgstr "BIOS TRUNG QUỐC"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "ĐỔI BIOS"
+
+msgid "ES-DE PATHS"
+msgstr "ĐƯỜNG DẪN ES-DE"
+
+msgid "SYSTEM STATISTICS"
+msgstr "THỐNG KÊ HỆ THỐNG"
+
+msgid "GIT PROXY"
+msgstr "PROXY GIT"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "TRẠNG THAI PHIÊN MẶC ĐỊNH"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "ĐẾM NGƯỢC LIGHTDM"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "ĐẾM NGƯỢC LIGHTDM BẰNG GIÂY, 0 ĐẾN 60"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "NHẬP SỐ TỪ 0 ĐẾN 60 GIÂY"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr "KHÔNG THỂ CẬP NHẬT LIGHTDM.CONF, SAI MẬT KHẨU SUDO?"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "ĐÃ ĐẶT ĐẾM NGƯỢC LIGHTDM LÀ %s GIÂY"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "KHÔNG CÓ TỆP BIOS KHỚP TRONG ~/biosalt"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "KHÔNG THỂ SAO CHÉP TỆP BIOS, KIỂM TRA TỆP NHẬT KÝ"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "ĐÃ SAO CHÉP TỆP BIOS TỚI %s"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "GIÁ TRỊ ĐƯỢC ĐỌC TỪ EXIA.CONF"
+
+msgid "SYSTEMS"
+msgstr "HỆ THỐNG"
+
+msgid "GAMES"
+msgstr "TRÒ CHƠI"
+
+msgid "FAVORITES"
+msgstr "YÊU THÍCH"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "SỐ LIỆU THỜI GIAN THỰC TỪ DANH SÁCH HỆ THỐNG ES-DE"
+
+msgid "ENABLED"
+msgstr "BẬT"
+
+msgid "DISABLED"
+msgstr "TẮT"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "KHÔNG CHẠY ĐƯỢC GIT, ĐÃ CÀI CHƯA?"
+
+msgid "GIT PROXY ENABLED"
+msgstr "ĐÃ BẬT PROXY GIT"
+
+msgid "GIT PROXY DISABLED"
+msgstr "ĐÃ TẮT PROXY GIT"
+
+msgid "GIT PROXY URL"
+msgstr "URL PROXY GIT"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "ĐÃ LƯU URL PROXY GIT"
+
+msgid "SUDO PASSWORD"
+msgstr "MẬT KHẨU SUDO"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "NHẬP VÀO HỆ THỐNG"
@@ -589,8 +698,6 @@ msgstr "ẢNH TỔNG HỢP"
 msgid "IMPORT MEDIA"
 msgstr "NHẬP PHƯƠNG TIỆN"
 
-msgid "VIEW GAME MEDIA"
-msgstr "XEM PHƯƠNG TIỆN TRÒ CHƠI"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "NHẬP BIỂU NGỮ HOẶC LOGO NẾU CÓ"
 
@@ -707,11 +814,45 @@ msgstr "đóng (áp dụng)"
 msgid "close (cancel)"
 msgstr "đóng (hủy)"
 
+msgid "LAUNCH"
+msgstr "CHẠY"
+
+msgid "VIEW GAME MEDIA"
+msgstr "XEM PHƯƠNG TIỆN TRÒ CHƠI"
+
+msgid "SCRAPE"
+msgstr "THU THẬP DỮ LIỆU"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "XÓA KHỎI YÊU THÍCH"
+
+msgid "ADD TO FAVORITES"
+msgstr "THÊM VÀO YÊU THÍCH"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "XÓA KHỎI BỘ SƯU TẬP TÙY CHỈNH"
+
+msgid "DELETE GAME"
+msgstr "XÓA TRÒ CHƠI"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "ĐÃ XÓA TRÒ CHƠI KHỎI YÊU THÍCH"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "ĐÃ THÊM TRÒ CHƠI VÀO YÊU THÍCH"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "ĐÃ XÓA TRÒ CHƠI KHỎI BỘ SƯU TẬP TÙY CHỈNH"
+
 msgid "LAUNCHING GAME"
 msgstr "ĐANG KHỞI CHẠY TRÒ CHƠI"
 
-msgid "LAUNCH"
-msgstr "CHẠY"
 msgid "HELP PROMPTS"
 msgstr "GỢI Ý TRỢ GIÚP"
 
@@ -720,9 +861,6 @@ msgstr "TRÊN CÙNG"
 
 msgid "BOTTOM"
 msgstr "DƯỚI"
-
-msgid "DISABLED"
-msgstr "TẮT"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "HIỂN THỊ LOẠI PHƯƠNG TIỆN"
@@ -745,6 +883,9 @@ msgstr "HIỆU ỨNG DÒNG QUÉT CHO ẢNH VÀ TIÊU ĐỀ"
 msgid "MAIN MENU"
 msgstr "MENU CHÍNH"
 
+msgid "EXIA SETTINGS"
+msgstr "CÀI ĐẶT EXIA"
+
 msgid "SCRAPER"
 msgstr "THU THẬP DỮ LIỆU"
 
@@ -765,9 +906,9 @@ msgstr "CÀI ĐẶT KHÁC"
 
 msgid "UTILITIES"
 msgstr "TIỆN ÍCH"
+
 msgid "RESTART ES-DE"
 msgstr "KHỞI ĐỘNG LẠI ES-DE"
-
 
 msgid "QUIT ES-DE"
 msgstr "THOÁT"
@@ -1302,14 +1443,15 @@ msgstr ""
 "HỆ THỐNG SẼ QUÉT LẠI THƯ MỤC ROM CỦA BẠN ĐỂ KIỂM TRA CÁC THAY ĐỔI NHƯ THÊM "
 "HOẶC XÓA TRÒ CHƠI VÀ HỆ THỐNG"
 
+msgid "REALLY RESTART?"
+msgstr "KHỞI ĐỘNG LẠI THẬT SỰ?"
+
 msgid "REALLY QUIT?"
 msgstr "BẠN CÓ CHẮC MUỐN THOÁT KHÔNG?"
 
 msgid "REALLY REBOOT?"
 msgstr "BẠN CÓ CHẮC MUỐN KHỞI ĐỘNG LẠI KHÔNG?"
 
-msgid "REALLY RESTART?"
-msgstr "KHỞI ĐỘNG LẠI THẬT SỰ?"
 msgid "REBOOT SYSTEM"
 msgstr "KHỞI ĐỘNG LẠI HỆ THỐNG"
 
@@ -1361,20 +1503,8 @@ msgstr "Khởi chạy trên màn hình chính"
 msgid "EDIT METADATA"
 msgstr "CHỈNH SỬA DỮ LIỆU"
 
-msgid "CLEAR ENTRY"
-msgstr "XÓA MỤC"
-
-msgid "SELECT EMULATOR"
-msgstr "CHỌN TRÌNH GIẢ LẬP"
-
-msgid "SYSTEM-WIDE"
-msgstr "TOÀN HỆ THỐNG"
-
 msgid "unknown"
 msgstr "không rõ"
-
-msgid "SCRAPE"
-msgstr "THU THẬP DỮ LIỆU"
 
 msgid "scrape"
 msgstr "quét dữ liệu"
@@ -1422,8 +1552,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "XÓA"
 
-msgid "DELETE GAME"
-msgstr "XÓA TRÒ CHƠI"
 msgid "delete game"
 msgstr "xóa trò chơi"
 
@@ -1660,10 +1788,6 @@ msgstr "TẤT CẢ TRÒ CHƠI"
 msgid "FAVORITE GAMES"
 msgstr "TRÒ CHƠI YÊU THÍCH"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "XÓA KHỎI YÊU THÍCH"
-msgid "ADD TO FAVORITES"
-msgstr "THÊM VÀO YÊU THÍCH"
 msgid "NO METADATA"
 msgstr "KHÔNG CÓ SIÊU DỮ LIỆU"
 
@@ -2661,14 +2785,10 @@ msgstr "KHÔNG THỂ THÊM THƯ MỤC VÀO BỘ SƯU TẬP TÙY CHỈNH"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "ĐÃ ĐÁNH DẤU THƯ MỤC '%s' LÀ MỤC YÊU THÍCH"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "ĐÃ THÊM TRÒ CHƠI VÀO YÊU THÍCH"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "ĐÃ XÓA ĐÁNH DẤU YÊU THÍCH CHO THƯ MỤC '%s'"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "ĐÃ XÓA TRÒ CHƠI KHỎI YÊU THÍCH"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "KHÔNG THỂ THÊM MỤC KHÔNG PHẢI TRÒ CHƠI VÀO BỘ SƯU TẬP TÙY CHỈNHBỘ SƯU TẬP"

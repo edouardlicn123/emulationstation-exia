@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-09-09 19:23+0800\n"
 "Last-Translator: ice <natsumekyousuke211314@gmail.com>\n"
 "Language-Team: 日本語 <info@es-de.org>\n"
@@ -129,8 +129,6 @@ msgstr "'%s' が絞り込まれ、可能なゲームが増えました"
 msgid "DELETED COLLECTION '%s'"
 msgstr "コレクション '%s' を削除しました"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "ゲームカスタムコレクションから削除しました"
 msgctxt "theme"
 msgid "unknown"
 msgstr "未知"
@@ -515,8 +513,6 @@ msgstr "コレクションを作成しますか？"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "カスタムコレクションを削除"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "カスタムコレクションから削除"
 msgid "COLLECTION TO DELETE"
 msgstr "削除したいコレクション"
 
@@ -553,6 +549,120 @@ msgstr "カスタムコレクションのお気に入りを上に"
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "カスタムコレクションにスターマークを表示"
+
+msgid "SELECT EMULATOR"
+msgstr "エミュレータを選ぶ"
+
+msgid "CLEAR ENTRY"
+msgstr "項目を削除する"
+
+msgid "SYSTEM-WIDE"
+msgstr "システム全体"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "オリジナルフォント(日本語)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "中国語フォント(galgame 用)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "天下御免(中国語)"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "オリジナル BIOS"
+
+msgid "CHINESE BIOS"
+msgstr "中国語 BIOS"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "BIOS 切替"
+
+msgid "ES-DE PATHS"
+msgstr "ES-DE のパス"
+
+msgid "SYSTEM STATISTICS"
+msgstr "システム統計"
+
+msgid "GIT PROXY"
+msgstr "Git プロキシ"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "デフォルトセッションの状態"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "LightDM カウントダウン"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "LightDM カウントダウン(秒、0〜60)"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "0〜60 の数字を入力してください"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr ""
+"lightdm.conf の更新に失敗しました。sudo パスワードが違う可能性があります"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "LightDM カウントダウンを %s 秒に設定しました"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "~/biosalt に対応する BIOS ファイルがありません"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "BIOS ファイルのコピーに失敗しました。ログファイルを確認してください"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "BIOS ファイルを %s にコピーしました"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "値は exia.conf から読み取ります"
+
+msgid "SYSTEMS"
+msgstr "システム"
+
+msgid "GAMES"
+msgstr "ゲーム"
+
+msgid "FAVORITES"
+msgstr "お気に入り"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "ES-DE のシステム一覧からリアルタイム集計"
+
+msgid "ENABLED"
+msgstr "有効"
+
+msgid "DISABLED"
+msgstr "無効"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "git の実行に失敗しました。インストールされていますか?"
+
+msgid "GIT PROXY ENABLED"
+msgstr "Git プロキシを有効にしました"
+
+msgid "GIT PROXY DISABLED"
+msgstr "Git プロキシを無効にしました"
+
+msgid "GIT PROXY URL"
+msgstr "Git プロキシの URL"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "Git プロキシの URL を保存しました"
+
+msgid "SUDO PASSWORD"
+msgstr "sudo パスワード"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "システムにインポート"
@@ -602,8 +712,6 @@ msgstr "ミックス画像"
 msgid "IMPORT MEDIA"
 msgstr "メディアをインポート"
 
-msgid "VIEW GAME MEDIA"
-msgstr "ゲームのメディアを表示"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "可能であればバナーかロゴをインポート"
 
@@ -720,11 +828,45 @@ msgstr "閉じる（同意）"
 msgid "close (cancel)"
 msgstr "閉じる（キャンセル）"
 
+msgid "LAUNCH"
+msgstr "起動"
+
+msgid "VIEW GAME MEDIA"
+msgstr "ゲームのメディアを表示"
+
+msgid "SCRAPE"
+msgstr "スクレイプ"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "お気に入りから削除"
+
+msgid "ADD TO FAVORITES"
+msgstr "お気に入りに追加"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "カスタムコレクションから削除"
+
+msgid "DELETE GAME"
+msgstr "ゲームを削除"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "ゲームをお気に入りから削除しました"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "ゲームをお気に入りに追加しました"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "ゲームカスタムコレクションから削除しました"
+
 msgid "LAUNCHING GAME"
 msgstr "ゲームを起動"
 
-msgid "LAUNCH"
-msgstr "起動"
 msgid "HELP PROMPTS"
 msgstr "ヘルププロンプト"
 
@@ -733,9 +875,6 @@ msgstr "上"
 
 msgid "BOTTOM"
 msgstr "下"
-
-msgid "DISABLED"
-msgstr "無効"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "メディアタイプを表示"
@@ -758,6 +897,9 @@ msgstr "スクショとタイトルのスキャンラインをレンダリング
 msgid "MAIN MENU"
 msgstr "メインメニュー"
 
+msgid "EXIA SETTINGS"
+msgstr "EXIA 設定"
+
 msgid "SCRAPER"
 msgstr "スクレーパー"
 
@@ -778,9 +920,9 @@ msgstr "他の設定"
 
 msgid "UTILITIES"
 msgstr "ユーティリティ"
+
 msgid "RESTART ES-DE"
 msgstr "ES-DE を再起動"
-
 
 msgid "QUIT ES-DE"
 msgstr "ES-DEを終了"
@@ -1316,14 +1458,15 @@ msgstr ""
 "追加または削除されたゲームやシステムなどの変更を検出するために、ROMディレクト"
 "リを再スキャンします"
 
+msgid "REALLY RESTART?"
+msgstr "本当に再起動しますか?"
+
 msgid "REALLY QUIT?"
 msgstr "本当にやめますか？"
 
 msgid "REALLY REBOOT?"
 msgstr "本当に再起動しますか？"
 
-msgid "REALLY RESTART?"
-msgstr "本当に再起動しますか?"
 msgid "REBOOT SYSTEM"
 msgstr "システムを再起動"
 
@@ -1375,20 +1518,8 @@ msgstr "常にプライマリで表示"
 msgid "EDIT METADATA"
 msgstr "メタデータを編集する"
 
-msgid "CLEAR ENTRY"
-msgstr "項目を削除する"
-
-msgid "SELECT EMULATOR"
-msgstr "エミュレータを選ぶ"
-
-msgid "SYSTEM-WIDE"
-msgstr "システム全体"
-
 msgid "unknown"
 msgstr "未知"
-
-msgid "SCRAPE"
-msgstr "スクレイプ"
 
 msgid "scrape"
 msgstr "スクレイプ"
@@ -1437,8 +1568,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "削除"
 
-msgid "DELETE GAME"
-msgstr "ゲームを削除"
 msgid "delete game"
 msgstr "ゲームを削除する"
 
@@ -1687,10 +1816,6 @@ msgstr "すべてのゲーム"
 msgid "FAVORITE GAMES"
 msgstr "お気に入りのゲーム"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "お気に入りから削除"
-msgid "ADD TO FAVORITES"
-msgstr "お気に入りに追加"
 msgid "NO METADATA"
 msgstr "メタデータを除く"
 
@@ -2695,14 +2820,10 @@ msgstr "カスタムコレクションにフォルダを追加できません"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "フォルダ '%s' がお気に入りにマークされました"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "ゲームをお気に入りに追加しました"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "フォルダ '%s' のお気に入りマークを削除しました"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "ゲームをお気に入りから削除しました"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr "該当項目はゲームではないので、カスタムコレクションに追加できません"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-09-12 20:05+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Русский <info@es-de.org>\n"
@@ -134,8 +134,6 @@ msgstr "'%s' отфильтрован - без фильтра может быт�
 msgid "DELETED COLLECTION '%s'"
 msgstr "УДАЛЕНА КОЛЛЕКЦИЯ '%s'"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "ИГРА УДАЛЕНА ИЗ ПОЛЬЗОВАТЕЛЬСКОЙ КОЛЛЕКЦИИ"
 msgctxt "theme"
 msgid "unknown"
 msgstr "неизвестно"
@@ -512,8 +510,6 @@ msgstr "СОЗДАТЬ КОЛЛЕКЦИЮ?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "УДАЛИТЬ ПОЛЬЗ. КОЛЛЕКЦИЮ"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "УДАЛИТЬ ИЗ ПОЛЬЗОВАТЕЛЬСКОЙ КОЛЛЕКЦИИ"
 msgid "COLLECTION TO DELETE"
 msgstr "КОЛЛЕКЦИЯ К УДАЛЕНИЮ"
 
@@ -550,6 +546,119 @@ msgstr "ИЗБРАННОЕ СВЕРХУ ДЛЯ ПОЛЬЗ. КОЛЛЕКЦИЙ"
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "ВКЛ. ОЦЕНКУ ЗВЁЗДАМИ ДЛЯ ПОЛЬЗ. КОЛЛЕКЦИЙ"
+
+msgid "SELECT EMULATOR"
+msgstr "ВЫБРАТЬ ЭМУЛЯТОР"
+
+msgid "CLEAR ENTRY"
+msgstr "ОЧИСТИТЬ ЗАПИСЬ"
+
+msgid "SYSTEM-WIDE"
+msgstr "В МАСШТАБАХ СИСТЕМЫ"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "ИСХОДНЫЙ ШРИФТ (ЯПОНСКИЙ)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "КИТАЙСКИЙ ШРИФТ (ДЛЯ GALGAME)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "EDO THE GREAT (КИТАЙСКИЙ)"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "ИСХОДНЫЙ BIOS"
+
+msgid "CHINESE BIOS"
+msgstr "КИТАЙСКИЙ BIOS"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "СМЕНА BIOS"
+
+msgid "ES-DE PATHS"
+msgstr "ПУТИ ES-DE"
+
+msgid "SYSTEM STATISTICS"
+msgstr "СТАТИСТИКА СИСТЕМЫ"
+
+msgid "GIT PROXY"
+msgstr "ПРОКСИ GIT"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "СОСТОЯНИЕ СЕССИИ ПО УМОЛЧАНИЮ"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "ОБРАТНЫЙ ОТСЧЁТ LIGHTDM"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "ОБРАТНЫЙ ОТСЧЁТ LIGHTDM В СЕКУНДАХ, ОТ 0 ДО 60"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "ВВЕДИТЕ ЧИСЛО ОТ 0 ДО 60 СЕКУНД"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr "НЕ УДАЛОСЬ ОБНОВИТЬ LIGHTDM.CONF, НЕВЕРНЫЙ ПАРОЛЬ SUDO?"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "ОБРАТНЫЙ ОТСЧЁТ LIGHTDM УСТАНОВЛЕН НА %s СЕКУНД"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "В ~/biosalt НЕТ ПОДХОДЯЩЕГО ФАЙЛА BIOS"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "НЕ УДАЛОСЬ СКОПИРОВАТЬ ФАЙЛ BIOS, СМОТРИТЕ ФАЙЛ ЖУРНАЛА"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "ФАЙЛ BIOS СКОПИРОВАН В %s"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "ЗНАЧЕНИЯ СЧИТЫВАЮТСЯ ИЗ EXIA.CONF"
+
+msgid "SYSTEMS"
+msgstr "СИСТЕМЫ"
+
+msgid "GAMES"
+msgstr "ИГРЫ"
+
+msgid "FAVORITES"
+msgstr "ИЗБРАННОЕ"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "ПОКАЗАТЕЛИ В РЕАЛЬНОМ ВРЕМЕНИ ИЗ СПИСКА СИСТЕМ ES-DE"
+
+msgid "ENABLED"
+msgstr "ВКЛЮЧЕНО"
+
+msgid "DISABLED"
+msgstr "ОТКЛЮЧЕНО"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "НЕ УДАЛОСЬ ЗАПУСТИТЬ GIT, ОН УСТАНОВЛЕН?"
+
+msgid "GIT PROXY ENABLED"
+msgstr "ПРОКСИ GIT ВКЛЮЧЁН"
+
+msgid "GIT PROXY DISABLED"
+msgstr "ПРОКСИ GIT ОТКЛЮЧЁН"
+
+msgid "GIT PROXY URL"
+msgstr "URL ПРОКСИ GIT"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "URL ПРОКСИ GIT СОХРАНЁН"
+
+msgid "SUDO PASSWORD"
+msgstr "ПАРОЛЬ SUDO"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "ИМПОРТИРОВАТЬ В СИСТЕМУ"
@@ -599,8 +708,6 @@ msgstr "МИКС-ИЗОБРАЖЕНИЯ"
 msgid "IMPORT MEDIA"
 msgstr "ИМПОРТИРОВАТЬ МЕДИА"
 
-msgid "VIEW GAME MEDIA"
-msgstr "ПОКАЗАТЬ МЕДИАФАЙЛЫ ИГРЫ"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "ИМПОРТИРОВАТЬ БАННЕРЫ ИЛИ ЛОГОТИПЫ ЕСЛИ ДОСТУПНО"
 
@@ -719,11 +826,45 @@ msgstr "закр (прим.)"
 msgid "close (cancel)"
 msgstr "закр (отм.)"
 
+msgid "LAUNCH"
+msgstr "ЗАПУСТИТЬ"
+
+msgid "VIEW GAME MEDIA"
+msgstr "ПОКАЗАТЬ МЕДИАФАЙЛЫ ИГРЫ"
+
+msgid "SCRAPE"
+msgstr "СКРЕЙПИТЬ"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "УДАЛИТЬ ИЗ ИЗБРАННОГО"
+
+msgid "ADD TO FAVORITES"
+msgstr "ДОБАВИТЬ В ИЗБРАННОЕ"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "УДАЛИТЬ ИЗ ПОЛЬЗОВАТЕЛЬСКОЙ КОЛЛЕКЦИИ"
+
+msgid "DELETE GAME"
+msgstr "УДАЛИТЬ ИГРУ"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "ИГРА УДАЛЕНА ИЗ ИЗБРАННОГО"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "ИГРА ДОБАВЛЕНА В ИЗБРАННОЕ"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "ИГРА УДАЛЕНА ИЗ ПОЛЬЗОВАТЕЛЬСКОЙ КОЛЛЕКЦИИ"
+
 msgid "LAUNCHING GAME"
 msgstr "ЗАПУСК ИГРЫ"
 
-msgid "LAUNCH"
-msgstr "ЗАПУСТИТЬ"
 msgid "HELP PROMPTS"
 msgstr "ПОДСКАЗКИ"
 
@@ -732,9 +873,6 @@ msgstr "СВЕРХУ"
 
 msgid "BOTTOM"
 msgstr "СНИЗУ"
-
-msgid "DISABLED"
-msgstr "ОТКЛЮЧЕНО"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "ОТОБРАЖАТЬ ТИПЫ МЕДИА"
@@ -757,6 +895,9 @@ msgstr "РЕНДЕРИНГ CКАНЛАЙНОВ (СКРИНЫ ИГРЫ И ГЛ. �
 msgid "MAIN MENU"
 msgstr "ГЛАВНОЕ МЕНЮ"
 
+msgid "EXIA SETTINGS"
+msgstr "НАСТРОЙКИ EXIA"
+
 msgid "SCRAPER"
 msgstr "СКРЕЙПЕР"
 
@@ -777,9 +918,9 @@ msgstr "ПРОЧИЕ НАСТРОЙКИ"
 
 msgid "UTILITIES"
 msgstr "УТИЛИТЫ"
+
 msgid "RESTART ES-DE"
 msgstr "ПЕРЕЗАПУСТИТЬ ES-DE"
-
 
 msgid "QUIT ES-DE"
 msgstr "ВЫХОД ИЗ ES-DE"
@@ -1315,14 +1456,15 @@ msgstr ""
 "ЭТО ПРОСКАНИРУЕТ КАТАЛОГ РОМОВ НА ПРЕДМЕТ ИЗМЕНЕНИЙ, ТАКИХ КАК ДОБАВЛЕНИЕ "
 "ИЛИ УДАЛЕНИЕ ИГР И СИСТЕМ"
 
+msgid "REALLY RESTART?"
+msgstr "ДЕЙСТВИТЕЛЬНО ПЕРЕЗАПУСТИТЬ?"
+
 msgid "REALLY QUIT?"
 msgstr "ДЕЙСТВИТЕЛЬНО ВЫЙТИ?"
 
 msgid "REALLY REBOOT?"
 msgstr "ДЕЙСТВИТЕЛЬНО ПЕРЕЗАГРУЗИТЬ?"
 
-msgid "REALLY RESTART?"
-msgstr "ДЕЙСТВИТЕЛЬНО ПЕРЕЗАПУСТИТЬ?"
 msgid "REBOOT SYSTEM"
 msgstr "ПЕРЕЗАГРУЗКА СИСТЕМЫ"
 
@@ -1374,20 +1516,8 @@ msgstr "Всегда на первичный"
 msgid "EDIT METADATA"
 msgstr "ИЗМЕНИТЬ МЕТАДАННЫЕ"
 
-msgid "CLEAR ENTRY"
-msgstr "ОЧИСТИТЬ ЗАПИСЬ"
-
-msgid "SELECT EMULATOR"
-msgstr "ВЫБРАТЬ ЭМУЛЯТОР"
-
-msgid "SYSTEM-WIDE"
-msgstr "В МАСШТАБАХ СИСТЕМЫ"
-
 msgid "unknown"
 msgstr "неизвестно"
-
-msgid "SCRAPE"
-msgstr "СКРЕЙПИТЬ"
 
 msgid "scrape"
 msgstr "скрейпить"
@@ -1436,8 +1566,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "УДАЛИТЬ"
 
-msgid "DELETE GAME"
-msgstr "УДАЛИТЬ ИГРУ"
 msgid "delete game"
 msgstr "удал. игру"
 
@@ -1674,10 +1802,6 @@ msgstr "ВСЕ ИГРЫ"
 msgid "FAVORITE GAMES"
 msgstr "ИЗБРАННЫЕ ИГРЫ"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "УДАЛИТЬ ИЗ ИЗБРАННОГО"
-msgid "ADD TO FAVORITES"
-msgstr "ДОБАВИТЬ В ИЗБРАННОЕ"
 msgid "NO METADATA"
 msgstr "БЕЗ МЕТАДАННЫХ"
 
@@ -2691,14 +2815,10 @@ msgstr "НЕВОЗМОЖНО ДОБАВИТЬ ПАПКИ В ПОЛЬЗОВАТЕ
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "ПОМЕТИЛ ПАПКУ '%s' КАК ИЗБРАННУЮ"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "ИГРА ДОБАВЛЕНА В ИЗБРАННОЕ"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "УДАЛЕНА ПОМЕТКА \"ИЗБРАННОЕ\" ДЛЯ ПАПКИ '%s'"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "ИГРА УДАЛЕНА ИЗ ИЗБРАННОГО"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "НЕЛЬЗЯ ДОБАВЛЯТЬ ЗАПИСИ, КОТОРЫЕ НЕ СЧИТАЮТСЯ ИГРАМИ, В ПОЛЬЗОВАТЕЛЬСКИЕ "

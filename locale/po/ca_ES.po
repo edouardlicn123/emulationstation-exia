@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-09-13 13:47+0200\n"
 "Last-Translator: Johnnydement <johnnydement@duck.com>\n"
 "Language-Team: Català <info@es-de.org>\n"
@@ -130,8 +130,6 @@ msgstr "«%s» té filtres, per tant, potser hi ha més jocs disponibles"
 msgid "DELETED COLLECTION '%s'"
 msgstr "COL·LECCIÓ «%s» ESBORRADA"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "JOC ELIMINAT DE LA COL·LECCIÓ PERSONALITZADA"
 msgctxt "theme"
 msgid "unknown"
 msgstr "desconegut"
@@ -510,8 +508,6 @@ msgstr "CREAR COL·LECCIÓ?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "ESBORRAR COL·LECCIÓ A MIDA"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "TREU DE LA COL·LECCIÓ PERSONALITZADA"
 msgid "COLLECTION TO DELETE"
 msgstr "COL·LECCIÓ A ESBORRAR"
 
@@ -545,6 +541,119 @@ msgstr "POSA ELS FAVORITS A L'INICI DE LES COL·LECCIONS A MIDA"
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "MARCA AMB UNA ESTRELLA A LES COL·LECCIONS A MIDA"
+
+msgid "SELECT EMULATOR"
+msgstr "ESCOLLIR EMULADOR"
+
+msgid "CLEAR ENTRY"
+msgstr "NETEJAR ENTRADA"
+
+msgid "SYSTEM-WIDE"
+msgstr "PER TOT EL SISTEMA"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "FONT ORIGINAL (JAPONÈS)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "FONT XINESA (PER A GALGAMES)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "EDO EL GRAN (XINÈS)"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "BIOS ORIGINAL"
+
+msgid "CHINESE BIOS"
+msgstr "BIOS XINÈS"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "CANVI DE BIOS"
+
+msgid "ES-DE PATHS"
+msgstr "CAMINS DE L'ES-DE"
+
+msgid "SYSTEM STATISTICS"
+msgstr "ESTADÍSTIQUES DEL SISTEMA"
+
+msgid "GIT PROXY"
+msgstr "PROXY DEL GIT"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "ESTAT DE LA SESSIÓ PER DEFECTE"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "COMPTA ENRERE DEL LIGHTDM"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "COMPTA ENRERE DEL LIGHTDM EN SEGONS, D'0 A 60"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "INTRODUEIX UN NÚMERO D'0 A 60 SEGONS"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr "NO S'HA POGUT ACTUALITZAR LIGHTDM.CONF, CONTRASENYA SUDO INCORRECTA?"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "COMPTA ENRERE DEL LIGHTDM DEFINIT A %s SEGONS"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "NO HI HA CAP FITXER BIOS CORRESPONENT A ~/biosalt"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "NO S'HA POGUT COPIAR EL FITXER BIOS, COMPAREU EL FITXER DE REGISTRE"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "FITXER BIOS COPIAT A %s"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "ELS VALORS ES LLEGEIXEN DE EXIA.CONF"
+
+msgid "SYSTEMS"
+msgstr "SISTEMES"
+
+msgid "GAMES"
+msgstr "JOCOS"
+
+msgid "FAVORITES"
+msgstr "PREFERITS"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "RECOMPTES EN VIU DE LA LLISTA DE SISTEMES DE L'ES-DE"
+
+msgid "ENABLED"
+msgstr "HABILITAT"
+
+msgid "DISABLED"
+msgstr "DESHABILITAT"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "NO S'HA POGUT EXECUTAR EL GIT, ESTÀ INSTAL·LAT?"
+
+msgid "GIT PROXY ENABLED"
+msgstr "PROXY DEL GIT HABILITAT"
+
+msgid "GIT PROXY DISABLED"
+msgstr "PROXY DEL GIT DESHABILITAT"
+
+msgid "GIT PROXY URL"
+msgstr "URL DEL PROXY DEL GIT"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "S'HA DESAT L'URL DEL PROXY DEL GIT"
+
+msgid "SUDO PASSWORD"
+msgstr "CONTRASENYA SUDO"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "IMPORTA AL SISTEMA"
@@ -594,8 +703,6 @@ msgstr "COMPOSICIÓ"
 msgid "IMPORT MEDIA"
 msgstr "IMPORTAR MULTIMÈDIA"
 
-msgid "VIEW GAME MEDIA"
-msgstr "VEURE ELS MÈDIA DEL JOC"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "IMPORTAR LES BANDEROLES O ELS LOGOS DISPONIBLES"
 
@@ -714,11 +821,45 @@ msgstr "tancar (aplicar)"
 msgid "close (cancel)"
 msgstr "tancar (cancel·lar)"
 
+msgid "LAUNCH"
+msgstr "INICIA"
+
+msgid "VIEW GAME MEDIA"
+msgstr "VEURE ELS MÈDIA DEL JOC"
+
+msgid "SCRAPE"
+msgstr "GARBELLAR"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "TREU DELS FAVORITS"
+
+msgid "ADD TO FAVORITES"
+msgstr "AFEGEIX A LES FAVORITS"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "TREU DE LA COL·LECCIÓ PERSONALITZADA"
+
+msgid "DELETE GAME"
+msgstr "SUPRIMIR EL JOC"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "JOC ELIMINAT DELS FAVORITS"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "JOC AFEGIT ALS FAVORITS"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "JOC ELIMINAT DE LA COL·LECCIÓ PERSONALITZADA"
+
 msgid "LAUNCHING GAME"
 msgstr "INICIANT JOC"
 
-msgid "LAUNCH"
-msgstr "INICIA"
 msgid "HELP PROMPTS"
 msgstr "MISSATGES D'AJUDA"
 
@@ -727,9 +868,6 @@ msgstr "SUPERIOR"
 
 msgid "BOTTOM"
 msgstr "INFERIOR"
-
-msgid "DISABLED"
-msgstr "DESHABILITAT"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "MOSTRAR TIPUS DE MITJANS"
@@ -752,6 +890,9 @@ msgstr "RENDERITZAR SCANLINES PER LES CAPTURES I ELS TÍTOLS"
 msgid "MAIN MENU"
 msgstr "MENÚ PRINCIPAL"
 
+msgid "EXIA SETTINGS"
+msgstr "CONFIGURACIÓ EXIA"
+
 msgid "SCRAPER"
 msgstr "GARBELLAT DE DADES"
 
@@ -772,9 +913,9 @@ msgstr "ALTRES OPCIONS"
 
 msgid "UTILITIES"
 msgstr "UTILITATS"
+
 msgid "RESTART ES-DE"
 msgstr "TORNA A INICIAR ES-DE"
-
 
 msgid "QUIT ES-DE"
 msgstr "TANCAR ES-DE"
@@ -1307,14 +1448,15 @@ msgstr ""
 "AIXÒ REESCANEJARÀ EL TEU DIRECTORI DE ROMS BUSCANT JOCS I SISTEMES AFEGITS O "
 "ELIMINATS"
 
+msgid "REALLY RESTART?"
+msgstr "DE VERITAT TORNA A INICIAR?"
+
 msgid "REALLY QUIT?"
 msgstr "TANCAR, SEGUR?"
 
 msgid "REALLY REBOOT?"
 msgstr "REINICIAR, SEGUR?"
 
-msgid "REALLY RESTART?"
-msgstr "DE VERITAT TORNA A INICIAR?"
 msgid "REBOOT SYSTEM"
 msgstr "REINICIAR EL SISTEMA"
 
@@ -1366,20 +1508,8 @@ msgstr "Sempre a la pantalla principal"
 msgid "EDIT METADATA"
 msgstr "EDITAR METADADES"
 
-msgid "CLEAR ENTRY"
-msgstr "NETEJAR ENTRADA"
-
-msgid "SELECT EMULATOR"
-msgstr "ESCOLLIR EMULADOR"
-
-msgid "SYSTEM-WIDE"
-msgstr "PER TOT EL SISTEMA"
-
 msgid "unknown"
 msgstr "desconegut"
-
-msgid "SCRAPE"
-msgstr "GARBELLAR"
 
 msgid "scrape"
 msgstr "garbellar"
@@ -1428,8 +1558,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "ESBORRAR"
 
-msgid "DELETE GAME"
-msgstr "SUPRIMIR EL JOC"
 msgid "delete game"
 msgstr "esborrar joc"
 
@@ -1669,10 +1797,6 @@ msgstr "TOTS ELS JOCS"
 msgid "FAVORITE GAMES"
 msgstr "JOCS FAVORITS"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "TREU DELS FAVORITS"
-msgid "ADD TO FAVORITES"
-msgstr "AFEGEIX A LES FAVORITS"
 msgid "NO METADATA"
 msgstr "SENSE METADADES"
 
@@ -2681,14 +2805,10 @@ msgstr "NO ES PODEN AFEGIR CARPETES A LES COL·LECCIONS PERSONALITZADES"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "LA CARPETA «%s» S'HA MARCAT COM FAVORITA"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "JOC AFEGIT ALS FAVORITS"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "LA CARPETA «%s» JA NO ÉS FAVORITA"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "JOC ELIMINAT DELS FAVORITS"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "A LES COL·LECCIONS PERSONALITZADES NOMES ES PODEN AFEGIR ENTRADES DE JOCS"

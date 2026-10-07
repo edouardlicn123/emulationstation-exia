@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-08-22 15:30+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Svenska <info@es-de.org>\n"
@@ -133,8 +133,6 @@ msgstr "'%s' är filtrerad så det kan finnas fler spel tillgängliga"
 msgid "DELETED COLLECTION '%s'"
 msgstr "TOG BORT SAMLINGEN '%s'"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "SPEL BORTA FRÅN EGEN SAMLING"
 msgctxt "theme"
 msgid "unknown"
 msgstr "okänd"
@@ -506,8 +504,6 @@ msgstr "SKAPA SAMLING?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "TA BORT ANPASSAD SAMLING"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "TA BORT FRÅN EGEN SAMLING"
 msgid "COLLECTION TO DELETE"
 msgstr "SAMLING ATT TA BORT"
 
@@ -544,6 +540,119 @@ msgstr "FAVORITER LÄNGST UPP FÖR ANPASSADE SAMLINGAR"
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "VISA STJÄRNSYMBOL FÖR ANPASSADE SAMLINGAR"
+
+msgid "SELECT EMULATOR"
+msgstr "VÄLJ EMULATOR"
+
+msgid "CLEAR ENTRY"
+msgstr "RENSA POST"
+
+msgid "SYSTEM-WIDE"
+msgstr "SYSTEMOMFATTANDE"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "ORIGINALT TYPSNITT (JP)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "KINESISKT TYPSNITT (FÖR GALGAMES)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "EDO THE GREAT (KINESISKT)"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "ORIGINALT BIOS"
+
+msgid "CHINESE BIOS"
+msgstr "KINESISKT BIOS"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "BYTE AV BIOS"
+
+msgid "ES-DE PATHS"
+msgstr "ES-DE-SÖKVÄGAR"
+
+msgid "SYSTEM STATISTICS"
+msgstr "SYSTEMSTATISTIK"
+
+msgid "GIT PROXY"
+msgstr "GIT-PROXY"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "STATUS PÅ STANDARDSESSION"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "LIGHTDM-NEDRÄKNING"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "LIGHTDM-NEDRÄKNING I SEKUNDER, 0 TILL 60"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "ANGE ETT TAL FRÅN 0 TILL 60 SEKUNDER"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr "LIGHTDM.CONF KUNDE INTE UPPDATERAS, FEL SUDO-LÖSENORD?"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "LIGHTDM-NEDRÄKNING STÄLLD TILL %s SEKUNDER"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "INGEN MATCHANDE BIOS-FIL I ~/biosalt"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "BIOS-FILEN KUNDE INTE KOPIERAS, KONTROLLERA LOGGFILEN"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "BIOS-FIL KOPIERAD TILL %s"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "VÄRDEN LÄSES FRÅN EXIA.CONF"
+
+msgid "SYSTEMS"
+msgstr "SYSTEM"
+
+msgid "GAMES"
+msgstr "SPEL"
+
+msgid "FAVORITES"
+msgstr "FAVORITER"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "LIVE-ANTAL FRÅN ES-DE:S SYSTEMLISTA"
+
+msgid "ENABLED"
+msgstr "AKTIVERAD"
+
+msgid "DISABLED"
+msgstr "INAKTIVERAD"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "GIT KUNDE INTE KÖRAS, ÄR DET INSTALLERAT?"
+
+msgid "GIT PROXY ENABLED"
+msgstr "GIT-PROXY AKTIVERAD"
+
+msgid "GIT PROXY DISABLED"
+msgstr "GIT-PROXY INAKTIVERAD"
+
+msgid "GIT PROXY URL"
+msgstr "GIT-PROXY-URL"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "GIT-PROXY-URL SPARAD"
+
+msgid "SUDO PASSWORD"
+msgstr "SUDO-LÖSENORD"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "IMPORTERA TILL SYSTEM"
@@ -593,8 +702,6 @@ msgstr "MIXBILDER"
 msgid "IMPORT MEDIA"
 msgstr "IMPORTERA MEDIA"
 
-msgid "VIEW GAME MEDIA"
-msgstr "VISA SPELMEDIA"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "IMPORTERA TILLGÄNGLIGA BANNERS OCH LOGOTYPER"
 
@@ -712,11 +819,45 @@ msgstr "stäng (tillämpa)"
 msgid "close (cancel)"
 msgstr "stäng (avbryt)"
 
+msgid "LAUNCH"
+msgstr "STARTA"
+
+msgid "VIEW GAME MEDIA"
+msgstr "VISA SPELMEDIA"
+
+msgid "SCRAPE"
+msgstr "SCRAPE"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "TA BORT FRÅN FAVORITER"
+
+msgid "ADD TO FAVORITES"
+msgstr "LÄGG TILL FAVORITER"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "TA BORT FRÅN EGEN SAMLING"
+
+msgid "DELETE GAME"
+msgstr "TA BORT SPEL"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "SPEL BORTA FRÅN FAVORITER"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "SPEL TILLAGD I FAVORITER"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "SPEL BORTA FRÅN EGEN SAMLING"
+
 msgid "LAUNCHING GAME"
 msgstr "STARTAR SPEL"
 
-msgid "LAUNCH"
-msgstr "STARTA"
 msgid "HELP PROMPTS"
 msgstr "HJÄLPPROMPTER"
 
@@ -725,9 +866,6 @@ msgstr "HÖGST UPP"
 
 msgid "BOTTOM"
 msgstr "LÄNGST NER"
-
-msgid "DISABLED"
-msgstr "INAKTIVERAD"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "VISA MEDIATYPER"
@@ -750,6 +888,9 @@ msgstr "RENDERA SCANLINES FÖR SKÄRMDUMPAR OCH TITLAR"
 msgid "MAIN MENU"
 msgstr "HUVUDMENY"
 
+msgid "EXIA SETTINGS"
+msgstr "EXIA-INSTÄLLNINGAR"
+
 msgid "SCRAPER"
 msgstr "SCRAPER"
 
@@ -770,9 +911,9 @@ msgstr "ANDRA INSTÄLLNINGAR"
 
 msgid "UTILITIES"
 msgstr "VERKTYG"
+
 msgid "RESTART ES-DE"
 msgstr "STARTA OM ES-DE"
-
 
 msgid "QUIT ES-DE"
 msgstr "AVSLUTA ES-DE"
@@ -1310,14 +1451,15 @@ msgstr ""
 "DET HÄR SKANNAR OM DIN ROM-KATALOG FÖR ÄNDRINGAR SÅSOM TILLAGDA ELLER "
 "BORTTAGNA SPEL OCH SYSTEM"
 
+msgid "REALLY RESTART?"
+msgstr "VERKLIGEN STARTA OM?"
+
 msgid "REALLY QUIT?"
 msgstr "VERKLIGEN AVSLUTA?"
 
 msgid "REALLY REBOOT?"
 msgstr "VERKLIGEN STARTA OM?"
 
-msgid "REALLY RESTART?"
-msgstr "VERKLIGEN STARTA OM?"
 msgid "REBOOT SYSTEM"
 msgstr "STARTA OM SYSTEMET"
 
@@ -1369,20 +1511,8 @@ msgstr "Alltid på den primära"
 msgid "EDIT METADATA"
 msgstr "REDIGERA METADATA"
 
-msgid "CLEAR ENTRY"
-msgstr "RENSA POST"
-
-msgid "SELECT EMULATOR"
-msgstr "VÄLJ EMULATOR"
-
-msgid "SYSTEM-WIDE"
-msgstr "SYSTEMOMFATTANDE"
-
 msgid "unknown"
 msgstr "okänd"
-
-msgid "SCRAPE"
-msgstr "SCRAPE"
 
 msgid "scrape"
 msgstr "scrape"
@@ -1430,8 +1560,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "RADERA"
 
-msgid "DELETE GAME"
-msgstr "TA BORT SPEL"
 msgid "delete game"
 msgstr "radera spel"
 
@@ -1663,10 +1791,6 @@ msgstr "ALLA SPEL"
 msgid "FAVORITE GAMES"
 msgstr "FAVORITSPEL"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "TA BORT FRÅN FAVORITER"
-msgid "ADD TO FAVORITES"
-msgstr "LÄGG TILL FAVORITER"
 msgid "NO METADATA"
 msgstr "INGEN METADATA"
 
@@ -2667,14 +2791,10 @@ msgstr "KAN INTE LÄGGA TILL MAPPAR TILL ANPASSADE SAMLINGAR"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "MARKERADE MAPPEN '%s' SOM FAVORIT"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "SPEL TILLAGD I FAVORITER"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "TOG BORT FAVORITMARKERING FÖR MAPPEN '%s'"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "SPEL BORTA FRÅN FAVORITER"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "KAN INTE LÄGGA TILL POSTER SOM INTE RÄKNAS SOM SPEL TILL ANPASSADE SAMLINGAR"

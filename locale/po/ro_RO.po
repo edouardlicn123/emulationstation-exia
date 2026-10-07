@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-09-01 14:56+0200\n"
+"POT-Creation-Date: 2026-10-07 21:28+0800\n"
 "PO-Revision-Date: 2026-09-04 22:25+0300\n"
 "Last-Translator: Mihai Vasiliu <mihai.vasiliu.93@gmail.com>\n"
 "Language-Team: Română <info@es-de.org>\n"
@@ -137,8 +137,6 @@ msgstr "'%s' este filtrată, așadar pot fi mai multe jocuri disponibile"
 msgid "DELETED COLLECTION '%s'"
 msgstr "S-A ȘTERS COLECȚIA „%s”"
 
-msgid "REMOVED GAME FROM CUSTOM COLLECTION"
-msgstr "JOC ELIMINAT DIN COLECȚIA PERSONALIZATĂ"
 msgctxt "theme"
 msgid "unknown"
 msgstr "necunoscut"
@@ -517,8 +515,6 @@ msgstr "CREEZI COLECȚIA?"
 msgid "DELETE CUSTOM COLLECTION"
 msgstr "ȘTERGE O COLECȚIE PERSONALIZATĂ"
 
-msgid "REMOVE FROM CUSTOM COLLECTION"
-msgstr "ELIMINĂ DIN COLECȚIA PERSONALIZATĂ"
 msgid "COLLECTION TO DELETE"
 msgstr "COLECȚIA DE ȘTERS"
 
@@ -555,6 +551,119 @@ msgstr "AFIȘEAZĂ FAVORITELE LA ÎNCEPUT PENTRU COLECȚII"
 
 msgid "DISPLAY STAR MARKINGS FOR CUSTOM COLLECTIONS"
 msgstr "AFIȘEAZĂ O STEA PENTRU COLECȚIILE PERSONALIZATE"
+
+msgid "SELECT EMULATOR"
+msgstr "SELECTEAZĂ EMULATORUL"
+
+msgid "CLEAR ENTRY"
+msgstr "CURĂȚĂ INTRAREA"
+
+msgid "SYSTEM-WIDE"
+msgstr "PER SISTEM"
+
+msgid "PC-98"
+msgstr "PC-98"
+
+msgid "ORIGINAL FONT (JAPANESE)"
+msgstr "FONT ORIGINAL (JAPONEZ)"
+
+msgid "CHINESE FONT (FOR GALGAMES)"
+msgstr "FONT CHINEZ (PENTRU GALGAMES)"
+
+msgid "EDO THE GREAT (CHINESE)"
+msgstr "EDO THE GREAT (CHINEZ)"
+
+msgid "PC ENGINE CD"
+msgstr "PC ENGINE CD"
+
+msgid "ORIGINAL BIOS"
+msgstr "BIOS ORIGINAL"
+
+msgid "CHINESE BIOS"
+msgstr "BIOS CHINEZ"
+
+msgid "PC-FX"
+msgstr "PC-FX"
+
+msgid "BIOS SWITCH"
+msgstr "SCHIMBARE BIOS"
+
+msgid "ES-DE PATHS"
+msgstr "CĂI ES-DE"
+
+msgid "SYSTEM STATISTICS"
+msgstr "STATISTICI SISTEM"
+
+msgid "GIT PROXY"
+msgstr "PROXY GIT"
+
+msgid "DEFAULT SESSION STATUS"
+msgstr "STAREA SESIUNII IMPLICITE"
+
+msgid "LIGHTDM COUNTDOWN"
+msgstr "NUMĂRĂTOARE INVERSĂ LIGHTDM"
+
+msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+msgstr "NUMĂRĂTOARE INVERSĂ LIGHTDM ÎN SECUNDE, 0 PÂNĂ LA 60"
+
+msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+msgstr "INTRODUȚI UN NUMĂR DE LA 0 LA 60 DE SECUNDE"
+
+msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
+msgstr "ACTUALIZAREA LIGHTDM.CONF A EȘUAT, PAROLĂ SUDO GREȘITĂ?"
+
+#, c-format
+msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
+msgstr "NUMĂRĂTOAREA INVERSĂ LIGHTDM SETATĂ LA %s SECUNDE"
+
+msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+msgstr "NICIUN FIȘIER BIOS CORESPUNZĂTOR ÎN ~/biosalt"
+
+msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
+msgstr "COPIEREA FIȘIERULUI BIOS A EȘUAT, VERIFICAȚI FIȘIERUL JURNAL"
+
+#, c-format
+msgid "BIOS FILE COPIED TO %s"
+msgstr "FIȘIERUL BIOS COPIAT ÎN %s"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "VALORILE SUNT CITITE DIN EXIA.CONF"
+
+msgid "SYSTEMS"
+msgstr "SISTEME"
+
+msgid "GAMES"
+msgstr "JOCURI"
+
+msgid "FAVORITES"
+msgstr "FAVORITE"
+
+msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr "NUMERĂRI ÎN TIMP REAL DIN LISTA DE SISTEME ES-DE"
+
+msgid "ENABLED"
+msgstr "ACTIVAT"
+
+msgid "DISABLED"
+msgstr "DEZACTIVAT"
+
+msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
+msgstr "RULAREA GIT A EȘUAT, ESTE INSTALAT?"
+
+msgid "GIT PROXY ENABLED"
+msgstr "PROXY GIT ACTIVAT"
+
+msgid "GIT PROXY DISABLED"
+msgstr "PROXY GIT DEZACTIVAT"
+
+msgid "GIT PROXY URL"
+msgstr "URL-UL PROXY-ULUI GIT"
+
+msgid "GIT PROXY URL SAVED"
+msgstr "URL-UL PROXY-ULUI GIT SALVAT"
+
+msgid "SUDO PASSWORD"
+msgstr "PAROLĂ SUDO"
 
 msgid "IMPORT TO SYSTEM"
 msgstr "IMPORTĂ ÎN SISTEMUL"
@@ -604,8 +713,6 @@ msgstr "IMAGINI MIX"
 msgid "IMPORT MEDIA"
 msgstr "IMPORTĂ MEDIA"
 
-msgid "VIEW GAME MEDIA"
-msgstr "VIZUALIZEAZĂ MEDIA JOCULUI"
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
 msgstr "IMPORTĂ BANNERE SAU LOGOURI DACĂ EXISTĂ"
 
@@ -724,11 +831,45 @@ msgstr "închide (aplică)"
 msgid "close (cancel)"
 msgstr "închide (anulează)"
 
+msgid "LAUNCH"
+msgstr "LANSEAZĂ"
+
+msgid "VIEW GAME MEDIA"
+msgstr "VIZUALIZEAZĂ MEDIA JOCULUI"
+
+msgid "SCRAPE"
+msgstr "PREIA INFO"
+
+msgid "REMOVE FROM FAVORITES"
+msgstr "ELIMINĂ DIN FAVORITE"
+
+msgid "ADD TO FAVORITES"
+msgstr "ADAUGĂ LA FAVORITE"
+
+msgid "REMOVE FROM CUSTOM COLLECTION"
+msgstr "ELIMINĂ DIN COLECȚIA PERSONALIZATĂ"
+
+msgid "DELETE GAME"
+msgstr "ȘTERGE JOCUL"
+
+#, c-format
+msgid ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
+msgstr ""
+
+msgid "REMOVED GAME FROM FAVORITES"
+msgstr "JOC ELIMINAT DIN FAVORITE"
+
+msgid "ADDED GAME TO FAVORITES"
+msgstr "JOC ADĂUGAT LA FAVORITE"
+
+msgid "REMOVED GAME FROM CUSTOM COLLECTION"
+msgstr "JOC ELIMINAT DIN COLECȚIA PERSONALIZATĂ"
+
 msgid "LAUNCHING GAME"
 msgstr "SE LANSEAZĂ JOCUL"
 
-msgid "LAUNCH"
-msgstr "LANSEAZĂ"
 msgid "HELP PROMPTS"
 msgstr "MESAJE DE AJUTOR"
 
@@ -737,9 +878,6 @@ msgstr "SUS"
 
 msgid "BOTTOM"
 msgstr "JOS"
-
-msgid "DISABLED"
-msgstr "DEZACTIVAT"
 
 msgid "DISPLAY MEDIA TYPES"
 msgstr "AFIȘEAZĂ TIPURILE DE MEDIA"
@@ -762,6 +900,9 @@ msgstr "REDĂ LINII SCANARE PT. CAPTURI ECRAN ȘI TITLURI"
 msgid "MAIN MENU"
 msgstr "MENIU PRINCIPAL"
 
+msgid "EXIA SETTINGS"
+msgstr "SETĂRI EXIA"
+
 msgid "SCRAPER"
 msgstr "PRELUARE INFORMAȚII"
 
@@ -782,9 +923,9 @@ msgstr "ALTE SETĂRI"
 
 msgid "UTILITIES"
 msgstr "UTILITARE"
+
 msgid "RESTART ES-DE"
 msgstr "REPORNEȘTE ES-DE"
-
 
 msgid "QUIT ES-DE"
 msgstr "IEȘI DIN ES-DE"
@@ -1319,14 +1460,15 @@ msgstr ""
 "ACEST LUCRU VA SCANA DIN NOU DOSARELE CU ROM-URI PENTRU A DETECTA NOILE "
 "JOCURI ADĂUGATE SAU ȘTERSE"
 
+msgid "REALLY RESTART?"
+msgstr "CHiar REPORNEȘTI?"
+
 msgid "REALLY QUIT?"
 msgstr "CHIAR IEȘI?"
 
 msgid "REALLY REBOOT?"
 msgstr "CHIAR REPORNEȘTI?"
 
-msgid "REALLY RESTART?"
-msgstr "CHiar REPORNEȘTI?"
 msgid "REBOOT SYSTEM"
 msgstr "REPORNEȘTE SISTEMUL"
 
@@ -1378,20 +1520,8 @@ msgstr "Mereu pe primar"
 msgid "EDIT METADATA"
 msgstr "EDITEAZĂ METADATELE"
 
-msgid "CLEAR ENTRY"
-msgstr "CURĂȚĂ INTRAREA"
-
-msgid "SELECT EMULATOR"
-msgstr "SELECTEAZĂ EMULATORUL"
-
-msgid "SYSTEM-WIDE"
-msgstr "PER SISTEM"
-
 msgid "unknown"
 msgstr "necunoscut"
-
-msgid "SCRAPE"
-msgstr "PREIA INFO"
 
 msgid "scrape"
 msgstr "preia info"
@@ -1441,8 +1571,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "ȘTERGE"
 
-msgid "DELETE GAME"
-msgstr "ȘTERGE JOCUL"
 msgid "delete game"
 msgstr "șterge jocul"
 
@@ -1681,10 +1809,6 @@ msgstr "TOATE"
 msgid "FAVORITE GAMES"
 msgstr "FAVORITE"
 
-msgid "REMOVE FROM FAVORITES"
-msgstr "ELIMINĂ DIN FAVORITE"
-msgid "ADD TO FAVORITES"
-msgstr "ADAUGĂ LA FAVORITE"
 msgid "NO METADATA"
 msgstr "FĂRĂ METADATE"
 
@@ -2698,14 +2822,10 @@ msgstr "NU SE POT ADĂUGA DOSARE ÎN COLECȚIILE PERSONALIZATE"
 msgid "MARKED FOLDER '%s' AS FAVORITE"
 msgstr "DOSARUL „%s” A FOST MARCAT CA FAVORIT"
 
-msgid "ADDED GAME TO FAVORITES"
-msgstr "JOC ADĂUGAT LA FAVORITE"
 #, c-format
 msgid "REMOVED FAVORITE MARKING FOR FOLDER '%s'"
 msgstr "S-A ȘTERS MARCAJUL DE FAVORIT PENTRU DOSARUL „%s”"
 
-msgid "REMOVED GAME FROM FAVORITES"
-msgstr "JOC ELIMINAT DIN FAVORITE"
 msgid "CAN'T ADD ENTRIES THAT ARE NOT COUNTED AS GAMES TO CUSTOM COLLECTIONS"
 msgstr ""
 "NU SE POT ADĂUGA INTRĂRI CARE NU SUNT NUMĂRATE CA JOCURI ÎN COLECȚIILE "
