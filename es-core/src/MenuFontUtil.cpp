@@ -10,6 +10,7 @@
 
 #include "ThemeData.h"
 #include "resources/Font.h"
+#include "utils/LocalizationUtil.h"
 
 std::shared_ptr<Font> getMenuThemeFont(float defaultSize)
 {
@@ -18,7 +19,7 @@ std::shared_ptr<Font> getMenuThemeFont(float defaultSize)
     if (menuTheme->loadedFromTheme && menuTheme->Text.hasFont())
         return menuTheme->getFont(menuTheme->Text, defaultSize);
 
-    return Font::get(defaultSize);
+    return Font::get(defaultSize * Utils::Localization::sMenuTitleScaleFactor);
 }
 
 std::shared_ptr<Font> getMenuThemeSmallFont(float defaultSize)

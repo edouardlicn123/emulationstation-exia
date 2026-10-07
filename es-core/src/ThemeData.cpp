@@ -922,16 +922,23 @@ void ThemeData::loadMenuTheme()
 std::shared_ptr<Font> ThemeData::ThemeMenu::getFont(const MenuTextElement& elem,
                                                     float defaultSize) const
 {
-    if (!loadedFromTheme || !elem.hasFont())
-        return Font::get(defaultSize);
+    // Apply the language-specific scale factor so that all menu text keeps the same
+    // proportions as the menu title, which is scaled by this factor upstream. Applying it
+    // to the resolved size (rather than only to the default) is required as a theme supplied
+    // font size would otherwise bypass the scaling.
+    const float scale {Utils::Localization::sMenuTitleScaleFactor};
 
-    float size {defaultSize};
+    if (!loadedFromTheme || !elem.hasFont())
+        return Font::get(defaultSize * scale);
+
+    float size {defaultSize * scale};
 
     if (elem.fontSize != 0.0f) {
         const float screenSize {Renderer::getIsVerticalOrientation() ?
                                     static_cast<float>(Renderer::getScreenWidth()) :
                                     static_cast<float>(Renderer::getScreenHeight())};
-        size = glm::clamp(screenSize * elem.fontSize, screenSize * 0.001f, screenSize * 1.5f);
+        size = glm::clamp(screenSize * elem.fontSize * scale, screenSize * 0.001f,
+                          screenSize * 1.5f);
     }
 
     std::string path {elem.fontPath.empty() ? Font::getDefaultPath() : elem.fontPath};
