@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 22:39+0800\n"
+"POT-Creation-Date: 2026-10-07 23:45+0800\n"
 "PO-Revision-Date: 2026-09-12 20:05+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Русский <info@es-de.org>\n"
@@ -563,7 +563,7 @@ msgid "ORIGINAL FONT (JAPANESE)"
 msgstr "ИСХОДНЫЙ ШРИФТ (ЯПОНСКИЙ)"
 
 msgid "CHINESE FONT (FOR GALGAMES)"
-msgstr "КИТАЙСКИЙ ШРИФТ (ДЛЯ GALGAME)"
+msgstr "КИТАЙСКИЙ ШРИФТ (GALGAME)"
 
 msgid "EDO THE GREAT (CHINESE)"
 msgstr "EDO THE GREAT (КИТАЙСКИЙ)"
@@ -593,20 +593,20 @@ msgid "LIGHTDM COUNTDOWN"
 msgstr "ОБРАТНЫЙ ОТСЧЁТ LIGHTDM"
 
 msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "ОБРАТНЫЙ ОТСЧЁТ LIGHTDM В СЕКУНДАХ, ОТ 0 ДО 60"
+msgstr "ОТСЧЁТ LIGHTDM 0-60 СЕК"
 
 msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
 msgstr "ВВЕДИТЕ ЧИСЛО ОТ 0 ДО 60 СЕКУНД"
 
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
-msgstr "НЕ УДАЛОСЬ ОБНОВИТЬ LIGHTDM.CONF, НЕВЕРНЫЙ ПАРОЛЬ SUDO?"
+msgstr "LIGHTDM.CONF: НЕВЕРНЫЙ ПАРОЛЬ SUDO"
 
 #, c-format
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
-msgstr "ОБРАТНЫЙ ОТСЧЁТ LIGHTDM УСТАНОВЛЕН НА %s СЕКУНД"
+msgstr "LIGHTDM: %s СЕКУНД"
 
 msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
-msgstr "НЕ УДАЛОСЬ СКОПИРОВАТЬ ФАЙЛ BIOS, СМОТРИТЕ ФАЙЛ ЖУРНАЛА"
+msgstr "BIOS НЕ СКОПИРОВАН, СМОТРИТЕ ЖУРНАЛ"
 
 #, c-format
 msgid "BIOS FILE COPIED TO %s"
@@ -625,16 +625,16 @@ msgid "FAVORITES"
 msgstr "ИЗБРАННОЕ"
 
 msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "ПОКАЗАТЕЛИ В РЕАЛЬНОМ ВРЕМЕНИ ИЗ СПИСКА СИСТЕМ ES-DE"
+msgstr "СЧЁТЧИКИ СИСТЕМ ES-DE"
 
 msgid "ES-DE PATHS"
 msgstr "ПУТИ ES-DE"
 
 msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "ЗНАЧЕНИЯ СЧИТЫВАЮТСЯ ИЗ EXIA.CONF"
+msgstr "ЗНАЧЕНИЯ ИЗ EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
-msgstr "АВТОЗАПУСК ES-DE ПРИ ЗАГРУЗКЕ"
+msgstr "АВТОЗАПУСК ES-DE"
 
 msgid "ENABLED"
 msgstr "ВКЛЮЧЕНО"
@@ -658,16 +658,10 @@ msgid "GIT PROXY URL SAVED"
 msgstr "URL ПРОКСИ GIT СОХРАНЁН"
 
 msgid "MENU FONT SIZE (REQUIRES RESTART)"
-msgstr "РАЗМЕР ШРИФТА МЕНЮ (НУЖЕН ПЕРЕЗАПУСК)"
-
-msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
-msgstr "МАСШТАБ ШРИФТА МЕНЮ В ПРОЦЕНТАХ, ОТ 80 ДО 150"
-
-msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
-msgstr "ВВЕДИТЕ ЧИСЛО ОТ 80 ДО 150 ПРОЦЕНТОВ"
+msgstr "ШРИФТ (НУЖЕН ПЕРЕЗАПУСК)"
 
 msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
-msgstr "РАЗМЕР ШРИФТА СОХРАНЁН, ПЕРЕЗАПУСТИТЕ ES-DE ДЛЯ ПРИМЕНЕНИЯ"
+msgstr "ШРИФТ СОХРАНЁН, ПЕРЕЗАПУСТИТЕ ES-DE"
 
 msgid "SUDO PASSWORD"
 msgstr "ПАРОЛЬ SUDO"
@@ -864,6 +858,8 @@ msgid ""
 "THIS WILL DELETE '%s'!\n"
 "ARE YOU SURE?"
 msgstr ""
+"ЭТО БУДЕТ БЕЗВОЗВРАТНО УДАЛЕНО: '%s'.\n"
+"ПРОДОЛЖИТЬ?"
 
 msgid "REMOVED GAME FROM FAVORITES"
 msgstr "ИГРА УДАЛЕНА ИЗ ИЗБРАННОГО"
@@ -3365,6 +3361,12 @@ msgstr "Создание папок систем..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "ОШИБКА: НЕ УДАЛОСЬ ОТОБРАЗИТЬ PDF-ФАЙЛ"
+
+#~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+#~ msgstr "МАСШТАБ ШРИФТА МЕНЮ В ПРОЦЕНТАХ, ОТ 80 ДО 150"
+
+#~ msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+#~ msgstr "ВВЕДИТЕ ЧИСЛО ОТ 80 ДО 150 ПРОЦЕНТОВ"
 
 #~ msgid "DEFAULT SESSION STATUS"
 #~ msgstr "СОСТОЯНИЕ СЕССИИ ПО УМОЛЧАНИЮ"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 22:39+0800\n"
+"POT-Creation-Date: 2026-10-07 23:45+0800\n"
 "PO-Revision-Date: 2026-09-04 12:33+0200\n"
 "Last-Translator: SecularSteve <info@es-de.org>\n"
 "Language-Team: Serbian (Latin, Serbia) <info@es-de.org>\n"
@@ -605,20 +605,20 @@ msgid "LIGHTDM COUNTDOWN"
 msgstr "LIGHTDM ОДБРОЈАВАЊЕ"
 
 msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "LIGHTDM ОДБРОЈАВАЊЕ У СЕКУНАМА, ОД 0 ДО 60"
+msgstr "LIGHTDM ОДБРОЈАВАЊЕ 0-60"
 
 msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
 msgstr "УНЕСИТЕ БРОЈ ОД 0 ДО 60 СЕКУНДИ"
 
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
-msgstr "АЖУРИРАЊЕ LIGHTDM.CONF НИЈЕ УСПЕЛО, ПОГРЕШНА SUDO ЛОЗИНКА?"
+msgstr "LIGHTDM.CONF: ПОГРЕШНА SUDO ЛОЗИНКА"
 
 #, c-format
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
-msgstr "LIGHTDM ОДБРОЈАВАЊЕ ПОСТАВЉЕНО НА %s СЕКУНДИ"
+msgstr "LIGHTDM: %s СЕКУНДИ"
 
 msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
-msgstr "КОПИРАЊЕ BIOS ДАТОТЕКЕ НИЈЕ УСПЕЛО, ПРОВЕРИТЕ ДАТОТЕКУ ДНЕВНИКА"
+msgstr "BIOS НИЈЕ КОПИРАН, ПРОВЕРИТЕ ДНЕВНИК"
 
 #, c-format
 msgid "BIOS FILE COPIED TO %s"
@@ -637,16 +637,16 @@ msgid "FAVORITES"
 msgstr "ОМИЉЕНО"
 
 msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "БРОЈАЊА УЖИВО СА ЛИСТЕ ES-DE СИСТЕМА"
+msgstr "БРОЈАЊА УЖИВО (ES-DE)"
 
 msgid "ES-DE PATHS"
 msgstr "ES-DE ПУТАЊЕ"
 
 msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "ВРЕДНОСТИ СЕ ЧИТАЈУ ИЗ EXIA.CONF"
+msgstr "ВРЕДНОСТИ ИЗ EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
-msgstr "АУТОМАТСКО ПОКРЕТАЊЕ ES-DE ПРИ ПОКРЕТАЊУ"
+msgstr "АВТО ПОКРЕТАЊЕ ES-DE"
 
 msgid "ENABLED"
 msgstr "АКТИВИРАНО"
@@ -655,7 +655,7 @@ msgid "DISABLED"
 msgstr "INVALIDSKO"
 
 msgid "FAILED TO RUN GIT, IS IT INSTALLED?"
-msgstr "ПОКРЕТАЊЕ GIT-А НИЈЕ УСПЕЛО, ДА ЈЕ ИНСТАЛИРАН?"
+msgstr "GIT НИЈЕ ПОКРЕНУТ (ИНСТАЛИРАН?)"
 
 msgid "GIT PROXY ENABLED"
 msgstr "GIT ПРОКСИ АКТИВИРАН"
@@ -670,16 +670,10 @@ msgid "GIT PROXY URL SAVED"
 msgstr "GIT ПРОКСИ URL САЧУВАН"
 
 msgid "MENU FONT SIZE (REQUIRES RESTART)"
-msgstr "ВЕЛИЧИНА ПИСМА ИЗБОРНИКА (ПОТРЕБНО ПОНОВНО ПОКРЕТАЊЕ)"
-
-msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
-msgstr "СКАЛА ПИСМА ИЗБОРНИКА У ПРОЦЕНТИМА, ОД 80 ДО 150"
-
-msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
-msgstr "УНЕСИТЕ БРОЈ ОД 80 ДО 150 ПРОЦЕНАТА"
+msgstr "ВЕЛИЧИНА ПИСМА (РЕСТАРТ)"
 
 msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
-msgstr "ВЕЛИЧИНА ПИСМА САЧУВАНА, ПОНОВНО ПОКРЕНИ ES-DE ДА БИ СЕ ПРИМЕНИЛО"
+msgstr "ВЕЛИЧИНА ПИСМА САЧУВАНА (РЕСТАРТ)"
 
 msgid "SUDO PASSWORD"
 msgstr "SUDO ЛОЗИНКА"
@@ -781,7 +775,7 @@ msgid "select all"
 msgstr "izaberite sve"
 
 msgid "SELECT NONE"
-msgstr "NE BIRAJTE NIŠTA"
+msgstr "ПОНИШТИ"
 
 msgid "select none"
 msgstr "ne birajte ništa"
@@ -839,7 +833,7 @@ msgid "close"
 msgstr "zatvorite"
 
 msgid "APPLY"
-msgstr "PRIJAVITI SE"
+msgstr "ПРИМЕНИ"
 
 msgid "apply"
 msgstr "primenite"
@@ -876,6 +870,8 @@ msgid ""
 "THIS WILL DELETE '%s'!\n"
 "ARE YOU SURE?"
 msgstr ""
+"ОВО ЋЕ ТРАЈНО ОБРИСАТИ '%s'!\n"
+"ДА ЛИ СТЕ СИГУРНИ?"
 
 msgid "REMOVED GAME FROM FAVORITES"
 msgstr "ИГРА УКЛОЊЕНА ИЗ ОМИЉЕНИХ"
@@ -1647,7 +1643,7 @@ msgid "RUNNING"
 msgstr "POKRENUT"
 
 msgid "DONE"
-msgstr "SKORO"
+msgstr "ГОТОВО"
 
 msgid "done (close)"
 msgstr "gotovo (zatvorite)"
@@ -2212,7 +2208,7 @@ msgstr[1] "%i PREOSTALE"
 msgstr[2] "%i PREOSTALO"
 
 msgid "RETRY"
-msgstr "POKUŠAJ PONOVO"
+msgstr "ПОНОВИ"
 
 msgid "Error downloading thumbnail:"
 msgstr "Greška pri preuzimanju sličice:"
@@ -3368,6 +3364,12 @@ msgstr "Kreiranje sistemskih direktorijuma..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "GREŠKA: NIJE MOGUĆE DA VIDITE PDF DATOTEKU"
+
+#~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+#~ msgstr "СКАЛА ПИСМА ИЗБОРНИКА У ПРОЦЕНТИМА, ОД 80 ДО 150"
+
+#~ msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+#~ msgstr "УНЕСИТЕ БРОЈ ОД 80 ДО 150 ПРОЦЕНАТА"
 
 #~ msgid "DEFAULT SESSION STATUS"
 #~ msgstr "СТАТУС ПОДРАЗУМЕВАНЕ СЕСИЈЕ"

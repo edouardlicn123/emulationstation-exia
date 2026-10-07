@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 22:39+0800\n"
+"POT-Creation-Date: 2026-10-07 23:45+0800\n"
 "PO-Revision-Date: 2026-09-08 20:53+0200\n"
 "Last-Translator: wakeboxer <ljhmd0825@gmail.com>\n"
 "Language-Team: 한국어 <info@es-de.org>\n"
@@ -645,12 +645,6 @@ msgstr "Git 프록시 URL 저장됨"
 msgid "MENU FONT SIZE (REQUIRES RESTART)"
 msgstr "메뉴 글꼴 크기(재시작 필요)"
 
-msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
-msgstr "메뉴 글꼴 배율(퍼센트), 80~150"
-
-msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
-msgstr "80~150 사이의 숫자를 입력하세요(퍼센트)"
-
 msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
 msgstr "글꼴 크기를 저장했습니다. 적용하려면 ES-DE를 다시 시작하세요"
 
@@ -847,6 +841,8 @@ msgid ""
 "THIS WILL DELETE '%s'!\n"
 "ARE YOU SURE?"
 msgstr ""
+"'%s' 항목이 영구적으로 삭제됩니다.\n"
+"계속하시겠습니까?"
 
 msgid "REMOVED GAME FROM FAVORITES"
 msgstr "게임을 즐겨찾기에서 제거했습니다"
@@ -3282,6 +3278,12 @@ msgstr "시스템 디렉터리 생성 중..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "오류: PDF 파일을 렌더링할 수 없습니다"
+
+#~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+#~ msgstr "메뉴 글꼴 배율(퍼센트), 80~150"
+
+#~ msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+#~ msgstr "80~150 사이의 숫자를 입력하세요(퍼센트)"
 
 #~ msgid "DEFAULT SESSION STATUS"
 #~ msgstr "기본 세션 상태"

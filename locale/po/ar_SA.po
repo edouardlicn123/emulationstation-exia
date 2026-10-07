@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 22:39+0800\n"
+"POT-Creation-Date: 2026-10-07 23:45+0800\n"
 "PO-Revision-Date: 2026-09-05 18:04+0300\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Arabic (Classical Arabic) <info@es-de.org>\n"
@@ -570,7 +570,7 @@ msgid "ORIGINAL FONT (JAPANESE)"
 msgstr "الخط الأصلي (اليابانية)"
 
 msgid "CHINESE FONT (FOR GALGAMES)"
-msgstr "الخط الصيني (لألعاب galgame)"
+msgstr "الخط الصيني (لـ galgame)"
 
 msgid "EDO THE GREAT (CHINESE)"
 msgstr "إدو العظيم (الصينية)"
@@ -600,13 +600,13 @@ msgid "LIGHTDM COUNTDOWN"
 msgstr "عدّاد LightDM التنازلي"
 
 msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "عدّاد LightDM التنازلي بالثواني، من 0 إلى 60"
+msgstr "عدّاد LightDM، 0 إلى 60"
 
 msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
 msgstr "أدخل رقمًا من 0 إلى 60 ثانية"
 
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
-msgstr "فشل تحديث lightdm.conf، هل كلمة مرور sudo خاطئة؟"
+msgstr "فشل تحديث lightdm.conf (sudo؟)"
 
 #, c-format
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
@@ -632,7 +632,7 @@ msgid "FAVORITES"
 msgstr "المفضلة"
 
 msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "أعداد حية من قائمة أنظمة ES-DE"
+msgstr "أعداد حية من ES-DE"
 
 msgid "ES-DE PATHS"
 msgstr "مسارات ES-DE"
@@ -641,7 +641,7 @@ msgid "VALUES ARE READ FROM EXIA.CONF"
 msgstr "تُقرأ القيم من exia.conf"
 
 msgid "AUTO-START ES-DE ON BOOT"
-msgstr "تشغيل ES-DE تلقائيًا عند بدء التشغيل"
+msgstr "تشغيل ES-DE تلقائيًا"
 
 msgid "ENABLED"
 msgstr "مفعّل"
@@ -665,13 +665,7 @@ msgid "GIT PROXY URL SAVED"
 msgstr "تم حفظ عنوان وسيط Git"
 
 msgid "MENU FONT SIZE (REQUIRES RESTART)"
-msgstr "حجم خط القائمة (يتطلب إعادة التشغيل)"
-
-msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
-msgstr "تكبير خط القائمة بالنسبة المئوية، من 80 إلى 150"
-
-msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
-msgstr "أدخل رقمًا من 80 إلى 150 بالمئة"
+msgstr "حجم الخط (إعادة تشغيل)"
 
 msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
 msgstr "تم حفظ حجم الخط، أعد تشغيل ES-DE لتطبيقه"
@@ -737,7 +731,7 @@ msgid "ONLY INCLUDE APPS CATEGORIZED AS GAMES"
 msgstr "فقط تضمين التطبيقات المصنفة كألعاب"
 
 msgid "START"
-msgstr "أبدا"
+msgstr "ابدأ"
 
 msgid "start importer"
 msgstr "ابدأ الأستراد"
@@ -874,6 +868,8 @@ msgid ""
 "THIS WILL DELETE '%s'!\n"
 "ARE YOU SURE?"
 msgstr ""
+"سيتم حذف '%s'!\n"
+"هل أنت متأكد؟"
 
 msgid "REMOVED GAME FROM FAVORITES"
 msgstr "تمت إزالة اللعبة من المفضلة"
@@ -2213,7 +2209,7 @@ msgstr[4] "متبقي %i لعبة"
 msgstr[5] "متبقي %i لعبة"
 
 msgid "RETRY"
-msgstr "إعادة المحاولة"
+msgstr "أعد المحاولة"
 
 msgid "Error downloading thumbnail:"
 msgstr "خطأ في تنزيل الصورة المصغرة:"
@@ -3371,6 +3367,12 @@ msgstr "...إنشاء أدلة النظام"
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "خطأ لا يمكن تقديم ملف pdf"
+
+#~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+#~ msgstr "تكبير خط القائمة بالنسبة المئوية، من 80 إلى 150"
+
+#~ msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+#~ msgstr "أدخل رقمًا من 80 إلى 150 بالمئة"
 
 #~ msgid "DEFAULT SESSION STATUS"
 #~ msgstr "حالة الجلسة الافتراضية"

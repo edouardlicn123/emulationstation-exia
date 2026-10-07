@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 22:39+0800\n"
+"POT-Creation-Date: 2026-10-07 23:45+0800\n"
 "PO-Revision-Date: 2026-09-10 12:02+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: 繁體中文 <info@es-de.org>\n"
@@ -640,12 +640,6 @@ msgstr "Git 代理網址已儲存"
 msgid "MENU FONT SIZE (REQUIRES RESTART)"
 msgstr "選單字型大小(需要重新啟動)"
 
-msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
-msgstr "選單字型縮放百分比,80 到 150"
-
-msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
-msgstr "請輸入 80 到 150 的數字(百分比)"
-
 msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
 msgstr "字型大小已保存,重新啟動 ES-DE 後生效"
 
@@ -841,6 +835,8 @@ msgid ""
 "THIS WILL DELETE '%s'!\n"
 "ARE YOU SURE?"
 msgstr ""
+"將永久刪除「%s」！\n"
+"確定要繼續嗎？"
 
 msgid "REMOVED GAME FROM FAVORITES"
 msgstr "已從收藏中移除"
@@ -3237,6 +3233,12 @@ msgstr "正在建立平台目錄……"
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "錯誤：無法渲染PDF檔案"
+
+#~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+#~ msgstr "選單字型縮放百分比,80 到 150"
+
+#~ msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+#~ msgstr "請輸入 80 到 150 的數字(百分比)"
 
 #~ msgid "DEFAULT SESSION STATUS"
 #~ msgstr "預設工作階段狀態"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 22:39+0800\n"
+"POT-Creation-Date: 2026-10-07 23:45+0800\n"
 "PO-Revision-Date: 2026-09-12 19:49+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Tiếng Việt <info@es-de.org>\n"
@@ -553,7 +553,7 @@ msgid "ORIGINAL FONT (JAPANESE)"
 msgstr "PHÔNG CHỮ GỐC (NHẬT)"
 
 msgid "CHINESE FONT (FOR GALGAMES)"
-msgstr "PHÔNG CHỮ TRUNG QUỐC (CHO GALGAME)"
+msgstr "PHÔNG TRUNG QUỐC (GALGAME)"
 
 msgid "EDO THE GREAT (CHINESE)"
 msgstr "EDO THE GREAT (TRUNG QUỐC)"
@@ -583,20 +583,20 @@ msgid "LIGHTDM COUNTDOWN"
 msgstr "ĐẾM NGƯỢC LIGHTDM"
 
 msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "ĐẾM NGƯỢC LIGHTDM BẰNG GIÂY, 0 ĐẾN 60"
+msgstr "ĐẾM NGƯỢC LIGHTDM 0-60"
 
 msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
 msgstr "NHẬP SỐ TỪ 0 ĐẾN 60 GIÂY"
 
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
-msgstr "KHÔNG THỂ CẬP NHẬT LIGHTDM.CONF, SAI MẬT KHẨU SUDO?"
+msgstr "LIGHTDM.CONF: SAI MẬT KHẨU SUDO"
 
 #, c-format
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
 msgstr "ĐÃ ĐẶT ĐẾM NGƯỢC LIGHTDM LÀ %s GIÂY"
 
 msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
-msgstr "KHÔNG THỂ SAO CHÉP TỆP BIOS, KIỂM TRA TỆP NHẬT KÝ"
+msgstr "KHÔNG CHÉP ĐƯỢC BIOS, XEM NHẬT KÝ"
 
 #, c-format
 msgid "BIOS FILE COPIED TO %s"
@@ -615,16 +615,16 @@ msgid "FAVORITES"
 msgstr "YÊU THÍCH"
 
 msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "SỐ LIỆU THỜI GIAN THỰC TỪ DANH SÁCH HỆ THỐNG ES-DE"
+msgstr "SỐ LIỆU TRỰC TIẾP (ES-DE)"
 
 msgid "ES-DE PATHS"
 msgstr "ĐƯỜNG DẪN ES-DE"
 
 msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "GIÁ TRỊ ĐƯỢC ĐỌC TỪ EXIA.CONF"
+msgstr "GIÁ TRỊ TỪ EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
-msgstr "TỰ ĐỘNG KHỞI ĐỘNG ES-DE KHI BẬT MÁY"
+msgstr "TỰ ĐỘNG KHỞI ĐỘNG ES-DE"
 
 msgid "ENABLED"
 msgstr "BẬT"
@@ -648,16 +648,10 @@ msgid "GIT PROXY URL SAVED"
 msgstr "ĐÃ LƯU URL PROXY GIT"
 
 msgid "MENU FONT SIZE (REQUIRES RESTART)"
-msgstr "CỠ CHỮ TRONG MENU (CẦN KHỞI ĐỘNG LẠI)"
-
-msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
-msgstr "TỶ LỆ CỠ CHỮ MENU THEO PHẦN TRĂM, 80 ĐẾN 150"
-
-msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
-msgstr "NHẬP SỐ TỪ 80 ĐẾN 150 PHẦN TRĂM"
+msgstr "CỠ CHỮ (CẦN KHỞI ĐỘNG LẠI)"
 
 msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
-msgstr "ĐÃ LƯU CỠ CHỮ, KHỞI ĐỘNG LẠI ES-DE ĐỂ ÁP DỤNG"
+msgstr "ĐÃ LƯU, KHỞI ĐỘNG LẠI ES-DE"
 
 msgid "SUDO PASSWORD"
 msgstr "MẬT KHẨU SUDO"
@@ -759,7 +753,7 @@ msgid "select all"
 msgstr "chọn tất cả"
 
 msgid "SELECT NONE"
-msgstr "BỎ CHỌN TẤT CẢ"
+msgstr "BỎ CHỌN"
 
 msgid "select none"
 msgstr "bỏ chọn"
@@ -852,6 +846,8 @@ msgid ""
 "THIS WILL DELETE '%s'!\n"
 "ARE YOU SURE?"
 msgstr ""
+"HÀNH ĐỘNG NÀY SẼ XÓA VĨNH VIỄN '%s'!\n"
+"BẠN CHẮC CHỨN?"
 
 msgid "REMOVED GAME FROM FAVORITES"
 msgstr "ĐÃ XÓA TRÒ CHƠI KHỎI YÊU THÍCH"
@@ -3308,6 +3304,12 @@ msgstr "Đang tạo thư mục hệ thống..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "LỖI: KHÔNG THỂ HIỂN THỊ TỆP PDF"
+
+#~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+#~ msgstr "TỶ LỆ CỠ CHỮ MENU THEO PHẦN TRĂM, 80 ĐẾN 150"
+
+#~ msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+#~ msgstr "NHẬP SỐ TỪ 80 ĐẾN 150 PHẦN TRĂM"
 
 #~ msgid "DEFAULT SESSION STATUS"
 #~ msgstr "TRẠNG THAI PHIÊN MẶC ĐỊNH"

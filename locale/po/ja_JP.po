@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 22:39+0800\n"
+"POT-Creation-Date: 2026-10-07 23:45+0800\n"
 "PO-Revision-Date: 2026-09-09 19:23+0800\n"
 "Last-Translator: ice <natsumekyousuke211314@gmail.com>\n"
 "Language-Team: 日本語 <info@es-de.org>\n"
@@ -602,8 +602,7 @@ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
 msgstr "0〜60 の数字を入力してください"
 
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
-msgstr ""
-"lightdm.conf の更新に失敗しました。sudo パスワードが違う可能性があります"
+msgstr "lightdm.conf 更新失敗：sudo パスワードを確認"
 
 #, c-format
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
@@ -663,12 +662,6 @@ msgstr "Git プロキシの URL を保存しました"
 
 msgid "MENU FONT SIZE (REQUIRES RESTART)"
 msgstr "メニューの文字サイズ(再起動が必要)"
-
-msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
-msgstr "メニューの文字サイズ倍率(パーセント)、80〜150"
-
-msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
-msgstr "80〜150 の数字を入力してください(パーセント)"
 
 msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
 msgstr "文字サイズを保存しました。適用するには ES-DE を再起動してください"
@@ -829,7 +822,7 @@ msgid "close"
 msgstr "閉じる"
 
 msgid "APPLY"
-msgstr "同意"
+msgstr "適用"
 
 msgid "apply"
 msgstr "同意"
@@ -866,6 +859,8 @@ msgid ""
 "THIS WILL DELETE '%s'!\n"
 "ARE YOU SURE?"
 msgstr ""
+"'%s' を完全に削除します。\n"
+"よろしいですか?"
 
 msgid "REMOVED GAME FROM FAVORITES"
 msgstr "ゲームをお気に入りから削除しました"
@@ -3347,6 +3342,12 @@ msgstr "システムディレクトリを作成中..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "エラー：PDFファイルをレンダリングできませんでした"
+
+#~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+#~ msgstr "メニューの文字サイズ倍率(パーセント)、80〜150"
+
+#~ msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+#~ msgstr "80〜150 の数字を入力してください(パーセント)"
 
 #~ msgid "DEFAULT SESSION STATUS"
 #~ msgstr "デフォルトセッションの状態"

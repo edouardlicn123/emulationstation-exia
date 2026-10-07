@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 22:39+0800\n"
+"POT-Creation-Date: 2026-10-07 23:45+0800\n"
 "PO-Revision-Date: 2026-09-01 18:43+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: English (United States) <info@es-de.org>\n"
@@ -651,12 +651,6 @@ msgstr "GIT PROXY URL SAVED"
 msgid "MENU FONT SIZE (REQUIRES RESTART)"
 msgstr "MENU FONT SIZE (REQUIRES RESTART)"
 
-msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
-msgstr "MENU FONT SCALE IN PERCENT, 80 TO 150"
-
-msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
-msgstr "ENTER A NUMBER FROM 80 TO 150 PERCENT"
-
 msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
 msgstr "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
 
@@ -854,6 +848,8 @@ msgid ""
 "THIS WILL DELETE '%s'!\n"
 "ARE YOU SURE?"
 msgstr ""
+"THIS WILL DELETE '%s'!\n"
+"ARE YOU SURE?"
 
 msgid "REMOVED GAME FROM FAVORITES"
 msgstr "REMOVED GAME FROM FAVORITES"
@@ -3315,6 +3311,12 @@ msgstr "Creating system directories..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "ERROR: COULDN'T RENDER PDF FILE"
+
+#~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+#~ msgstr "MENU FONT SCALE IN PERCENT, 80 TO 150"
+
+#~ msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+#~ msgstr "ENTER A NUMBER FROM 80 TO 150 PERCENT"
 
 #~ msgid "DEFAULT SESSION STATUS"
 #~ msgstr "DEFAULT SESSION STATUS"
