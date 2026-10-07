@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 23:45+0800\n"
+"POT-Creation-Date: 2026-10-08 01:02+0800\n"
 "PO-Revision-Date: 2026-09-10 12:02+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: 繁體中文 <info@es-de.org>\n"
@@ -680,7 +680,7 @@ msgid "MARQUEES (WHEELS)"
 msgstr "遊戲標誌"
 
 msgid "3D BOXES"
-msgstr "3D盒子"
+msgstr "3D 盒子"
 
 msgid "PHYSICAL MEDIA"
 msgstr "實體卡帶"
@@ -695,7 +695,7 @@ msgid "IMPORT MEDIA"
 msgstr "導入媒體"
 
 msgid "IMPORT BANNERS OR LOGOS IF AVAILABLE"
-msgstr "如有可能匯入橫幅或LOGO"
+msgstr "如有可能匯入橫幅或 LOGO"
 
 msgid "OVERWRITE MEDIA FILES"
 msgstr "覆寫媒體文件"
@@ -908,7 +908,7 @@ msgid "RESTART ES-DE"
 msgstr "重新啟動 ES-DE"
 
 msgid "QUIT ES-DE"
-msgstr "退出ES-DE"
+msgstr "退出 ES-DE"
 
 msgid "THEME"
 msgstr "主題"
@@ -1214,8 +1214,8 @@ msgid ""
 "THE CONFIGURATOR TO RUN ON NEXT STARTUP"
 msgstr ""
 "除非您正在使用控制器，否則請不要禁用虛擬按鍵，否則您將無法再訪問該應用。如果"
-"發生這種情況，您需要暫時插入一個控制器或鍵盤來重新啟用此設定，或者您可以在"
-"Android應用設定中清除ES-DE儲存，以強制配置器在下次啟動時執行"
+"發生這種情況，您需要暫時插入一個控制器或鍵盤來重新啟用此設定，或者您可以在 "
+"Android 應用設定中清除 ES-DE 儲存，以強制配置器在下次啟動時執行"
 
 msgid "ONLY ACCEPT INPUT FROM FIRST CONTROLLER"
 msgstr "僅接受來自第一個控制器的輸入"
@@ -1274,10 +1274,10 @@ msgid "ANTI-ALIASING (MSAA)"
 msgstr "抗鋸齒 (MSAA)"
 
 msgid "2X"
-msgstr "2倍"
+msgstr "2 倍"
 
 msgid "4X"
-msgstr "4倍"
+msgstr "4 倍"
 
 msgid "ANTI-ALIASING (MSAA) (REQUIRES RESTART)"
 msgstr "抗鋸齒 (MSAA)（需要重啟）"
@@ -1292,13 +1292,13 @@ msgid "ROTATE SCREEN"
 msgstr "螢幕旋轉"
 
 msgid "90 DEGREES"
-msgstr "90度"
+msgstr "90 度"
 
 msgid "180 DEGREES"
-msgstr "180度"
+msgstr "180 度"
 
 msgid "270 DEGREES"
-msgstr "270度"
+msgstr "270 度"
 
 msgid "ROTATE SCREEN (REQUIRES RESTART)"
 msgstr "螢幕旋轉（需要重新啟動）"
@@ -1347,10 +1347,10 @@ msgid "UPSCALE VIDEO FRAME RATE TO 60 FPS"
 msgstr "將影片幀率提升至 60 FPS"
 
 msgid "QUERY INSTALLED RETROARCH CORES (EXPERIMENTAL)"
-msgstr "查詢已安裝的RETROARCH核心（實驗性質）"
+msgstr "查詢已安裝的 RETROARCH 核心（實驗性質）"
 
 msgid "USE RETROARCH IN SAF MODE (NOT RECOMMENDED)"
-msgstr "在儲存存取框架模式上使用RETROARCH（不受建議）"
+msgstr "在儲存存取框架模式上使用 RETROARCH（不受建議）"
 
 msgid "ENABLE ALTERNATIVE EMULATORS PER GAME"
 msgstr "為每個遊戲啟用備用模擬器"
@@ -1794,10 +1794,10 @@ msgid "start scraper"
 msgstr "開始刮削/抓取"
 
 msgid "SCREENSCRAPER USERNAME"
-msgstr "ScreenScraper使用者名稱"
+msgstr "ScreenScraper 使用者名稱"
 
 msgid "SCREENSCRAPER PASSWORD"
-msgstr "ScreenScraper密碼"
+msgstr "ScreenScraper 密碼"
 
 msgid "USE THIS ACCOUNT FOR SCREENSCRAPER"
 msgstr "使用此帳戶進行抓取"
@@ -1830,7 +1830,7 @@ msgid "MARQUEE (WHEEL) IMAGES"
 msgstr "遊戲標誌影象"
 
 msgid "3D BOX IMAGES"
-msgstr "3D盒子影象"
+msgstr "3D 盒子影象"
 
 msgid "PHYSICAL MEDIA IMAGES"
 msgstr "實體卡帶影象"
@@ -2131,7 +2131,7 @@ msgid "NO GAMES FOUND"
 msgstr "未找到遊戲"
 
 msgid "API CALLS:"
-msgstr "API回應："
+msgstr "API 回應："
 
 #, c-format
 msgid "%i REMAINING"
@@ -2223,7 +2223,7 @@ msgid "DISPLAY BLUETOOTH STATUS INDICATOR"
 msgstr "顯示藍芽狀態圖示"
 
 msgid "DISPLAY WI-FI STATUS INDICATOR"
-msgstr "顯示WI-FI狀態圖示"
+msgstr "顯示 WI-FI 狀態圖示"
 
 msgid "DISPLAY CELLULAR STATUS INDICATOR"
 msgstr "顯示行動網路狀態圖示"
@@ -2321,8 +2321,8 @@ msgid ""
 "THE THEME HAS BEEN MOVED TO A NEW GIT SITE. A FRESH DOWNLOAD IS REQUIRED AND "
 "THE OLD THEME DIRECTORY \"%s\" WILL BE RENAMED TO \"%s_WRONG_URL_DISABLED\""
 msgstr ""
-"本地克隆倉庫包含錯誤連結，這通常意味著原主題已被移至其他GIT網站。您需要重新下"
-"載，而舊主題目錄\"%s\"將被重新命名為\"%s_WRONG_URL_DISABLED\"。"
+"本地克隆倉庫包含錯誤連結，這通常意味著原主題已被移至其他 GIT 網站。您需要重新"
+"下載，而舊主題目錄\"%s\"將被重新命名為\"%s_WRONG_URL_DISABLED\"。"
 
 #, c-format
 msgid ""
@@ -2442,7 +2442,7 @@ msgid "browse"
 msgstr "瀏覽"
 
 msgid "pdf manual"
-msgstr "PDF手冊"
+msgstr "PDF 手冊"
 
 msgid "first"
 msgstr "第一張"
@@ -2829,9 +2829,9 @@ msgid ""
 "FILE FOR EACH SYSTEM PROVIDING SOME INFORMATION SUCH AS THE SUPPORTED FILE "
 "EXTENSIONS. THIS IS THE CONFIGURED ROM DIRECTORY:\n"
 msgstr ""
-"未找到任何遊戲檔案。請匯入遊戲檔案或將其手動放置到目前配置的ROM目錄中。你也可"
-"以更改ROM路徑，並可選地產生ROM目錄結構，該操作將為每個系統建立說明文字文件，"
-"其中包含支援的文件副檔名等資訊。目前配置的ROM目錄為：\n"
+"未找到任何遊戲檔案。請匯入遊戲檔案或將其手動放置到目前配置的 ROM 目錄中。你也"
+"可以更改 ROM 路徑，並可選地產生 ROM 目錄結構，該操作將為每個系統建立說明文字"
+"文件，其中包含支援的文件副檔名等資訊。目前配置的 ROM 目錄為：\n"
 
 msgid "CHANGE"
 msgstr "變更"
@@ -3232,7 +3232,7 @@ msgid "Creating system directories..."
 msgstr "正在建立平台目錄……"
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
-msgstr "錯誤：無法渲染PDF檔案"
+msgstr "錯誤：無法渲染 PDF 檔案"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "選單字型縮放百分比,80 到 150"
