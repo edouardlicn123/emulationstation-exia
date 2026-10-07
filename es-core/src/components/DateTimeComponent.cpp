@@ -9,6 +9,7 @@
 //
 
 #include "components/DateTimeComponent.h"
+#include "MenuFontUtil.h"
 
 #include "Log.h"
 #include "Settings.h"
@@ -193,7 +194,7 @@ void DateTimeComponent::applyTheme(const std::shared_ptr<ThemeData>& theme,
         elementType = "clock";
         componentName = "ClockComponent";
         // Apply default clock settings as the theme may not define any configuration for it.
-        setFont(Font::get(FONT_SIZE_SMALL, FONT_PATH_LIGHT));
+        setFont(menuValueFont(FONT_PATH_LIGHT));
         setLineSpacing(1.0f);
         const glm::vec2 scale {
             getParent() ? getParent()->getSize() :

@@ -7,6 +7,7 @@
 //
 
 #include "components/SliderComponent.h"
+#include "MenuFontUtil.h"
 
 #include "Window.h"
 #include "utils/LocalizationUtil.h"
@@ -30,7 +31,7 @@ SliderComponent::SliderComponent(float min, float max, float increment, const st
 {
     assert((min - max) != 0.0f);
 
-    mSliderText = std::make_unique<TextComponent>("", Font::get(FONT_SIZE_SMALL, FONT_PATH_LIGHT),
+    mSliderText = std::make_unique<TextComponent>("", menuValueFont(FONT_PATH_LIGHT),
                                                   mMenuColorPrimary);
     setSize(mWindow->peekGui()->getSize().x * 0.26f,
             Font::get(FONT_SIZE_MEDIUM)->getLetterHeight());
@@ -135,7 +136,7 @@ void SliderComponent::setValue(float value)
 
 void SliderComponent::onSizeChanged()
 {
-    mSliderText->setFont(Font::get(mSize.y, FONT_PATH_LIGHT));
+    mSliderText->setFont(menuValueFont(FONT_PATH_LIGHT));
     onValueChanged();
 }
 

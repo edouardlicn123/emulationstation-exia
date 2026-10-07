@@ -9,6 +9,7 @@
 //
 
 #include "guis/GuiScraperSingle.h"
+#include "MenuFontUtil.h"
 
 #include "FileData.h"
 #include "MameNames.h"
@@ -54,7 +55,7 @@ GuiScraperSingle::GuiScraperSingle(ScraperSearchParams& params,
     mGrid.setEntry(mGameName, glm::ivec2 {0, 0}, false, true, glm::ivec2 {2, 2});
 
     mSystemName = std::make_shared<TextComponent>(
-        Utils::String::toUpper(mSearchParams.system->getFullName()), Font::get(FONT_SIZE_SMALL),
+        Utils::String::toUpper(mSearchParams.system->getFullName()), menuValueFont(),
         mMenuColorSecondary, ALIGN_CENTER);
     mGrid.setEntry(mSystemName, glm::ivec2 {0, 2}, false, true, glm::ivec2 {2, 1});
 

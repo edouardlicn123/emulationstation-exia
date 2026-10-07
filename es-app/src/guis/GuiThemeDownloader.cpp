@@ -7,6 +7,7 @@
 //
 
 #include "guis/GuiThemeDownloader.h"
+#include "MenuFontUtil.h"
 
 #include "ApplicationVersion.h"
 #include "ThemeData.h"
@@ -827,7 +828,7 @@ void GuiThemeDownloader::populateGUI()
 
         ComponentListRow row;
         std::shared_ptr<TextComponent> themeNameElement {std::make_shared<TextComponent>(
-            themeName, Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
+            themeName, menuLabelFont(), mMenuColorPrimary)};
 
         if (theme.deprecated)
             themeNameElement->setOpacity(0.4f);
@@ -1151,7 +1152,7 @@ void GuiThemeDownloader::setupFullscreenViewer()
         image->setPosition(imagePos);
         mViewerScreenshots.emplace_back(image);
         auto caption = std::make_shared<TextComponent>(screenshot.caption,
-                                                       Font::get(FONT_SIZE_MINI, FONT_PATH_REGULAR),
+                                                       menuLabelFont(),
                                                        0xCCCCCCFF, ALIGN_LEFT);
         glm::vec3 textPos {image->getPosition()};
         textPos.y += image->getSize().y;

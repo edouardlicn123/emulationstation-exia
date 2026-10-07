@@ -18,6 +18,7 @@
 
 #include "GuiComponent.h"
 #include "Log.h"
+#include "MenuFontUtil.h"
 #include "Window.h"
 
 #include <algorithm>
@@ -41,7 +42,7 @@ public:
         , mKeyRepeatSpeed {OPTIONLIST_REPEAT_SPEED}
         , mName {name}
     {
-        auto font {Font::get(FONT_SIZE_MEDIUM, FONT_PATH_LIGHT)};
+        auto font {menuValueFont(FONT_PATH_LIGHT)};
         mText.setFont(font);
         mText.setAutoCalcExtent(glm::ivec2 {0, 0});
         mText.setColor(mMenuColorPrimary);
@@ -341,7 +342,7 @@ private:
             setSize(
                 (mText.getTextCache() == nullptr ? 0.0f : mText.getTextCache()->metrics.size.x) +
                     mRightArrow.getSize().x +
-                    Font::get(FONT_SIZE_MEDIUM)->getLetterHeight() * 0.68f,
+                    menuValueFont(FONT_PATH_LIGHT)->getLetterHeight() * 0.68f,
                 mText.getSize().y);
             if (mParent)
                 mParent->onSizeChanged();
@@ -364,7 +365,7 @@ private:
                                  0.0f :
                                  mText.getTextCache()->metrics.size.x) +
                                 mLeftArrow.getSize().x + mRightArrow.getSize().x +
-                                Font::get(FONT_SIZE_MEDIUM)->getLetterHeight() * 0.68f,
+                                menuValueFont(FONT_PATH_LIGHT)->getLetterHeight() * 0.68f,
                             mText.getSize().y);
                     if (mParent)
                         mParent->onSizeChanged();
@@ -416,7 +417,7 @@ private:
             : mMenu(title.c_str())
             , mParent(parent)
         {
-            auto font = Font::get(FONT_SIZE_MEDIUM);
+            auto font = menuValueFont();
             ComponentListRow row;
 
             bool hasSelectedRow {false};

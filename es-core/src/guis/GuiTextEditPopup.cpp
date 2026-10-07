@@ -11,6 +11,7 @@
 #define DELETE_REPEAT_SPEED 90 // Lower is faster.
 
 #include "guis/GuiTextEditPopup.h"
+#include "MenuFontUtil.h"
 
 #include "components/MenuComponent.h"
 #include "guis/GuiMsgBox.h"
@@ -46,9 +47,9 @@ GuiTextEditPopup::GuiTextEditPopup(const std::string& title,
                                              ALIGN_CENTER);
 
     if (mComplexMode) {
-        mInfoString = std::make_shared<TextComponent>(infoString, Font::get(FONT_SIZE_SMALL),
+        mInfoString = std::make_shared<TextComponent>(infoString, menuValueFont(),
                                                       mMenuColorTitle, ALIGN_CENTER);
-        mDefaultValue = std::make_shared<TextComponent>(defaultValue, Font::get(FONT_SIZE_SMALL),
+        mDefaultValue = std::make_shared<TextComponent>(defaultValue, menuValueFont(),
                                                         mMenuColorTitle, ALIGN_CENTER);
     }
 

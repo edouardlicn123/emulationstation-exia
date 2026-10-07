@@ -76,14 +76,14 @@ GuiAlternativeEmulators::GuiAlternativeEmulators()
 
         if (label == (*it)->getSystemEnvData()->mLaunchCommands.front().second) {
             labelText = std::make_shared<TextComponent>(
-                label, Font::get(FONT_SIZE_MEDIUM, FONT_PATH_LIGHT), mMenuColorPrimary, ALIGN_RIGHT,
+                label, menuLabelFont(), mMenuColorPrimary, ALIGN_RIGHT,
                 ALIGN_CENTER, glm::ivec2 {0, 0});
         }
         else {
             // Mark any non-default value with bold and add a gear symbol as well.
             labelText = std::make_shared<TextComponent>(
                 label + (!invalidEntry ? " " + ViewController::GEAR_CHAR : ""),
-                Font::get(FONT_SIZE_MEDIUM, FONT_PATH_BOLD), mMenuColorPrimary, ALIGN_RIGHT,
+                menuLabelFont(), mMenuColorPrimary, ALIGN_RIGHT,
                 ALIGN_CENTER, glm::ivec2 {0, 0});
         }
 
@@ -133,12 +133,12 @@ void GuiAlternativeEmulators::updateMenu(const std::string& systemName,
 {
     // If another label was selected, then update the menu accordingly.
     if (defaultEmulator) {
-        mCommandRows[systemName].get()->setFont(Font::get(FONT_SIZE_MEDIUM, FONT_PATH_LIGHT));
+        mCommandRows[systemName].get()->setFont(menuLabelFont());
         mCommandRows[systemName].get()->setValue(label);
     }
     else {
         // Mark any non-default value with bold and add a gear symbol as well.
-        mCommandRows[systemName].get()->setFont(Font::get(FONT_SIZE_MEDIUM, FONT_PATH_BOLD));
+        mCommandRows[systemName].get()->setFont(menuLabelFont());
         mCommandRows[systemName].get()->setValue(label + " " + ViewController::GEAR_CHAR);
     }
 

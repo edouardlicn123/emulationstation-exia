@@ -7,6 +7,7 @@
 //
 
 #include "guis/GuiOrphanedDataCleanup.h"
+#include "MenuFontUtil.h"
 
 #include "CollectionSystemsManager.h"
 #include "utils/FileSystemUtil.h"
@@ -96,7 +97,7 @@ GuiOrphanedDataCleanup::GuiOrphanedDataCleanup(std::function<void()> reloadCallb
     mGrid.setEntry(mTitle, glm::ivec2 {0, 0}, false, true, glm::ivec2 {4, 1},
                    GridFlags::BORDER_NONE);
 
-    mStatus = std::make_shared<TextComponent>(_("NOT STARTED"), Font::get(FONT_SIZE_MEDIUM),
+    mStatus = std::make_shared<TextComponent>(_("NOT STARTED"), menuValueFont(),
                                               mMenuColorPrimary, ALIGN_CENTER);
     mGrid.setEntry(mStatus, glm::ivec2 {0, 1}, false, true, glm::ivec2 {4, 1},
                    GridFlags::BORDER_NONE);
@@ -106,7 +107,7 @@ GuiOrphanedDataCleanup::GuiOrphanedDataCleanup(std::function<void()> reloadCallb
                    glm::ivec2 {4, 1}, GridFlags::BORDER_BOTTOM);
 
     mDescriptionHeader = std::make_shared<TextComponent>(
-        _("DESCRIPTION:"), Font::get(FONT_SIZE_MINI), mMenuColorPrimary, ALIGN_LEFT);
+        _("DESCRIPTION:"), menuLabelFont(), mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mDescriptionHeader, glm::ivec2 {1, 3}, false, true, glm::ivec2 {2, 1});
 
     mDescription = std::make_shared<TextComponent>(
@@ -118,27 +119,27 @@ GuiOrphanedDataCleanup::GuiOrphanedDataCleanup(std::function<void()> reloadCallb
                    GridFlags::BORDER_NONE, GridFlags::UPDATE_ALWAYS, glm::ivec2 {0, 1});
 
     mEntryCountHeader = std::make_shared<TextComponent>(
-        _("TOTAL ENTRIES REMOVED:"), Font::get(FONT_SIZE_SMALL), mMenuColorPrimary, ALIGN_LEFT);
+        _("TOTAL ENTRIES REMOVED:"), menuValueFont(), mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mEntryCountHeader, glm::ivec2 {1, 6}, false, true, glm::ivec2 {1, 1});
 
-    mEntryCount = std::make_shared<TextComponent>("0", Font::get(FONT_SIZE_SMALL),
+    mEntryCount = std::make_shared<TextComponent>("0", menuValueFont(),
                                                   mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mEntryCount, glm::ivec2 {2, 6}, false, true, glm::ivec2 {1, 1});
 
     mSystemProcessingHeader = std::make_shared<TextComponent>(
-        _("LAST PROCESSED SYSTEM:"), Font::get(FONT_SIZE_SMALL), mMenuColorPrimary, ALIGN_LEFT);
+        _("LAST PROCESSED SYSTEM:"), menuValueFont(), mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mSystemProcessingHeader, glm::ivec2 {1, 7}, false, true, glm::ivec2 {1, 1});
 
-    mSystemProcessing = std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL),
+    mSystemProcessing = std::make_shared<TextComponent>("", menuValueFont(),
                                                         mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mSystemProcessing, glm::ivec2 {2, 7}, false, true, glm::ivec2 {1, 1});
 
     mErrorHeader = std::make_shared<TextComponent>(
-        _("LAST ERROR MESSAGE:"), Font::get(FONT_SIZE_SMALL), mMenuColorPrimary, ALIGN_LEFT);
+        _("LAST ERROR MESSAGE:"), menuValueFont(), mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mErrorHeader, glm::ivec2 {1, 8}, false, true, glm::ivec2 {1, 1});
 
     mError =
-        std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL), mMenuColorRed, ALIGN_LEFT);
+        std::make_shared<TextComponent>("", menuValueFont(), mMenuColorRed, ALIGN_LEFT);
     mGrid.setEntry(mError, glm::ivec2 {2, 8}, false, true, glm::ivec2 {1, 1});
 
     // Spacer row.

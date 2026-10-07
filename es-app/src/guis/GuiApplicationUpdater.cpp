@@ -8,6 +8,7 @@
 //
 
 #include "guis/GuiApplicationUpdater.h"
+#include "MenuFontUtil.h"
 
 #include "ApplicationVersion.h"
 #include "guis/GuiTextEditKeyboardPopup.h"
@@ -50,12 +51,12 @@ GuiApplicationUpdater::GuiApplicationUpdater()
                    GridFlags::BORDER_BOTTOM);
 
     mStatusHeader = std::make_shared<TextComponent>(
-        _("INSTALLATION STEPS:"), Font::get(FONT_SIZE_MINI), mMenuColorPrimary, ALIGN_LEFT);
+        _("INSTALLATION STEPS:"), menuLabelFont(), mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mStatusHeader, glm::ivec2 {1, 1}, false, true, glm::ivec2 {2, 1});
 
     const std::string step1Text {mLinuxAppImage ? _("DOWNLOAD NEW RELEASE") :
                                                   _("DOWNLOAD NEW RELEASE TO THIS DIRECTORY:")};
-    mProcessStep1 = std::make_shared<TextComponent>(step1Text, Font::get(FONT_SIZE_MEDIUM),
+    mProcessStep1 = std::make_shared<TextComponent>(step1Text, menuValueFont(),
                                                     mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mProcessStep1, glm::ivec2 {1, 2}, false, true, glm::ivec2 {2, 1});
 
@@ -67,25 +68,25 @@ GuiApplicationUpdater::GuiApplicationUpdater()
                                      _("INSTALL PACKAGE") :
                                      Utils::FileSystem::getParent(mDownloadPackageFilename)};
 #endif
-    mProcessStep2 = std::make_shared<TextComponent>(step2Text, Font::get(FONT_SIZE_MEDIUM),
+    mProcessStep2 = std::make_shared<TextComponent>(step2Text, menuValueFont(),
                                                     mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mProcessStep2, glm::ivec2 {1, 3}, false, true, glm::ivec2 {2, 1});
 
     const std::string step3Text {mLinuxAppImage ? _("QUIT AND MANUALLY RESTART ES-DE") :
                                                   _("QUIT AND MANUALLY UPGRADE ES-DE")};
-    mProcessStep3 = std::make_shared<TextComponent>(step3Text, Font::get(FONT_SIZE_MEDIUM),
+    mProcessStep3 = std::make_shared<TextComponent>(step3Text, menuValueFont(),
                                                     mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mProcessStep3, glm::ivec2 {1, 4}, false, true, glm::ivec2 {2, 1});
 
     mStatusMessageHeader = std::make_shared<TextComponent>(
-        _("STATUS MESSAGE:"), Font::get(FONT_SIZE_MINI), mMenuColorPrimary, ALIGN_LEFT);
+        _("STATUS MESSAGE:"), menuLabelFont(), mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mStatusMessageHeader, glm::ivec2 {1, 6}, false, true, glm::ivec2 {2, 1});
 
-    mStatusMessage = std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL),
+    mStatusMessage = std::make_shared<TextComponent>("", menuValueFont(),
                                                      mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mStatusMessage, glm::ivec2 {1, 7}, false, true, glm::ivec2 {2, 1});
 
-    mChangelogMessage = std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL),
+    mChangelogMessage = std::make_shared<TextComponent>("", menuValueFont(),
                                                         mMenuColorPrimary, ALIGN_LEFT);
     mGrid.setEntry(mChangelogMessage, glm::ivec2 {1, 8}, false, true, glm::ivec2 {2, 1});
 

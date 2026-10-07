@@ -12,6 +12,7 @@
 
 #include "CollectionSystemsManager.h"
 #include "FileFilterIndex.h"
+#include "MenuFontUtil.h"
 #include "Settings.h"
 #include "SystemData.h"
 #include "SystemStatus.h"
@@ -214,7 +215,7 @@ void GuiSettings::addEditableTextComponent(const std::string label,
     row.elements.clear();
 
     auto lbl = std::make_shared<TextComponent>(Utils::String::toUpper(label),
-                                               labelFont ? labelFont : Font::get(FONT_SIZE_MEDIUM),
+                                               labelFont ? labelFont : menuLabelFont(),
                                                mMenuColorPrimary, ALIGN_LEFT, ALIGN_CENTER,
                                                glm::ivec2 {0, 0});
     row.addElement(lbl, false);

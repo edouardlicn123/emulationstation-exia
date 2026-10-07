@@ -10,6 +10,7 @@
 #define ES_CORE_COMPONENTS_HELP_COMPONENT_H
 
 #include "GuiComponent.h"
+#include "MenuFontUtil.h"
 #include "components/ComponentGrid.h"
 #include "renderers/Renderer.h"
 #include "resources/Font.h"
@@ -19,7 +20,7 @@ class HelpComponent : public GuiComponent
 public:
     HelpComponent(std::shared_ptr<Font> font = Renderer::getIsVerticalOrientation() ?
                                                    Font::get(0.025f * Renderer::getScreenWidth()) :
-                                                   Font::get(FONT_SIZE_SMALL));
+                                                   menuValueFont());
 
     void clearPrompts();
     void setPrompts(const std::vector<HelpPrompt>& prompts);

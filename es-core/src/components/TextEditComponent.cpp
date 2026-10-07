@@ -9,6 +9,7 @@
 
 #include "components/TextEditComponent.h"
 
+#include "MenuFontUtil.h"
 #include "utils/LocalizationUtil.h"
 #include "utils/StringUtil.h"
 
@@ -38,7 +39,7 @@ TextEditComponent::TextEditComponent(bool multiLine)
     , mCursorPos {0.0f, 0.0f}
     , mBox {":/graphics/textinput.svg"}
 {
-    mEditText = std::make_unique<TextComponent>("", Font::get(FONT_SIZE_MEDIUM, FONT_PATH_LIGHT));
+    mEditText = std::make_unique<TextComponent>("", menuValueFont(FONT_PATH_LIGHT));
     mEditText->setNeedGlyphsPos(true);
     mEditText->setTextShaping(false);
 

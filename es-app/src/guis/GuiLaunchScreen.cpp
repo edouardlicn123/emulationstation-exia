@@ -7,6 +7,7 @@
 //
 
 #include "guis/GuiLaunchScreen.h"
+#include "MenuFontUtil.h"
 
 #include "FileData.h"
 #include "SystemData.h"
@@ -80,7 +81,7 @@ void GuiLaunchScreen::displayLaunchScreen(FileData* game)
     mGrid.setEntry(mGameName, glm::ivec2 {1, 5}, false, true, glm::ivec2 {1, 1});
 
     // System name.
-    mSystemName = std::make_shared<TextComponent>("SYSTEM NAME", Font::get(FONT_SIZE_MEDIUM),
+    mSystemName = std::make_shared<TextComponent>("SYSTEM NAME", menuLabelFont(),
                                                   mMenuColorTertiary, ALIGN_CENTER);
     mGrid.setEntry(mSystemName, glm::ivec2 {1, 6}, false, true, glm::ivec2 {1, 1});
 

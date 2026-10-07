@@ -10,6 +10,7 @@
 //
 
 #include "guis/GuiScraperMulti.h"
+#include "MenuFontUtil.h"
 
 #include "CollectionSystemsManager.h"
 #include "FileFilterIndex.h"
@@ -70,11 +71,11 @@ GuiScraperMulti::GuiScraperMulti(
         ALIGN_CENTER);
     mGrid.setEntry(mTitle, glm::ivec2 {0, 0}, false, true, glm::ivec2 {2, 2});
 
-    mSystem = std::make_shared<TextComponent>(_("SYSTEM"), Font::get(FONT_SIZE_MEDIUM),
+    mSystem = std::make_shared<TextComponent>(_("SYSTEM"), menuLabelFont(),
                                               mMenuColorPrimary, ALIGN_CENTER);
     mGrid.setEntry(mSystem, glm::ivec2 {0, 2}, false, true, glm::ivec2 {2, 1});
 
-    mSubtitle = std::make_shared<TextComponent>("subtitle text", Font::get(FONT_SIZE_SMALL),
+    mSubtitle = std::make_shared<TextComponent>("subtitle text", menuValueFont(),
                                                 mMenuColorSecondary, ALIGN_CENTER);
     mGrid.setEntry(mSubtitle, glm::ivec2 {0, 3}, false, true, glm::ivec2 {2, 1});
 

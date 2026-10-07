@@ -8,6 +8,7 @@
 //
 
 #include "guis/GuiScreensaverOptions.h"
+#include "MenuFontUtil.h"
 
 #include "Settings.h"
 #include "Window.h"
@@ -75,7 +76,7 @@ GuiScreensaverOptions::GuiScreensaverOptions(const std::string& title)
     ComponentListRow row;
     row.elements.clear();
     row.addElement(std::make_shared<TextComponent>(_("SLIDESHOW SCREENSAVER SETTINGS"),
-                                                   Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary),
+                                                   menuLabelFont(), mMenuColorPrimary),
                    true);
     row.addElement(getMenu().makeArrow(), false);
     row.makeAcceptInputHandler(
@@ -84,7 +85,7 @@ GuiScreensaverOptions::GuiScreensaverOptions(const std::string& title)
 
     row.elements.clear();
     row.addElement(std::make_shared<TextComponent>(_("VIDEO SCREENSAVER SETTINGS"),
-                                                   Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary),
+                                                   menuLabelFont(), mMenuColorPrimary),
                    true);
     row.addElement(getMenu().makeArrow(), false);
     row.makeAcceptInputHandler(
@@ -201,10 +202,10 @@ void GuiScreensaverOptions::openSlideshowScreensaverOptions()
     // Custom image directory.
     ComponentListRow rowCustomImageDir;
     auto ScreensaverSlideshowCustomDir = std::make_shared<TextComponent>(
-        _("CUSTOM IMAGE DIRECTORY"), Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary);
+        _("CUSTOM IMAGE DIRECTORY"), menuLabelFont(), mMenuColorPrimary);
     auto bracketCustomImageDir = std::make_shared<ImageComponent>();
     bracketCustomImageDir->setResize(
-        glm::vec2 {0.0f, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight()});
+        glm::vec2 {0.0f, menuLabelFont()->getLetterHeight()});
     bracketCustomImageDir->setImage(":/graphics/arrow.svg");
     bracketCustomImageDir->setColorShift(mMenuColorPrimary);
     rowCustomImageDir.addElement(ScreensaverSlideshowCustomDir, true);

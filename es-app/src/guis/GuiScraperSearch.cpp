@@ -14,6 +14,7 @@
 //
 
 #include "guis/GuiScraperSearch.h"
+#include "MenuFontUtil.h"
 
 #include "CollectionSystemsManager.h"
 #include "FileData.h"
@@ -64,7 +65,7 @@ GuiScraperSearch::GuiScraperSearch(SearchType type, unsigned int scrapeCount, in
                    glm::ivec2 {1, 3}, GridFlags::BORDER_TOP | GridFlags::BORDER_BOTTOM);
 
     // Selected result name.
-    mResultName = std::make_shared<TextComponent>("Result name", Font::get(FONT_SIZE_MEDIUM),
+    mResultName = std::make_shared<TextComponent>("Result name", menuValueFont(),
                                                   mMenuColorPrimary);
 
     // Selected result thumbnail.
@@ -80,14 +81,14 @@ GuiScraperSearch::GuiScraperSearch(SearchType type, unsigned int scrapeCount, in
     else
         mDescContainer->setScrollParameters(6000.0f, 3000.0f, 0.8f);
 
-    mResultDesc = std::make_shared<TextComponent>("Result desc", Font::get(FONT_SIZE_SMALL),
+    mResultDesc = std::make_shared<TextComponent>("Result desc", menuValueFont(),
                                                   mMenuColorPrimary, ALIGN_LEFT, ALIGN_CENTER,
                                                   glm::ivec2 {0, 1});
     mDescContainer->addChild(mResultDesc.get());
     mDescContainer->setAutoScroll(true);
 
     // Metadata.
-    auto font = Font::get(FONT_SIZE_SMALL); // Placeholder, gets replaced in onSizeChanged().
+    auto font = menuValueFont(); // Placeholder, gets replaced in onSizeChanged().
     const unsigned int mdColor {mMenuColorPrimary};
     const unsigned int mdLblColor {mMenuColorTertiary};
     mMD_Rating = std::make_shared<RatingComponent>(false, true);
@@ -129,7 +130,7 @@ GuiScraperSearch::GuiScraperSearch(SearchType type, unsigned int scrapeCount, in
     unsigned int i {0};
 
     if (mSearchType == AUTOMATIC_MODE) {
-        mAPIStatistics = std::make_shared<TextComponent>("", Font::get(FONT_SIZE_MINI),
+        mAPIStatistics = std::make_shared<TextComponent>("", menuLabelFont(),
                                                          mMenuColorPrimary, ALIGN_LEFT);
         mGrid.setEntry(mAPIStatistics, glm::ivec2 {1, 2}, false, true, glm::ivec2 {2, 1});
     }
@@ -420,7 +421,7 @@ void GuiScraperSearch::onSearchDone(std::vector<ScraperSearchResult>& results)
     mResultList->clear();
     mScraperResults = results;
 
-    auto font = Font::get(FONT_SIZE_MEDIUM);
+    auto font = menuValueFont();
     unsigned int color {mMenuColorPrimary};
     if (results.empty()) {
         // Check if the scraper used is still valid.

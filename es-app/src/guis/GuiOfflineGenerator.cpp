@@ -8,6 +8,7 @@
 //
 
 #include "guis/GuiOfflineGenerator.h"
+#include "MenuFontUtil.h"
 
 #include "SystemData.h"
 #include "components/MenuComponent.h"
@@ -41,7 +42,7 @@ GuiOfflineGenerator::GuiOfflineGenerator(const std::queue<FileData*>& gameQueue)
         ALIGN_CENTER);
     mGrid.setEntry(mTitle, glm::ivec2 {0, 0}, false, true, glm::ivec2 {6, 1});
 
-    mStatus = std::make_shared<TextComponent>(_("NOT STARTED"), Font::get(FONT_SIZE_MEDIUM),
+    mStatus = std::make_shared<TextComponent>(_("NOT STARTED"), menuValueFont(),
                                               mMenuColorPrimary, ALIGN_CENTER);
     mGrid.setEntry(mStatus, glm::ivec2 {0, 1}, false, true, glm::ivec2 {6, 1});
 
@@ -49,7 +50,7 @@ GuiOfflineGenerator::GuiOfflineGenerator(const std::queue<FileData*>& gameQueue)
         _n("%i OF %i GAME PROCESSED", "%i OF %i GAMES PROCESSED", mTotalGames), mGamesProcessed,
         mTotalGames)};
 
-    mGameCounter = std::make_shared<TextComponent>(gameProcessText, Font::get(FONT_SIZE_SMALL),
+    mGameCounter = std::make_shared<TextComponent>(gameProcessText, menuValueFont(),
                                                    mMenuColorSecondary, ALIGN_CENTER);
     mGrid.setEntry(mGameCounter, glm::ivec2 {0, 2}, false, true, glm::ivec2 {6, 1});
 
@@ -62,56 +63,56 @@ GuiOfflineGenerator::GuiOfflineGenerator(const std::queue<FileData*>& gameQueue)
                    glm::ivec2 {1, 7});
 
     // Generated label.
-    mGeneratedLbl = std::make_shared<TextComponent>(_("Generated:"), Font::get(FONT_SIZE_SMALL),
+    mGeneratedLbl = std::make_shared<TextComponent>(_("Generated:"), menuValueFont(),
                                                     mMenuColorSecondary, ALIGN_LEFT);
     mGrid.setEntry(mGeneratedLbl, glm::ivec2 {1, 4}, false, true, glm::ivec2 {1, 1});
 
     // Generated value/counter.
     mGeneratedVal =
-        std::make_shared<TextComponent>(std::to_string(mGamesProcessed), Font::get(FONT_SIZE_SMALL),
+        std::make_shared<TextComponent>(std::to_string(mGamesProcessed), menuValueFont(),
                                         mMenuColorSecondary, ALIGN_LEFT);
     mGrid.setEntry(mGeneratedVal, glm::ivec2 {2, 4}, false, true, glm::ivec2 {1, 1});
 
     // Overwritten label.
-    mOverwrittenLbl = std::make_shared<TextComponent>(_("Overwritten:"), Font::get(FONT_SIZE_SMALL),
+    mOverwrittenLbl = std::make_shared<TextComponent>(_("Overwritten:"), menuValueFont(),
                                                       mMenuColorSecondary, ALIGN_LEFT);
     mGrid.setEntry(mOverwrittenLbl, glm::ivec2 {1, 5}, false, true, glm::ivec2 {1, 1});
 
     // Overwritten value/counter.
     mOverwrittenVal = std::make_shared<TextComponent>(std::to_string(mImagesOverwritten),
-                                                      Font::get(FONT_SIZE_SMALL),
+                                                      menuValueFont(),
                                                       mMenuColorSecondary, ALIGN_LEFT);
     mGrid.setEntry(mOverwrittenVal, glm::ivec2 {2, 5}, false, true, glm::ivec2 {1, 1});
 
     // Skipping label.
     const std::string skipLabel {mRenderer->getIsVerticalOrientation() ? _("Skipped:") :
                                                                          _("Skipped (existing):")};
-    mSkippedLbl = std::make_shared<TextComponent>(skipLabel, Font::get(FONT_SIZE_SMALL),
+    mSkippedLbl = std::make_shared<TextComponent>(skipLabel, menuValueFont(),
                                                   mMenuColorSecondary, ALIGN_LEFT);
     mGrid.setEntry(mSkippedLbl, glm::ivec2 {1, 6}, false, true, glm::ivec2 {1, 1});
 
     // Skipping value/counter.
     mSkippedVal = std::make_shared<TextComponent>(
-        std::to_string(mGamesSkipped), Font::get(FONT_SIZE_SMALL), mMenuColorSecondary, ALIGN_LEFT);
+        std::to_string(mGamesSkipped), menuValueFont(), mMenuColorSecondary, ALIGN_LEFT);
     mGrid.setEntry(mSkippedVal, glm::ivec2 {2, 6}, false, true, glm::ivec2 {1, 1});
 
     // Failed label.
-    mFailedLbl = std::make_shared<TextComponent>(_("Failed:"), Font::get(FONT_SIZE_SMALL),
+    mFailedLbl = std::make_shared<TextComponent>(_("Failed:"), menuValueFont(),
                                                  mMenuColorSecondary, ALIGN_LEFT);
     mGrid.setEntry(mFailedLbl, glm::ivec2 {1, 7}, false, true, glm::ivec2 {1, 1});
 
     // Failed value/counter.
     mFailedVal = std::make_shared<TextComponent>(
-        std::to_string(mGamesFailed), Font::get(FONT_SIZE_SMALL), mMenuColorSecondary, ALIGN_LEFT);
+        std::to_string(mGamesFailed), menuValueFont(), mMenuColorSecondary, ALIGN_LEFT);
     mGrid.setEntry(mFailedVal, glm::ivec2 {2, 7}, false, true, glm::ivec2 {1, 1});
 
     // Processing label.
-    mProcessingLbl = std::make_shared<TextComponent>(_("Processing:"), Font::get(FONT_SIZE_SMALL),
+    mProcessingLbl = std::make_shared<TextComponent>(_("Processing:"), menuValueFont(),
                                                      mMenuColorSecondary, ALIGN_LEFT);
     mGrid.setEntry(mProcessingLbl, glm::ivec2 {3, 4}, false, true, glm::ivec2 {1, 1});
 
     // Processing value.
-    mProcessingVal = std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL),
+    mProcessingVal = std::make_shared<TextComponent>("", menuValueFont(),
                                                      mMenuColorSecondary, ALIGN_LEFT);
     mProcessingVal->setRemoveLineBreaks(true);
     mGrid.setEntry(mProcessingVal, glm::ivec2 {4, 4}, false, true, glm::ivec2 {1, 1});
@@ -122,11 +123,11 @@ GuiOfflineGenerator::GuiOfflineGenerator(const std::queue<FileData*>& gameQueue)
 
     // Last error message label.
     mLastErrorLbl = std::make_shared<TextComponent>(
-        _("Last error message:"), Font::get(FONT_SIZE_SMALL), mMenuColorSecondary, ALIGN_LEFT);
+        _("Last error message:"), menuValueFont(), mMenuColorSecondary, ALIGN_LEFT);
     mGrid.setEntry(mLastErrorLbl, glm::ivec2 {1, 9}, false, true, glm::ivec2 {4, 1});
 
     // Last error message value.
-    mLastErrorVal = std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL),
+    mLastErrorVal = std::make_shared<TextComponent>("", menuValueFont(),
                                                     mMenuColorSecondary, ALIGN_LEFT);
     mLastErrorVal->setRemoveLineBreaks(true);
     mGrid.setEntry(mLastErrorVal, glm::ivec2 {1, 10}, false, true, glm::ivec2 {4, 1});

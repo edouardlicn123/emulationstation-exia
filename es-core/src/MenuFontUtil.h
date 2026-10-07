@@ -33,4 +33,16 @@ std::shared_ptr<Font> getMenuThemeSmallFont(float defaultSize);
 void setUserFontScale(float scale);
 float getUserFontScale();
 
+// Exia local addition: the two unified font entry points for menu text (see devdoc/15 §6.5).
+// Everything visible in a menu row derives from one of these so that labels, values and
+// buttons always come from the same two sizes, and so that menu.font.scale covers both.
+// menuLabelFont() is for labels, section headers and all button text (page titles and dialog
+// body text are excluded, they keep their upstream fonts). menuValueFont() is for in-row
+// values, text edit contents, slider readouts, switch icons and the help bar. The optional
+// path keeps the original font weight of each call site (option list, text edit and slider
+// values are drawn with the regular Akrobat face, alternatives with the bold one), so only
+// the size changes and the weights stay exactly as they were before the unification.
+std::shared_ptr<Font> menuLabelFont();
+std::shared_ptr<Font> menuValueFont(const std::string& path = "");
+
 #endif // ES_CORE_MENU_FONT_UTIL_H

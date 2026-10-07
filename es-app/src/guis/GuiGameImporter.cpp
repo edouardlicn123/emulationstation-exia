@@ -7,6 +7,7 @@
 //
 
 #include "guis/GuiGameImporter.h"
+#include "MenuFontUtil.h"
 
 #include "Log.h"
 #include "resources/Font.h"
@@ -509,11 +510,11 @@ void GuiGameImporter::selectorWindow()
         row.elements.clear();
         auto lbl = std::make_shared<TextComponent>(
             Utils::FileSystem::getStem(Utils::FileSystem::getFileName(file)),
-            Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary);
+            menuLabelFont(), mMenuColorPrimary);
 
 #if defined(__ANDROID__)
         auto media = std::make_shared<ImageComponent>();
-        media->setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight() * 1.4f);
+        media->setResize(0, menuLabelFont()->getLetterHeight() * 1.4f);
         if (!darkColorScheme)
             media->setInvertInMenus(false);
 
@@ -539,7 +540,7 @@ void GuiGameImporter::selectorWindow()
 #endif
 
         auto checkbox = std::make_shared<ImageComponent>();
-        checkbox->setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight());
+        checkbox->setResize(0, menuLabelFont()->getLetterHeight());
         checkbox->setImage(UNCHECKED_PATH);
         checkbox->setColorShift(mMenuColorPrimary);
         checkbox->setEnabled(false);

@@ -24,6 +24,7 @@
 #include "SystemData.h"
 #include "Window.h"
 #include "components/OptionListComponent.h"
+#include "components/SliderComponent.h"
 #include "components/TextComponent.h"
 #include "guis/GuiTextEditPopup.h"
 #include "utils/FileSystemUtil.h"
@@ -31,6 +32,7 @@
 #include "utils/StringUtil.h"
 
 #include <array>
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -476,16 +478,20 @@ std::string fileNameOf(const std::string& relativePath)
     return separator == std::string::npos ? relativePath : relativePath.substr(separator + 1);
 }
 
-// Current menu font scale as shown on the row, e.g. "100%". The stored value is the factor
-// itself (menu.font.scale=1.00), anything unusable falls back to 100%.
-std::string fontScaleLabel()
+// Current menu font scale as a percentage, e.g. 100. The stored value is the factor itself
+// (menu.font.scale=1.00), anything unusable falls back to 100%. The result is snapped to the
+// 2% slider step (80, 82, ... 150) so an odd value left over from the old text input does not
+// make the drag bar sit between two stops.
+int currentScalePercent()
 {
     const std::string stored {ExiaConfig::getInstance().get("menu.font.scale", "1.00")};
     const float scale {static_cast<float>(std::atof(stored.c_str()))};
-    if (scale <= 0.0f)
-        return "100%";
-    const int percent {static_cast<int>(scale * 100.0f + 0.5f)};
-    return std::to_string(percent) + "%";
+    int percent {scale <= 0.0f ? 100 : static_cast<int>(scale * 100.0f + 0.5f)};
+    if (percent < 80)
+        percent = 80;
+    else if (percent > 150)
+        percent = 150;
+    return 80 + static_cast<int>(std::round((percent - 80) / 2.0f)) * 2;
 }
 
 } // namespace
@@ -503,7 +509,7 @@ GuiExiaSettings::GuiExiaSettings(const std::string& title)
 #if !defined(__ANDROID__) && !defined(__IOS__)
     // The current value sits on the row itself and is refreshed after a successful write.
     auto timeoutValue = std::make_shared<TextComponent>(readLightdmValue(),
-                                                        Font::get(FONT_SIZE_SMALL),
+                                                        menuValueFont(),
                                                         mMenuColorPrimary, ALIGN_RIGHT);
     ComponentListRow timeoutRow;
     timeoutRow.addElement(std::make_shared<TextComponent>(_("LIGHTDM COUNTDOWN"),
@@ -558,7 +564,7 @@ ComponentListRow GuiExiaSettings::makeNavRow(const std::string& label,
                                                    mMenuColorPrimary),
                    true);
     if (!value.empty()) {
-        row.addElement(std::make_shared<TextComponent>(value, Font::get(FONT_SIZE_SMALL),
+        row.addElement(std::make_shared<TextComponent>(value, menuValueFont(),
                                                        mMenuColorPrimary, ALIGN_RIGHT),
                        false);
     }
@@ -571,7 +577,7 @@ ComponentListRow GuiExiaSettings::makeNavRow(const std::string& label,
 ComponentListRow GuiExiaSettings::makeNoteRow(const std::string& text)
 {
     ComponentListRow row;
-    row.addElement(std::make_shared<TextComponent>(text, Font::get(FONT_SIZE_SMALL),
+    row.addElement(std::make_shared<TextComponent>(text, menuValueFont(),
                                                    mMenuColorSecondary, ALIGN_LEFT, ALIGN_CENTER,
                                                    glm::ivec2 {0, 0}),
                    true);
@@ -669,15 +675,15 @@ void GuiExiaSettings::openSystemInfo()
     }
     infoMenu->addWithLabel(
         _("SYSTEMS"),
-        std::make_shared<TextComponent>(std::to_string(systemCount), Font::get(FONT_SIZE_SMALL),
+        std::make_shared<TextComponent>(std::to_string(systemCount), menuValueFont(),
                                         mMenuColorPrimary, ALIGN_RIGHT));
     infoMenu->addWithLabel(
         _("GAMES"),
-        std::make_shared<TextComponent>(std::to_string(gameCount), Font::get(FONT_SIZE_SMALL),
+        std::make_shared<TextComponent>(std::to_string(gameCount), menuValueFont(),
                                         mMenuColorPrimary, ALIGN_RIGHT));
     infoMenu->addWithLabel(
         _("FAVORITES"),
-        std::make_shared<TextComponent>(std::to_string(favoriteCount), Font::get(FONT_SIZE_SMALL),
+        std::make_shared<TextComponent>(std::to_string(favoriteCount), menuValueFont(),
                                         mMenuColorPrimary, ALIGN_RIGHT));
     infoMenu->addRow(makeNoteRow(_("LIVE COUNTS FROM THE ES-DE SYSTEM LIST")));
 
@@ -688,7 +694,7 @@ void GuiExiaSettings::openSystemInfo()
     for (const std::string& key : keys) {
         infoMenu->addWithLabel(
             key, std::make_shared<TextComponent>(ExiaConfig::getInstance().get(key),
-                                                 Font::get(FONT_SIZE_SMALL), mMenuColorPrimary,
+                                                 menuValueFont(), mMenuColorPrimary,
                                                  ALIGN_RIGHT));
     }
     infoMenu->addRow(makeNoteRow(_("VALUES ARE READ FROM EXIA.CONF")));
@@ -705,7 +711,7 @@ void GuiExiaSettings::openSystemInfo()
     sessionRow.addElement(std::make_shared<TextComponent>(sessionStatus.empty() ?
                                                               _("UNKNOWN") :
                                                               sessionStatus,
-                                                          Font::get(FONT_SIZE_SMALL),
+                                                          menuValueFont(),
                                                           mMenuColorPrimary, ALIGN_RIGHT),
                           false);
 #endif
@@ -768,48 +774,30 @@ void GuiExiaSettings::openGitProxy()
 
 void GuiExiaSettings::addFontSizeRow()
 {
-    auto scaleValue = std::make_shared<TextComponent>(fontScaleLabel(),
-                                                      Font::get(FONT_SIZE_SMALL),
-                                                      mMenuColorPrimary, ALIGN_RIGHT);
-    ComponentListRow row;
-    row.addElement(std::make_shared<TextComponent>(_("MENU FONT SIZE (REQUIRES RESTART)"),
-                                                   getMenuThemeFont(FONT_SIZE_MEDIUM),
-                                                   mMenuColorPrimary),
-                   true);
-    row.addElement(scaleValue, false);
-    row.addElement(getMenu().makeArrow(), false);
-    row.makeAcceptInputHandler([this, scaleValue] {
-        mWindow->pushGui(new GuiTextEditPopup(
-            _("MENU FONT SCALE IN PERCENT, 80 TO 150"), scaleValue->getValue(),
-            [this, scaleValue](const std::string& newValue) {
-                const std::string value {trimString(newValue)};
-                if (value.empty())
-                    return;
-                bool numeric {true};
-                for (const char character : value) {
-                    if (character < '0' || character > '9')
-                        numeric = false;
-                }
-                const int percent {numeric ? std::atoi(value.c_str()) : 0};
-                if (percent < 80 || percent > 150) {
-                    mWindow->queueInfoPopup(_("ENTER A NUMBER FROM 80 TO 150 PERCENT"), 5000);
-                    return;
-                }
-                ExiaConfig::getInstance().set(
-                    "menu.font.scale", Utils::String::format("%.2f", percent / 100.0f));
-                scaleValue->setValue(std::to_string(percent) + "%");
-                mWindow->queueInfoPopup(_("FONT SIZE SAVED, RESTART ES-DE TO APPLY"), 6000);
-            },
-            false));
+    // A drag bar operated with the direction keys, in the same style as the upstream volume
+    // sliders. The step is 2%, so the 80 to 150 range is 36 stops and holding the key repeats.
+    auto slider = std::make_shared<SliderComponent>(80.0f, 150.0f, 2.0f, "%");
+    const int originalPercent {currentScalePercent()};
+    slider->setValue(static_cast<float>(originalPercent));
+
+    addWithLabel(_("MENU FONT SIZE (REQUIRES RESTART)"), slider);
+    addSaveFunc([slider, originalPercent, window = mWindow] {
+        const int percent {static_cast<int>(std::round(slider->getValue()))};
+        // Only write the config and nag about the restart when the value really changed,
+        // closing an untouched menu must stay silent.
+        if (percent == originalPercent)
+            return;
+        ExiaConfig::getInstance().set("menu.font.scale",
+                                      Utils::String::format("%.2f", percent / 100.0f));
+        window->queueInfoPopup(_("FONT SIZE SAVED, RESTART ES-DE TO APPLY"), 6000);
     });
-    addRow(row);
 }
 
 void GuiExiaSettings::addPasswordRow()
 {
     // Value font and label font follow the row font spec from the devdoc, the value must use
     // the same small font as every other row value or this row sticks out visually.
-    auto passwordText = std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL),
+    auto passwordText = std::make_shared<TextComponent>("", menuValueFont(),
                                                         mMenuColorPrimary, ALIGN_RIGHT);
     const std::string storedPassword {ExiaConfig::getInstance().get("security.sudo.password")};
     std::string masked;

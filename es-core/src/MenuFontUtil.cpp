@@ -56,3 +56,17 @@ float getUserFontScale()
 {
     return sUserFontScale;
 }
+
+std::shared_ptr<Font> menuLabelFont()
+{
+    return getMenuThemeFont(FONT_SIZE_MEDIUM);
+}
+
+std::shared_ptr<Font> menuValueFont(const std::string& path)
+{
+    // An empty path means the default face, which is what the plain text values used before
+    // the unification. Font::get() caches per (size, path), so the per call site weights
+    // coexist without any extra bookkeeping here.
+    return Font::get(FONT_SIZE_SMALL * sUserFontScale,
+                     path.empty() ? Font::getDefaultPath() : path);
+}

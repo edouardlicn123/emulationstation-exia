@@ -10,6 +10,7 @@
 #define KEY_REPEAT_SPEED 150 // Lower is faster.
 
 #include "components/DateTimeEditComponent.h"
+#include "MenuFontUtil.h"
 
 #include "Settings.h"
 #include "utils/LocalizationUtil.h"
@@ -26,7 +27,7 @@ DateTimeEditComponent::DateTimeEditComponent(bool alignRight)
     , mUppercase {false}
     , mAutoSize {true}
 {
-    mDateText = std::make_unique<TextComponent>("", Font::get(FONT_SIZE_SMALL, FONT_PATH_LIGHT));
+    mDateText = std::make_unique<TextComponent>("", menuValueFont(FONT_PATH_LIGHT));
     updateText();
 }
 

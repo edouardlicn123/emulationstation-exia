@@ -8,6 +8,7 @@
 //
 
 #include "Window.h"
+#include "MenuFontUtil.h"
 
 #include "InputManager.h"
 #include "Log.h"
@@ -780,15 +781,15 @@ void Window::render()
 void Window::updateSplashScreenText()
 {
     mSplashTextScanning = std::make_unique<TextComponent>(_("Searching for games..."),
-                                                          Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
+                                                          menuLabelFont(), 0x777777FF);
     mSplashTextPopulating = std::make_unique<TextComponent>(
-        _("Loading systems..."), Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
+        _("Loading systems..."), menuLabelFont(), 0x777777FF);
     mSplashTextReloading =
-        std::make_unique<TextComponent>(_("Reloading..."), Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
+        std::make_unique<TextComponent>(_("Reloading..."), menuLabelFont(), 0x777777FF);
     mSplashTextResourceCopy = std::make_unique<TextComponent>(
-        _("Copying resources..."), Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
+        _("Copying resources..."), menuLabelFont(), 0x777777FF);
     mSplashTextDirCreation = std::make_unique<TextComponent>(
-        _("Creating system directories..."), Font::get(FONT_SIZE_MEDIUM), 0x777777FF);
+        _("Creating system directories..."), menuLabelFont(), 0x777777FF);
 
     mSplashTextPositions.x =
         (mRenderer->getScreenWidth() - mSplashTextScanning->getSize().x) / 2.0f;

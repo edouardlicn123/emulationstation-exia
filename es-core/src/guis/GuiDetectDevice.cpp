@@ -7,6 +7,7 @@
 //
 
 #include "guis/GuiDetectDevice.h"
+#include "MenuFontUtil.h"
 
 #include "InputManager.h"
 #include "Window.h"
@@ -56,19 +57,19 @@ GuiDetectDevice::GuiDetectDevice(bool firstRun,
     if (numDevices > 1 && Settings::getInstance()->getBool("InputOnlyFirstController"))
         deviceInfo << " " << _("(ONLY ACCEPTING INPUT FROM FIRST CONTROLLER)");
 
-    mDeviceInfo = std::make_shared<TextComponent>(deviceInfo.str(), Font::get(FONT_SIZE_SMALL),
+    mDeviceInfo = std::make_shared<TextComponent>(deviceInfo.str(), menuValueFont(),
                                                   mMenuColorSecondary, ALIGN_CENTER);
     mGrid.setEntry(mDeviceInfo, glm::ivec2 {0, 1}, false, true);
 
     // Message.
     if (numDevices > 0) {
         mMsg1 = std::make_shared<TextComponent>(_("HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT"),
-                                                Font::get(FONT_SIZE_SMALL), mMenuColorPrimary,
+                                                menuValueFont(), mMenuColorPrimary,
                                                 ALIGN_CENTER);
     }
     else {
         mMsg1 = std::make_shared<TextComponent>(_("HOLD A BUTTON ON YOUR KEYBOARD TO CONFIGURE IT"),
-                                                Font::get(FONT_SIZE_SMALL), mMenuColorPrimary,
+                                                menuValueFont(), mMenuColorPrimary,
                                                 ALIGN_CENTER);
     }
 
@@ -77,13 +78,13 @@ GuiDetectDevice::GuiDetectDevice(bool firstRun,
     const std::string msg2str {
         firstRun ? _("PRESS ESC TO SKIP (OR THE QUIT SHORTCUT TO QUIT AT ANY TIME)") :
                    _("PRESS ESC TO CANCEL")};
-    mMsg2 = std::make_shared<TextComponent>(msg2str, Font::get(FONT_SIZE_SMALL), mMenuColorPrimary,
+    mMsg2 = std::make_shared<TextComponent>(msg2str, menuValueFont(), mMenuColorPrimary,
                                             ALIGN_CENTER);
     mGrid.setEntry(mMsg2, glm::ivec2 {0, 3}, false, true);
 
     // Currently held device.
     mDeviceHeld =
-        std::make_shared<TextComponent>("", Font::get(FONT_SIZE_MEDIUM), 0xFFFFFFFF, ALIGN_CENTER);
+        std::make_shared<TextComponent>("", menuValueFont(), 0xFFFFFFFF, ALIGN_CENTER);
     mGrid.setEntry(mDeviceHeld, glm::ivec2 {0, 4}, false, true);
 
     // Adjust the width relative to the aspect ratio of the screen to make the GUI look coherent

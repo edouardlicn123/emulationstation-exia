@@ -35,6 +35,7 @@
 #endif
 
 #include "guis/GuiTextEditKeyboardPopup.h"
+#include "MenuFontUtil.h"
 
 #include "components/MenuComponent.h"
 #include "guis/GuiMsgBox.h"
@@ -140,11 +141,11 @@ GuiTextEditKeyboardPopup::GuiTextEditKeyboardPopup(
     int yPos {1};
 
     if (mComplexMode) {
-        mInfoString = std::make_shared<TextComponent>(infoString, Font::get(FONT_SIZE_MEDIUM),
+        mInfoString = std::make_shared<TextComponent>(infoString, menuValueFont(),
                                                       mMenuColorTitle, ALIGN_CENTER);
         mGrid.setEntry(mInfoString, glm::ivec2 {0, yPos}, false, true);
 
-        mDefaultValue = std::make_shared<TextComponent>(defaultValue, Font::get(FONT_SIZE_SMALL),
+        mDefaultValue = std::make_shared<TextComponent>(defaultValue, menuValueFont(),
                                                         mMenuColorTitle, ALIGN_CENTER);
         mGrid.setEntry(mDefaultValue, glm::ivec2 {0, yPos + 1}, false, true);
         yPos += 2;

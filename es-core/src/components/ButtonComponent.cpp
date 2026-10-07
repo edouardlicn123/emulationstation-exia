@@ -8,6 +8,7 @@
 
 #include "components/ButtonComponent.h"
 
+#include "MenuFontUtil.h"
 #include "Settings.h"
 #include "resources/Font.h"
 #include "utils/StringUtil.h"
@@ -31,11 +32,11 @@ ButtonComponent::ButtonComponent(const std::string& text,
 
 {
     if (mFlatStyle) {
-        mButtonText = std::make_unique<TextComponent>("", Font::get(FONT_SIZE_MEDIUM), 0xFFFFFFFF,
+        mButtonText = std::make_unique<TextComponent>("", menuLabelFont(), 0xFFFFFFFF,
                                                       ALIGN_CENTER);
     }
     else {
-        mButtonText = std::make_unique<TextComponent>("DELETE", Font::get(FONT_SIZE_MEDIUM),
+        mButtonText = std::make_unique<TextComponent>("DELETE", menuLabelFont(),
                                                       0xFFFFFFFF, ALIGN_CENTER);
         const glm::vec2 textCacheSize {mButtonText->getTextCache() == nullptr ?
                                            glm::vec2 {0.0f, 0.0f} :

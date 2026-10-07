@@ -7,6 +7,7 @@
 //
 
 #include "guis/GuiInputConfig.h"
+#include "MenuFontUtil.h"
 
 #include "InputManager.h"
 #include "Log.h"
@@ -65,12 +66,12 @@ GuiInputConfig::GuiInputConfig(InputConfig* target,
         ss << _("GAMEPAD") << " " << (target->getDeviceId() + 1) << " (" << target->getDeviceName()
            << ")";
     mSubtitle1 = std::make_shared<TextComponent>(Utils::String::toUpper(ss.str()),
-                                                 Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary,
+                                                 menuLabelFont(), mMenuColorPrimary,
                                                  ALIGN_CENTER);
     mGrid.setEntry(mSubtitle1, glm::ivec2 {0, 2}, false, true);
 
     mSubtitle2 = std::make_shared<TextComponent>(_("HOLD ANY BUTTON 1 SECOND TO SKIP"),
-                                                 Font::get(FONT_SIZE_SMALL), mMenuColorSecondary,
+                                                 menuValueFont(), mMenuColorSecondary,
                                                  ALIGN_CENTER);
     // The opacity will be set to visible for any row that is skippable.
     mSubtitle2->setOpacity(0.0f);
@@ -86,7 +87,7 @@ GuiInputConfig::GuiInputConfig(InputConfig* target,
 
         // Icon.
         auto icon = std::make_shared<ImageComponent>();
-        icon->setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight() * 1.25f);
+        icon->setResize(0, menuLabelFont()->getLetterHeight() * 1.25f);
         icon->setImage(sGuiInputConfigList[i].icon);
         icon->setColorShift(mMenuColorPrimary);
         row.addElement(icon, false);
@@ -97,11 +98,11 @@ GuiInputConfig::GuiInputConfig(InputConfig* target,
         row.addElement(spacer, false);
 
         auto text = std::make_shared<TextComponent>(sGuiInputConfigList[i].dispName,
-                                                    Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary);
+                                                    menuLabelFont(), mMenuColorPrimary);
         row.addElement(text, true);
 
         auto mapping = std::make_shared<TextComponent>("-" + _("NOT DEFINED") + "-",
-                                                       Font::get(FONT_SIZE_MEDIUM, FONT_PATH_LIGHT),
+                                                       menuValueFont(FONT_PATH_LIGHT),
                                                        mMenuColorSecondary, ALIGN_RIGHT);
         setNotDefined(mapping); // Overrides the text and color set above.
         row.addElement(mapping, true);

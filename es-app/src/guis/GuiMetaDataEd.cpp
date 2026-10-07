@@ -158,7 +158,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
         // Don't show the alternative emulator entry if the corresponding option has been disabled.
         if (!Settings::getInstance()->getBool("AlternativeEmulatorPerGame") &&
             it->type == MD_ALT_EMULATOR) {
-            ed = std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL, FONT_PATH_LIGHT),
+            ed = std::make_shared<TextComponent>("", menuValueFont(FONT_PATH_LIGHT),
                                                  mMenuColorPrimary, ALIGN_RIGHT);
             ed->setSize(0.0f, ed->getFont()->getHeight());
             ed->setValue(mMetaData->get(it->key));
@@ -216,7 +216,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
             }
             case MD_CONTROLLER: {
                 ed =
-                    std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL, FONT_PATH_LIGHT),
+                    std::make_shared<TextComponent>("", menuValueFont(FONT_PATH_LIGHT),
                                                     mMenuColorPrimary, ALIGN_RIGHT);
                 ed->setSize(0.0f, ed->getFont()->getHeight());
                 row.addElement(ed, true);
@@ -303,7 +303,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
                 mInvalidEmulatorEntry = false;
 
                 ed =
-                    std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL, FONT_PATH_LIGHT),
+                    std::make_shared<TextComponent>("", menuValueFont(FONT_PATH_LIGHT),
                                                     mMenuColorPrimary, ALIGN_RIGHT);
                 ed->setSize(0.0f, ed->getFont()->getHeight());
                 row.addElement(ed, true);
@@ -451,7 +451,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
             }
             case MD_SCREEN: {
                 ed =
-                    std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL, FONT_PATH_LIGHT),
+                    std::make_shared<TextComponent>("", menuValueFont(FONT_PATH_LIGHT),
                                                     mMenuColorPrimary, ALIGN_RIGHT);
                 ed->setSize(0.0f, ed->getFont()->getHeight());
                 row.addElement(ed, true);
@@ -523,7 +523,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
             }
             case MD_FOLDER_LINK: {
                 ed =
-                    std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL, FONT_PATH_LIGHT),
+                    std::make_shared<TextComponent>("", menuValueFont(FONT_PATH_LIGHT),
                                                     mMenuColorPrimary, ALIGN_RIGHT);
                 ed->setSize(0.0f, ed->getFont()->getHeight());
                 row.addElement(ed, true);
@@ -644,7 +644,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
             default: {
                 // MD_STRING.
                 ed =
-                    std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL, FONT_PATH_LIGHT),
+                    std::make_shared<TextComponent>("", menuValueFont(FONT_PATH_LIGHT),
                                                     mMenuColorPrimary, ALIGN_RIGHT);
                 ed->setRemoveLineBreaks(true);
                 ed->setSize(0.0f, ed->getFont()->getHeight());

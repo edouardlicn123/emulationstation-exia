@@ -9,6 +9,7 @@
 //
 
 #include "guis/GuiScraperMenu.h"
+#include "MenuFontUtil.h"
 
 #include "FileData.h"
 #include "FileSorts.h"
@@ -174,7 +175,7 @@ void GuiScraperMenu::openAccountOptions()
 
     // ScreenScraper username.
     auto scraperUsernameScreenScraper = std::make_shared<TextComponent>(
-        "", Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary, ALIGN_RIGHT);
+        "", menuValueFont(), mMenuColorPrimary, ALIGN_RIGHT);
     s->addEditableTextComponent(_("SCREENSCRAPER USERNAME"), scraperUsernameScreenScraper,
                                 Settings::getInstance()->getString("ScraperUsernameScreenScraper"));
     scraperUsernameScreenScraper->setSize(0.0f,
@@ -190,7 +191,7 @@ void GuiScraperMenu::openAccountOptions()
 
     // ScreenScraper password.
     auto scraperPasswordScreenScraper = std::make_shared<TextComponent>(
-        "", Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary, ALIGN_RIGHT);
+        "", menuValueFont(), mMenuColorPrimary, ALIGN_RIGHT);
     std::string passwordMasked;
     if (Settings::getInstance()->getString("ScraperPasswordScreenScraper") != "") {
         passwordMasked = "********";
@@ -756,7 +757,7 @@ void GuiScraperMenu::openMiximageOptions()
     ComponentListRow offlineGeneratorRow;
     offlineGeneratorRow.elements.clear();
     offlineGeneratorRow.addElement(std::make_shared<TextComponent>(_("OFFLINE GENERATOR"),
-                                                                   Font::get(FONT_SIZE_MEDIUM),
+                                                                   menuLabelFont(),
                                                                    mMenuColorPrimary),
                                    true);
     offlineGeneratorRow.addElement(mMenu.makeArrow(), false);
@@ -1398,7 +1399,7 @@ void GuiScraperMenu::addEntry(const std::string& name,
                               bool add_arrow,
                               const std::function<void()>& func)
 {
-    std::shared_ptr<Font> font {Font::get(FONT_SIZE_MEDIUM)};
+    std::shared_ptr<Font> font {menuLabelFont()};
 
     // Populate the list.
     ComponentListRow row;

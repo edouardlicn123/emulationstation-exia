@@ -8,6 +8,7 @@
 
 #include "SwitchComponent.h"
 
+#include "MenuFontUtil.h"
 #include "resources/Font.h"
 #include "utils/LocalizationUtil.h"
 
@@ -17,7 +18,7 @@ SwitchComponent::SwitchComponent(bool state)
     , mColorOriginalValue {mMenuColorPrimary}
     , mColorChangedValue {mMenuColorPrimary}
 {
-    mImage.setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight());
+    mImage.setResize(0, menuValueFont()->getLetterHeight());
     mImage.setImage(":/graphics/off.svg");
     mImage.setColorShift(mMenuColorPrimary);
     mSize = mImage.getSize();

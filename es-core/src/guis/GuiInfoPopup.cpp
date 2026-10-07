@@ -7,6 +7,7 @@
 //
 
 #include "guis/GuiInfoPopup.h"
+#include "MenuFontUtil.h"
 
 #include "components/ComponentGrid.h"
 #include "components/TextComponent.h"
@@ -25,7 +26,7 @@ GuiInfoPopup::GuiInfoPopup(std::string message, int duration)
     float maxHeight {Renderer::getScreenHeight() * 0.2f};
 
     std::shared_ptr<TextComponent> s {std::make_shared<TextComponent>(
-        "", Font::get(FONT_SIZE_MINI), mMenuColorPopupText, ALIGN_CENTER)};
+        "", menuValueFont(), mMenuColorPopupText, ALIGN_CENTER)};
 
     // We do this to force the text container to resize and return the actual expected popup size.
     s->setSize(0.0f, 0.0f);

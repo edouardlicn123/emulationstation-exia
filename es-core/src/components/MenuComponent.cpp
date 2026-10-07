@@ -8,12 +8,13 @@
 
 #include "components/MenuComponent.h"
 
+#include "MenuFontUtil.h"
 #include "Settings.h"
 #include "ThemeData.h"
 #include "components/ButtonComponent.h"
 
-#define BUTTON_GRID_VERT_PADDING Font::get(FONT_SIZE_MEDIUM)->getLetterHeight() * 0.915f
-#define BUTTON_GRID_HORIZ_PADDING Font::get(FONT_SIZE_MEDIUM)->getLetterHeight() * 0.283f
+#define BUTTON_GRID_VERT_PADDING menuLabelFont()->getLetterHeight() * 0.915f
+#define BUTTON_GRID_HORIZ_PADDING menuLabelFont()->getLetterHeight() * 0.283f
 
 #define TITLE_HEIGHT                                                                               \
     (mTitle->getFont()->getLetterHeight() + (Renderer::getIsVerticalOrientation() ?                \
@@ -97,7 +98,7 @@ void MenuComponent::setTitle(std::string title, const std::shared_ptr<Font>& fon
 float MenuComponent::getButtonGridHeight() const
 {
     return (mButtonGrid ? mButtonGrid->getSize().y :
-                          Font::get(FONT_SIZE_MEDIUM)->getSize() * 1.5f + BUTTON_GRID_VERT_PADDING);
+                          menuLabelFont()->getSize() * 1.5f + BUTTON_GRID_VERT_PADDING);
 }
 
 void MenuComponent::updateSize()
@@ -201,7 +202,7 @@ std::shared_ptr<ImageComponent> MenuComponent::makeArrow()
 {
     auto bracket = std::make_shared<ImageComponent>();
     bracket->setLinearInterpolation(true);
-    bracket->setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight());
+    bracket->setResize(0, menuLabelFont()->getLetterHeight());
     bracket->setImage(":/graphics/arrow.svg");
     bracket->setColorShift(mMenuColorPrimary);
     return bracket;

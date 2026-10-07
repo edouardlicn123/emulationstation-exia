@@ -9,6 +9,7 @@
 //
 
 #include "guis/GuiGamelistFilter.h"
+#include "MenuFontUtil.h"
 
 #include "SystemData.h"
 #include "UIModeController.h"
@@ -41,7 +42,7 @@ void GuiGamelistFilter::initializeMenu()
     // Show filtered menu.
     row.elements.clear();
     row.addElement(std::make_shared<TextComponent>(_("RESET ALL FILTERS"),
-                                                   Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary),
+                                                   menuLabelFont(), mMenuColorPrimary),
                    true);
     row.makeAcceptInputHandler(std::bind(&GuiGamelistFilter::resetAllFilters, this));
     mMenu.addRow(row);
@@ -89,9 +90,9 @@ void GuiGamelistFilter::addFiltersToMenu()
 
     auto lbl = std::make_shared<TextComponent>(
         Utils::String::toUpper(ViewController::KEYBOARD_CHAR + " " + _("GAME NAME")),
-        Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary);
+        menuLabelFont(), mMenuColorPrimary);
 
-    mTextFilterField = std::make_shared<TextComponent>("", Font::get(FONT_SIZE_MEDIUM),
+    mTextFilterField = std::make_shared<TextComponent>("", menuValueFont(),
                                                        mMenuColorPrimary, ALIGN_RIGHT);
     mTextFilterField->setSize(
         0.0f, mTextFilterField->getFont()->getHeight(mTextFilterField->getLineSpacing()));
