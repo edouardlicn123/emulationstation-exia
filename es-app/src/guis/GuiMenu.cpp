@@ -31,6 +31,7 @@
 #include "guis/GuiAlternativeEmulators.h"
 #include "guis/GuiCollectionSystemsOptions.h"
 #include "guis/GuiDetectDevice.h"
+#include "guis/GuiExiaSettings.h"
 #include "guis/GuiGameImporter.h"
 #include "guis/GuiMediaViewerOptions.h"
 #include "guis/GuiMsgBox.h"
@@ -62,6 +63,10 @@ GuiMenu::GuiMenu()
     , mThemeDownloaderReloadCounter {0}
 {
     const bool isFullUI {UIModeController::getInstance()->isUIModeFull()};
+
+    // Exia local addition, always the first entry of the main menu.
+    if (isFullUI)
+        addEntry(_("EXIA SETTINGS"), mMenuColorPrimary, true, [this] { openExiaSettings(); });
 
     if (isFullUI)
         addEntry(_("SCRAPER"), mMenuColorPrimary, true, [this] { openScraperOptions(); });
@@ -120,6 +125,12 @@ GuiMenu::~GuiMenu()
 
         ViewController::getInstance()->startViewVideos();
     }
+}
+
+void GuiMenu::openExiaSettings()
+{
+    // Open the Exia local settings page (central configuration and maintenance entries).
+    mWindow->pushGui(new GuiExiaSettings(_("EXIA SETTINGS")));
 }
 
 void GuiMenu::openScraperOptions()
