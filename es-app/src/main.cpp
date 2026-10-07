@@ -29,6 +29,7 @@
 #include "SystemData.h"
 #include "SystemStatus.h"
 #include "guis/GuiDetectDevice.h"
+#include "guis/GuiExiaSettings.h"
 #include "guis/GuiLaunchScreen.h"
 #include "utils/FileSystemUtil.h"
 #include "utils/LocalizationUtil.h"
@@ -639,10 +640,16 @@ int main(int argc, char* argv[])
     // Exia local addition: menu row text scale from the central configuration. It must be
     // read before the first menu font is created, hence this placement right after the
     // command line handling. This is deliberately a minimal key=value parse (split on the
-    // first equals sign) of ~/.config/emu/exia.conf so that the ExiaConfig class with its
-    // file creation side effects stays out of the startup path.
+    // first equals sign) so that the ExiaConfig class with its file creation side effects
+    // stays out of the startup path, only the path itself comes from ExiaConfig to keep a
+    // single source of truth (devdoc/15 §6.6).
     {
-        std::ifstream scaleFile {Utils::FileSystem::getHomePath() + "/.config/emu/exia.conf"};
+        const std::string scalePath {ExiaConfig::getPath()};
+        std::ifstream scaleFile {scalePath};
+        if (!scaleFile.is_open()) {
+            LOG(LogWarning) << "Cannot open " << scalePath
+                            << ", the menu font scale stays at 1.00";
+        }
         std::string scaleLine;
         while (std::getline(scaleFile, scaleLine)) {
             const size_t separator {scaleLine.find('=')};

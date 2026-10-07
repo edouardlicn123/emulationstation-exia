@@ -20,6 +20,7 @@
 
 #include "guis/GuiExiaSettings.h"
 
+#include "Log.h"
 #include "MenuFontUtil.h"
 #include "SystemData.h"
 #include "Window.h"
@@ -274,7 +275,9 @@ bool writeLightdmValue(const std::string& value)
     if (!replaced)
         return false;
 
-    const std::string stagingPath {Utils::FileSystem::getHomePath() +
+    // Exia local fix (devdoc/15 §6.6): the real home, getHomePath() is the --home data
+    // directory here and the staging file must sit next to the central configuration file.
+    const std::string stagingPath {Utils::FileSystem::getSystemHomeDirectory() +
                                    "/.config/emu/lightdm.conf.staged"};
     if (!writeFileLines(stagingPath, lines))
         return false;
@@ -381,7 +384,12 @@ ExiaConfig& ExiaConfig::getInstance()
 
 std::string ExiaConfig::getPath()
 {
-    return Utils::FileSystem::getHomePath() + "/.config/emu/exia.conf";
+    // Exia local fix (devdoc/15 §6.6): this must be the real user home, not
+    // Utils::FileSystem::getHomePath(), because ES-DE is started with
+    // --home ~/.config/emu which makes getHomePath() return that data directory. Every shell
+    // consumer (es-de-session, settings.py, setting.sh) uses $HOME/.config/emu/exia.conf, so
+    // getSystemHomeDirectory() (the HOME environment variable) is the matching path here.
+    return Utils::FileSystem::getSystemHomeDirectory() + "/.config/emu/exia.conf";
 }
 
 bool ExiaConfig::load()
@@ -391,9 +399,14 @@ bool ExiaConfig::load()
     mIndex.clear();
 
     if (!readFileLines(getPath(), mLines)) {
-        // Recreate the file from the default template if it was deleted.
+        // Recreate the file from the default template if it was deleted. A failure here means
+        // the template only lives in memory and every later set() would be silently lost, so
+        // it must show up in the log (devdoc/15 §6.6).
         mLines = splitTemplate();
-        writeFileLines(getPath(), mLines);
+        if (!writeFileLines(getPath(), mLines)) {
+            LOG(LogError) << "ExiaConfig: cannot create " << getPath()
+                          << ", changes will not be persisted";
+        }
     }
     indexLines(mLines, mIndex);
     return true;
@@ -401,8 +414,12 @@ bool ExiaConfig::load()
 
 bool ExiaConfig::save()
 {
-    if (!writeFileLines(getPath(), mLines))
+    if (!writeFileLines(getPath(), mLines)) {
+        // Never swallow a failed write: that is exactly how the broken --home path stayed
+        // invisible for three rounds (devdoc/15 §6.6).
+        LOG(LogError) << "ExiaConfig: failed to write " << getPath();
         return false;
+    }
 #if !defined(__ANDROID__) && !defined(__IOS__)
     // The file stores the sudo password, so it must not be world readable.
     ::chmod(getPath().c_str(), S_IRUSR | S_IWUSR);
@@ -612,8 +629,10 @@ void GuiExiaSettings::openBiosPlatform(const std::string& title,
                                        const std::vector<std::pair<std::string, std::string>>&
                                            options)
 {
-    const std::string sourceRoot {Utils::FileSystem::getHomePath() + "/biosalt"};
-    const std::string targetPath {Utils::FileSystem::getHomePath() + "/bios/" + target};
+    // Exia local fix (devdoc/15 §6.6): ~/biosalt and ~/bios live in the real user home, the
+    // --home data directory must not be used for these paths.
+    const std::string sourceRoot {Utils::FileSystem::getSystemHomeDirectory() + "/biosalt"};
+    const std::string targetPath {Utils::FileSystem::getSystemHomeDirectory() + "/bios/" + target};
 
     auto platformMenu = new GuiSettings(title);
     auto selector = std::make_shared<OptionListComponent<std::string>>(title, false);

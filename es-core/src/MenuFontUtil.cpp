@@ -19,7 +19,10 @@ std::shared_ptr<Font> getMenuThemeFont(float defaultSize)
     if (menuTheme->loadedFromTheme && menuTheme->Text.hasFont())
         return menuTheme->getFont(menuTheme->Text, defaultSize);
 
-    return Font::get(defaultSize * Utils::Localization::sMenuTitleScaleFactor);
+    // Same computation as ThemeData::ThemeMenu::getFont() takes for its own fallback branch,
+    // the user scale included so the menu.font.scale setting behaves identically with and
+    // without a theme supplied menu font (devdoc/15 §6.6).
+    return Font::get(defaultSize * Utils::Localization::sMenuTitleScaleFactor * getUserFontScale());
 }
 
 std::shared_ptr<Font> getMenuThemeSmallFont(float defaultSize)
