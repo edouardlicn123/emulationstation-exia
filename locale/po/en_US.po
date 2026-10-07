@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 21:28+0800\n"
+"POT-Creation-Date: 2026-10-07 22:39+0800\n"
 "PO-Revision-Date: 2026-09-01 18:43+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: English (United States) <info@es-de.org>\n"
@@ -574,17 +574,11 @@ msgstr "PC-FX"
 msgid "BIOS SWITCH"
 msgstr "BIOS SWITCH"
 
-msgid "ES-DE PATHS"
-msgstr "ES-DE PATHS"
-
-msgid "SYSTEM STATISTICS"
-msgstr "SYSTEM STATISTICS"
+msgid "SYSTEM INFO"
+msgstr "SYSTEM INFO"
 
 msgid "GIT PROXY"
 msgstr "GIT PROXY"
-
-msgid "DEFAULT SESSION STATUS"
-msgstr "DEFAULT SESSION STATUS"
 
 msgid "LIGHTDM COUNTDOWN"
 msgstr "LIGHTDM COUNTDOWN"
@@ -602,9 +596,6 @@ msgstr "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
 msgstr "LIGHTDM COUNTDOWN SET TO %s SECONDS"
 
-msgid "NO MATCHING BIOS FILE IN ~/biosalt"
-msgstr "NO MATCHING BIOS FILE IN ~/biosalt"
-
 msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
 msgstr "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
 
@@ -612,8 +603,8 @@ msgstr "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
 msgid "BIOS FILE COPIED TO %s"
 msgstr "BIOS FILE COPIED TO %s"
 
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "VALUES ARE READ FROM EXIA.CONF"
+msgid "SYSTEM STATISTICS"
+msgstr "SYSTEM STATISTICS"
 
 msgid "SYSTEMS"
 msgstr "SYSTEMS"
@@ -626,6 +617,15 @@ msgstr "FAVORITES"
 
 msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
 msgstr "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+
+msgid "ES-DE PATHS"
+msgstr "ES-DE PATHS"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "VALUES ARE READ FROM EXIA.CONF"
+
+msgid "AUTO-START ES-DE ON BOOT"
+msgstr "AUTO-START ES-DE ON BOOT"
 
 msgid "ENABLED"
 msgstr "ENABLED"
@@ -647,6 +647,18 @@ msgstr "GIT PROXY URL"
 
 msgid "GIT PROXY URL SAVED"
 msgstr "GIT PROXY URL SAVED"
+
+msgid "MENU FONT SIZE (REQUIRES RESTART)"
+msgstr "MENU FONT SIZE (REQUIRES RESTART)"
+
+msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+msgstr "MENU FONT SCALE IN PERCENT, 80 TO 150"
+
+msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+msgstr "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+
+msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
+msgstr "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
 
 msgid "SUDO PASSWORD"
 msgstr "SUDO PASSWORD"
@@ -3303,3 +3315,9 @@ msgstr "Creating system directories..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "ERROR: COULDN'T RENDER PDF FILE"
+
+#~ msgid "DEFAULT SESSION STATUS"
+#~ msgstr "DEFAULT SESSION STATUS"
+
+#~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+#~ msgstr "NO MATCHING BIOS FILE IN ~/biosalt"

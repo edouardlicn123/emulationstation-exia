@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 21:28+0800\n"
+"POT-Creation-Date: 2026-10-07 22:39+0800\n"
 "PO-Revision-Date: 2026-09-12 19:35+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Čeština <info@es-de.org>\n"
@@ -575,17 +575,11 @@ msgstr "PC-FX"
 msgid "BIOS SWITCH"
 msgstr "PŘEPNUTÍ BIOSU"
 
-msgid "ES-DE PATHS"
-msgstr "CESTY ES-DE"
-
-msgid "SYSTEM STATISTICS"
-msgstr "STATISTIKA SYSTÉMU"
+msgid "SYSTEM INFO"
+msgstr "INFORMACE O SYSTÉMU"
 
 msgid "GIT PROXY"
 msgstr "GIT PROXY"
-
-msgid "DEFAULT SESSION STATUS"
-msgstr "STAV VÝCHOZÍ RELACE"
 
 msgid "LIGHTDM COUNTDOWN"
 msgstr "ODPOČET LIGHTDM"
@@ -603,9 +597,6 @@ msgstr "AKTUALIZACE LIGHTDM.CONF SELHALA, ŠPATNÉ HESLO SUDO?"
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
 msgstr "ODPOČET LIGHTDM NASTAVEN NA %s SEKUND"
 
-msgid "NO MATCHING BIOS FILE IN ~/biosalt"
-msgstr "V ~/biosalt ŽÁDNÁ ODPOVÍDAJÍCÍ BIOS SOUBOR"
-
 msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
 msgstr "KOPIOVÁNÍ BIOS SOUBORU SELHALO, ZKONTROLUJTE LOG SOUBOR"
 
@@ -613,8 +604,8 @@ msgstr "KOPIOVÁNÍ BIOS SOUBORU SELHALO, ZKONTROLUJTE LOG SOUBOR"
 msgid "BIOS FILE COPIED TO %s"
 msgstr "BIOS SOUBOR KOPIOVÁN DO %s"
 
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "HODNOTY SE ČTOU Z EXIA.CONF"
+msgid "SYSTEM STATISTICS"
+msgstr "STATISTIKA SYSTÉMU"
 
 msgid "SYSTEMS"
 msgstr "SYSTÉMY"
@@ -627,6 +618,15 @@ msgstr "OBLÍBENÉ"
 
 msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
 msgstr "ŽIVÉ POČTY ZE SEZNAMU SYSTÉMŮ ES-DE"
+
+msgid "ES-DE PATHS"
+msgstr "CESTY ES-DE"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "HODNOTY SE ČTOU Z EXIA.CONF"
+
+msgid "AUTO-START ES-DE ON BOOT"
+msgstr "AUTOMATICKÉ SPUŠTĚNÍ ES-DE PŘI STARTU"
 
 msgid "ENABLED"
 msgstr "ZAPNUTO"
@@ -648,6 +648,18 @@ msgstr "URL GIT PROXY"
 
 msgid "GIT PROXY URL SAVED"
 msgstr "URL GIT PROXY ULOŽENO"
+
+msgid "MENU FONT SIZE (REQUIRES RESTART)"
+msgstr "VELIKOST PÍSMA NABÍDKY (VYŽADUJE RESTART)"
+
+msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+msgstr "MĚŘÍTKO PÍSMA NABÍDKY V PROCENTECH, OD 80 DO 150"
+
+msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+msgstr "ZADEJTE ČÍSLO OD 80 DO 150 PROCENT"
+
+msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
+msgstr "VELIKOST PÍSMA ULOŽENA, PRO APLIKACI RESTARTUJTE ES-DE"
 
 msgid "SUDO PASSWORD"
 msgstr "HESLO SUDO"
@@ -3319,3 +3331,9 @@ msgstr "Vytváření systémových adresářů..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "CHYBA: NELZE ZOBRAZIT SOUBOR PDF"
+
+#~ msgid "DEFAULT SESSION STATUS"
+#~ msgstr "STAV VÝCHOZÍ RELACE"
+
+#~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+#~ msgstr "V ~/biosalt ŽÁDNÁ ODPOVÍDAJÍCÍ BIOS SOUBOR"

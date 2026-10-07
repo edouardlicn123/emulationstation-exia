@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 21:28+0800\n"
+"POT-Creation-Date: 2026-10-07 22:39+0800\n"
 "PO-Revision-Date: 2026-09-04 12:33+0200\n"
 "Last-Translator: SecularSteve <info@es-de.org>\n"
 "Language-Team: Serbian (Latin, Serbia) <info@es-de.org>\n"
@@ -595,17 +595,11 @@ msgstr "PC-FX"
 msgid "BIOS SWITCH"
 msgstr "МЕЊАЊЕ BIOS-А"
 
-msgid "ES-DE PATHS"
-msgstr "ES-DE ПУТАЊЕ"
-
-msgid "SYSTEM STATISTICS"
-msgstr "СТАТИСТИКА СИСТЕМА"
+msgid "SYSTEM INFO"
+msgstr "ИНФОРМАЦИЈЕ О СИСТЕМУ"
 
 msgid "GIT PROXY"
 msgstr "GIT ПРОКСИ"
-
-msgid "DEFAULT SESSION STATUS"
-msgstr "СТАТУС ПОДРАЗУМЕВАНЕ СЕСИЈЕ"
 
 msgid "LIGHTDM COUNTDOWN"
 msgstr "LIGHTDM ОДБРОЈАВАЊЕ"
@@ -623,9 +617,6 @@ msgstr "АЖУРИРАЊЕ LIGHTDM.CONF НИЈЕ УСПЕЛО, ПОГРЕШНА 
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
 msgstr "LIGHTDM ОДБРОЈАВАЊЕ ПОСТАВЉЕНО НА %s СЕКУНДИ"
 
-msgid "NO MATCHING BIOS FILE IN ~/biosalt"
-msgstr "NEMA ПОДУДАРНЕ BIOS ДАТОТЕКЕ У ~/biosalt"
-
 msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
 msgstr "КОПИРАЊЕ BIOS ДАТОТЕКЕ НИЈЕ УСПЕЛО, ПРОВЕРИТЕ ДАТОТЕКУ ДНЕВНИКА"
 
@@ -633,8 +624,8 @@ msgstr "КОПИРАЊЕ BIOS ДАТОТЕКЕ НИЈЕ УСПЕЛО, ПРОВЕ
 msgid "BIOS FILE COPIED TO %s"
 msgstr "BIOS ДАТОТЕКА КОПИРАНА У %s"
 
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "ВРЕДНОСТИ СЕ ЧИТАЈУ ИЗ EXIA.CONF"
+msgid "SYSTEM STATISTICS"
+msgstr "СТАТИСТИКА СИСТЕМА"
 
 msgid "SYSTEMS"
 msgstr "СИСТЕМИ"
@@ -647,6 +638,15 @@ msgstr "ОМИЉЕНО"
 
 msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
 msgstr "БРОЈАЊА УЖИВО СА ЛИСТЕ ES-DE СИСТЕМА"
+
+msgid "ES-DE PATHS"
+msgstr "ES-DE ПУТАЊЕ"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "ВРЕДНОСТИ СЕ ЧИТАЈУ ИЗ EXIA.CONF"
+
+msgid "AUTO-START ES-DE ON BOOT"
+msgstr "АУТОМАТСКО ПОКРЕТАЊЕ ES-DE ПРИ ПОКРЕТАЊУ"
 
 msgid "ENABLED"
 msgstr "АКТИВИРАНО"
@@ -668,6 +668,18 @@ msgstr "GIT ПРОКСИ URL"
 
 msgid "GIT PROXY URL SAVED"
 msgstr "GIT ПРОКСИ URL САЧУВАН"
+
+msgid "MENU FONT SIZE (REQUIRES RESTART)"
+msgstr "ВЕЛИЧИНА ПИСМА ИЗБОРНИКА (ПОТРЕБНО ПОНОВНО ПОКРЕТАЊЕ)"
+
+msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+msgstr "СКАЛА ПИСМА ИЗБОРНИКА У ПРОЦЕНТИМА, ОД 80 ДО 150"
+
+msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+msgstr "УНЕСИТЕ БРОЈ ОД 80 ДО 150 ПРОЦЕНАТА"
+
+msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
+msgstr "ВЕЛИЧИНА ПИСМА САЧУВАНА, ПОНОВНО ПОКРЕНИ ES-DE ДА БИ СЕ ПРИМЕНИЛО"
 
 msgid "SUDO PASSWORD"
 msgstr "SUDO ЛОЗИНКА"
@@ -3356,3 +3368,9 @@ msgstr "Kreiranje sistemskih direktorijuma..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "GREŠKA: NIJE MOGUĆE DA VIDITE PDF DATOTEKU"
+
+#~ msgid "DEFAULT SESSION STATUS"
+#~ msgstr "СТАТУС ПОДРАЗУМЕВАНЕ СЕСИЈЕ"
+
+#~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+#~ msgstr "NEMA ПОДУДАРНЕ BIOS ДАТОТЕКЕ У ~/biosalt"

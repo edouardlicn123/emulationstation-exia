@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 21:28+0800\n"
+"POT-Creation-Date: 2026-10-07 22:39+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <info@es-de.org>\n"
@@ -564,16 +564,10 @@ msgstr ""
 msgid "BIOS SWITCH"
 msgstr ""
 
-msgid "ES-DE PATHS"
-msgstr ""
-
-msgid "SYSTEM STATISTICS"
+msgid "SYSTEM INFO"
 msgstr ""
 
 msgid "GIT PROXY"
-msgstr ""
-
-msgid "DEFAULT SESSION STATUS"
 msgstr ""
 
 msgid "LIGHTDM COUNTDOWN"
@@ -592,9 +586,6 @@ msgstr ""
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
 msgstr ""
 
-msgid "NO MATCHING BIOS FILE IN ~/biosalt"
-msgstr ""
-
 msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
 msgstr ""
 
@@ -602,7 +593,7 @@ msgstr ""
 msgid "BIOS FILE COPIED TO %s"
 msgstr ""
 
-msgid "VALUES ARE READ FROM EXIA.CONF"
+msgid "SYSTEM STATISTICS"
 msgstr ""
 
 msgid "SYSTEMS"
@@ -615,6 +606,15 @@ msgid "FAVORITES"
 msgstr ""
 
 msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+msgstr ""
+
+msgid "ES-DE PATHS"
+msgstr ""
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr ""
+
+msgid "AUTO-START ES-DE ON BOOT"
 msgstr ""
 
 msgid "ENABLED"
@@ -636,6 +636,18 @@ msgid "GIT PROXY URL"
 msgstr ""
 
 msgid "GIT PROXY URL SAVED"
+msgstr ""
+
+msgid "MENU FONT SIZE (REQUIRES RESTART)"
+msgstr ""
+
+msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+msgstr ""
+
+msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+msgstr ""
+
+msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
 msgstr ""
 
 msgid "SUDO PASSWORD"

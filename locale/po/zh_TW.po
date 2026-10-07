@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 21:28+0800\n"
+"POT-Creation-Date: 2026-10-07 22:39+0800\n"
 "PO-Revision-Date: 2026-09-10 12:02+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: 繁體中文 <info@es-de.org>\n"
@@ -563,17 +563,11 @@ msgstr "PC-FX"
 msgid "BIOS SWITCH"
 msgstr "BIOS 切換"
 
-msgid "ES-DE PATHS"
-msgstr "ES-DE 路徑"
-
-msgid "SYSTEM STATISTICS"
-msgstr "系統統計"
+msgid "SYSTEM INFO"
+msgstr "系統資訊"
 
 msgid "GIT PROXY"
 msgstr "Git 代理"
-
-msgid "DEFAULT SESSION STATUS"
-msgstr "預設工作階段狀態"
 
 msgid "LIGHTDM COUNTDOWN"
 msgstr "LightDM 倒數計時"
@@ -591,9 +585,6 @@ msgstr "更新 lightdm.conf 失敗,sudo 密碼是否錯誤?"
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
 msgstr "LightDM 倒數計時已設為 %s 秒"
 
-msgid "NO MATCHING BIOS FILE IN ~/biosalt"
-msgstr "~/biosalt 中沒有相符的 BIOS 檔案"
-
 msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
 msgstr "複製 BIOS 檔案失敗,請查看日誌檔"
 
@@ -601,8 +592,8 @@ msgstr "複製 BIOS 檔案失敗,請查看日誌檔"
 msgid "BIOS FILE COPIED TO %s"
 msgstr "BIOS 檔案已複製到 %s"
 
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "數值讀取自 exia.conf"
+msgid "SYSTEM STATISTICS"
+msgstr "系統統計"
 
 msgid "SYSTEMS"
 msgstr "系統"
@@ -615,6 +606,15 @@ msgstr "收藏"
 
 msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
 msgstr "取自 ES-DE 系統清單的即時計數"
+
+msgid "ES-DE PATHS"
+msgstr "ES-DE 路徑"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "數值讀取自 exia.conf"
+
+msgid "AUTO-START ES-DE ON BOOT"
+msgstr "開機自動進入 ES-DE"
 
 msgid "ENABLED"
 msgstr "啟用"
@@ -636,6 +636,18 @@ msgstr "Git 代理網址"
 
 msgid "GIT PROXY URL SAVED"
 msgstr "Git 代理網址已儲存"
+
+msgid "MENU FONT SIZE (REQUIRES RESTART)"
+msgstr "選單字型大小(需要重新啟動)"
+
+msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+msgstr "選單字型縮放百分比,80 到 150"
+
+msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+msgstr "請輸入 80 到 150 的數字(百分比)"
+
+msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
+msgstr "字型大小已保存,重新啟動 ES-DE 後生效"
 
 msgid "SUDO PASSWORD"
 msgstr "sudo 密碼"
@@ -3225,3 +3237,9 @@ msgstr "正在建立平台目錄……"
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "錯誤：無法渲染PDF檔案"
+
+#~ msgid "DEFAULT SESSION STATUS"
+#~ msgstr "預設工作階段狀態"
+
+#~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+#~ msgstr "~/biosalt 中沒有相符的 BIOS 檔案"

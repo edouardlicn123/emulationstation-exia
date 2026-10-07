@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 21:28+0800\n"
+"POT-Creation-Date: 2026-10-07 22:39+0800\n"
 "PO-Revision-Date: 2026-09-05 18:04+0300\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Arabic (Classical Arabic) <info@es-de.org>\n"
@@ -590,17 +590,11 @@ msgstr "PC-FX"
 msgid "BIOS SWITCH"
 msgstr "تبديل BIOS"
 
-msgid "ES-DE PATHS"
-msgstr "مسارات ES-DE"
-
-msgid "SYSTEM STATISTICS"
-msgstr "إحصاءات النظام"
+msgid "SYSTEM INFO"
+msgstr "معلومات النظام"
 
 msgid "GIT PROXY"
 msgstr "وسيط Git"
-
-msgid "DEFAULT SESSION STATUS"
-msgstr "حالة الجلسة الافتراضية"
 
 msgid "LIGHTDM COUNTDOWN"
 msgstr "عدّاد LightDM التنازلي"
@@ -618,9 +612,6 @@ msgstr "فشل تحديث lightdm.conf، هل كلمة مرور sudo خاطئة�
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
 msgstr "عيّن عدّاد LightDM التنازلي إلى %s ثانية"
 
-msgid "NO MATCHING BIOS FILE IN ~/biosalt"
-msgstr "لا يوجد ملف BIOS مطابق في ~/biosalt"
-
 msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
 msgstr "فشل نسخ ملف BIOS، راجع ملف السجل"
 
@@ -628,8 +619,8 @@ msgstr "فشل نسخ ملف BIOS، راجع ملف السجل"
 msgid "BIOS FILE COPIED TO %s"
 msgstr "تم نسخ ملف BIOS إلى %s"
 
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "تُقرأ القيم من exia.conf"
+msgid "SYSTEM STATISTICS"
+msgstr "إحصاءات النظام"
 
 msgid "SYSTEMS"
 msgstr "الأنظمة"
@@ -642,6 +633,15 @@ msgstr "المفضلة"
 
 msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
 msgstr "أعداد حية من قائمة أنظمة ES-DE"
+
+msgid "ES-DE PATHS"
+msgstr "مسارات ES-DE"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "تُقرأ القيم من exia.conf"
+
+msgid "AUTO-START ES-DE ON BOOT"
+msgstr "تشغيل ES-DE تلقائيًا عند بدء التشغيل"
 
 msgid "ENABLED"
 msgstr "مفعّل"
@@ -663,6 +663,18 @@ msgstr "عنوان وسيط Git"
 
 msgid "GIT PROXY URL SAVED"
 msgstr "تم حفظ عنوان وسيط Git"
+
+msgid "MENU FONT SIZE (REQUIRES RESTART)"
+msgstr "حجم خط القائمة (يتطلب إعادة التشغيل)"
+
+msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+msgstr "تكبير خط القائمة بالنسبة المئوية، من 80 إلى 150"
+
+msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+msgstr "أدخل رقمًا من 80 إلى 150 بالمئة"
+
+msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
+msgstr "تم حفظ حجم الخط، أعد تشغيل ES-DE لتطبيقه"
 
 msgid "SUDO PASSWORD"
 msgstr "كلمة مرور sudo"
@@ -3359,3 +3371,9 @@ msgstr "...إنشاء أدلة النظام"
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "خطأ لا يمكن تقديم ملف pdf"
+
+#~ msgid "DEFAULT SESSION STATUS"
+#~ msgstr "حالة الجلسة الافتراضية"
+
+#~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+#~ msgstr "لا يوجد ملف BIOS مطابق في ~/biosalt"

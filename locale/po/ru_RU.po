@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 21:28+0800\n"
+"POT-Creation-Date: 2026-10-07 22:39+0800\n"
 "PO-Revision-Date: 2026-09-12 20:05+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Русский <info@es-de.org>\n"
@@ -583,17 +583,11 @@ msgstr "PC-FX"
 msgid "BIOS SWITCH"
 msgstr "СМЕНА BIOS"
 
-msgid "ES-DE PATHS"
-msgstr "ПУТИ ES-DE"
-
-msgid "SYSTEM STATISTICS"
-msgstr "СТАТИСТИКА СИСТЕМЫ"
+msgid "SYSTEM INFO"
+msgstr "СВЕДЕНИЯ О СИСТЕМЕ"
 
 msgid "GIT PROXY"
 msgstr "ПРОКСИ GIT"
-
-msgid "DEFAULT SESSION STATUS"
-msgstr "СОСТОЯНИЕ СЕССИИ ПО УМОЛЧАНИЮ"
 
 msgid "LIGHTDM COUNTDOWN"
 msgstr "ОБРАТНЫЙ ОТСЧЁТ LIGHTDM"
@@ -611,9 +605,6 @@ msgstr "НЕ УДАЛОСЬ ОБНОВИТЬ LIGHTDM.CONF, НЕВЕРНЫЙ ПА
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
 msgstr "ОБРАТНЫЙ ОТСЧЁТ LIGHTDM УСТАНОВЛЕН НА %s СЕКУНД"
 
-msgid "NO MATCHING BIOS FILE IN ~/biosalt"
-msgstr "В ~/biosalt НЕТ ПОДХОДЯЩЕГО ФАЙЛА BIOS"
-
 msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
 msgstr "НЕ УДАЛОСЬ СКОПИРОВАТЬ ФАЙЛ BIOS, СМОТРИТЕ ФАЙЛ ЖУРНАЛА"
 
@@ -621,8 +612,8 @@ msgstr "НЕ УДАЛОСЬ СКОПИРОВАТЬ ФАЙЛ BIOS, СМОТРИТ
 msgid "BIOS FILE COPIED TO %s"
 msgstr "ФАЙЛ BIOS СКОПИРОВАН В %s"
 
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "ЗНАЧЕНИЯ СЧИТЫВАЮТСЯ ИЗ EXIA.CONF"
+msgid "SYSTEM STATISTICS"
+msgstr "СТАТИСТИКА СИСТЕМЫ"
 
 msgid "SYSTEMS"
 msgstr "СИСТЕМЫ"
@@ -635,6 +626,15 @@ msgstr "ИЗБРАННОЕ"
 
 msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
 msgstr "ПОКАЗАТЕЛИ В РЕАЛЬНОМ ВРЕМЕНИ ИЗ СПИСКА СИСТЕМ ES-DE"
+
+msgid "ES-DE PATHS"
+msgstr "ПУТИ ES-DE"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "ЗНАЧЕНИЯ СЧИТЫВАЮТСЯ ИЗ EXIA.CONF"
+
+msgid "AUTO-START ES-DE ON BOOT"
+msgstr "АВТОЗАПУСК ES-DE ПРИ ЗАГРУЗКЕ"
 
 msgid "ENABLED"
 msgstr "ВКЛЮЧЕНО"
@@ -656,6 +656,18 @@ msgstr "URL ПРОКСИ GIT"
 
 msgid "GIT PROXY URL SAVED"
 msgstr "URL ПРОКСИ GIT СОХРАНЁН"
+
+msgid "MENU FONT SIZE (REQUIRES RESTART)"
+msgstr "РАЗМЕР ШРИФТА МЕНЮ (НУЖЕН ПЕРЕЗАПУСК)"
+
+msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+msgstr "МАСШТАБ ШРИФТА МЕНЮ В ПРОЦЕНТАХ, ОТ 80 ДО 150"
+
+msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+msgstr "ВВЕДИТЕ ЧИСЛО ОТ 80 ДО 150 ПРОЦЕНТОВ"
+
+msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
+msgstr "РАЗМЕР ШРИФТА СОХРАНЁН, ПЕРЕЗАПУСТИТЕ ES-DE ДЛЯ ПРИМЕНЕНИЯ"
 
 msgid "SUDO PASSWORD"
 msgstr "ПАРОЛЬ SUDO"
@@ -3353,3 +3365,9 @@ msgstr "Создание папок систем..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "ОШИБКА: НЕ УДАЛОСЬ ОТОБРАЗИТЬ PDF-ФАЙЛ"
+
+#~ msgid "DEFAULT SESSION STATUS"
+#~ msgstr "СОСТОЯНИЕ СЕССИИ ПО УМОЛЧАНИЮ"
+
+#~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+#~ msgstr "В ~/biosalt НЕТ ПОДХОДЯЩЕГО ФАЙЛА BIOS"

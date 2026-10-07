@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-07 21:28+0800\n"
+"POT-Creation-Date: 2026-10-07 22:39+0800\n"
 "PO-Revision-Date: 2026-09-09 19:23+0800\n"
 "Last-Translator: ice <natsumekyousuke211314@gmail.com>\n"
 "Language-Team: 日本語 <info@es-de.org>\n"
@@ -586,17 +586,11 @@ msgstr "PC-FX"
 msgid "BIOS SWITCH"
 msgstr "BIOS 切替"
 
-msgid "ES-DE PATHS"
-msgstr "ES-DE のパス"
-
-msgid "SYSTEM STATISTICS"
-msgstr "システム統計"
+msgid "SYSTEM INFO"
+msgstr "システム情報"
 
 msgid "GIT PROXY"
 msgstr "Git プロキシ"
-
-msgid "DEFAULT SESSION STATUS"
-msgstr "デフォルトセッションの状態"
 
 msgid "LIGHTDM COUNTDOWN"
 msgstr "LightDM カウントダウン"
@@ -615,9 +609,6 @@ msgstr ""
 msgid "LIGHTDM COUNTDOWN SET TO %s SECONDS"
 msgstr "LightDM カウントダウンを %s 秒に設定しました"
 
-msgid "NO MATCHING BIOS FILE IN ~/biosalt"
-msgstr "~/biosalt に対応する BIOS ファイルがありません"
-
 msgid "FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"
 msgstr "BIOS ファイルのコピーに失敗しました。ログファイルを確認してください"
 
@@ -625,8 +616,8 @@ msgstr "BIOS ファイルのコピーに失敗しました。ログファイル�
 msgid "BIOS FILE COPIED TO %s"
 msgstr "BIOS ファイルを %s にコピーしました"
 
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "値は exia.conf から読み取ります"
+msgid "SYSTEM STATISTICS"
+msgstr "システム統計"
 
 msgid "SYSTEMS"
 msgstr "システム"
@@ -639,6 +630,15 @@ msgstr "お気に入り"
 
 msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
 msgstr "ES-DE のシステム一覧からリアルタイム集計"
+
+msgid "ES-DE PATHS"
+msgstr "ES-DE のパス"
+
+msgid "VALUES ARE READ FROM EXIA.CONF"
+msgstr "値は exia.conf から読み取ります"
+
+msgid "AUTO-START ES-DE ON BOOT"
+msgstr "起動時に ES-DE を自動起動"
 
 msgid "ENABLED"
 msgstr "有効"
@@ -660,6 +660,18 @@ msgstr "Git プロキシの URL"
 
 msgid "GIT PROXY URL SAVED"
 msgstr "Git プロキシの URL を保存しました"
+
+msgid "MENU FONT SIZE (REQUIRES RESTART)"
+msgstr "メニューの文字サイズ(再起動が必要)"
+
+msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
+msgstr "メニューの文字サイズ倍率(パーセント)、80〜150"
+
+msgid "ENTER A NUMBER FROM 80 TO 150 PERCENT"
+msgstr "80〜150 の数字を入力してください(パーセント)"
+
+msgid "FONT SIZE SAVED, RESTART ES-DE TO APPLY"
+msgstr "文字サイズを保存しました。適用するには ES-DE を再起動してください"
 
 msgid "SUDO PASSWORD"
 msgstr "sudo パスワード"
@@ -3335,3 +3347,9 @@ msgstr "システムディレクトリを作成中..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "エラー：PDFファイルをレンダリングできませんでした"
+
+#~ msgid "DEFAULT SESSION STATUS"
+#~ msgstr "デフォルトセッションの状態"
+
+#~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
+#~ msgstr "~/biosalt に対応する BIOS ファイルがありません"
