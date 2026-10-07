@@ -9,6 +9,8 @@
 
 #include "guis/GuiMenu.h"
 
+#include "MenuFontUtil.h"
+
 #if defined(_WIN64)
 // Why this is needed here is anyone's guess but without it the compilation fails.
 #include <winsock2.h>
@@ -139,7 +141,7 @@ void GuiMenu::openUIOptions()
     ComponentListRow themeDownloaderInputRow;
     themeDownloaderInputRow.elements.clear();
     themeDownloaderInputRow.addElement(std::make_shared<TextComponent>(_("THEME DOWNLOADER"),
-                                                                       Font::get(FONT_SIZE_MEDIUM),
+                                                                       getMenuThemeFont(FONT_SIZE_MEDIUM),
                                                                        mMenuColorPrimary),
                                        true);
     themeDownloaderInputRow.addElement(mMenu.makeArrow(), false);
@@ -951,7 +953,7 @@ void GuiMenu::openUIOptions()
     ComponentListRow systemStatusRow;
     systemStatusRow.elements.clear();
     systemStatusRow.addElement(std::make_shared<TextComponent>(_("SYSTEM STATUS SETTINGS"),
-                                                               Font::get(FONT_SIZE_MEDIUM),
+                                                               getMenuThemeFont(FONT_SIZE_MEDIUM),
                                                                mMenuColorPrimary),
                                true);
     systemStatusRow.addElement(mMenu.makeArrow(), false);
@@ -963,7 +965,7 @@ void GuiMenu::openUIOptions()
     ComponentListRow mediaViewerRow;
     mediaViewerRow.elements.clear();
     mediaViewerRow.addElement(std::make_shared<TextComponent>(_("MEDIA VIEWER SETTINGS"),
-                                                              Font::get(FONT_SIZE_MEDIUM),
+                                                              getMenuThemeFont(FONT_SIZE_MEDIUM),
                                                               mMenuColorPrimary),
                               true);
     mediaViewerRow.addElement(mMenu.makeArrow(), false);
@@ -974,7 +976,7 @@ void GuiMenu::openUIOptions()
     ComponentListRow screensaverRow;
     screensaverRow.elements.clear();
     screensaverRow.addElement(std::make_shared<TextComponent>(_("SCREENSAVER SETTINGS"),
-                                                              Font::get(FONT_SIZE_MEDIUM),
+                                                              getMenuThemeFont(FONT_SIZE_MEDIUM),
                                                               mMenuColorPrimary),
                               true);
     screensaverRow.addElement(mMenu.makeArrow(), false);
@@ -1611,7 +1613,7 @@ void GuiMenu::openInputDeviceOptions()
     configureInputRow.elements.clear();
     configureInputRow.addElement(
         std::make_shared<TextComponent>(_("CONFIGURE KEYBOARD AND CONTROLLERS"),
-                                        Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary),
+                                        getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary),
         true);
     configureInputRow.addElement(mMenu.makeArrow(), false);
     configureInputRow.makeAcceptInputHandler(std::bind(&GuiMenu::openConfigInput, this, s));
@@ -1653,7 +1655,7 @@ void GuiMenu::openOtherOptions()
     ComponentListRow alternativeEmulatorsRow;
     alternativeEmulatorsRow.elements.clear();
     alternativeEmulatorsRow.addElement(std::make_shared<TextComponent>(_("ALTERNATIVE EMULATORS"),
-                                                                       Font::get(FONT_SIZE_MEDIUM),
+                                                                       getMenuThemeFont(FONT_SIZE_MEDIUM),
                                                                        mMenuColorPrimary),
                                        true);
     alternativeEmulatorsRow.addElement(mMenu.makeArrow(), false);
@@ -1666,7 +1668,7 @@ void GuiMenu::openOtherOptions()
     ComponentListRow screenLaunchingRow;
     screenLaunchingRow.elements.clear();
     screenLaunchingRow.addElement(std::make_shared<TextComponent>(_("LAUNCH ON OTHER SCREEN"),
-                                                                  Font::get(FONT_SIZE_MEDIUM),
+                                                                  getMenuThemeFont(FONT_SIZE_MEDIUM),
                                                                   mMenuColorPrimary),
                                   true);
     screenLaunchingRow.addElement(mMenu.makeArrow(), false);
@@ -1678,10 +1680,10 @@ void GuiMenu::openOtherOptions()
     // Game media directory.
     ComponentListRow rowMediaDir;
     auto mediaDirectory = std::make_shared<TextComponent>(
-        _("GAME MEDIA DIRECTORY"), Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary);
+        _("GAME MEDIA DIRECTORY"), getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary);
     auto bracketMediaDirectory = std::make_shared<ImageComponent>();
     bracketMediaDirectory->setResize(
-        glm::vec2 {0.0f, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight()});
+        glm::vec2 {0.0f, getMenuThemeFont(FONT_SIZE_MEDIUM)->getLetterHeight()});
     bracketMediaDirectory->setImage(":/graphics/arrow.svg");
     bracketMediaDirectory->setColorShift(mMenuColorPrimary);
     rowMediaDir.addElement(mediaDirectory, true);
@@ -2355,7 +2357,7 @@ void GuiMenu::openUtilities()
     };
 
     ComponentListRow row;
-    row.addElement(std::make_shared<TextComponent>(_("GAME IMPORTER"), Font::get(FONT_SIZE_MEDIUM),
+    row.addElement(std::make_shared<TextComponent>(_("GAME IMPORTER"), getMenuThemeFont(FONT_SIZE_MEDIUM),
                                                    mMenuColorPrimary),
                    true);
     row.addElement(mMenu.makeArrow(), false);
@@ -2366,7 +2368,7 @@ void GuiMenu::openUtilities()
 
     row.elements.clear();
     row.addElement(std::make_shared<TextComponent>(_("ORPHANED DATA CLEANUP"),
-                                                   Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary),
+                                                   getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary),
                    true);
     row.addElement(mMenu.makeArrow(), false);
     row.makeAcceptInputHandler(std::bind(
@@ -2375,7 +2377,7 @@ void GuiMenu::openUtilities()
 
     row.elements.clear();
     row.addElement(std::make_shared<TextComponent>(_("CREATE/UPDATE SYSTEM DIRECTORIES"),
-                                                   Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary),
+                                                   getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary),
                    true);
 
     // This transparent dummy arrow is only here to enable the "select" help prompt.
@@ -2430,7 +2432,7 @@ void GuiMenu::openUtilities()
 
     row.elements.clear();
     row.addElement(std::make_shared<TextComponent>(_("RESCAN ROM DIRECTORY"),
-                                                   Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary),
+                                                   getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary),
                    true);
 
     // This transparent dummy arrow is only here to enable the "select" help prompt.
@@ -2496,7 +2498,7 @@ void GuiMenu::openQuitMenu()
                 _("NO"), nullptr));
         });
         auto quitText = std::make_shared<TextComponent>(
-            _("QUIT ES-DE"), Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary);
+            _("QUIT ES-DE"), getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary);
         quitText->setSelectable(true);
         row.addElement(quitText, true);
         s->addRow(row);
@@ -2513,7 +2515,7 @@ void GuiMenu::openQuitMenu()
                 _("NO"), nullptr));
         });
         auto rebootText = std::make_shared<TextComponent>(
-            _("REBOOT SYSTEM"), Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary);
+            _("REBOOT SYSTEM"), getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary);
         rebootText->setSelectable(true);
         row.addElement(rebootText, true);
         s->addRow(row);
@@ -2530,7 +2532,7 @@ void GuiMenu::openQuitMenu()
                 _("NO"), nullptr));
         });
         auto powerOffText = std::make_shared<TextComponent>(
-            _("POWER OFF SYSTEM"), Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary);
+            _("POWER OFF SYSTEM"), getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary);
         powerOffText->setSelectable(true);
         row.addElement(powerOffText, true);
         s->addRow(row);
@@ -2553,7 +2555,7 @@ void GuiMenu::openQuitMenu()
                 _("NO"), nullptr));
         });
         auto suspendText = std::make_shared<TextComponent>(
-            _("SUSPEND SYSTEM"), Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary);
+            _("SUSPEND SYSTEM"), getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary);
         suspendText->setSelectable(true);
         row.addElement(suspendText, true);
         s->addRow(row);
@@ -2566,7 +2568,7 @@ void GuiMenu::openQuitMenu()
 
 void GuiMenu::addVersionInfo()
 {
-    mVersion.setFont(Font::get(FONT_SIZE_SMALL));
+    mVersion.setFont(getMenuThemeSmallFont(FONT_SIZE_SMALL));
     mVersion.setAutoCalcExtent(glm::ivec2 {0, 0});
     mVersion.setColor(mMenuColorTertiary);
 
@@ -2728,7 +2730,7 @@ void GuiMenu::addEntry(const std::string& name,
                        bool add_arrow,
                        const std::function<void()>& func)
 {
-    std::shared_ptr<Font> font {Font::get(FONT_SIZE_MEDIUM)};
+    std::shared_ptr<Font> font {getMenuThemeFont(FONT_SIZE_MEDIUM)};
 
     // Populate the list.
     ComponentListRow row;

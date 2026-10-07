@@ -10,6 +10,8 @@
 
 #include "guis/GuiMetaDataEd.h"
 
+#include "MenuFontUtil.h"
+
 #include "CollectionSystemsManager.h"
 #include "FileData.h"
 #include "FileFilterIndex.h"
@@ -108,12 +110,12 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
         folderPath + Utils::FileSystem::getFileName(scraperParams.game->getPath()) + " [" +
             Utils::String::toUpper(scraperParams.system->getName()) + "]" +
             (scraperParams.game->getType() == FOLDER ? "  " + ViewController::FOLDER_CHAR : ""),
-        Font::get(FONT_SIZE_SMALL), mMenuColorPrimary, ALIGN_CENTER);
+        getMenuThemeSmallFont(FONT_SIZE_SMALL), mMenuColorPrimary, ALIGN_CENTER);
 
     mGrid.setEntry(mSubtitle, glm::ivec2 {0, 2}, false, true, glm::ivec2 {2, 1});
 
     mList = std::make_shared<ComponentList>();
-    mList->setRowHeight(std::round(Font::get(FONT_SIZE_SMALL)->getHeight()));
+    mList->setRowHeight(std::round(getMenuThemeSmallFont(FONT_SIZE_SMALL)->getHeight()));
     mGrid.setEntry(mList, glm::ivec2 {0, 4}, true, true, glm::ivec2 {2, 1});
 
     // Set up scroll indicators.
@@ -169,7 +171,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
         // always looks for the help prompt at the back of the element stack.
         ComponentListRow row;
         auto lbl = std::make_shared<TextComponent>(_p("metadata", it->displayName.c_str()),
-                                                   Font::get(FONT_SIZE_SMALL), mMenuColorPrimary);
+                                                   getMenuThemeSmallFont(FONT_SIZE_SMALL), mMenuColorPrimary);
         row.addElement(lbl, true); // Label.
 
         switch (it->type) {
@@ -249,7 +251,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
                         ComponentListRow row;
 
                         std::shared_ptr<TextComponent> labelText {std::make_shared<TextComponent>(
-                            label, Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
+                            label, getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
                         labelText->setSelectable(true);
                         labelText->setValue(controller.displayName);
 
@@ -274,7 +276,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
                         ComponentListRow row;
                         std::shared_ptr<TextComponent> clearText {std::make_shared<TextComponent>(
                             ViewController::CROSSEDCIRCLE_CHAR + " " + _("CLEAR ENTRY"),
-                            Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
+                            getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
                         clearText->setSelectable(true);
                         row.addElement(clearText, true);
                         row.makeAcceptInputHandler([s, ed] {
@@ -388,7 +390,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
                                 label = entry.second;
 
                             std::shared_ptr<TextComponent> labelText {
-                                std::make_shared<TextComponent>(label, Font::get(FONT_SIZE_MEDIUM),
+                                std::make_shared<TextComponent>(label, getMenuThemeFont(FONT_SIZE_MEDIUM),
                                                                 mMenuColorPrimary)};
                             labelText->setSelectable(true);
 
@@ -486,7 +488,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
                         ComponentListRow row;
 
                         std::shared_ptr<TextComponent> labelText {std::make_shared<TextComponent>(
-                            label, Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
+                            label, getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
                         labelText->setSelectable(true);
                         labelText->setValue(entry.second);
 
@@ -589,7 +591,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
                                                           scraperParams.game->getPath() + "/", "");
 
                         std::shared_ptr<TextComponent> labelText {std::make_shared<TextComponent>(
-                            label, Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
+                            label, getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
                         labelText->setSelectable(true);
                         labelText->setValue(filePath);
 
@@ -614,7 +616,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
                         ComponentListRow row;
                         std::shared_ptr<TextComponent> clearText {std::make_shared<TextComponent>(
                             ViewController::CROSSEDCIRCLE_CHAR + " " + _("CLEAR ENTRY"),
-                            Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
+                            getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
                         clearText->setSelectable(true);
                         row.addElement(clearText, true);
                         row.makeAcceptInputHandler([this, s, ed] {

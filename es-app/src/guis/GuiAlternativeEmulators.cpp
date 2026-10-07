@@ -9,6 +9,8 @@
 
 #include "guis/GuiAlternativeEmulators.h"
 
+#include "MenuFontUtil.h"
+
 #include "GamelistFileParser.h"
 #include "SystemData.h"
 #include "utils/LocalizationUtil.h"
@@ -42,7 +44,7 @@ GuiAlternativeEmulators::GuiAlternativeEmulators()
 
         std::string name {(*it)->getName()};
         std::shared_ptr<TextComponent> systemText {
-            std::make_shared<TextComponent>(name, Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary,
+            std::make_shared<TextComponent>(name, getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary,
                                             ALIGN_LEFT, ALIGN_CENTER, glm::ivec2 {0, 0})};
 
         systemText->setSize(systemSizeX, systemText->getSize().y);
@@ -116,7 +118,7 @@ GuiAlternativeEmulators::GuiAlternativeEmulators()
         ComponentListRow row;
         std::shared_ptr<TextComponent> systemText {std::make_shared<TextComponent>(
             ViewController::EXCLAMATION_CHAR + " " + _("NO ALTERNATIVE EMULATORS DEFINED"),
-            Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary, ALIGN_CENTER)};
+            getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary, ALIGN_CENTER)};
         row.addElement(systemText, true);
         mMenu.addRow(row);
     }
@@ -159,7 +161,7 @@ void GuiAlternativeEmulators::selectorWindow(SystemData* system)
             label = entry.second;
 
         std::shared_ptr<TextComponent> labelText = std::make_shared<TextComponent>(
-            label, Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary, ALIGN_LEFT);
+            label, getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary, ALIGN_LEFT);
         labelText->setSelectable(true);
 
         if (system->getSystemEnvData()->mLaunchCommands.front().second == label)

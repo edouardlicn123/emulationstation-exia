@@ -11,6 +11,8 @@
 
 #include "guis/GuiGameOptions.h"
 
+#include "MenuFontUtil.h"
+
 #include "CollectionSystemsManager.h"
 #include "GuiMetaDataEd.h"
 #include "Sound.h"
@@ -101,7 +103,7 @@ void GuiGameOptions::addEntry(const std::string& label, const std::function<void
 {
     ComponentListRow row;
 
-    row.addElement(std::make_shared<TextComponent>(label, Font::get(FONT_SIZE_MEDIUM),
+    row.addElement(std::make_shared<TextComponent>(label, getMenuThemeFont(FONT_SIZE_MEDIUM),
                                                    mMenuColorPrimary, ALIGN_LEFT, ALIGN_CENTER,
                                                    glm::ivec2 {0, 0}),
                    true);
@@ -115,11 +117,11 @@ void GuiGameOptions::addInfoEntry(const std::string& label, const std::string& v
 {
     ComponentListRow row;
 
-    row.addElement(std::make_shared<TextComponent>(label, Font::get(FONT_SIZE_MEDIUM),
+    row.addElement(std::make_shared<TextComponent>(label, getMenuThemeFont(FONT_SIZE_MEDIUM),
                                                    mMenuColorPrimary, ALIGN_LEFT, ALIGN_CENTER,
                                                    glm::ivec2 {0, 0}),
                    true);
-    row.addElement(std::make_shared<TextComponent>(value, Font::get(FONT_SIZE_SMALL),
+    row.addElement(std::make_shared<TextComponent>(value, getMenuThemeSmallFont(FONT_SIZE_SMALL),
                                                    mMenuColorSecondary, ALIGN_RIGHT,
                                                    ALIGN_CENTER),
                    false);

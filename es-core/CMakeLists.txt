@@ -19,6 +19,7 @@ set(CORE_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/InputManager.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Log.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MameNames.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MenuFontUtil.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MultiStateInput.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Settings.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Sound.h
@@ -108,6 +109,7 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/InputManager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Log.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MameNames.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/MenuFontUtil.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/MultiStateInput.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Scripting.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Settings.cpp
