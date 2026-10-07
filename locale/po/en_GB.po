@@ -759,6 +759,9 @@ msgstr "OTHER SETTINGS"
 
 msgid "UTILITIES"
 msgstr "UTILITIES"
+msgid "RESTART ES-DE"
+msgstr "RESTART ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "QUIT ES-DE"
@@ -1299,6 +1302,8 @@ msgstr "REALLY QUIT?"
 msgid "REALLY REBOOT?"
 msgstr "REALLY REBOOT?"
 
+msgid "REALLY RESTART?"
+msgstr "REALLY RESTART?"
 msgid "REBOOT SYSTEM"
 msgstr "REBOOT SYSTEM"
 

@@ -752,6 +752,9 @@ msgstr "기타 설정"
 
 msgid "UTILITIES"
 msgstr "유틸리티"
+msgid "RESTART ES-DE"
+msgstr "ES-DE 다시 시작"
+
 
 msgid "QUIT ES-DE"
 msgstr "ES-DE 종료"
@@ -1289,6 +1292,8 @@ msgstr "정말로 종료합니까?"
 msgid "REALLY REBOOT?"
 msgstr "정말로 재부팅 합니까?"
 
+msgid "REALLY RESTART?"
+msgstr "정말 다시 시작할까요?"
 msgid "REBOOT SYSTEM"
 msgstr "시스템 재부팅"
 

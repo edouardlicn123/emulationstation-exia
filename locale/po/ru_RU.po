@@ -769,6 +769,9 @@ msgstr "ПРОЧИЕ НАСТРОЙКИ"
 
 msgid "UTILITIES"
 msgstr "УТИЛИТЫ"
+msgid "RESTART ES-DE"
+msgstr "ПЕРЕЗАПУСТИТЬ ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "ВЫХОД ИЗ ES-DE"
@@ -1310,6 +1313,8 @@ msgstr "ДЕЙСТВИТЕЛЬНО ВЫЙТИ?"
 msgid "REALLY REBOOT?"
 msgstr "ДЕЙСТВИТЕЛЬНО ПЕРЕЗАГРУЗИТЬ?"
 
+msgid "REALLY RESTART?"
+msgstr "ДЕЙСТВИТЕЛЬНО ПЕРЕЗАПУСТИТЬ?"
 msgid "REBOOT SYSTEM"
 msgstr "ПЕРЕЗАГРУЗКА СИСТЕМЫ"
 

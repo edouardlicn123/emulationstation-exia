@@ -746,6 +746,9 @@ msgstr ""
 msgid "UTILITIES"
 msgstr ""
 
+msgid "RESTART ES-DE"
+msgstr ""
+
 msgid "QUIT ES-DE"
 msgstr ""
 
@@ -1251,6 +1254,9 @@ msgid "REALLY QUIT?"
 msgstr ""
 
 msgid "REALLY REBOOT?"
+msgstr ""
+
+msgid "REALLY RESTART?"
 msgstr ""
 
 msgid "REBOOT SYSTEM"

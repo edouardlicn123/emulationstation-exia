@@ -770,6 +770,9 @@ msgstr "他の設定"
 
 msgid "UTILITIES"
 msgstr "ユーティリティ"
+msgid "RESTART ES-DE"
+msgstr "ES-DE を再起動"
+
 
 msgid "QUIT ES-DE"
 msgstr "ES-DEを終了"
@@ -1311,6 +1314,8 @@ msgstr "本当にやめますか？"
 msgid "REALLY REBOOT?"
 msgstr "本当に再起動しますか？"
 
+msgid "REALLY RESTART?"
+msgstr "本当に再起動しますか?"
 msgid "REBOOT SYSTEM"
 msgstr "システムを再起動"
 

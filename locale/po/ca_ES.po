@@ -764,6 +764,9 @@ msgstr "ALTRES OPCIONS"
 
 msgid "UTILITIES"
 msgstr "UTILITATS"
+msgid "RESTART ES-DE"
+msgstr "TORNA A INICIAR ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "TANCAR ES-DE"
@@ -1302,6 +1305,8 @@ msgstr "TANCAR, SEGUR?"
 msgid "REALLY REBOOT?"
 msgstr "REINICIAR, SEGUR?"
 
+msgid "REALLY RESTART?"
+msgstr "DE VERITAT TORNA A INICIAR?"
 msgid "REBOOT SYSTEM"
 msgstr "REINICIAR EL SISTEMA"
 

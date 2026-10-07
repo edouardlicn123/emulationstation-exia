@@ -781,6 +781,9 @@ msgstr "OSTALA PODEŠAVANJA"
 
 msgid "UTILITIES"
 msgstr "KOMUNALNE USLUGE"
+msgid "RESTART ES-DE"
+msgstr "ПОНОВНО ПОКРЕНИ ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "IZLAZ IZ ES-DE"
@@ -1321,6 +1324,8 @@ msgstr "STVARNO ODUSTAO?"
 msgid "REALLY REBOOT?"
 msgstr "PRAVI REBOOT?"
 
+msgid "REALLY RESTART?"
+msgstr "ДА ЛИ СИГУРНО ЖЕЛИТЕ ДА ПОКРЕНИТЕ ПОНОВО?"
 msgid "REBOOT SYSTEM"
 msgstr "PONOVNO POKRETANJE SISTEMA"
 

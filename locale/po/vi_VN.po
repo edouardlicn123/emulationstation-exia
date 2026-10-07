@@ -757,6 +757,9 @@ msgstr "CÀI ĐẶT KHÁC"
 
 msgid "UTILITIES"
 msgstr "TIỆN ÍCH"
+msgid "RESTART ES-DE"
+msgstr "KHỞI ĐỘNG LẠI ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "THOÁT"
@@ -1297,6 +1300,8 @@ msgstr "BẠN CÓ CHẮC MUỐN THOÁT KHÔNG?"
 msgid "REALLY REBOOT?"
 msgstr "BẠN CÓ CHẮC MUỐN KHỞI ĐỘNG LẠI KHÔNG?"
 
+msgid "REALLY RESTART?"
+msgstr "KHỞI ĐỘNG LẠI THẬT SỰ?"
 msgid "REBOOT SYSTEM"
 msgstr "KHỞI ĐỘNG LẠI HỆ THỐNG"
 

@@ -776,6 +776,9 @@ msgstr "OTRAS CONFIGURACIONES"
 
 msgid "UTILITIES"
 msgstr "UTILIDADES"
+msgid "RESTART ES-DE"
+msgstr "REINICIAR ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "SALIR DE ES-DE"
@@ -1318,6 +1321,8 @@ msgstr "¿SALIR?"
 msgid "REALLY REBOOT?"
 msgstr "¿REINICIAR?"
 
+msgid "REALLY RESTART?"
+msgstr "¿REINICIAR DE VERDAD?"
 msgid "REBOOT SYSTEM"
 msgstr "REINICIAR SISTEMA"
 

@@ -746,6 +746,9 @@ msgstr "其他设置"
 
 msgid "UTILITIES"
 msgstr "工具"
+msgid "RESTART ES-DE"
+msgstr "重启 ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "退出ES-DE"
@@ -1278,6 +1281,8 @@ msgstr "真的要退出吗？"
 msgid "REALLY REBOOT?"
 msgstr "真的要重启吗？"
 
+msgid "REALLY RESTART?"
+msgstr "确定要重启吗?"
 msgid "REBOOT SYSTEM"
 msgstr "重启"
 

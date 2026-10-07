@@ -766,6 +766,9 @@ msgstr "ANDERE INSTELLINGEN"
 
 msgid "UTILITIES"
 msgstr "HULPPROGRAMMA'S"
+msgid "RESTART ES-DE"
+msgstr "ES-DE HERSTARTEN"
+
 
 msgid "QUIT ES-DE"
 msgstr "STOP ES-DE"
@@ -1309,6 +1312,8 @@ msgstr "WIL JE ECHT STOPPEN?"
 msgid "REALLY REBOOT?"
 msgstr "HERSTARTEN?"
 
+msgid "REALLY RESTART?"
+msgstr "WERKLIJK HERSTARTEN?"
 msgid "REBOOT SYSTEM"
 msgstr "HERSTART SYSTEEM"
 

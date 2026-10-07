@@ -778,6 +778,9 @@ msgstr "POZOSTAŁE USTAWIENIA"
 
 msgid "UTILITIES"
 msgstr "NARZĘDZIA"
+msgid "RESTART ES-DE"
+msgstr "UURUCHOM PONOWNIE ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "WYJDŹ Z ES-DE"
@@ -1318,6 +1321,8 @@ msgstr "NAPRAWDĘ WYJŚĆ?"
 msgid "REALLY REBOOT?"
 msgstr "NAPRAWDĘ RESTARTOWAĆ?"
 
+msgid "REALLY RESTART?"
+msgstr "NA PEWNO UURUCHOMIĆ PONOWNIE?"
 msgid "REBOOT SYSTEM"
 msgstr "RESTARTUJ SYSTEM"
 

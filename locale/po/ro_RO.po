@@ -774,6 +774,9 @@ msgstr "ALTE SETĂRI"
 
 msgid "UTILITIES"
 msgstr "UTILITARE"
+msgid "RESTART ES-DE"
+msgstr "REPORNEȘTE ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "IEȘI DIN ES-DE"
@@ -1314,6 +1317,8 @@ msgstr "CHIAR IEȘI?"
 msgid "REALLY REBOOT?"
 msgstr "CHIAR REPORNEȘTI?"
 
+msgid "REALLY RESTART?"
+msgstr "CHiar REPORNEȘTI?"
 msgid "REBOOT SYSTEM"
 msgstr "REPORNEȘTE SISTEMUL"
 

@@ -761,6 +761,9 @@ msgstr "OSTATNÍ NASTAVENÍ"
 
 msgid "UTILITIES"
 msgstr "NÁSTROJE"
+msgid "RESTART ES-DE"
+msgstr "RESTARTOVAT ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "UKONČIT ES-DE"
@@ -1301,6 +1304,8 @@ msgstr "OPRAVDU UKONČIT?"
 msgid "REALLY REBOOT?"
 msgstr "OPRAVDU RESTARTOVAT?"
 
+msgid "REALLY RESTART?"
+msgstr "OPRAVDU RESTARTOVAT?"
 msgid "REBOOT SYSTEM"
 msgstr "RESTARTOVAT SYSTÉM"
 

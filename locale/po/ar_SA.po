@@ -779,6 +779,9 @@ msgstr "إعدادات أخرى"
 
 msgid "UTILITIES"
 msgstr "الفحص"
+msgid "RESTART ES-DE"
+msgstr "إعادة تشغيل ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "ES-DE إغلاق"
@@ -1316,6 +1319,8 @@ msgstr "متأكد من خروج؟"
 msgid "REALLY REBOOT?"
 msgstr "متأكد من إعادة التشغيل؟"
 
+msgid "REALLY RESTART?"
+msgstr "هل تريد إعادة التشغيل حقًا؟"
 msgid "REBOOT SYSTEM"
 msgstr "إعادة تشغيل النظام"
 

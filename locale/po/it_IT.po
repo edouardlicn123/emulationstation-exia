@@ -774,6 +774,9 @@ msgstr "ALTRE IMPOSTAZIONI"
 
 msgid "UTILITIES"
 msgstr "STRUMENTI"
+msgid "RESTART ES-DE"
+msgstr "RIAVVIA ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "ESCI DA ES-DE"
@@ -1317,6 +1320,8 @@ msgstr "CONFERMARE USCITA?"
 msgid "REALLY REBOOT?"
 msgstr "CONFERMARE RIAVVIO?"
 
+msgid "REALLY RESTART?"
+msgstr "RIAVVIARE DAVVERO?"
 msgid "REBOOT SYSTEM"
 msgstr "RIAVVIA IL SISTEMA"
 

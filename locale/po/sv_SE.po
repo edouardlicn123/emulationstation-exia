@@ -762,6 +762,9 @@ msgstr "ANDRA INSTÄLLNINGAR"
 
 msgid "UTILITIES"
 msgstr "VERKTYG"
+msgid "RESTART ES-DE"
+msgstr "STARTA OM ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "AVSLUTA ES-DE"
@@ -1305,6 +1308,8 @@ msgstr "VERKLIGEN AVSLUTA?"
 msgid "REALLY REBOOT?"
 msgstr "VERKLIGEN STARTA OM?"
 
+msgid "REALLY RESTART?"
+msgstr "VERKLIGEN STARTA OM?"
 msgid "REBOOT SYSTEM"
 msgstr "STARTA OM SYSTEMET"
 

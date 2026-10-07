@@ -766,6 +766,9 @@ msgstr "OUTRAS OPÇÕES"
 
 msgid "UTILITIES"
 msgstr "UTILITÁRIOS"
+msgid "RESTART ES-DE"
+msgstr "REINICIAR O ES-DE"
+
 
 msgid "QUIT ES-DE"
 msgstr "SAIR DO ES-DE"
@@ -1306,6 +1309,8 @@ msgstr "DESEJA MESMO SAIR?"
 msgid "REALLY REBOOT?"
 msgstr "DESEJA MESMO REINICIAR?"
 
+msgid "REALLY RESTART?"
+msgstr "REALMENTE REINICIAR?"
 msgid "REBOOT SYSTEM"
 msgstr "REINICIAR SISTEMA"
 
