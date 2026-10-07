@@ -7,11 +7,10 @@
 //
 //  Contents:
 //    BIOS SWITCH          copy a BIOS variant from ~/biosalt into ~/bios
-//    ES-DE PATHS          read only display of the exia.conf path section
-//    SYSTEM STATISTICS    live system and game counts taken from ES-DE itself
+//    SYSTEM INFO          statistics, exia.conf paths and the boot session status
 //    GIT PROXY            toggle and edit the git http proxy
-//    DEFAULT SESSION      status of the esde-default-session service (Linux only)
 //    LIGHTDM COUNTDOWN    autologin-user-timeout, written with sudo (Linux only)
+//    MENU FONT SIZE       menu row text scale, stored as menu.font.scale, needs a restart
 //    SUDO PASSWORD        stored in exia.conf, used by the LightDM entry
 //
 //  No shell commands are constructed from user input, everything runs through execvp with an
@@ -305,6 +304,11 @@ security.sudo.password=emu
 ## 取值 zh_CN / zh_TW / en_US / ja_JP / fr_FR / es_ES / de_DE / pt_PT
 menu.lang=zh_TW
 
+## EXIA SETTINGS → MENU FONT SIZE 写入的菜单行文字缩放系数(1.00 = 100%)。
+## 取值 0.80~1.50;main.cpp 启动时读取,作用于 ThemeData::ThemeMenu::getFont(),
+## 改动需重启 ES-DE 生效(主菜单 RESTART ES-DE)。
+menu.font.scale=1.00
+
 # ------------ C - Boot ------------ #
 
 ## 开机后可打断进桌面的倒计时(秒)。
@@ -472,6 +476,18 @@ std::string fileNameOf(const std::string& relativePath)
     return separator == std::string::npos ? relativePath : relativePath.substr(separator + 1);
 }
 
+// Current menu font scale as shown on the row, e.g. "100%". The stored value is the factor
+// itself (menu.font.scale=1.00), anything unusable falls back to 100%.
+std::string fontScaleLabel()
+{
+    const std::string stored {ExiaConfig::getInstance().get("menu.font.scale", "1.00")};
+    const float scale {static_cast<float>(std::atof(stored.c_str()))};
+    if (scale <= 0.0f)
+        return "100%";
+    const int percent {static_cast<int>(scale * 100.0f + 0.5f)};
+    return std::to_string(percent) + "%";
+}
+
 } // namespace
 
 GuiExiaSettings::GuiExiaSettings(const std::string& title)
@@ -481,27 +497,10 @@ GuiExiaSettings::GuiExiaSettings(const std::string& title)
     ExiaConfig::getInstance();
 
     addRow(makeNavRow(_("BIOS SWITCH"), "", [this] { openBiosSwitch(); }));
-    addRow(makeNavRow(_("ES-DE PATHS"), "", [this] { openPaths(); }));
-    addRow(makeNavRow(_("SYSTEM STATISTICS"), "", [this] { openStatistics(); }));
+    addRow(makeNavRow(_("SYSTEM INFO"), "", [this] { openSystemInfo(); }));
     addRow(makeNavRow(_("GIT PROXY"), "", [this] { openGitProxy(); }));
 
 #if !defined(__ANDROID__) && !defined(__IOS__)
-    // Service status, shown directly on this page as it is a single value.
-    const std::string sessionStatus {popenOutput(
-        "systemctl is-enabled esde-default-session.service 2>/dev/null")};
-    ComponentListRow sessionRow;
-    sessionRow.addElement(std::make_shared<TextComponent>(_("DEFAULT SESSION STATUS"),
-                                                          getMenuThemeFont(FONT_SIZE_MEDIUM),
-                                                          mMenuColorPrimary),
-                          true);
-    sessionRow.addElement(std::make_shared<TextComponent>(sessionStatus.empty() ?
-                                                              _("UNKNOWN") :
-                                                              sessionStatus,
-                                                          Font::get(FONT_SIZE_SMALL),
-                                                          mMenuColorPrimary, ALIGN_RIGHT),
-                          false);
-    addRow(sessionRow);
-
     // The current value sits on the row itself and is refreshed after a successful write.
     auto timeoutValue = std::make_shared<TextComponent>(readLightdmValue(),
                                                         Font::get(FONT_SIZE_SMALL),
@@ -546,6 +545,7 @@ GuiExiaSettings::GuiExiaSettings(const std::string& title)
     addRow(timeoutRow);
 #endif
 
+    addFontSizeRow();
     addPasswordRow();
 }
 
@@ -574,6 +574,17 @@ ComponentListRow GuiExiaSettings::makeNoteRow(const std::string& text)
     row.addElement(std::make_shared<TextComponent>(text, Font::get(FONT_SIZE_SMALL),
                                                    mMenuColorSecondary, ALIGN_LEFT, ALIGN_CENTER,
                                                    glm::ivec2 {0, 0}),
+                   true);
+    return row;
+}
+
+// Section header for the merged SYSTEM INFO page. It is not a data row, so there is no arrow
+// and no action, and the secondary color keeps it visually apart from the rows below it.
+ComponentListRow GuiExiaSettings::makeSectionRow(const std::string& label)
+{
+    ComponentListRow row;
+    row.addElement(std::make_shared<TextComponent>(label, getMenuThemeFont(FONT_SIZE_MEDIUM),
+                                                   mMenuColorSecondary),
                    true);
     return row;
 }
@@ -609,11 +620,10 @@ void GuiExiaSettings::openBiosPlatform(const std::string& title,
             detected = true;
     }
 
-    if (!detected) {
-        // The installed file does not match any of the known candidates, for example because it
-        // was copied in by hand. Make that visible instead of silently picking an option.
-        selector->add(_("NO MATCHING BIOS FILE IN ~/biosalt"), "", true);
-    }
+    // When nothing matched, no placeholder entry is added (by design): the list then simply
+    // has nothing selected and the save function below leaves the file system untouched until
+    // the user picks an option. getSelectedId() falls back to 0 for rendering, so the widget
+    // stays safe to draw and to navigate in that state.
 
     // Keep the record in exia.conf in sync with what is actually installed. The files win over
     // the configuration file, never the other way around.
@@ -622,9 +632,12 @@ void GuiExiaSettings::openBiosPlatform(const std::string& title,
 
     platformMenu->addWithLabel(title, selector);
     platformMenu->addSaveFunc([selector, targetPath, sourceRoot, confKey, window = mWindow] {
-        const std::string source {selector->getSelected()};
-        if (source.empty())
+        // An empty selection means the installed file matched no candidate. Never guess here,
+        // a hand placed file must not be overwritten by accident.
+        const std::vector<std::string> selection {selector->getSelectedObjects()};
+        if (selection.empty() || selection.front().empty())
             return;
+        const std::string source {selection.front()};
         if (!Utils::FileSystem::copyFile(sourceRoot + "/" + source, targetPath, true)) {
             window->queueInfoPopup(_("FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"), 6000);
             return;
@@ -637,23 +650,12 @@ void GuiExiaSettings::openBiosPlatform(const std::string& title,
     mWindow->pushGui(platformMenu);
 }
 
-void GuiExiaSettings::openPaths()
+void GuiExiaSettings::openSystemInfo()
 {
-    auto pathsMenu = new GuiSettings(_("ES-DE PATHS"));
-    const std::vector<std::string> keys {"esde.home.parent", "esde.roms",  "esde.themes",
-                                         "esde.media",        "esde.launch"};
-    for (const std::string& key : keys) {
-        pathsMenu->addWithLabel(
-            key, std::make_shared<TextComponent>(ExiaConfig::getInstance().get(key),
-                                                 Font::get(FONT_SIZE_SMALL), mMenuColorPrimary,
-                                                 ALIGN_RIGHT));
-    }
-    pathsMenu->addRow(makeNoteRow(_("VALUES ARE READ FROM EXIA.CONF")));
-    mWindow->pushGui(pathsMenu);
-}
+    auto infoMenu = new GuiSettings(_("SYSTEM INFO"));
 
-void GuiExiaSettings::openStatistics()
-{
+    // Section 1, counted live from the ES-DE system list.
+    infoMenu->addRow(makeSectionRow(_("SYSTEM STATISTICS")));
     unsigned int systemCount {0};
     unsigned int gameCount {0};
     unsigned int favoriteCount {0};
@@ -665,22 +667,51 @@ void GuiExiaSettings::openStatistics()
         gameCount += count.first;
         favoriteCount += count.second;
     }
-
-    auto statisticsMenu = new GuiSettings(_("SYSTEM STATISTICS"));
-    statisticsMenu->addWithLabel(
+    infoMenu->addWithLabel(
         _("SYSTEMS"),
         std::make_shared<TextComponent>(std::to_string(systemCount), Font::get(FONT_SIZE_SMALL),
                                         mMenuColorPrimary, ALIGN_RIGHT));
-    statisticsMenu->addWithLabel(
+    infoMenu->addWithLabel(
         _("GAMES"),
         std::make_shared<TextComponent>(std::to_string(gameCount), Font::get(FONT_SIZE_SMALL),
                                         mMenuColorPrimary, ALIGN_RIGHT));
-    statisticsMenu->addWithLabel(
+    infoMenu->addWithLabel(
         _("FAVORITES"),
         std::make_shared<TextComponent>(std::to_string(favoriteCount), Font::get(FONT_SIZE_SMALL),
                                         mMenuColorPrimary, ALIGN_RIGHT));
-    statisticsMenu->addRow(makeNoteRow(_("LIVE COUNTS FROM THE ES-DE SYSTEM LIST")));
-    mWindow->pushGui(statisticsMenu);
+    infoMenu->addRow(makeNoteRow(_("LIVE COUNTS FROM THE ES-DE SYSTEM LIST")));
+
+    // Section 2, read from the F section of exia.conf.
+    infoMenu->addRow(makeSectionRow(_("ES-DE PATHS")));
+    const std::vector<std::string> keys {"esde.home.parent", "esde.roms",  "esde.themes",
+                                         "esde.media",        "esde.launch"};
+    for (const std::string& key : keys) {
+        infoMenu->addWithLabel(
+            key, std::make_shared<TextComponent>(ExiaConfig::getInstance().get(key),
+                                                 Font::get(FONT_SIZE_SMALL), mMenuColorPrimary,
+                                                 ALIGN_RIGHT));
+    }
+    infoMenu->addRow(makeNoteRow(_("VALUES ARE READ FROM EXIA.CONF")));
+
+    // Section 3, asked of systemd each time the page is opened.
+    ComponentListRow sessionRow;
+    sessionRow.addElement(std::make_shared<TextComponent>(_("AUTO-START ES-DE ON BOOT"),
+                                                          getMenuThemeFont(FONT_SIZE_MEDIUM),
+                                                          mMenuColorPrimary),
+                          true);
+#if !defined(__ANDROID__) && !defined(__IOS__)
+    const std::string sessionStatus {popenOutput(
+        "systemctl is-enabled esde-default-session.service 2>/dev/null")};
+    sessionRow.addElement(std::make_shared<TextComponent>(sessionStatus.empty() ?
+                                                              _("UNKNOWN") :
+                                                              sessionStatus,
+                                                          Font::get(FONT_SIZE_SMALL),
+                                                          mMenuColorPrimary, ALIGN_RIGHT),
+                          false);
+#endif
+    infoMenu->addRow(sessionRow);
+
+    mWindow->pushGui(infoMenu);
 }
 
 void GuiExiaSettings::openGitProxy()
@@ -735,9 +766,50 @@ void GuiExiaSettings::openGitProxy()
     mWindow->pushGui(proxyMenu);
 }
 
+void GuiExiaSettings::addFontSizeRow()
+{
+    auto scaleValue = std::make_shared<TextComponent>(fontScaleLabel(),
+                                                      Font::get(FONT_SIZE_SMALL),
+                                                      mMenuColorPrimary, ALIGN_RIGHT);
+    ComponentListRow row;
+    row.addElement(std::make_shared<TextComponent>(_("MENU FONT SIZE (REQUIRES RESTART)"),
+                                                   getMenuThemeFont(FONT_SIZE_MEDIUM),
+                                                   mMenuColorPrimary),
+                   true);
+    row.addElement(scaleValue, false);
+    row.addElement(getMenu().makeArrow(), false);
+    row.makeAcceptInputHandler([this, scaleValue] {
+        mWindow->pushGui(new GuiTextEditPopup(
+            _("MENU FONT SCALE IN PERCENT, 80 TO 150"), scaleValue->getValue(),
+            [this, scaleValue](const std::string& newValue) {
+                const std::string value {trimString(newValue)};
+                if (value.empty())
+                    return;
+                bool numeric {true};
+                for (const char character : value) {
+                    if (character < '0' || character > '9')
+                        numeric = false;
+                }
+                const int percent {numeric ? std::atoi(value.c_str()) : 0};
+                if (percent < 80 || percent > 150) {
+                    mWindow->queueInfoPopup(_("ENTER A NUMBER FROM 80 TO 150 PERCENT"), 5000);
+                    return;
+                }
+                ExiaConfig::getInstance().set(
+                    "menu.font.scale", Utils::String::format("%.2f", percent / 100.0f));
+                scaleValue->setValue(std::to_string(percent) + "%");
+                mWindow->queueInfoPopup(_("FONT SIZE SAVED, RESTART ES-DE TO APPLY"), 6000);
+            },
+            false));
+    });
+    addRow(row);
+}
+
 void GuiExiaSettings::addPasswordRow()
 {
-    auto passwordText = std::make_shared<TextComponent>("", Font::get(FONT_SIZE_MEDIUM),
+    // Value font and label font follow the row font spec from the devdoc, the value must use
+    // the same small font as every other row value or this row sticks out visually.
+    auto passwordText = std::make_shared<TextComponent>("", Font::get(FONT_SIZE_SMALL),
                                                         mMenuColorPrimary, ALIGN_RIGHT);
     const std::string storedPassword {ExiaConfig::getInstance().get("security.sudo.password")};
     std::string masked;
@@ -745,7 +817,8 @@ void GuiExiaSettings::addPasswordRow()
         masked = "********";
         passwordText->setHiddenValue(storedPassword);
     }
-    addEditableTextComponent(_("SUDO PASSWORD"), passwordText, masked, "", true);
+    addEditableTextComponent(_("SUDO PASSWORD"), passwordText, masked, "", true,
+                             getMenuThemeFont(FONT_SIZE_MEDIUM));
     passwordText->setSize(0.0f, passwordText->getFont()->getHeight());
     addSaveFunc([passwordText] {
         const std::string entered {passwordText->getHiddenValue()};

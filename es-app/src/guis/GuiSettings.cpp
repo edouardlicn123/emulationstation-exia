@@ -207,14 +207,16 @@ void GuiSettings::addEditableTextComponent(const std::string label,
                                            std::shared_ptr<GuiComponent> ed,
                                            std::string value,
                                            std::string defaultValue,
-                                           bool isPassword)
+                                           bool isPassword,
+                                           std::shared_ptr<Font> labelFont)
 {
     ComponentListRow row;
     row.elements.clear();
 
     auto lbl = std::make_shared<TextComponent>(Utils::String::toUpper(label),
-                                               Font::get(FONT_SIZE_MEDIUM), mMenuColorPrimary,
-                                               ALIGN_LEFT, ALIGN_CENTER, glm::ivec2 {0, 0});
+                                               labelFont ? labelFont : Font::get(FONT_SIZE_MEDIUM),
+                                               mMenuColorPrimary, ALIGN_LEFT, ALIGN_CENTER,
+                                               glm::ivec2 {0, 0});
     row.addElement(lbl, false);
     row.addElement(ed, true);
 

@@ -37,3 +37,22 @@ bool hasMenuThemeFont()
     const auto& menuTheme {ThemeData::getMenuTheme()};
     return menuTheme->loadedFromTheme && menuTheme->Text.hasFont();
 }
+
+namespace {
+// Exia local addition, see MenuFontUtil.h. 1.0 means no scaling, the upstream behavior.
+float sUserFontScale {1.0f};
+} // namespace
+
+void setUserFontScale(float scale)
+{
+    if (scale < 0.5f)
+        scale = 0.5f;
+    if (scale > 2.0f)
+        scale = 2.0f;
+    sUserFontScale = scale;
+}
+
+float getUserFontScale()
+{
+    return sUserFontScale;
+}

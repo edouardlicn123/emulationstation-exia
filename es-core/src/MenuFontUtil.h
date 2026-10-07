@@ -26,4 +26,11 @@ bool hasMenuThemeFont();
 // other secondary text). Falls back to the regular menu font when not defined.
 std::shared_ptr<Font> getMenuThemeSmallFont(float defaultSize);
 
+// Exia local addition: user controlled scale factor for menu row text, stored as
+// menu.font.scale in ~/.config/emu/exia.conf and read once during startup. It is applied to
+// the resolved size inside ThemeData::ThemeMenu::getFont() so that every menu font passes
+// through it. A value of 1.0 keeps the upstream behavior unchanged.
+void setUserFontScale(float scale);
+float getUserFontScale();
+
 #endif // ES_CORE_MENU_FONT_UTIL_H

@@ -11,6 +11,7 @@
 #include "ThemeData.h"
 
 #include "Log.h"
+#include "MenuFontUtil.h"
 #include "Settings.h"
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"
@@ -927,18 +928,22 @@ std::shared_ptr<Font> ThemeData::ThemeMenu::getFont(const MenuTextElement& elem,
     // to the resolved size (rather than only to the default) is required as a theme supplied
     // font size would otherwise bypass the scaling.
     const float scale {Utils::Localization::sMenuTitleScaleFactor};
+    // Exia local addition: user controlled scale from exia.conf menu.font.scale, applied to
+    // the final size so that it also covers theme supplied font sizes. 1.0 means no scaling.
+    const float userScale {getUserFontScale()};
 
     if (!loadedFromTheme || !elem.hasFont())
-        return Font::get(defaultSize * scale);
+        return Font::get(defaultSize * scale * userScale);
 
-    float size {defaultSize * scale};
+    float size {defaultSize * scale * userScale};
 
     if (elem.fontSize != 0.0f) {
         const float screenSize {Renderer::getIsVerticalOrientation() ?
                                     static_cast<float>(Renderer::getScreenWidth()) :
                                     static_cast<float>(Renderer::getScreenHeight())};
         size = glm::clamp(screenSize * elem.fontSize * scale, screenSize * 0.001f,
-                          screenSize * 1.5f);
+                          screenSize * 1.5f) *
+               userScale;
     }
 
     std::string path {elem.fontPath.empty() ? Font::getDefaultPath() : elem.fontPath};

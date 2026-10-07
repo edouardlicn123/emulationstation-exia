@@ -13,6 +13,7 @@
 
 #include "SystemData.h"
 #include "components/MenuComponent.h"
+#include "resources/Font.h"
 #include "views/ViewController.h"
 
 // This is just a really simple template for a GUI that calls some save functions when closed.
@@ -35,7 +36,11 @@ public:
                                   std::shared_ptr<GuiComponent> ed,
                                   std::string value,
                                   std::string defaultValue = "",
-                                  bool isPassword = false);
+                                  bool isPassword = false,
+                                  // Label font, defaults to the plain medium font that this
+                                  // function historically used. Callers that want the label to
+                                  // follow the theme menu font pass getMenuThemeFont() here.
+                                  std::shared_ptr<Font> labelFont = nullptr);
     void addSaveFunc(const std::function<void()>& func) { mSaveFuncs.push_back(func); }
 
     MenuComponent& getMenu() { return mMenu; }

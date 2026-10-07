@@ -18,6 +18,7 @@
 #include "CollectionSystemsManager.h"
 #include "InputManager.h"
 #include "Log.h"
+#include "MenuFontUtil.h"
 #include "MameNames.h"
 #include "MediaViewer.h"
 #include "PDFViewer.h"
@@ -57,6 +58,7 @@
 #endif
 
 #include <FreeImage.h>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <time.h>
@@ -633,6 +635,28 @@ int main(int argc, char* argv[])
 #endif
     }
 #endif
+
+    // Exia local addition: menu row text scale from the central configuration. It must be
+    // read before the first menu font is created, hence this placement right after the
+    // command line handling. This is deliberately a minimal key=value parse (split on the
+    // first equals sign) of ~/.config/emu/exia.conf so that the ExiaConfig class with its
+    // file creation side effects stays out of the startup path.
+    {
+        std::ifstream scaleFile {Utils::FileSystem::getHomePath() + "/.config/emu/exia.conf"};
+        std::string scaleLine;
+        while (std::getline(scaleFile, scaleLine)) {
+            const size_t separator {scaleLine.find('=')};
+            if (separator == std::string::npos)
+                continue;
+            if (scaleLine.substr(0, separator) != "menu.font.scale")
+                continue;
+            const float fontScale {
+                static_cast<float>(std::atof(scaleLine.substr(separator + 1).c_str()))};
+            if (fontScale > 0.0f)
+                setUserFontScale(fontScale);
+            break;
+        }
+    }
 
 #if defined(__ANDROID__)
     // This hint will prevent a popup from being displayed asking for access to the controller.

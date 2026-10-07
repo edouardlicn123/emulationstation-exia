@@ -58,15 +58,16 @@ private:
                                 const std::string& value,
                                 const std::function<void()>& func);
     ComponentListRow makeNoteRow(const std::string& text);
+    ComponentListRow makeSectionRow(const std::string& label);
 
     void openBiosSwitch();
     void openBiosPlatform(const std::string& title,
                           const std::string& confKey,
                           const std::string& target,
                           const std::vector<std::pair<std::string, std::string>>& options);
-    void openPaths();
-    void openStatistics();
+    void openSystemInfo();
     void openGitProxy();
+    void addFontSizeRow();
     void addPasswordRow();
 };
 
