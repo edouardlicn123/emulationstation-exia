@@ -87,6 +87,9 @@ GuiMenu::GuiMenu()
 
     if (!Settings::getInstance()->getBool("ForceKiosk") &&
         Settings::getInstance()->getString("UIMode") != "kiosk") {
+#if !defined(__ANDROID__) && !defined(__IOS__)
+        addEntry(_("RESTART ES-DE"), mMenuColorPrimary, false, [this] { openRestartDialog(); });
+#endif
 #if defined(__APPLE__)
         addEntry(_("QUIT ES-DE"), mMenuColorPrimary, false, [this] { openQuitMenu(); });
 #elif defined(__ANDROID__)
@@ -2464,6 +2467,20 @@ void GuiMenu::openUtilities()
 
     s->setSize(mSize);
     mWindow->pushGui(s);
+}
+
+void GuiMenu::openRestartDialog()
+{
+    Window* window {mWindow};
+
+    window->pushGui(new GuiMsgBox(
+        _("REALLY RESTART?"), _("YES"),
+        [] {
+            if (Utils::Platform::quitES(Utils::Platform::QuitMode::RESTART) != 0) {
+                LOG(LogWarning) << "Couldn't restart the application";
+            }
+        },
+        _("NO"), nullptr));
 }
 
 void GuiMenu::openQuitMenu()

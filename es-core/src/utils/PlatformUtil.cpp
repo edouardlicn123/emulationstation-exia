@@ -33,15 +33,80 @@
 #endif
 
 #include <array>
+#include <climits>
 #include <fcntl.h>
 
 #define MAX_RUNNING_COMMANDS 8
 inline static std::atomic<int> sRunningCommands {0};
 
+// The command line the application was started with, used when restarting so that options
+// such as --home are carried over to the new instance.
+inline static std::vector<std::string> sOriginalArgs {};
+
 namespace Utils
 {
     namespace Platform
     {
+        void setOriginalArgs(int argc, char* argv[])
+        {
+            sOriginalArgs.clear();
+
+            if (argv == nullptr)
+                return;
+
+            for (int i {0}; i < argc; ++i)
+                sOriginalArgs.push_back(argv[i] ? argv[i] : "");
+        }
+
+        int runRestartCommand()
+        {
+#if defined(__APPLE__) || defined(__ANDROID__) || defined(__IOS__)
+            // Restarting is not meaningful for these platforms here.
+            return 0;
+#else
+            if (sOriginalArgs.empty()) {
+                LOG(LogError) << "Cannot restart as the original command line is unknown";
+                return -1;
+            }
+
+            std::vector<char*> args;
+            args.reserve(sOriginalArgs.size() + 1);
+
+            // Use the real path of the running binary rather than argv[0], since argv[0] may
+            // be a bare name which would then depend on the PATH lookup of execvp.
+            std::string executablePath {sOriginalArgs.front()};
+
+#if defined(__linux__)
+            char selfPath[PATH_MAX];
+
+            if (readlink("/proc/self/exe", selfPath, sizeof(selfPath)) > 0) {
+                selfPath[sizeof(selfPath) - 1] = '\0';
+                executablePath = selfPath;
+            }
+#endif
+
+            args.push_back(const_cast<char*>(executablePath.c_str()));
+
+            for (size_t i {1}; i < sOriginalArgs.size(); ++i)
+                args.push_back(const_cast<char*>(sOriginalArgs[i].c_str()));
+
+            // The array must be NULL terminated for execvp.
+            args.push_back(nullptr);
+
+            LOG(LogInfo) << "Restarting the application using \"" << executablePath << "\"";
+
+            // execvp replaces the current process image, which means the restarted instance
+            // does not compete with this one for the GPU or audio device.
+            execvp(args[0], args.data());
+
+            // Only reached if execvp failed, in which case the application continues its
+            // normal shutdown sequence.
+            LOG(LogError) << "Couldn't restart the application, execvp failed with errno "
+                          << errno;
+            return -1;
+#endif
+        }
+
         int runRebootCommand()
         {
 #if defined(__APPLE__)
@@ -495,6 +560,12 @@ namespace Utils
                     Scripting::fireEvent("poweroff");
                     Scripting::fireEvent("quit");
                     runPoweroffCommand();
+                    break;
+                }
+                case QuitMode::RESTART: {
+                    LOG(LogInfo) << "Restarting the application";
+                    Scripting::fireEvent("quit");
+                    runRestartCommand();
                     break;
                 }
                 default: {

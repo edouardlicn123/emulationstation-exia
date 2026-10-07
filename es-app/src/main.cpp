@@ -579,6 +579,9 @@ void applicationLoop()
 
 int main(int argc, char* argv[])
 {
+    // Retain the command line so that the application can be restarted with the same options.
+    Utils::Platform::setOriginalArgs(argc, argv);
+
     const auto applicationStartTime {std::chrono::system_clock::now()};
 
     std::locale::global(std::locale("C"));

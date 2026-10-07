@@ -22,12 +22,18 @@ namespace Utils
         enum QuitMode {
             QUIT = 0,
             REBOOT = 1,
-            POWEROFF = 2
+            POWEROFF = 2,
+            RESTART = 3
         };
 
         int runRebootCommand();
         int runPoweroffCommand();
         int runSuspendCommand();
+        int runRestartCommand();
+
+        // Stores the command line arguments the application was started with. These are needed
+        // when restarting the application so that any options such as --home are preserved.
+        void setOriginalArgs(int argc, char* argv[]);
 
         // Uses UTF-8 for Unix and UTF-16 for Windows.
         int runSystemCommand(const std::string& cmdUtf8, bool blocking);

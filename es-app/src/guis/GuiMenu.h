@@ -47,6 +47,7 @@ private:
     void openOtherOptions();
     void openUtilities();
     void openQuitMenu();
+    void openRestartDialog();
 
     Renderer* mRenderer;
     MenuComponent mMenu;
