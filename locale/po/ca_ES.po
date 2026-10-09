@@ -575,8 +575,8 @@ msgstr "BIOS XINÈS"
 msgid "PC-FX"
 msgstr "PC-FX"
 
-msgid "BIOS SWITCH"
-msgstr "CANVI DE BIOS"
+msgid "Chinese Localization settings"
+msgstr "Configuració de localització xinesa"
 
 msgid "SYSTEM INFO"
 msgstr "INFORMACIÓ DEL SISTEMA"

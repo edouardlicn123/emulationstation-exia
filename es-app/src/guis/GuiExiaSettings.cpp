@@ -20,6 +20,7 @@
 
 #include "guis/GuiExiaSettings.h"
 
+#include "ApplicationVersion.h"
 #include "Log.h"
 #include "MenuFontUtil.h"
 #include "SystemData.h"
@@ -519,7 +520,7 @@ GuiExiaSettings::GuiExiaSettings(const std::string& title)
     // Make sure the central configuration file exists before anything reads from it.
     ExiaConfig::getInstance();
 
-    addRow(makeNavRow(_("BIOS SWITCH"), "", [this] { openBiosSwitch(); }));
+    addRow(makeNavRow(_("Chinese Localization settings"), "", [this] { openBiosSwitch(); }));
     addRow(makeNavRow(_("SYSTEM INFO"), "", [this] { openSystemInfo(); }));
     addRow(makeNavRow(_("GIT PROXY"), "", [this] { openGitProxy(); }));
 
@@ -614,7 +615,7 @@ ComponentListRow GuiExiaSettings::makeSectionRow(const std::string& label)
 
 void GuiExiaSettings::openBiosSwitch()
 {
-    auto biosMenu = new GuiSettings(_("BIOS SWITCH"));
+    auto biosMenu = new GuiSettings(_("Chinese Localization settings"));
     for (const BiosPlatform& platform : biosPlatforms()) {
         biosMenu->addRow(makeNavRow(platform.label, "", [this, platform] {
             openBiosPlatform(platform.label, platform.confKey, platform.target, platform.options);
@@ -678,6 +679,15 @@ void GuiExiaSettings::openBiosPlatform(const std::string& title,
 void GuiExiaSettings::openSystemInfo()
 {
     auto infoMenu = new GuiSettings(_("SYSTEM INFO"));
+
+    // Build version row. The label is a raw untranslated key (same style as the exia.conf keys
+    // below) so no new translatable string is introduced (devdoc/17 §3).
+    infoMenu->addWithLabel(
+        "es-de.version",
+        std::make_shared<TextComponent>(std::string("ES-DE ") + PROGRAM_VERSION_STRING + " (r" +
+                                            std::to_string(PROGRAM_RELEASE_NUMBER) + ") - " +
+                                            EXIA_VERSION_STRING,
+                                        menuValueFont(), mMenuColorPrimary, ALIGN_RIGHT));
 
     // Section 1, counted live from the ES-DE system list.
     infoMenu->addRow(makeSectionRow(_("SYSTEM STATISTICS")));

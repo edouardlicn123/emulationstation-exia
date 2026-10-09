@@ -570,8 +570,8 @@ msgstr "BIOS TRUNG QUỐC"
 msgid "PC-FX"
 msgstr "PC-FX"
 
-msgid "BIOS SWITCH"
-msgstr "ĐỔI BIOS"
+msgid "Chinese Localization settings"
+msgstr "Cài đặt bản địa hóa tiếng Trung"
 
 msgid "SYSTEM INFO"
 msgstr "THÔNG TIN HỆ THỐNG"

@@ -574,8 +574,8 @@ msgstr "KINESISKT BIOS"
 msgid "PC-FX"
 msgstr "PC-FX"
 
-msgid "BIOS SWITCH"
-msgstr "BYTE AV BIOS"
+msgid "Chinese Localization settings"
+msgstr "Inställningar för kinesisk lokalisering"
 
 msgid "SYSTEM INFO"
 msgstr "SYSTEMINFORMATION"

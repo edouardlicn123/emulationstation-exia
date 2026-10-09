@@ -560,8 +560,8 @@ msgstr "中文 BIOS"
 msgid "PC-FX"
 msgstr "PC-FX"
 
-msgid "BIOS SWITCH"
-msgstr "BIOS 切换"
+msgid "Chinese Localization settings"
+msgstr "游戏汉化设置"
 
 msgid "SYSTEM INFO"
 msgstr "系统信息"

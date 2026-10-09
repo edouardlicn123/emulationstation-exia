@@ -561,7 +561,7 @@ msgstr ""
 msgid "PC-FX"
 msgstr ""
 
-msgid "BIOS SWITCH"
+msgid "Chinese Localization settings"
 msgstr ""
 
 msgid "SYSTEM INFO"

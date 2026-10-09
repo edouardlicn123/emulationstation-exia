@@ -572,8 +572,8 @@ msgstr "ČÍNSKÝ BIOS"
 msgid "PC-FX"
 msgstr "PC-FX"
 
-msgid "BIOS SWITCH"
-msgstr "PŘEPNUTÍ BIOSU"
+msgid "Chinese Localization settings"
+msgstr "Nastavení čínské lokalizace"
 
 msgid "SYSTEM INFO"
 msgstr "INFORMACE O SYSTÉMU"

@@ -590,8 +590,8 @@ msgstr "KINESKI BIOS"
 msgid "PC-FX"
 msgstr "PC-FX"
 
-msgid "BIOS SWITCH"
-msgstr "MIJENJANJE BIOS-A"
+msgid "Chinese Localization settings"
+msgstr "Postavke kineske lokalizacije"
 
 msgid "SYSTEM INFO"
 msgstr "INFORMACIJE O SUSTAVU"

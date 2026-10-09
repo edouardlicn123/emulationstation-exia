@@ -565,8 +565,8 @@ msgstr "중국어 BIOS"
 msgid "PC-FX"
 msgstr "PC-FX"
 
-msgid "BIOS SWITCH"
-msgstr "BIOS 전환"
+msgid "Chinese Localization settings"
+msgstr "게임 한글화 설정"
 
 msgid "SYSTEM INFO"
 msgstr "시스템 정보"

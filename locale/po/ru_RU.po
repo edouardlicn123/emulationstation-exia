@@ -580,8 +580,8 @@ msgstr "КИТАЙСКИЙ BIOS"
 msgid "PC-FX"
 msgstr "PC-FX"
 
-msgid "BIOS SWITCH"
-msgstr "СМЕНА BIOS"
+msgid "Chinese Localization settings"
+msgstr "Настройки китайской локализации"
 
 msgid "SYSTEM INFO"
 msgstr "СВЕДЕНИЯ О СИСТЕМЕ"

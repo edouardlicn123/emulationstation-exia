@@ -19,6 +19,9 @@
 
 #define PROGRAM_BUILT_STRING __DATE__ " - " __TIME__
 
+// Exia build version (auto-stamped by rebuild_esde.sh per build)
+#define EXIA_VERSION_STRING "Exia 20261009-0257"
+
 #define RESOURCE_VERSION_STRING "3,5,0\0"
 #define RESOURCE_VERSION PROGRAM_VERSION_MAJOR, PROGRAM_VERSION_MINOR, PROGRAM_VERSION_MAINTENANCE
 

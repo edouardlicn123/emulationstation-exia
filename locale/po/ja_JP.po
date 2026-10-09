@@ -583,8 +583,8 @@ msgstr "中国語 BIOS"
 msgid "PC-FX"
 msgstr "PC-FX"
 
-msgid "BIOS SWITCH"
-msgstr "BIOS 切替"
+msgid "Chinese Localization settings"
+msgstr "ゲーム漢化設定"
 
 msgid "SYSTEM INFO"
 msgstr "システム情報"

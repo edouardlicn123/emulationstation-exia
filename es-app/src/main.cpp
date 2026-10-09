@@ -400,7 +400,7 @@ bool parseArguments(const std::vector<std::string>& arguments)
         }
         else if (arguments[i] == "--version" || arguments[i] == "-v") {
             std::cout << "ES-DE " << PROGRAM_VERSION_STRING << " (r" << PROGRAM_RELEASE_NUMBER
-                      << ")\n";
+                      << ") - " << EXIA_VERSION_STRING << "\n";
             return false;
         }
         else if (arguments[i] == "--help" || arguments[i] == "-h") {
@@ -765,7 +765,8 @@ int main(int argc, char* argv[])
 
 #else
         LOG(LogInfo) << applicationName << " " << PROGRAM_VERSION_STRING << " (r"
-                     << PROGRAM_RELEASE_NUMBER << "), built " << PROGRAM_BUILT_STRING;
+                     << PROGRAM_RELEASE_NUMBER << ") - " << EXIA_VERSION_STRING << ", built "
+                     << PROGRAM_BUILT_STRING;
 #endif
         if (portableMode) {
             LOG(LogInfo) << "Running in portable mode";

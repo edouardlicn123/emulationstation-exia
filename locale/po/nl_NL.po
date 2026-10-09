@@ -577,8 +577,8 @@ msgstr "CHINEES BIOS"
 msgid "PC-FX"
 msgstr "PC-FX"
 
-msgid "BIOS SWITCH"
-msgstr "BIOS WISSELEN"
+msgid "Chinese Localization settings"
+msgstr "Instellingen voor Chinese lokalisatie"
 
 msgid "SYSTEM INFO"
 msgstr "SYSTEEMINFORMATIE"
