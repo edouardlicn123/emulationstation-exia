@@ -34,6 +34,33 @@
 #include <assert.h>
 #include <regex>
 
+namespace {
+// Exia: media types stored next to the ROM files in the Batocera/Skraper layout
+// (<romdir>/images/<stem>-image.png etc.). Returns the filename suffixes to try for
+// an ES-DE media subdirectory, or an empty list if the type has no ROM-dir variant.
+std::vector<std::string> getRomMediaSuffixes(const std::string& subdirectory)
+{
+    if (subdirectory == "screenshots")
+        return {"-image", "#image", "-screenshot", "#screenshot"};
+    if (subdirectory == "covers")
+        return {"-thumb", "#thumb", "-boxart", "#boxart"};
+    if (subdirectory == "marquees")
+        return {"-marquee", "#marquee", "-wheel", "#wheel", "-logo", "#logo"};
+    if (subdirectory == "fanart")
+        return {"-fanart", "#fanart"};
+    if (subdirectory == "backcovers")
+        return {"-boxback", "#boxback"};
+    if (subdirectory == "titlescreens")
+        return {"-title", "#title"};
+    if (subdirectory == "3dboxes")
+        return {"-box", "#box"};
+    if (subdirectory == "physicalmedia")
+        return {"-media", "#media"};
+
+    return {};
+}
+} // namespace
+
 FileData::FileData(FileType type,
                    const std::string& path,
                    SystemEnvironmentData* envData,
@@ -344,6 +371,32 @@ const std::string FileData::getMediafilePath(const std::string& subdirectory) co
         subFolders =
             Utils::String::replace(Utils::FileSystem::getParent(mPath), mEnvData->mStartPath, "");
 
+    // Exia: first look for media stored next to the ROM files using the Batocera/Skraper
+    // layout, i.e. <romdir>/images/<name>-image.png. The directory containing the ROM and
+    // the system root directory are both searched, in that order. Files are named with
+    // either a dash or a hash separator depending on the scraper used.
+    const std::vector<std::string> romMediaSuffixes {getRomMediaSuffixes(subdirectory)};
+    if (!romMediaSuffixes.empty()) {
+        std::vector<std::string> romMediaDirs;
+        const std::string siblingDir {Utils::FileSystem::getParent(mPath)};
+        if (!siblingDir.empty())
+            romMediaDirs.emplace_back(siblingDir);
+        if (mEnvData->mStartPath != "" && mEnvData->mStartPath != siblingDir)
+            romMediaDirs.emplace_back(mEnvData->mStartPath);
+
+        const std::string stem {getDisplayName()};
+        for (const auto& mediaDir : romMediaDirs) {
+            for (const auto& suffix : romMediaSuffixes) {
+                for (const auto& extension : sImageExtensions) {
+                    const std::string romMediaPath {
+                        mediaDir + "/images/" + stem + suffix + extension};
+                    if (Utils::FileSystem::exists(romMediaPath))
+                        return romMediaPath;
+                }
+            }
+        }
+    }
+
     const std::string tempPath {getMediaDirectory() + mSystemName + "/" + subdirectory +
                                 subFolders + "/" + getDisplayName()};
 
@@ -447,6 +500,30 @@ const std::string FileData::getVideoPath() const
     if (mEnvData->mStartPath != "")
         subFolders =
             Utils::String::replace(Utils::FileSystem::getParent(mPath), mEnvData->mStartPath, "");
+
+    // Exia: first look for a video stored next to the ROM files using the Batocera/Skraper
+    // layout, i.e. <romdir>/videos/<name>-video.mp4.
+    {
+        std::vector<std::string> romMediaDirs;
+        const std::string siblingDir {Utils::FileSystem::getParent(mPath)};
+        if (!siblingDir.empty())
+            romMediaDirs.emplace_back(siblingDir);
+        if (mEnvData->mStartPath != "" && mEnvData->mStartPath != siblingDir)
+            romMediaDirs.emplace_back(mEnvData->mStartPath);
+
+        const std::string stem {getDisplayName()};
+        static const std::vector<std::string> videoSuffixes {"-video", "#video"};
+        for (const auto& mediaDir : romMediaDirs) {
+            for (const auto& suffix : videoSuffixes) {
+                for (const auto& extension : sVideoExtensions) {
+                    const std::string romVideoPath {
+                        mediaDir + "/videos/" + stem + suffix + extension};
+                    if (Utils::FileSystem::exists(romVideoPath))
+                        return romVideoPath;
+                }
+            }
+        }
+    }
 
     const std::string tempPath {getMediaDirectory() + mSystemName + "/videos" + subFolders + "/" +
                                 getDisplayName()};
