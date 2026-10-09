@@ -2615,7 +2615,8 @@ void GuiMenu::addVersionInfo()
     mVersion.setText(applicationName + "  " + Utils::String::toUpper(PROGRAM_VERSION_STRING) + "-" +
                      std::to_string(ANDROID_VERSION_CODE));
 #else
-    mVersion.setText(applicationName + "  " + Utils::String::toUpper(PROGRAM_VERSION_STRING));
+    mVersion.setText(applicationName + "  " + PROGRAM_VERSION_STRING + " (r" +
+                     std::to_string(PROGRAM_RELEASE_NUMBER) + ") - " + EXIA_VERSION_STRING);
 #endif
 #endif
 

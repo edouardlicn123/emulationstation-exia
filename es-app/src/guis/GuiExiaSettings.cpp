@@ -664,7 +664,12 @@ void GuiExiaSettings::openBiosPlatform(const std::string& title,
         if (selection.empty() || selection.front().empty())
             return;
         const std::string source {selection.front()};
-        if (!Utils::FileSystem::copyFile(sourceRoot + "/" + source, targetPath, true)) {
+        // copyFile() does not create parent directories, so make sure the target directory
+        // exists before copying (e.g. ~/bios/np2kai for the PC-98 font).
+        Utils::FileSystem::createDirectory(Utils::FileSystem::getParent(targetPath));
+        // copyFile() follows the same return convention as renameFile(): true on error,
+        // false on success (see FileSystemUtil.cpp and GuiApplicationUpdater.cpp).
+        if (Utils::FileSystem::copyFile(sourceRoot + "/" + source, targetPath, true)) {
             window->queueInfoPopup(_("FAILED TO COPY BIOS FILE, CHECK THE LOG FILE"), 6000);
             return;
         }
