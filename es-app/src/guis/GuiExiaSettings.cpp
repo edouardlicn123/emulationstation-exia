@@ -525,48 +525,38 @@ GuiExiaSettings::GuiExiaSettings(const std::string& title)
     addRow(makeNavRow(_("GIT PROXY"), "", [this] { openGitProxy(); }));
 
 #if !defined(__ANDROID__) && !defined(__IOS__)
-    // The current value sits on the row itself and is refreshed after a successful write.
-    auto timeoutValue = std::make_shared<TextComponent>(readLightdmValue(),
-                                                        menuValueFont(),
-                                                        mMenuColorPrimary, ALIGN_RIGHT);
-    ComponentListRow timeoutRow;
-    timeoutRow.addElement(std::make_shared<TextComponent>(_("LIGHTDM COUNTDOWN"),
-                                                          getMenuThemeFont(FONT_SIZE_MEDIUM),
-                                                          mMenuColorPrimary),
-                          true);
-    timeoutRow.addElement(timeoutValue, false);
-    timeoutRow.addElement(getMenu().makeArrow(), false);
-    timeoutRow.makeAcceptInputHandler([this, timeoutValue] {
-        mWindow->pushGui(new GuiTextEditPopup(
-            _("LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"), timeoutValue->getValue(),
-            [this, timeoutValue](const std::string& newValue) {
-                const std::string value {trimString(newValue)};
-                if (value.empty())
-                    return;
-                bool numeric {true};
-                for (const char character : value) {
-                    if (character < '0' || character > '9')
-                        numeric = false;
-                }
-                if (!numeric || std::atoi(value.c_str()) > 60) {
-                    mWindow->queueInfoPopup(_("ENTER A NUMBER FROM 0 TO 60 SECONDS"), 5000);
-                    return;
-                }
-                if (!writeLightdmValue(value)) {
-                    mWindow->queueInfoPopup(
-                        _("FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"), 6000);
-                    return;
-                }
-                ExiaConfig::getInstance().set("boot.lightdm.timeout", value);
-                timeoutValue->setValue(value);
-                mWindow->queueInfoPopup(
-                    Utils::String::format(_("LIGHTDM COUNTDOWN SET TO %s SECONDS"),
-                                          value.c_str()),
-                    5000);
-            },
-            false));
+    // Read current timeout from lightdm.conf (fallback to exia.conf).
+    std::string currentTimeoutStr {readLightdmValue()};
+    if (currentTimeoutStr.empty())
+        currentTimeoutStr = ExiaConfig::getInstance().get("boot.lightdm.timeout", "7");
+    int currentTimeout {std::atoi(currentTimeoutStr.c_str())};
+    if (currentTimeout < 2)
+        currentTimeout = 2;
+    else if (currentTimeout > 10)
+        currentTimeout = 10;
+
+    // A drag bar operated with the direction keys, range 2-10 seconds, step 1.
+    auto slider = std::make_shared<SliderComponent>(2.0f, 10.0f, 1.0f, "s");
+    slider->setValue(static_cast<float>(currentTimeout));
+
+    addWithLabel(_("LIGHTDM COUNTDOWN"), slider);
+    addSaveFunc([slider, currentTimeout, window = mWindow] {
+        const int newTimeout {static_cast<int>(std::round(slider->getValue()))};
+        // Only write when the value really changed.
+        if (newTimeout == currentTimeout)
+            return;
+        const std::string valueStr {std::to_string(newTimeout)};
+        if (!writeLightdmValue(valueStr)) {
+            window->queueInfoPopup(
+                _("FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"), 6000);
+            return;
+        }
+        ExiaConfig::getInstance().set("boot.lightdm.timeout", valueStr);
+        window->queueInfoPopup(
+            Utils::String::format(_("LIGHTDM COUNTDOWN SET TO %s SECONDS"),
+                                  valueStr.c_str()),
+            5000);
     });
-    addRow(timeoutRow);
 #endif
 
     addFontSizeRow();
@@ -719,7 +709,6 @@ void GuiExiaSettings::openSystemInfo()
         _("FAVORITES"),
         std::make_shared<TextComponent>(std::to_string(favoriteCount), menuValueFont(),
                                         mMenuColorPrimary, ALIGN_RIGHT));
-    infoMenu->addRow(makeNoteRow(_("LIVE COUNTS FROM THE ES-DE SYSTEM LIST")));
 
     // Section 2, read from the F section of exia.conf.
     infoMenu->addRow(makeSectionRow(_("ES-DE PATHS")));
@@ -731,7 +720,6 @@ void GuiExiaSettings::openSystemInfo()
                                                  menuValueFont(), mMenuColorPrimary,
                                                  ALIGN_RIGHT));
     }
-    infoMenu->addRow(makeNoteRow(_("VALUES ARE READ FROM EXIA.CONF")));
 
     // Section 3, asked of systemd each time the page is opened.
     ComponentListRow sessionRow;

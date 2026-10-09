@@ -830,6 +830,10 @@ void GamelistView::updateView(const CursorState& state)
                     else if (!video->setVideo(mRandomGame->getVideoPath()))
                         video->setDefaultVideo();
 
+                    // Check if random game has cover or screenshot to determine video start delay
+                    bool hasCoverOrScreenshot = !mRandomGame->getCoverPath().empty() || !mRandomGame->getScreenshotPath().empty();
+                    video->setStartDelay(hasCoverOrScreenshot ? 3500 : 0);
+
                     video->startVideoPlayer();
                 }
             }
@@ -867,6 +871,10 @@ void GamelistView::updateView(const CursorState& state)
                     video->setStaticVideo();
                 else if (!video->setVideo(file->getVideoPath()))
                     video->setDefaultVideo();
+
+                // Check if game has cover or screenshot to determine video start delay
+                bool hasCoverOrScreenshot = !file->getCoverPath().empty() || !file->getScreenshotPath().empty();
+                video->setStartDelay(hasCoverOrScreenshot ? 3500 : 0);
 
                 video->startVideoPlayer();
             }

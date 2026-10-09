@@ -95,6 +95,9 @@ public:
     // Needed on Android to reset the static image delay timer on activity resume.
     void resetVideoPlayerTimer() { mStartTime = SDL_GetTicks() + mConfig.startDelay; }
 
+    // Set the video start delay in milliseconds (overrides theme delay).
+    void setStartDelay(unsigned delayMs) { mConfig.startDelay = delayMs; }
+
     // Handle looping of the video. Must be called periodically.
     virtual void handleLooping() {}
     // Used to immediately mute audio even if there are still samples to play in the buffer.
