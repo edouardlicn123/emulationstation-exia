@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-09-09 19:23+0800\n"
 "Last-Translator: ice <natsumekyousuke211314@gmail.com>\n"
 "Language-Team: 日本語 <info@es-de.org>\n"
@@ -595,12 +595,6 @@ msgstr "Git プロキシ"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "LightDM カウントダウン"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "LightDM カウントダウン(秒、0〜60)"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "0〜60 の数字を入力してください"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "lightdm.conf 更新失敗：sudo パスワードを確認"
 
@@ -627,14 +621,8 @@ msgstr "ゲーム"
 msgid "FAVORITES"
 msgstr "お気に入り"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "ES-DE のシステム一覧からリアルタイム集計"
-
 msgid "ES-DE PATHS"
 msgstr "ES-DE のパス"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "値は exia.conf から読み取ります"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "起動時に ES-DE を自動起動"
@@ -915,6 +903,9 @@ msgstr "UI設定"
 
 msgid "SOUND SETTINGS"
 msgstr "音声設定"
+
+msgid "NETWORK SETTINGS"
+msgstr "ネットワーク設定"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "入力デバイス設定"
@@ -1422,9 +1413,6 @@ msgstr "キッズモードでメニューを有効"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "終了メニューを表示（再起動/電源オフ）"
 
-msgid "GAME IMPORTER"
-msgstr "ゲームインポーター"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "孤児データのクリーンアップ"
 
@@ -1577,6 +1565,117 @@ msgstr "削除"
 
 msgid "delete game"
 msgstr "ゲームを削除する"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "Wi-Fiデバイスが見つかりません"
+
+msgid "CURRENT STATUS"
+msgstr "現在の状態"
+
+msgid "INFORMATION"
+msgstr "情報"
+
+msgid "CONNECTION"
+msgstr "接続"
+
+msgid "NOT CONNECTED"
+msgstr "未接続"
+
+msgid "IP ADDRESS"
+msgstr "IPアドレス"
+
+msgid "GATEWAY"
+msgstr "ゲートウェイ"
+
+msgid "INTERNET STATUS"
+msgstr "インターネット状態"
+
+msgid "OVERSEAS NETWORK"
+msgstr "海外ネットワーク"
+
+msgid "CONNECTED"
+msgstr "接続済み"
+
+msgid "DOMESTIC NETWORK"
+msgstr "国内ネットワーク"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "ネットワークマネージャーが利用できません"
+
+msgid "WI-FI"
+msgstr "Wi-Fi"
+
+msgid "ENABLE WI-FI"
+msgstr "Wi-Fiを有効にする"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "利用可能なネットワーク"
+
+msgid "SAVED NETWORKS"
+msgstr "保存済みネットワーク"
+
+msgid "DISCONNECT"
+msgstr "切断"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "切断に失敗しました"
+
+msgid "ETHERNET"
+msgstr "イーサネット"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "Wi-Fiネットワークを検索中..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "Wi-Fiネットワークが見つかりません"
+
+msgid "OPEN"
+msgstr "オープン"
+
+msgid "SCAN"
+msgstr "スキャン"
+
+msgid "scan"
+msgstr "スキャン"
+
+msgid "INPUT MANUALLY"
+msgstr "手動入力"
+
+msgid "manual input"
+msgstr "手動入力"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "Wi-Fiパスワードを入力"
+
+msgid "CONNECTING"
+msgstr "接続中:"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "接続に失敗:"
+
+msgid "CONNECTED TO"
+msgstr "接続先:"
+
+msgid "ENTER SSID"
+msgstr "SSIDを入力"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "保存済みのWi-Fiネットワークはありません"
+
+msgid "AUTOCONNECT"
+msgstr "自動接続"
+
+msgid "CONNECT"
+msgstr "接続"
+
+msgid "FORGET NETWORK"
+msgstr "ネットワークを削除"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "このネットワークを削除してもよろしいですか?"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "ネットワークの削除に失敗しました"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "複合画像オフラインジェネレーター"
@@ -3342,6 +3441,21 @@ msgstr "システムディレクトリを作成中..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "エラー：PDFファイルをレンダリングできませんでした"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "LightDM カウントダウン(秒、0〜60)"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "0〜60 の数字を入力してください"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "ES-DE のシステム一覧からリアルタイム集計"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "値は exia.conf から読み取ります"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "ゲームインポーター"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "メニューの文字サイズ倍率(パーセント)、80〜150"

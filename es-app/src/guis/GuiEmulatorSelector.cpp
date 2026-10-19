@@ -16,10 +16,19 @@
 #include "views/ViewController.h"
 
 GuiEmulatorSelector::GuiEmulatorSelector(SystemData* system, FileData* game)
-    : mMenu {new GuiSettings(_("SELECT EMULATOR"))}
+    : mMenu {_("SELECT EMULATOR")}
     , mSystem {system}
     , mGame {game}
 {
+    addChild(&mMenu);
+
+    // The menu is only a child of this component and is not pushed onto the window GUI stack
+    // itself, so its BACK button has to delete this component. A GuiSettings instance would
+    // instead delete itself when the "b" button is pressed, which leaves this component behind
+    // on the GUI stack with a dangling menu pointer, and the next input event then crashes in
+    // the virtual call in input() below.
+    mMenu.addButton(_("BACK"), _("back"), [this] { delete this; });
+
     const std::string currentValue {game->metadata.get("altemulator")};
 
     // A stored label that no longer resolves to a launch command is reported rather than
@@ -33,7 +42,10 @@ GuiEmulatorSelector::GuiEmulatorSelector(SystemData* system, FileData* game)
 
     buildMenu(invalidEntry, currentValue);
 
-    addChild(mMenu);
+    // Take the size of the menu so that this component is centered on screen like a top level
+    // GUI, which is also what the scale-up menu opening effect uses.
+    setSize(mMenu.getSize());
+    setPosition((Renderer::getScreenWidth() - mSize.x) / 2.0f, Renderer::getScreenHeight() * 0.13f);
 }
 
 void GuiEmulatorSelector::buildMenu(bool invalidEntry, const std::string& currentValue)
@@ -41,7 +53,14 @@ void GuiEmulatorSelector::buildMenu(bool invalidEntry, const std::string& curren
     const std::vector<std::pair<std::string, std::string>>& launchCommands {
         mSystem->getSystemEnvData()->mLaunchCommands};
 
-    const bool singleEntry {launchCommands.size() == 1};
+    bool hasAlternative {false};
+    for (const auto& cmd : launchCommands) {
+        if (!cmd.second.empty()) {
+            hasAlternative = true;
+            break;
+        }
+    }
+    const bool singleEntry {launchCommands.size() == 1 && hasAlternative == false ? true : (launchCommands.size() == 1)};
 
     // Only offer a "clear" row when there is a per-game override to clear.
     if (!currentValue.empty()) {
@@ -59,7 +78,7 @@ void GuiEmulatorSelector::buildMenu(bool invalidEntry, const std::string& curren
             delete this;
         });
 
-        mMenu->addRow(clearRow, true);
+        mMenu.addRow(clearRow, true);
     }
 
     for (const auto& entry : launchCommands) {
@@ -69,7 +88,7 @@ void GuiEmulatorSelector::buildMenu(bool invalidEntry, const std::string& curren
 
         // When the stored value is invalid and the system only has one command, show only
         // the invalid entry so that the user can act on it.
-        if (invalidEntry && singleEntry && entry.second != currentValue)
+        if (invalidEntry && singleEntry && entry.second != currentValue && launchCommands.size() <= 1)
             continue;
 
         std::string label {entry.second};
@@ -99,26 +118,26 @@ void GuiEmulatorSelector::buildMenu(bool invalidEntry, const std::string& curren
             delete this;
         });
 
-        mMenu->addRow(row, true);
+        mMenu.addRow(row, true);
     }
 }
 
 bool GuiEmulatorSelector::input(InputConfig* config, Input input)
 {
-    if (mMenu->input(config, input))
-        return true;
-
-    if (config->isMappedTo("b", input) || config->isMappedTo("back", input)) {
+    // Handle the back button before forwarding to the menu, because deleting this component
+    // destroys the menu together with it. Note that this has to be checked for the button
+    // release as well, since the menu only acts on the press.
+    if (input.value != 0 && (config->isMappedTo("b", input) || config->isMappedTo("back", input))) {
         delete this;
         return true;
     }
 
-    return false;
+    return mMenu.input(config, input);
 }
 
 std::vector<HelpPrompt> GuiEmulatorSelector::getHelpPrompts()
 {
-    auto prompts {mMenu->getHelpPrompts()};
+    auto prompts {mMenu.getHelpPrompts()};
     prompts.push_back(HelpPrompt("b", _("back")));
     return prompts;
 }

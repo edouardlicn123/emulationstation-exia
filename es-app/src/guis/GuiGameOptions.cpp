@@ -42,8 +42,9 @@ GuiGameOptions::GuiGameOptions(FileData* game)
 
     addEntry(_("VIEW GAME MEDIA"), [this] {
         FileData* game {mGame};
-        close();
+        // close() destroys "this", so the window has to be used before the deletion.
         mWindow->startMediaViewer(game, false);
+        close();
     });
 
     addEntry(_("SCRAPE"), [this] {
@@ -51,15 +52,25 @@ GuiGameOptions::GuiGameOptions(FileData* game)
         close();
     });
 
-    // Offer the per-game emulator choice when the system actually has more than one launch
-    // command to choose between.
-    if (mGame->getSystem()->getSystemEnvData()->mLaunchCommands.size() > 1) {
-        addEntry(_("SELECT EMULATOR"), [this] {
-            SystemData* system {mGame->getSystem()};
-            FileData* game {mGame};
-            close();
-            mWindow->pushGui(new GuiEmulatorSelector(system, game));
-        });
+    // Offer the per-game emulator choice if the system has alternative launch commands.
+    {
+        const auto& commands {mGame->getSystem()->getSystemEnvData()->mLaunchCommands};
+        bool hasAlternative {false};
+        for (const auto& cmd : commands) {
+            if (!cmd.second.empty()) {
+                hasAlternative = true;
+                break;
+            }
+        }
+        if (commands.size() > 1 || hasAlternative) {
+            addEntry(_("SELECT EMULATOR"), [this] {
+                SystemData* system {mGame->getSystem()};
+                FileData* game {mGame};
+                // close() destroys "this", so the window has to be used before the deletion.
+                mWindow->pushGui(new GuiEmulatorSelector(system, game));
+                close();
+            });
+        }
     }
 
     addEntry(_("EDIT THIS GAME'S METADATA"), [this] {

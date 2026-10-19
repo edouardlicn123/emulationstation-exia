@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-09-05 18:04+0300\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Arabic (Classical Arabic) <info@es-de.org>\n"
@@ -599,12 +599,6 @@ msgstr "وسيط Git"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "عدّاد LightDM التنازلي"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "عدّاد LightDM، 0 إلى 60"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "أدخل رقمًا من 0 إلى 60 ثانية"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "فشل تحديث lightdm.conf (sudo؟)"
 
@@ -631,14 +625,8 @@ msgstr "الألعاب"
 msgid "FAVORITES"
 msgstr "المفضلة"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "أعداد حية من ES-DE"
-
 msgid "ES-DE PATHS"
 msgstr "مسارات ES-DE"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "تُقرأ القيم من exia.conf"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "تشغيل ES-DE تلقائيًا"
@@ -924,6 +912,9 @@ msgstr "إعدادات واجهة المستخدم"
 
 msgid "SOUND SETTINGS"
 msgstr "إعدادات الصوت"
+
+msgid "NETWORK SETTINGS"
+msgstr "إعدادات الشبكة"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "إعدادات جهاز الإدخال"
@@ -1429,9 +1420,6 @@ msgstr "تفعيل القائمة في وضع الأطفال"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "(إيقاف وإعادة تشغيل الإدخالات) إظهر قائمة الخروج"
 
-msgid "GAME IMPORTER"
-msgstr "مستورد اللعبة"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "تنظيف البيانات اليتيمة"
 
@@ -1581,6 +1569,117 @@ msgstr "حذف"
 
 msgid "delete game"
 msgstr "حذف اللعبة"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "لم يتم العثور على جهاز واي فاي"
+
+msgid "CURRENT STATUS"
+msgstr "الحالة الحالية"
+
+msgid "INFORMATION"
+msgstr "معلومات"
+
+msgid "CONNECTION"
+msgstr "الاتصال"
+
+msgid "NOT CONNECTED"
+msgstr "غير متصل"
+
+msgid "IP ADDRESS"
+msgstr "عنوان IP"
+
+msgid "GATEWAY"
+msgstr "البوابة"
+
+msgid "INTERNET STATUS"
+msgstr "حالة الإنترنت"
+
+msgid "OVERSEAS NETWORK"
+msgstr "شبكة خارجية"
+
+msgid "CONNECTED"
+msgstr "متصل"
+
+msgid "DOMESTIC NETWORK"
+msgstr "شبكة محلية"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "مدير الشبكة غير متوفر"
+
+msgid "WI-FI"
+msgstr "واي فاي"
+
+msgid "ENABLE WI-FI"
+msgstr "تمكين واي فاي"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "الشبكات المتاحة"
+
+msgid "SAVED NETWORKS"
+msgstr "الشبكات المحفوظة"
+
+msgid "DISCONNECT"
+msgstr "قطع الاتصال"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "فشل قطع الاتصال"
+
+msgid "ETHERNET"
+msgstr "إيثرنت"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "جارٍ البحث عن شبكات واي فاي..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "لم يتم العثور على شبكات واي فاي"
+
+msgid "OPEN"
+msgstr "مفتوحة"
+
+msgid "SCAN"
+msgstr "بحث"
+
+msgid "scan"
+msgstr "بحث"
+
+msgid "INPUT MANUALLY"
+msgstr "إدخال يدوي"
+
+msgid "manual input"
+msgstr "إدخال يدوي"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "أدخل كلمة مرور واي فاي"
+
+msgid "CONNECTING"
+msgstr "جارٍ الاتصال بـ"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "فشل الاتصال بـ"
+
+msgid "CONNECTED TO"
+msgstr "متصل بـ"
+
+msgid "ENTER SSID"
+msgstr "أدخل SSID"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "لا توجد شبكات واي فاي محفوظة"
+
+msgid "AUTOCONNECT"
+msgstr "الاتصال التلقائي"
+
+msgid "CONNECT"
+msgstr "اتصال"
+
+msgid "FORGET NETWORK"
+msgstr "نسيان الشبكة"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "هل أنت متأكد من نسيان الشبكة؟"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "فشل نسيان الشبكة"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "مولد الصور المخطلطة غير متصل بالإنترنت"
@@ -3367,6 +3466,21 @@ msgstr "...إنشاء أدلة النظام"
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "خطأ لا يمكن تقديم ملف pdf"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "عدّاد LightDM، 0 إلى 60"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "أدخل رقمًا من 0 إلى 60 ثانية"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "أعداد حية من ES-DE"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "تُقرأ القيم من exia.conf"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "مستورد اللعبة"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "تكبير خط القائمة بالنسبة المئوية، من 80 إلى 150"

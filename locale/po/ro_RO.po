@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-09-04 22:25+0300\n"
 "Last-Translator: Mihai Vasiliu <mihai.vasiliu.93@gmail.com>\n"
 "Language-Team: Română <info@es-de.org>\n"
@@ -597,12 +597,6 @@ msgstr "PROXY GIT"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "NUMĂRĂTOARE LIGHTDM"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "NUMĂRĂTOARE LIGHTDM 0-60"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "INTRODUȚI UN NUMĂR ÎNTRE 0 ȘI 60"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "LIGHTDM.CONF: PAROLĂ SUDO GREȘITĂ"
 
@@ -629,14 +623,8 @@ msgstr "JOCURI"
 msgid "FAVORITES"
 msgstr "FAVORITE"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "NUMERĂRI LIVE (ES-DE)"
-
 msgid "ES-DE PATHS"
 msgstr "CĂI ES-DE"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "VALORI DIN EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "PORNIRE AUTOMATĂ A ES-DE"
@@ -919,6 +907,9 @@ msgstr "SETĂRI INTERFAȚĂ"
 
 msgid "SOUND SETTINGS"
 msgstr "SETĂRI SUNET"
+
+msgid "NETWORK SETTINGS"
+msgstr "SETĂRI DE REȚEA"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "SETĂRI DISPOZITIVE INTRARE"
@@ -1426,9 +1417,6 @@ msgstr "PERMITE MENIUL ÎN MODUL COPIL"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "AFIȘEAZĂ MENIU IEȘIRE (REPORNIRE ȘI ÎNCHIDERE)"
 
-msgid "GAME IMPORTER"
-msgstr "IMPORTATOR JOCURI"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "CURĂȚARE DATE INVALIDE"
 
@@ -1581,6 +1569,117 @@ msgstr "ȘTERGE"
 
 msgid "delete game"
 msgstr "șterge jocul"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "NU A FOST GĂSIT NICIUN DISPOZITIV WI-FI"
+
+msgid "CURRENT STATUS"
+msgstr "STARE CURENTĂ"
+
+msgid "INFORMATION"
+msgstr "INFORMAȚII"
+
+msgid "CONNECTION"
+msgstr "CONEXIUNE"
+
+msgid "NOT CONNECTED"
+msgstr "NECONECTAT"
+
+msgid "IP ADDRESS"
+msgstr "ADRESĂ IP"
+
+msgid "GATEWAY"
+msgstr "GATEWAY"
+
+msgid "INTERNET STATUS"
+msgstr "STARE INTERNET"
+
+msgid "OVERSEAS NETWORK"
+msgstr "REȚEA EXTERNĂ"
+
+msgid "CONNECTED"
+msgstr "CONECTAT"
+
+msgid "DOMESTIC NETWORK"
+msgstr "REȚEA INTERNĂ"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "MANAGERUL DE REȚEA NU ESTE DISPONIBIL"
+
+msgid "WI-FI"
+msgstr "WI-FI"
+
+msgid "ENABLE WI-FI"
+msgstr "ACTIVEAZĂ WI-FI"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "REȚELE DISPONIBILE"
+
+msgid "SAVED NETWORKS"
+msgstr "REȚELE SALVATE"
+
+msgid "DISCONNECT"
+msgstr "DECONECTARE"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "DECONECTAREA A EȘUAT"
+
+msgid "ETHERNET"
+msgstr "ETHERNET"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "SE CAUTĂ REȚELE WI-FI..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "NU S-AU GĂSIT REȚELE WI-FI"
+
+msgid "OPEN"
+msgstr "DESCHISĂ"
+
+msgid "SCAN"
+msgstr "SCANARE"
+
+msgid "scan"
+msgstr "scanare"
+
+msgid "INPUT MANUALLY"
+msgstr "INTRODUCERE MANUALĂ"
+
+msgid "manual input"
+msgstr "introducere manuală"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "INTRODU PAROLA WI-FI"
+
+msgid "CONNECTING"
+msgstr "SE CONECTEAZĂ LA"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "NU SE POATE CONECTA LA"
+
+msgid "CONNECTED TO"
+msgstr "CONECTAT LA"
+
+msgid "ENTER SSID"
+msgstr "INTRODU SSID-UL"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "NICIO REȚEA WI-FI SALVATĂ"
+
+msgid "AUTOCONNECT"
+msgstr "CONECTARE AUTOMATĂ"
+
+msgid "CONNECT"
+msgstr "CONECTARE"
+
+msgid "FORGET NETWORK"
+msgstr "UITĂ REȚEAUA"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "SIGUR VREI SĂ UIȚI REȚEAUA?"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "UITAREA REȚELEI A EȘUAT"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "GENERATOR OFFLINE DE IMAGINI MIX"
@@ -3371,6 +3470,21 @@ msgstr "Se creează dosarele sistemelor..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "EROARE: NU SE POATE AFIȘA FIȘIERUL PDF"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "NUMĂRĂTOARE LIGHTDM 0-60"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "INTRODUȚI UN NUMĂR ÎNTRE 0 ȘI 60"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "NUMERĂRI LIVE (ES-DE)"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "VALORI DIN EXIA.CONF"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "IMPORTATOR JOCURI"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "SCARA CARACTERELUI MENIU ÎN PROCENTE, DE LA 80 LA 150"

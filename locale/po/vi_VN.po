@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-09-12 19:49+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Tiếng Việt <info@es-de.org>\n"
@@ -582,12 +582,6 @@ msgstr "PROXY GIT"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "ĐẾM NGƯỢC LIGHTDM"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "ĐẾM NGƯỢC LIGHTDM 0-60"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "NHẬP SỐ TỪ 0 ĐẾN 60 GIÂY"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "LIGHTDM.CONF: SAI MẬT KHẨU SUDO"
 
@@ -614,14 +608,8 @@ msgstr "TRÒ CHƠI"
 msgid "FAVORITES"
 msgstr "YÊU THÍCH"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "SỐ LIỆU TRỰC TIẾP (ES-DE)"
-
 msgid "ES-DE PATHS"
 msgstr "ĐƯỜNG DẪN ES-DE"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "GIÁ TRỊ TỪ EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "TỰ ĐỘNG KHỞI ĐỘNG ES-DE"
@@ -902,6 +890,9 @@ msgstr "CÀI ĐẶT GIAO DIỆN"
 
 msgid "SOUND SETTINGS"
 msgstr "CÀI ĐẶT ÂM THANH"
+
+msgid "NETWORK SETTINGS"
+msgstr "CÀI ĐẶT MẠNG"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "CÀI ĐẶT THIẾT BỊ NHẬP"
@@ -1409,9 +1400,6 @@ msgstr "BẬT MENU TRONG CHẾ ĐỘ TRẺ EM"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "HIỂN THỊ MENU THOÁT (KHỞI ĐỘNG LẠI VÀ TẮT MÁY)"
 
-msgid "GAME IMPORTER"
-msgstr "TRÌNH NHẬP TRÒ CHƠI"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "DỌN DẸP DỮ LIỆU ĐƠN LẺ"
 
@@ -1562,6 +1550,117 @@ msgstr "XÓA"
 
 msgid "delete game"
 msgstr "xóa trò chơi"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "KHÔNG TÌM THẤY THIẾT BỊ WI-FI"
+
+msgid "CURRENT STATUS"
+msgstr "TRẠNG THÁI HIỆN TẠI"
+
+msgid "INFORMATION"
+msgstr "THÔNG TIN"
+
+msgid "CONNECTION"
+msgstr "KẾT NỐI"
+
+msgid "NOT CONNECTED"
+msgstr "CHƯA KẾT NỐI"
+
+msgid "IP ADDRESS"
+msgstr "ĐỊA CHỈ IP"
+
+msgid "GATEWAY"
+msgstr "CỔNG MẠC ĐỊNH"
+
+msgid "INTERNET STATUS"
+msgstr "TRẠNG THÁI INTERNET"
+
+msgid "OVERSEAS NETWORK"
+msgstr "MẠNG NƯỚC NGOÀI"
+
+msgid "CONNECTED"
+msgstr "ĐÃ KẾT NỐI"
+
+msgid "DOMESTIC NETWORK"
+msgstr "MẠNG TRONG NƯỚC"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "TRÌNH QUẢN LÝ MẠNG KHÔNG KHẢ DỤNG"
+
+msgid "WI-FI"
+msgstr "WI-FI"
+
+msgid "ENABLE WI-FI"
+msgstr "BẬT WI-FI"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "MẠNG KHẢ DỤNG"
+
+msgid "SAVED NETWORKS"
+msgstr "MẠNG ĐÃ LƯU"
+
+msgid "DISCONNECT"
+msgstr "NGẮT KẾT NỐI"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "NGẮT KẾT NỐI THẤT BẠI"
+
+msgid "ETHERNET"
+msgstr "ETHERNET"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "ĐANG TÌM MẠNG WI-FI..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "KHÔNG TÌM THẤY MẠNG WI-FI"
+
+msgid "OPEN"
+msgstr "MỞ"
+
+msgid "SCAN"
+msgstr "QUÉT"
+
+msgid "scan"
+msgstr "quét"
+
+msgid "INPUT MANUALLY"
+msgstr "NHẬP THỦ CÔNG"
+
+msgid "manual input"
+msgstr "nhập thủ công"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "NHẬP MẬT KHẨU WI-FI"
+
+msgid "CONNECTING"
+msgstr "ĐANG KẾT NỐI TỚI"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "KHÔNG THỂ KẾT NỐI TỚI"
+
+msgid "CONNECTED TO"
+msgstr "ĐÃ KẾT NỐI TỚI"
+
+msgid "ENTER SSID"
+msgstr "NHẬP SSID"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "KHÔNG CÓ MẠNG WI-FI ĐÃ LƯU"
+
+msgid "AUTOCONNECT"
+msgstr "TỰ ĐỘNG KẾT NỐI"
+
+msgid "CONNECT"
+msgstr "KẾT NỐI"
+
+msgid "FORGET NETWORK"
+msgstr "QUÊN MẠNG"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "BẠN CÓ CHẮC MUỐN QUÊN MẠNG NÀY?"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "QUÊN MẠNG THẤT BẠI"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "TRÌNH TẠO HÌNH ẢNH TỔNG HỢP NGOẠI TUYẾN"
@@ -3304,6 +3403,21 @@ msgstr "Đang tạo thư mục hệ thống..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "LỖI: KHÔNG THỂ HIỂN THỊ TỆP PDF"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "ĐẾM NGƯỢC LIGHTDM 0-60"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "NHẬP SỐ TỪ 0 ĐẾN 60 GIÂY"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "SỐ LIỆU TRỰC TIẾP (ES-DE)"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "GIÁ TRỊ TỪ EXIA.CONF"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "TRÌNH NHẬP TRÒ CHƠI"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "TỶ LỆ CỠ CHỮ MENU THEO PHẦN TRĂM, 80 ĐẾN 150"

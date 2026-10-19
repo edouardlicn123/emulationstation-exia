@@ -12,12 +12,38 @@
 #include "Window.h"
 #include "utils/FileSystemUtil.h"
 
+#include <string>
+
 #define PREFIX "icon_"
+
+#define PREFIX "icon_"
+
+namespace {
+
+// A network name is displayed in front of its indicator icon, a very long name would stretch
+// the whole indicator across the screen so it is cut off after a while. The cut is made on a
+// UTF-8 character boundary as network names may contain multi byte characters.
+std::string truncateNetworkLabel(const std::string& label)
+{
+    constexpr std::size_t maximumLength {24};
+
+    if (label.size() <= maximumLength)
+        return label;
+
+    std::size_t length {maximumLength - 3};
+    while (length > 0 && (static_cast<unsigned char>(label[length]) & 0xC0) == 0x80)
+        --length;
+
+    return label.substr(0, length) + "...";
+}
+
+} // namespace
 
 SystemStatusComponent::SystemStatusComponent()
     : mRenderer {Renderer::getInstance()}
     , mHasBluetooth {false}
     , mHasWifi {false}
+    , mHasEthernet {false}
     , mHasCellular {false}
     , mHasBattery {false}
     , mBatteryCharging {false}
@@ -57,6 +83,9 @@ void SystemStatusComponent::updateGrid()
     if (mHasWifi && Settings::getInstance()->getBool("SystemStatusWifi") &&
         std::find(mEntries.cbegin(), mEntries.cend(), "wifi") != mEntries.cend())
         mDisplayEntries.emplace_back("wifi");
+    if (mHasEthernet && std::find(mEntries.cbegin(), mEntries.cend(), "ethernet") !=
+                            mEntries.cend())
+        mDisplayEntries.emplace_back("ethernet");
     if (mHasCellular && Settings::getInstance()->getBool("SystemStatusCellular") &&
         std::find(mEntries.cbegin(), mEntries.cend(), "cellular") != mEntries.cend())
         mDisplayEntries.emplace_back("cellular");
@@ -107,8 +136,42 @@ void SystemStatusComponent::updateGrid()
             icon->setColorShift(mColorShift);
             icon->setResize(0, mSize.y);
             icon->setOpacity(mThemeOpacity);
-            width += std::round(icon->getSize().x);
-            mGrid->setEntry(icon, glm::ivec2 {i, 0}, false, false);
+
+            // The network entries display the network name or the address in front of their
+            // icon. Both are put into a single nested cell so that the column arithmetic below
+            // which alternates between entries and spacers is left untouched.
+            std::string networkLabel;
+            if (*it == "wifi")
+                networkLabel = mWifiNetworkName;
+            else if (*it == "ethernet")
+                networkLabel = mEthernetAddress;
+
+            if (networkLabel.empty()) {
+                width += std::round(icon->getSize().x);
+                mGrid->setEntry(icon, glm::ivec2 {i, 0}, false, false);
+            }
+            else {
+                const std::shared_ptr<TextComponent> label {std::make_shared<TextComponent>(
+                    truncateNetworkLabel(networkLabel), mFont, 0xFFFFFFFF, ALIGN_RIGHT,
+                    ALIGN_CENTER, glm::ivec2 {1, 0}, glm::vec3 {0.0f, 0.0f, 0.0f},
+                    glm::vec2 {0.0f, 0.0f}, 0x00000000, 1.0f)};
+                label->setColor(mColorShift);
+                label->setOpacity(mThemeOpacity);
+
+                const std::shared_ptr<ComponentGrid> networkCell {
+                    std::make_shared<ComponentGrid>(glm::ivec2 {2, 1})};
+                networkCell->setEntry(label, glm::ivec2 {0, 0}, false, false);
+                networkCell->setEntry(icon, glm::ivec2 {1, 0}, false, false);
+
+                const float labelWidth {std::round(label->getSize().x)};
+                const float iconWidth {std::round(icon->getSize().x)};
+                networkCell->setColWidthPerc(0, labelWidth / (labelWidth + iconWidth), false);
+                networkCell->setColWidthPerc(1, iconWidth / (labelWidth + iconWidth), false);
+                networkCell->setSize(labelWidth + iconWidth, mSize.y);
+
+                width += std::round(networkCell->getSize().x);
+                mGrid->setEntry(networkCell, glm::ivec2 {i, 0}, false, false);
+            }
         }
 
         mEntryMap[*it] = i;
@@ -169,6 +232,9 @@ void SystemStatusComponent::applyTheme(const std::shared_ptr<ThemeData>& theme,
     mIconPathMap.clear();
     mIconPathMap["bluetooth"] = ":/graphics/systemstatus/bluetooth.svg";
     mIconPathMap["wifi"] = ":/graphics/systemstatus/wifi.svg";
+    // Exia addition, the wired network shares the Wi-Fi icon on purpose so that no additional
+    // resource has to be shipped, the two are told apart by their text.
+    mIconPathMap["ethernet"] = ":/graphics/systemstatus/wifi.svg";
     mIconPathMap["cellular"] = ":/graphics/systemstatus/cellular.svg";
     mIconPathMap["battery_charging"] = ":/graphics/systemstatus/battery_charging.svg";
     mIconPathMap["battery_low"] = ":/graphics/systemstatus/battery_low.svg";
@@ -363,6 +429,18 @@ void SystemStatusComponent::update(int deltaTime)
         }
         if (mHasWifi != status.hasWifi) {
             mHasWifi = status.hasWifi;
+            statusChanged = true;
+        }
+        if (mHasEthernet != status.hasEthernet) {
+            mHasEthernet = status.hasEthernet;
+            statusChanged = true;
+        }
+        if (mWifiNetworkName != status.wifiNetworkName) {
+            mWifiNetworkName = status.wifiNetworkName;
+            statusChanged = true;
+        }
+        if (mEthernetAddress != status.ethernetAddress) {
+            mEthernetAddress = status.ethernetAddress;
             statusChanged = true;
         }
         if (mHasCellular != status.hasCellular) {

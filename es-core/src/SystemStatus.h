@@ -4,7 +4,7 @@
 //  SystemStatus.h
 //
 //  Queries system status information from the operating system.
-//  This includes Bluetooth, Wi-Fi, cellular and battery.
+//  This includes Bluetooth, Wi-Fi, the wired network, cellular and battery.
 //
 
 #ifndef ES_CORE_SYSTEM_STATUS_H
@@ -12,6 +12,7 @@
 
 #include <atomic>
 #include <mutex>
+#include <string>
 #include <thread>
 
 class SystemStatus
@@ -28,13 +29,20 @@ public:
     struct Status {
         bool hasBluetooth;
         bool hasWifi;
+        bool hasEthernet;
         bool hasCellular;
         bool hasBattery;
         bool batteryCharging;
         int batteryCapacity;
+        // Exia addition, the network name of the connected Wi-Fi network and the address of the
+        // connected wired interface. Unlike the flags above these are not read atomically, they
+        // are copied while holding the status mutex.
+        std::string wifiNetworkName;
+        std::string ethernetAddress;
         Status()
             : hasBluetooth {false}
             , hasWifi {false}
+            , hasEthernet {false}
             , hasCellular {false}
             , hasBattery {false}
             , batteryCharging {false}
@@ -55,6 +63,7 @@ private:
 
     void getStatusBluetooth();
     void getStatusWifi();
+    void getStatusEthernet();
     void getStatusCellular();
     void getStatusBattery();
 
@@ -76,6 +85,13 @@ private:
     std::atomic<bool> mHasBattery;
     std::atomic<bool> mBatteryCharging;
     std::atomic<int> mBatteryCapacity;
+
+    // Exia additions, the network name of the connected Wi-Fi network and the address of the
+    // connected wired interface. Written by the polling thread while it holds the status mutex
+    // and copied in getStatus() while holding the same mutex.
+    std::atomic<bool> mHasEthernet;
+    std::string mWifiNetworkName;
+    std::string mEthernetAddress;
 };
 
 #endif // ES_CORE_SYSTEM_STATUS_H

@@ -40,19 +40,25 @@ private:
 
     bool mHasBluetooth;
     bool mHasWifi;
+    bool mHasEthernet;
     bool mHasCellular;
     bool mHasBattery;
     bool mBatteryCharging;
     bool mBatteryText;
     int mBatteryCapacity;
 
+    // Exia addition, the Wi-Fi network name and the wired interface address which are rendered
+    // in front of the network indicator icons.
+    std::string mWifiNetworkName;
+    std::string mEthernetAddress;
+
     std::vector<std::string> mEntries;
     std::vector<std::string> mDisplayEntries;
     std::map<std::string, int> mEntryMap;
     std::map<std::string, std::string> mIconPathMap;
 
-    static inline std::vector<std::string> sAllowedEntries {"bluetooth", "wifi", "cellular",
-                                                            "battery"};
+    static inline std::vector<std::string> sAllowedEntries {"bluetooth", "wifi", "ethernet",
+                                                            "cellular", "battery"};
 
     unsigned int mColorShift;
     unsigned int mBackgroundColor;

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-08-22 15:30+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Svenska <info@es-de.org>\n"
@@ -586,12 +586,6 @@ msgstr "GIT-PROXY"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "LIGHTDM-NEDRÄKNING"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "LIGHTDM-NEDRÄKNING 0-60"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "ANGE ETT TAL FRÅN 0 TILL 60 SEKUNDER"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "LIGHTDM.CONF: FEL SUDO-LÖSENORD"
 
@@ -618,14 +612,8 @@ msgstr "SPEL"
 msgid "FAVORITES"
 msgstr "FAVORITER"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "LIVE-ANTAL (ES-DE)"
-
 msgid "ES-DE PATHS"
 msgstr "ES-DE-SÖKVÄGAR"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "VÄRDEN FRÅN EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "STARTA ES-DE AUTOMATISKT"
@@ -907,6 +895,9 @@ msgstr "INSTÄLLNINGAR FÖR GRÄNSSNITT"
 
 msgid "SOUND SETTINGS"
 msgstr "LJUDINSTÄLLNINGAR"
+
+msgid "NETWORK SETTINGS"
+msgstr "NÄTVERKSINSTÄLLNINGAR"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "INPUTINSTÄLLNINGAR"
@@ -1417,9 +1408,6 @@ msgstr "AKTIVERA MENY I BARNLÄGE"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "VISA AVSLUTA-MENYN (OMSTART OCH STÄNG NER)"
 
-msgid "GAME IMPORTER"
-msgstr "SPELIMPORTERARE"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "UPPRENSNING AV AVSKUREN DATA"
 
@@ -1570,6 +1558,117 @@ msgstr "RADERA"
 
 msgid "delete game"
 msgstr "radera spel"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "INGEN WI-FI-ENHET HITTADES"
+
+msgid "CURRENT STATUS"
+msgstr "AKTUELL STATUS"
+
+msgid "INFORMATION"
+msgstr "INFORMATION"
+
+msgid "CONNECTION"
+msgstr "ANSLUTNING"
+
+msgid "NOT CONNECTED"
+msgstr "INTE ANSLUTEN"
+
+msgid "IP ADDRESS"
+msgstr "IP-ADRESS"
+
+msgid "GATEWAY"
+msgstr "GATEWAY"
+
+msgid "INTERNET STATUS"
+msgstr "INTERNETSTATUS"
+
+msgid "OVERSEAS NETWORK"
+msgstr "UTLÄNDSKT NÄTVERK"
+
+msgid "CONNECTED"
+msgstr "ANSLUTEN"
+
+msgid "DOMESTIC NETWORK"
+msgstr "INHEMSKT NÄTVERK"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "NÄTVERKSHANTERAREN ÄR INTE TILLGÄNGLIG"
+
+msgid "WI-FI"
+msgstr "WI-FI"
+
+msgid "ENABLE WI-FI"
+msgstr "AKTIVERA WI-FI"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "TILLGÄNGLIGA NÄTVERK"
+
+msgid "SAVED NETWORKS"
+msgstr "SPARADE NÄTVERK"
+
+msgid "DISCONNECT"
+msgstr "KOPPLA FRÅN"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "KUNDE INTE KOPPLA FRÅN"
+
+msgid "ETHERNET"
+msgstr "ETHERNET"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "SÖKER EFTER WI-FI-NÄTVERK..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "INGA WI-FI-NÄTVERK HITTADES"
+
+msgid "OPEN"
+msgstr "ÖPPET"
+
+msgid "SCAN"
+msgstr "SÖK"
+
+msgid "scan"
+msgstr "sök"
+
+msgid "INPUT MANUALLY"
+msgstr "MANUELL INMATNING"
+
+msgid "manual input"
+msgstr "manuell inmatning"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "ANGE WI-FI-LÖSENORD"
+
+msgid "CONNECTING"
+msgstr "ANSLUTER TILL"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "KUNDE INTE ANSLUTA TILL"
+
+msgid "CONNECTED TO"
+msgstr "ANSLUTEN TILL"
+
+msgid "ENTER SSID"
+msgstr "ANGE SSID"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "INGA SPARADE WI-FI-NÄTVERK"
+
+msgid "AUTOCONNECT"
+msgstr "AUTOMATISK ANSLUTNING"
+
+msgid "CONNECT"
+msgstr "ANSLUT"
+
+msgid "FORGET NETWORK"
+msgstr "GLÖM NÄTVERK"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "ÄR DU SÄKER PÅ ATT DU VILL GLÖMMA NÄTVERKET?"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "KUNDE INTE GLÖMMA NÄTVERKET"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "OFFLINE-GENERATOR FÖR MIXBILD"
@@ -3326,6 +3425,21 @@ msgstr "Skapar systemkataloger..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "FEL: KUNDE INTE RENDERA PDF-FIL"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "LIGHTDM-NEDRÄKNING 0-60"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "ANGE ETT TAL FRÅN 0 TILL 60 SEKUNDER"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "LIVE-ANTAL (ES-DE)"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "VÄRDEN FRÅN EXIA.CONF"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "SPELIMPORTERARE"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "SKALA FÖR TECKENSTORLEK I MENYN I PROCENT, 80 TILL 150"

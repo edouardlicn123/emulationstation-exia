@@ -121,9 +121,11 @@ void MenuComponent::updateSize()
         }
     }
 
+    // Exia: reduce the menu width by 25% compared to the upstream default (devdoc/30 item 4).
     float width {std::min(mRenderer->getScreenHeight() * 1.05f,
                           mRenderer->getScreenWidth() *
-                              (mRenderer->getIsVerticalOrientation() ? 0.94f : 0.90f))};
+                              (mRenderer->getIsVerticalOrientation() ? 0.94f : 0.90f)) *
+                 0.75f};
 
     setSize(width, height);
 }

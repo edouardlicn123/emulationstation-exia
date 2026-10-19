@@ -14,7 +14,7 @@
 
 #include "GuiComponent.h"
 #include "SystemData.h"
-#include "guis/GuiSettings.h"
+#include "components/MenuComponent.h"
 
 #include <utility>
 
@@ -31,7 +31,10 @@ public:
 private:
     void buildMenu(bool invalidEntry, const std::string& currentValue);
 
-    GuiSettings* mMenu;
+    // A plain MenuComponent child instead of a GuiSettings one: GuiSettings deletes itself when
+    // the "b" button is pressed, which would leave this component behind with a dangling menu
+    // pointer when it is not the top level GUI (see the input() handler below).
+    MenuComponent mMenu;
     SystemData* mSystem;
     FileData* mGame;
 };

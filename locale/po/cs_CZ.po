@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-09-12 19:35+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Čeština <info@es-de.org>\n"
@@ -584,12 +584,6 @@ msgstr "GIT PROXY"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "ODPOČET LIGHTDM"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "ODPOČET LIGHTDM 0-60"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "ZADEJTE ČÍSLO OD 0 DO 60 SEKUND"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "LIGHTDM.CONF: ŠPATNÉ HESLO SUDO"
 
@@ -616,14 +610,8 @@ msgstr "HRY"
 msgid "FAVORITES"
 msgstr "OBLÍBENÉ"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "ŽIVÉ POČTY (ES-DE)"
-
 msgid "ES-DE PATHS"
 msgstr "CESTY ES-DE"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "HODNOTY Z EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "AUTOMATICKÉ SPUŠTĚNÍ ES-DE"
@@ -906,6 +894,9 @@ msgstr "NASTAVENÍ ROZHRANÍ"
 
 msgid "SOUND SETTINGS"
 msgstr "NASTAVENÍ ZVUKU"
+
+msgid "NETWORK SETTINGS"
+msgstr "NASTAVENÍ SÍTĚ"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "NASTAVENÍ VSTUPNÍCH ZAŘÍZENÍ"
@@ -1413,9 +1404,6 @@ msgstr "POVOLIT NABÍDKU V DĚTSKÉM REŽIMU"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "ZOBRAZIT NABÍDKU UKONČENÍ (RESTART A VYPNUTÍ)"
 
-msgid "GAME IMPORTER"
-msgstr "IMPORTÉR HER"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "VYČIŠTĚNÍ OSIŘELÝCH DAT"
 
@@ -1566,6 +1554,117 @@ msgstr "SMAZAT"
 
 msgid "delete game"
 msgstr "smazat hru"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "NEBYLO NALEZENO ŽÁDNÉ WI-FI ZAŘÍZENÍ"
+
+msgid "CURRENT STATUS"
+msgstr "AKTUÁLNÍ STAV"
+
+msgid "INFORMATION"
+msgstr "INFORMACE"
+
+msgid "CONNECTION"
+msgstr "PŘIPOJENÍ"
+
+msgid "NOT CONNECTED"
+msgstr "NEPŘIPOJENO"
+
+msgid "IP ADDRESS"
+msgstr "IP ADRESA"
+
+msgid "GATEWAY"
+msgstr "BRÁNA"
+
+msgid "INTERNET STATUS"
+msgstr "STAV INTERNETU"
+
+msgid "OVERSEAS NETWORK"
+msgstr "ZAHRANIČNÍ SÍŤ"
+
+msgid "CONNECTED"
+msgstr "PŘIPOJENO"
+
+msgid "DOMESTIC NETWORK"
+msgstr "DOMÁCÍ SÍŤ"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "SPRÁVCE SÍTĚ NENÍ DOSTUPNÝ"
+
+msgid "WI-FI"
+msgstr "WI-FI"
+
+msgid "ENABLE WI-FI"
+msgstr "ZAPNOUT WI-FI"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "DOSTUPNÉ SÍTĚ"
+
+msgid "SAVED NETWORKS"
+msgstr "ULOŽENÉ SÍTĚ"
+
+msgid "DISCONNECT"
+msgstr "ODPOJIT"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "ODPOJENÍ SE NEZDAŘILO"
+
+msgid "ETHERNET"
+msgstr "ETHERNET"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "VYHLEDÁVÁNÍ SÍTÍ WI-FI..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "NEBYLY NALEZENY ŽÁDNÉ SÍTĚ WI-FI"
+
+msgid "OPEN"
+msgstr "OTEVŘENÁ"
+
+msgid "SCAN"
+msgstr "VYHLEDAT"
+
+msgid "scan"
+msgstr "vyhledat"
+
+msgid "INPUT MANUALLY"
+msgstr "RUČNÍ ZADÁNÍ"
+
+msgid "manual input"
+msgstr "ruční zadání"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "ZADEJTE HESLO K WI-FI"
+
+msgid "CONNECTING"
+msgstr "PŘIPOJOVÁNÍ K"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "NEPODAŘILO SE PŘIPOJIT K"
+
+msgid "CONNECTED TO"
+msgstr "PŘIPOJENO K"
+
+msgid "ENTER SSID"
+msgstr "ZADEJTE SSID"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "ŽÁDNÉ ULOŽENÉ SÍTĚ WI-FI"
+
+msgid "AUTOCONNECT"
+msgstr "AUTOMATICKÉ PŘIPOJENÍ"
+
+msgid "CONNECT"
+msgstr "PŘIPOJIT"
+
+msgid "FORGET NETWORK"
+msgstr "ZAPOMENOUT SÍŤ"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "OPRAVDU CHCETE ZAPOMENOUT SÍŤ?"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "ZAPOMENUTÍ SÍTĚ SE NEZDAŘILO"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "OFFLINE GENERÁTOR MIXOBRÁZKŮ"
@@ -3327,6 +3426,21 @@ msgstr "Vytváření systémových adresářů..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "CHYBA: NELZE ZOBRAZIT SOUBOR PDF"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "ODPOČET LIGHTDM 0-60"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "ZADEJTE ČÍSLO OD 0 DO 60 SEKUND"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "ŽIVÉ POČTY (ES-DE)"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "HODNOTY Z EXIA.CONF"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "IMPORTÉR HER"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "MĚŘÍTKO PÍSMA NABÍDKY V PROCENTECH, OD 80 DO 150"

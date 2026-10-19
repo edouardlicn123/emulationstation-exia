@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-09-12 20:05+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Русский <info@es-de.org>\n"
@@ -592,12 +592,6 @@ msgstr "ПРОКСИ GIT"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "ОБРАТНЫЙ ОТСЧЁТ LIGHTDM"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "ОТСЧЁТ LIGHTDM 0-60 СЕК"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "ВВЕДИТЕ ЧИСЛО ОТ 0 ДО 60 СЕКУНД"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "LIGHTDM.CONF: НЕВЕРНЫЙ ПАРОЛЬ SUDO"
 
@@ -624,14 +618,8 @@ msgstr "ИГРЫ"
 msgid "FAVORITES"
 msgstr "ИЗБРАННОЕ"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "СЧЁТЧИКИ СИСТЕМ ES-DE"
-
 msgid "ES-DE PATHS"
 msgstr "ПУТИ ES-DE"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "ЗНАЧЕНИЯ ИЗ EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "АВТОЗАПУСК ES-DE"
@@ -914,6 +902,9 @@ msgstr "НАСТРОЙКИ ИНТЕРФЕЙСА"
 
 msgid "SOUND SETTINGS"
 msgstr "НАСТРОЙКИ ЗВУКА"
+
+msgid "NETWORK SETTINGS"
+msgstr "НАСТРОЙКИ СЕТИ"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "НАСТРОЙКИ ВВОДА"
@@ -1422,9 +1413,6 @@ msgstr "РАЗРЕШИТЬ МЕНЮ В ДЕТСКОМ РЕЖИМЕ"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "МЕНЮ ВЫХОДА (ПУНКТЫ ПЕРЕЗАГРУЗКИ И ВЫКЛ.)"
 
-msgid "GAME IMPORTER"
-msgstr "ИМПОРТ ИГР"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "ОЧИСТКА НЕАКТУАЛЬНЫХ ДАННЫХ"
 
@@ -1576,6 +1564,117 @@ msgstr "УДАЛИТЬ"
 
 msgid "delete game"
 msgstr "удал. игру"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "УСТРОЙСТВО WI-FI НЕ НАЙДЕНО"
+
+msgid "CURRENT STATUS"
+msgstr "ТЕКУЩЕЕ СОСТОЯНИЕ"
+
+msgid "INFORMATION"
+msgstr "ИНФОРМАЦИЯ"
+
+msgid "CONNECTION"
+msgstr "ПОДКЛЮЧЕНИЕ"
+
+msgid "NOT CONNECTED"
+msgstr "НЕ ПОДКЛЮЧЕНО"
+
+msgid "IP ADDRESS"
+msgstr "IP-АДРЕС"
+
+msgid "GATEWAY"
+msgstr "ШЛЮЗ"
+
+msgid "INTERNET STATUS"
+msgstr "СОСТОЯНИЕ ИНТЕРНЕТА"
+
+msgid "OVERSEAS NETWORK"
+msgstr "ЗАРУБЕЖНАЯ СЕТЬ"
+
+msgid "CONNECTED"
+msgstr "ПОДКЛЮЧЕНО"
+
+msgid "DOMESTIC NETWORK"
+msgstr "ОТЕЧЕСТВЕННАЯ СЕТЬ"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "ДИСПЕТЧЕР СЕТИ НЕДОСТУПЕН"
+
+msgid "WI-FI"
+msgstr "WI-FI"
+
+msgid "ENABLE WI-FI"
+msgstr "ВКЛЮЧИТЬ WI-FI"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "ДОСТУПНЫЕ СЕТИ"
+
+msgid "SAVED NETWORKS"
+msgstr "СОХРАНЁННЫЕ СЕТИ"
+
+msgid "DISCONNECT"
+msgstr "ОТКЛЮЧИТЬСЯ"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "НЕ УДАЛОСЬ ОТКЛЮЧИТЬСЯ"
+
+msgid "ETHERNET"
+msgstr "ETHERNET"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "ПОИСК СЕТЕЙ WI-FI..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "СЕТИ WI-FI НЕ НАЙДЕНЫ"
+
+msgid "OPEN"
+msgstr "ОТКРЫТАЯ"
+
+msgid "SCAN"
+msgstr "СКАНИРОВАТЬ"
+
+msgid "scan"
+msgstr "сканировать"
+
+msgid "INPUT MANUALLY"
+msgstr "РУЧНОЙ ВВОД"
+
+msgid "manual input"
+msgstr "ручной ввод"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "ВВЕДИТЕ ПАРОЛЬ WI-FI"
+
+msgid "CONNECTING"
+msgstr "ПОДКЛЮЧЕНИЕ К"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "НЕ УДАЛОСЬ ПОДКЛЮЧИТЬСЯ К"
+
+msgid "CONNECTED TO"
+msgstr "ПОДКЛЮЧЕНО К"
+
+msgid "ENTER SSID"
+msgstr "ВВЕДИТЕ SSID"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "НЕТ СОХРАНЁННЫХ СЕТЕЙ WI-FI"
+
+msgid "AUTOCONNECT"
+msgstr "АВТОПОДКЛЮЧЕНИЕ"
+
+msgid "CONNECT"
+msgstr "ПОДКЛЮЧИТЬСЯ"
+
+msgid "FORGET NETWORK"
+msgstr "ЗАБЫТЬ СЕТЬ"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "ВЫ УВЕРЕНЫ, ЧТО ХОТИТЕ ЗАБЫТЬ СЕТЬ?"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "НЕ УДАЛОСЬ ЗАБЫТЬ СЕТЬ"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "ОФФЛАЙН-ГЕНЕРАТОР МИКС-ИЗОБРАЖЕНИЙ"
@@ -3361,6 +3460,21 @@ msgstr "Создание папок систем..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "ОШИБКА: НЕ УДАЛОСЬ ОТОБРАЗИТЬ PDF-ФАЙЛ"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "ОТСЧЁТ LIGHTDM 0-60 СЕК"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "ВВЕДИТЕ ЧИСЛО ОТ 0 ДО 60 СЕКУНД"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "СЧЁТЧИКИ СИСТЕМ ES-DE"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "ЗНАЧЕНИЯ ИЗ EXIA.CONF"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "ИМПОРТ ИГР"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "МАСШТАБ ШРИФТА МЕНЮ В ПРОЦЕНТАХ, ОТ 80 ДО 150"

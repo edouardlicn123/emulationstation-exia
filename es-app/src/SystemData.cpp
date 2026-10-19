@@ -986,7 +986,7 @@ bool SystemData::loadConfig()
             path = Utils::String::replace(path, "//", "/");
 
             // In case ~ is used, expand it to the home directory path.
-            path = Utils::FileSystem::expandHomePath(path);
+            path = Utils::FileSystem::expandHomePath(path, true);
 
             // Check that the ROM directory for the system is valid or otherwise abort the
             // processing.

@@ -17,6 +17,9 @@
 #include "utils/LocalizationUtil.h"
 #include "utils/StringUtil.h"
 
+#include <set>
+#include <string>
+
 ImageComponent::ImageComponent(bool forceLoad, bool dynamic)
     : mRenderer {Renderer::getInstance()}
     , mTargetSize {0.0f, 0.0f}
@@ -818,6 +821,56 @@ void ImageComponent::resize(bool rasterize)
             else if (mTargetSize.x && !mTargetSize.y) {
                 mSize.y = (mTargetSize.x / textureSize.x) * textureSize.y;
                 mSize.x = (mSize.y / textureSize.y) * textureSize.x;
+            }
+
+            // Exia local addition (devdoc/26): with only one axis set the image keeps the aspect
+            // ratio of the media, so when the other axis is requested to fill the parent (e.g.
+            // "size 0 1" for a full-screen background) the image may not cover it. Media such as
+            // per-game screenshots have varying aspect ratios, which then shows up as an uncovered
+            // strip of the background (a hard edge, see devdoc/26). Log a warning to make this
+            // visible to theme authors, but only once per distinct target/media combination.
+            if ((!mTargetSize.x || !mTargetSize.y) && mTargetSize != glm::vec2 {0.0f, 0.0f}) {
+                const glm::vec2 area {getParent() ?
+                                          getParent()->getSize() :
+                                          glm::vec2(Renderer::getScreenWidth(),
+                                                    Renderer::getScreenHeight())};
+                const bool setAxisFillsParent {
+                    (!mTargetSize.x && std::abs(mTargetSize.y - area.y) < 1.0f) ||
+                    (!mTargetSize.y && std::abs(mTargetSize.x - area.x) < 1.0f)};
+                // Only warn when a noticeable part of the area is left uncovered, small rounding
+                // differences of a few pixels are not visible and would just be log noise.
+                const bool uncovered {
+                    (!mTargetSize.x && mSize.x < area.x * 0.99f) ||
+                    (!mTargetSize.y && mSize.y < area.y * 0.99f)};
+
+                if (uncovered && setAxisFillsParent) {
+                    static std::set<std::string> sLoggedCoverageWarnings;
+                    const std::string signature {
+                        std::to_string(static_cast<int>(mTargetSize.x)) + "x" +
+                        std::to_string(static_cast<int>(mTargetSize.y)) + "|" +
+                        std::to_string(static_cast<int>(textureSize.x)) + "x" +
+                        std::to_string(static_cast<int>(textureSize.y))};
+
+                    if (sLoggedCoverageWarnings.find(signature) == sLoggedCoverageWarnings.cend() &&
+                        sLoggedCoverageWarnings.size() < 32) {
+                        sLoggedCoverageWarnings.insert(signature);
+                        const std::string texturePath {mTexture->getTextureFilePath()};
+
+                        LOG(LogWarning)
+                            << "ImageComponent: Image with a single axis for the \"size\" property "
+                               "does not cover the parent area ("
+                            << static_cast<int>(mSize.x) << "x" << static_cast<int>(mSize.y)
+                            << " px in a " << static_cast<int>(area.x) << "x"
+                            << static_cast<int>(area.y) << " px area, media size "
+                            << static_cast<int>(textureSize.x) << "x"
+                            << static_cast<int>(textureSize.y) << " px"
+                            << (texturePath.empty() ? std::string {} :
+                                                      " \"" + texturePath + "\"")
+                            << "), so part of the background will be left uncovered. Consider "
+                               "setting both axes for \"size\", or using \"cropSize\" with "
+                               "\"cropPos\", to guarantee full coverage.";
+                    }
+                }
             }
         }
     }

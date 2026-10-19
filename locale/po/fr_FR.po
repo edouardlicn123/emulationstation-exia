@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-09-11 13:40+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Français <info@es-de.org>\n"
@@ -601,12 +601,6 @@ msgstr "PROXY GIT"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "COMPTE À REBOURS LIGHTDM"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "REBOURS LIGHTDM 0-60 S"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "SAISISSEZ UN NOMBRE DE 0 À 60 SECONDES"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "LIGHTDM.CONF : MDP SUDO INCORRECT"
 
@@ -633,14 +627,8 @@ msgstr "JEUX"
 msgid "FAVORITES"
 msgstr "FAVORIS"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "COMPTEURS EN LIGNE (ES-DE)"
-
 msgid "ES-DE PATHS"
 msgstr "CHEMINS ES-DE"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "VALEURS DEPUIS EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "DÉMARRAGE AUTO D'ES-DE"
@@ -923,6 +911,9 @@ msgstr "PARAMÈTRES D'AFFICHAGE"
 
 msgid "SOUND SETTINGS"
 msgstr "PARAMÈTRES AUDIO"
+
+msgid "NETWORK SETTINGS"
+msgstr "PARAMÈTRES RÉSEAU"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "PARAMÈTRES DES MANETTES"
@@ -1433,9 +1424,6 @@ msgstr "ACTIVER LE MENU EN MODE ENFANT"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "AFFICHER LE MENU QUITTER (AVEC LES OPTIONS REDÉMARRER ET ÉTEINDRE)"
 
-msgid "GAME IMPORTER"
-msgstr "IMPORTEUR DE JEUX"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "NETTOYAGE DES DONNÉES ORPHELINES"
 
@@ -1589,6 +1577,117 @@ msgstr "SUPPRIME"
 
 msgid "delete game"
 msgstr "supprimer le jeu"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "AUCUN PÉRIPHÉRIQUE WI-FI TROUVÉ"
+
+msgid "CURRENT STATUS"
+msgstr "ÉTAT ACTUEL"
+
+msgid "INFORMATION"
+msgstr "INFORMATIONS"
+
+msgid "CONNECTION"
+msgstr "CONNEXION"
+
+msgid "NOT CONNECTED"
+msgstr "NON CONNECTÉ"
+
+msgid "IP ADDRESS"
+msgstr "ADRESSE IP"
+
+msgid "GATEWAY"
+msgstr "PASSERELLE"
+
+msgid "INTERNET STATUS"
+msgstr "ÉTAT D'INTERNET"
+
+msgid "OVERSEAS NETWORK"
+msgstr "RÉSEAU ÉTRANGER"
+
+msgid "CONNECTED"
+msgstr "CONNECTÉ"
+
+msgid "DOMESTIC NETWORK"
+msgstr "RÉSEAU NATIONAL"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "LE GESTIONNAIRE DE RÉSEAU N'EST PAS DISPONIBLE"
+
+msgid "WI-FI"
+msgstr "WI-FI"
+
+msgid "ENABLE WI-FI"
+msgstr "ACTIVER LE WI-FI"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "RÉSEAUX DISPONIBLES"
+
+msgid "SAVED NETWORKS"
+msgstr "RÉSEAUX ENREGISTRÉS"
+
+msgid "DISCONNECT"
+msgstr "DÉCONNECTER"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "ÉCHEC DE LA DÉCONNEXION"
+
+msgid "ETHERNET"
+msgstr "ETHERNET"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "RECHERCHE DES RÉSEAUX WI-FI..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "AUCUN RÉSEAU WI-FI TROUVÉ"
+
+msgid "OPEN"
+msgstr "OUVERT"
+
+msgid "SCAN"
+msgstr "RECHERCHER"
+
+msgid "scan"
+msgstr "rechercher"
+
+msgid "INPUT MANUALLY"
+msgstr "SAISIE MANUELLE"
+
+msgid "manual input"
+msgstr "saisie manuelle"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "SAISIR LE MOT DE PASSE WI-FI"
+
+msgid "CONNECTING"
+msgstr "CONNEXION À"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "ÉCHEC DE LA CONNEXION À"
+
+msgid "CONNECTED TO"
+msgstr "CONNECTÉ À"
+
+msgid "ENTER SSID"
+msgstr "SAISIR LE SSID"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "AUCUN RÉSEAU WI-FI ENREGISTRÉ"
+
+msgid "AUTOCONNECT"
+msgstr "CONNEXION AUTOMATIQUE"
+
+msgid "CONNECT"
+msgstr "CONNECTER"
+
+msgid "FORGET NETWORK"
+msgstr "OUBLIER LE RÉSEAU"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "VOULEZ-VOUS VRAIMENT OUBLIER LE RÉSEAU ?"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "ÉCHEC DE L'OUBLI DU RÉSEAU"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "GÉNÉRATEUR OFFLINE DE MIXIMAGE"
@@ -3385,6 +3484,21 @@ msgstr "Création des dossiers système..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "ERREUR: IMPOSIBLE D'AFFICHER LE FICHIER PDF"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "REBOURS LIGHTDM 0-60 S"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "SAISISSEZ UN NOMBRE DE 0 À 60 SECONDES"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "COMPTEURS EN LIGNE (ES-DE)"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "VALEURS DEPUIS EXIA.CONF"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "IMPORTEUR DE JEUX"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "ÉCHELLE DE LA POLICE DU MENU EN POURCENT, 80 À 150"

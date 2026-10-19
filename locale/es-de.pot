@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <info@es-de.org>\n"
@@ -573,12 +573,6 @@ msgstr ""
 msgid "LIGHTDM COUNTDOWN"
 msgstr ""
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr ""
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr ""
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr ""
 
@@ -605,13 +599,7 @@ msgstr ""
 msgid "FAVORITES"
 msgstr ""
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr ""
-
 msgid "ES-DE PATHS"
-msgstr ""
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
 msgstr ""
 
 msgid "AUTO-START ES-DE ON BOOT"
@@ -887,6 +875,9 @@ msgid "UI SETTINGS"
 msgstr ""
 
 msgid "SOUND SETTINGS"
+msgstr ""
+
+msgid "NETWORK SETTINGS"
 msgstr ""
 
 msgid "INPUT DEVICE SETTINGS"
@@ -1372,9 +1363,6 @@ msgstr ""
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr ""
 
-msgid "GAME IMPORTER"
-msgstr ""
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr ""
 
@@ -1507,6 +1495,117 @@ msgid "DELETE"
 msgstr ""
 
 msgid "delete game"
+msgstr ""
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr ""
+
+msgid "CURRENT STATUS"
+msgstr ""
+
+msgid "INFORMATION"
+msgstr ""
+
+msgid "CONNECTION"
+msgstr ""
+
+msgid "NOT CONNECTED"
+msgstr ""
+
+msgid "IP ADDRESS"
+msgstr ""
+
+msgid "GATEWAY"
+msgstr ""
+
+msgid "INTERNET STATUS"
+msgstr ""
+
+msgid "OVERSEAS NETWORK"
+msgstr ""
+
+msgid "CONNECTED"
+msgstr ""
+
+msgid "DOMESTIC NETWORK"
+msgstr ""
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr ""
+
+msgid "WI-FI"
+msgstr ""
+
+msgid "ENABLE WI-FI"
+msgstr ""
+
+msgid "AVAILABLE NETWORKS"
+msgstr ""
+
+msgid "SAVED NETWORKS"
+msgstr ""
+
+msgid "DISCONNECT"
+msgstr ""
+
+msgid "FAILED TO DISCONNECT"
+msgstr ""
+
+msgid "ETHERNET"
+msgstr ""
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr ""
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr ""
+
+msgid "OPEN"
+msgstr ""
+
+msgid "SCAN"
+msgstr ""
+
+msgid "scan"
+msgstr ""
+
+msgid "INPUT MANUALLY"
+msgstr ""
+
+msgid "manual input"
+msgstr ""
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr ""
+
+msgid "CONNECTING"
+msgstr ""
+
+msgid "FAILED TO CONNECT TO"
+msgstr ""
+
+msgid "CONNECTED TO"
+msgstr ""
+
+msgid "ENTER SSID"
+msgstr ""
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr ""
+
+msgid "AUTOCONNECT"
+msgstr ""
+
+msgid "CONNECT"
+msgstr ""
+
+msgid "FORGET NETWORK"
+msgstr ""
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr ""
+
+msgid "FAILED TO FORGET THE NETWORK"
 msgstr ""
 
 msgid "MIXIMAGE OFFLINE GENERATOR"

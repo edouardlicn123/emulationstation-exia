@@ -298,23 +298,13 @@ void ViewController::noGamesDialog()
     mRomDirectory = FileData::getROMDirectory();
 #endif
 
-    auto gameImporterUpdateFunc = [&]() {
-        delete mNoGamesMessageBox;
-        ViewController::getInstance()->rescanROMDirectory();
-    };
-
+    // Exia: the game importer entry point is temporarily disabled (see devdoc/30 item 5).
 #if defined(__ANDROID__) || defined(__IOS__)
     mNoGamesMessageBox = new GuiMsgBox(
-        mNoGamesErrorMessage + mRomDirectory, _("IMPORT"),
-        [this, gameImporterUpdateFunc] {
-            mWindow->pushGui(new GuiGameImporter(_("GAME IMPORTER"), gameImporterUpdateFunc));
-        },
+        mNoGamesErrorMessage + mRomDirectory,
 #else
     mNoGamesMessageBox = new GuiMsgBox(
-        mNoGamesErrorMessage + mRomDirectory, _("IMPORT"),
-        [this, gameImporterUpdateFunc] {
-            mWindow->pushGui(new GuiGameImporter(_("GAME IMPORTER"), gameImporterUpdateFunc));
-        },
+        mNoGamesErrorMessage + mRomDirectory,
         _("CHANGE"),
         [this] {
             std::string currentROMDirectory;
@@ -425,12 +415,12 @@ void ViewController::noGamesDialog()
             SDL_PushEvent(&quit);
         },
 #if defined(__ANDROID__) || defined(__IOS__)
-        "", nullptr, nullptr, true, false,
+        "", nullptr, "", nullptr, nullptr, true, false,
         (mRenderer->getIsVerticalOrientation() ?
              0.90f :
              0.58f * (1.778f / mRenderer->getScreenAspectRatio())));
 #else
-        nullptr, true, false,
+        "", nullptr, nullptr, true, false,
         (mRenderer->getIsVerticalOrientation() ?
              0.90f :
              0.62f * (1.778f / mRenderer->getScreenAspectRatio())));

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-09-04 12:33+0200\n"
 "Last-Translator: SecularSteve <info@es-de.org>\n"
 "Language-Team: Serbian (Latin, Serbia) <info@es-de.org>\n"
@@ -604,12 +604,6 @@ msgstr "GIT ПРОКСИ"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "LIGHTDM ОДБРОЈАВАЊЕ"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "LIGHTDM ОДБРОЈАВАЊЕ 0-60"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "УНЕСИТЕ БРОЈ ОД 0 ДО 60 СЕКУНДИ"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "LIGHTDM.CONF: ПОГРЕШНА SUDO ЛОЗИНКА"
 
@@ -636,14 +630,8 @@ msgstr "ИГРЕ"
 msgid "FAVORITES"
 msgstr "ОМИЉЕНО"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "БРОЈАЊА УЖИВО (ES-DE)"
-
 msgid "ES-DE PATHS"
 msgstr "ES-DE ПУТАЊЕ"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "ВРЕДНОСТИ ИЗ EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "АВТО ПОКРЕТАЊЕ ES-DE"
@@ -926,6 +914,9 @@ msgstr "PODEŠAVANJA UI-ja"
 
 msgid "SOUND SETTINGS"
 msgstr "PODEŠAVANJA ZVUKA"
+
+msgid "NETWORK SETTINGS"
+msgstr "PODEŠAVANJA MREŽE"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "PODEŠAVANJA ULAZNOG UREĐAJA"
@@ -1433,9 +1424,6 @@ msgstr "OMOGUĆITE MENI U DEČIJEM REŽIMU"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "POKAŽI IZLAZNI MENI (PONOVNO POKRETANJE I ISKLJUČIVANJE ULAZA)"
 
-msgid "GAME IMPORTER"
-msgstr "UVOZNIK IGARA"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "OČISTITE ZASIĆENE PODATKE"
 
@@ -1586,6 +1574,117 @@ msgstr "IZBRIŠETE"
 
 msgid "delete game"
 msgstr "izbriši igru"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "WI-FI UREĐAJ NIJE PRONAĐEN"
+
+msgid "CURRENT STATUS"
+msgstr "TRENUTNI STATUS"
+
+msgid "INFORMATION"
+msgstr "INFORMACIJE"
+
+msgid "CONNECTION"
+msgstr "VEZA"
+
+msgid "NOT CONNECTED"
+msgstr "NIJE POVEZANO"
+
+msgid "IP ADDRESS"
+msgstr "IP ADRESA"
+
+msgid "GATEWAY"
+msgstr "MREŽNI PROLAZ"
+
+msgid "INTERNET STATUS"
+msgstr "STATUS INTERNETA"
+
+msgid "OVERSEAS NETWORK"
+msgstr "STRANA MREŽA"
+
+msgid "CONNECTED"
+msgstr "POVEZANO"
+
+msgid "DOMESTIC NETWORK"
+msgstr "DOMAĆA MREŽA"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "MENADŽER MREŽE NIJE DOSTUPAN"
+
+msgid "WI-FI"
+msgstr "WI-FI"
+
+msgid "ENABLE WI-FI"
+msgstr "OMOGUĆI WI-FI"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "DOSTUPNE MREŽE"
+
+msgid "SAVED NETWORKS"
+msgstr "SAČUVANE MREŽE"
+
+msgid "DISCONNECT"
+msgstr "PREKINI VEZU"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "PREKIDANJE VEZE NIJE USPELO"
+
+msgid "ETHERNET"
+msgstr "ETHERNET"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "TRAŽENJE WI-FI MREŽA..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "NEMA PRONAĐENIH WI-FI MREŽA"
+
+msgid "OPEN"
+msgstr "OTVORENA"
+
+msgid "SCAN"
+msgstr "PRETRAŽI"
+
+msgid "scan"
+msgstr "pretraži"
+
+msgid "INPUT MANUALLY"
+msgstr "RUČNI UNOS"
+
+msgid "manual input"
+msgstr "ručni unos"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "UNESI WI-FI LOZINKU"
+
+msgid "CONNECTING"
+msgstr "POVEZIVANJE SA"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "POVEZIVANJE NIJE USPELO SA"
+
+msgid "CONNECTED TO"
+msgstr "POVEZANO SA"
+
+msgid "ENTER SSID"
+msgstr "UNESI SSID"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "NEMA SAČUVANIH WI-FI MREŽA"
+
+msgid "AUTOCONNECT"
+msgstr "AUTOMATSKO POVEZIVANJE"
+
+msgid "CONNECT"
+msgstr "POVEŽI SE"
+
+msgid "FORGET NETWORK"
+msgstr "ZABORAVI MREŽU"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "DA LI SIGURNO ŽELITE DA ZABORAVITE MREŽU?"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "ZABORAVLJANJE MREŽE NIJE USPELO"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "GENERATOR MIKIMAGE VAN"
@@ -3364,6 +3463,21 @@ msgstr "Kreiranje sistemskih direktorijuma..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "GREŠKA: NIJE MOGUĆE DA VIDITE PDF DATOTEKU"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "LIGHTDM ОДБРОЈАВАЊЕ 0-60"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "УНЕСИТЕ БРОЈ ОД 0 ДО 60 СЕКУНДИ"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "БРОЈАЊА УЖИВО (ES-DE)"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "ВРЕДНОСТИ ИЗ EXIA.CONF"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "UVOZNIK IGARA"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "СКАЛА ПИСМА ИЗБОРНИКА У ПРОЦЕНТИМА, ОД 80 ДО 150"

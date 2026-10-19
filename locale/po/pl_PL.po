@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-09-07 21:33+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Polski <info@es-de.org>\n"
@@ -601,12 +601,6 @@ msgstr "PROXY GITA"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "ODLICZANIE LIGHTDM"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "ODLICZANIE LIGHTDM 0-60"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "WPISZ LICZBĘ OD 0 DO 60 SEKUND"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "LIGHTDM.CONF: BŁĘDNE HASŁO SUDO"
 
@@ -633,14 +627,8 @@ msgstr "GRY"
 msgid "FAVORITES"
 msgstr "ULUBIONE"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "LICZNIKI NA ŻYWO (ES-DE)"
-
 msgid "ES-DE PATHS"
 msgstr "ŚCIEŻKI ES-DE"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "WARTOŚCI Z EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "AUTOSTART ES-DE"
@@ -923,6 +911,9 @@ msgstr "USTAWIENIA INTERFEJSU"
 
 msgid "SOUND SETTINGS"
 msgstr "USTAWIENIA DŹWIĘKU"
+
+msgid "NETWORK SETTINGS"
+msgstr "USTAWIENIA SIECI"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "USTAWIENIA URZĄDZEŃ WEJŚCIA"
@@ -1430,9 +1421,6 @@ msgstr "WŁĄCZ MENU W TRYBIE DZIECKA"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "POKAŻ MENU WYJŚCIA (RESTART I WYŁĄCZENIE)"
 
-msgid "GAME IMPORTER"
-msgstr "IMPORTER GIER"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "CZYSZCZENIE PORZUCONYCH DANYCH"
 
@@ -1585,6 +1573,117 @@ msgstr "USUŃ"
 
 msgid "delete game"
 msgstr "usuń grę"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "NIE ZNALEZIONO URZĄDZENIA WI-FI"
+
+msgid "CURRENT STATUS"
+msgstr "AKTUALNY STAN"
+
+msgid "INFORMATION"
+msgstr "INFORMACJE"
+
+msgid "CONNECTION"
+msgstr "POŁĄCZENIE"
+
+msgid "NOT CONNECTED"
+msgstr "NIE POŁĄCZONO"
+
+msgid "IP ADDRESS"
+msgstr "ADRES IP"
+
+msgid "GATEWAY"
+msgstr "BRAMA"
+
+msgid "INTERNET STATUS"
+msgstr "STAN INTERNETU"
+
+msgid "OVERSEAS NETWORK"
+msgstr "SIEĆ ZAGRANICZNA"
+
+msgid "CONNECTED"
+msgstr "POŁĄCZONO"
+
+msgid "DOMESTIC NETWORK"
+msgstr "SIEĆ KRAJOWA"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "MENEDŻER SIECI JEST NIEDOSTĘPNY"
+
+msgid "WI-FI"
+msgstr "WI-FI"
+
+msgid "ENABLE WI-FI"
+msgstr "WŁĄCZ WI-FI"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "DOSTĘPNE SIECI"
+
+msgid "SAVED NETWORKS"
+msgstr "ZAPISANE SIECI"
+
+msgid "DISCONNECT"
+msgstr "ROZŁĄCZ"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "ROZŁĄCZENIE NIE POWIODŁO SIĘ"
+
+msgid "ETHERNET"
+msgstr "ETHERNET"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "WYSZUKIWANIE SIECI WI-FI..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "NIE ZNALEZIONO SIECI WI-FI"
+
+msgid "OPEN"
+msgstr "OTWARTA"
+
+msgid "SCAN"
+msgstr "SZUKAJ"
+
+msgid "scan"
+msgstr "szukaj"
+
+msgid "INPUT MANUALLY"
+msgstr "WPROWADŹ RĘCZNIE"
+
+msgid "manual input"
+msgstr "wprowadź ręcznie"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "WPROWADŹ HASŁO WI-FI"
+
+msgid "CONNECTING"
+msgstr "ŁĄCZENIE Z"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "NIE UDAŁO SIĘ POŁĄCZYĆ Z"
+
+msgid "CONNECTED TO"
+msgstr "POŁĄCZONO Z"
+
+msgid "ENTER SSID"
+msgstr "WPROWADŹ SSID"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "BRAK ZAPISANYCH SIECI WI-FI"
+
+msgid "AUTOCONNECT"
+msgstr "AUTOMATYCZNE POŁĄCZENIE"
+
+msgid "CONNECT"
+msgstr "POŁĄCZ"
+
+msgid "FORGET NETWORK"
+msgstr "ZAPOMNIJ SIEC"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "CZY NA PEWNO CHCESZ ZAPOMNIEĆ TĘ SIEĆ?"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "NIE UDAŁO SIĘ ZAPOMNIEĆ SIECI"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "GENERATOR OBRAZÓW MIXIMAGE OFFLINE"
@@ -3370,6 +3469,21 @@ msgstr "Tworzenie katalogów systemowych..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "BŁĄD: NIE MOŻNA WYŚWIETLIĆ PLIKU PDF"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "ODLICZANIE LIGHTDM 0-60"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "WPISZ LICZBĘ OD 0 DO 60 SEKUND"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "LICZNIKI NA ŻYWO (ES-DE)"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "WARTOŚCI Z EXIA.CONF"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "IMPORTER GIER"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "SKALA CZCIONKI MENU W PROCENTACH, OD 80 DO 150"

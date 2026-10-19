@@ -259,7 +259,7 @@ void ComponentList::render(const glm::mat4& parentTrans)
 
     const bool darkColorScheme {Settings::getInstance()->getString("MenuColorScheme") != "light"};
 
-    // Draw selector bar if we're using the dark color scheme.
+    // Draw selector bar if we're using the dark color scheme (before entries so text is on top).
     if (mFocused && mOpacity == 1.0f && darkColorScheme) {
         mRenderer->setMatrix(trans);
         mRenderer->drawRect(0.0f, mSelectorBarOffset, mSize.x, mRowHeight, mMenuColorSelector,
@@ -336,12 +336,14 @@ void ComponentList::render(const glm::mat4& parentTrans)
                                 0x777777FF, false, mOpacity, mDimming, Renderer::BlendFactor::ONE,
                                 Renderer::BlendFactor::ONE);
         }
+    }
 
+    // Render elements that should appear on top of the selector bar (e.g. icons/indicators)
+    // for the currently focused row.
+    if (mFocused) {
         for (auto it = drawAfterCursor.cbegin(); it != drawAfterCursor.cend(); ++it)
             (*it)->render(trans);
-
-        // Reset matrix if one of these components changed it.
-        if (drawAfterCursor.size())
+        if (!drawAfterCursor.empty())
             mRenderer->setMatrix(trans);
     }
 

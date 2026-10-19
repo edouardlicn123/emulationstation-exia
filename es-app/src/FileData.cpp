@@ -1278,7 +1278,7 @@ void FileData::launchGame()
         emulatorCorePaths = SystemData::sFindRules.get()->mCores[coreEntry].corePaths;
 
     // Expand home path if ~ is used.
-    command = Utils::FileSystem::expandHomePath(command);
+    command = Utils::FileSystem::expandHomePath(command, true);
 
     // Check for any pre-command entry, and if it exists then expand it using the find rules.
     if (command.find("%PRECOMMAND_") != std::string::npos) {
@@ -1615,9 +1615,9 @@ void FileData::launchGame()
             coreName = command.substr(coreFilePos + 2, separatorPos - (coreFilePos + 2));
 
 #if defined(_WIN64)
-            std::string coreFile {Utils::FileSystem::expandHomePath(path + "\\" + coreName)};
+            std::string coreFile {Utils::FileSystem::expandHomePath(path + "\" + coreName, true)};
 #else
-            std::string coreFile {Utils::FileSystem::expandHomePath(path + "/" + coreName)};
+            std::string coreFile {Utils::FileSystem::expandHomePath(path + "/" + coreName, true)};
 #endif
 
             // Expand %EMUPATH% if it has been used in the %CORE_ variable.
@@ -1732,7 +1732,7 @@ void FileData::launchGame()
         }
 
         if (startDirectory != "") {
-            startDirectory = Utils::FileSystem::expandHomePath(startDirectory);
+            startDirectory = Utils::FileSystem::expandHomePath(startDirectory, true);
 #if defined(_WIN64)
             startDirectory = Utils::String::replace(
                 startDirectory, "%EMUDIR%",
@@ -1974,7 +1974,7 @@ void FileData::launchGame()
                     // We only parse the Path key if the %STARTDIR% variable has not been set in
                     // es_systems.xml.
                     const std::string startDirectoryTemp {
-                        Utils::FileSystem::expandHomePath(line.substr(5, line.size() - 5))};
+                        Utils::FileSystem::expandHomePath(line.substr(5, line.size() - 5), true)};
                     if (startDirectoryTemp.empty())
                         continue;
                     if (!Utils::FileSystem::isDirectory(startDirectoryTemp)) {
@@ -2745,7 +2745,7 @@ const std::pair<std::string, FileData::findEmulatorResult> FileData::findEmulato
             path = path.substr(0, pipePos);
         }
 
-        path = Utils::FileSystem::expandHomePath(path);
+        path = Utils::FileSystem::expandHomePath(path, true);
         // If %ESPATH% is used for the rule, then expand it to the binary directory of ES-DE.
         path = Utils::String::replace(path, "%ESPATH%", Utils::FileSystem::getExePath());
         // Likewise for the %ROMPATH% variable which expands to the configured ROM directory.

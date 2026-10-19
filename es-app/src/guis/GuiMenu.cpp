@@ -35,6 +35,7 @@
 #include "guis/GuiGameImporter.h"
 #include "guis/GuiMediaViewerOptions.h"
 #include "guis/GuiMsgBox.h"
+#include "guis/GuiNetworkSettings.h"
 #include "guis/GuiOrphanedDataCleanup.h"
 #include "guis/GuiScraperMenu.h"
 #include "guis/GuiScreensaverOptions.h"
@@ -75,6 +76,11 @@ GuiMenu::GuiMenu()
         addEntry(_("UI SETTINGS"), mMenuColorPrimary, true, [this] { openUIOptions(); });
 
     addEntry(_("SOUND SETTINGS"), mMenuColorPrimary, true, [this] { openSoundOptions(); });
+
+#if defined(__linux__)
+    // Exia local addition, NetworkManager is Linux only.
+    addEntry(_("NETWORK SETTINGS"), mMenuColorPrimary, true, [this] { openNetworkSettings(); });
+#endif
 
     if (isFullUI)
         addEntry(_("INPUT DEVICE SETTINGS"), mMenuColorPrimary, true,
@@ -131,6 +137,12 @@ void GuiMenu::openExiaSettings()
 {
     // Open the Exia local settings page (central configuration and maintenance entries).
     mWindow->pushGui(new GuiExiaSettings(_("EXIA SETTINGS")));
+}
+
+void GuiMenu::openNetworkSettings()
+{
+    // Open the Exia local NetworkManager backed settings page.
+    mWindow->pushGui(new GuiNetworkSettings(_("NETWORK SETTINGS")));
 }
 
 void GuiMenu::openScraperOptions()
@@ -2363,22 +2375,9 @@ void GuiMenu::openUtilities()
 {
     auto s = new GuiSettings(_("UTILITIES"));
 
-    auto gameImporterUpdateFunc = [&, s]() {
-        delete s;
-        delete this;
-        ViewController::getInstance()->rescanROMDirectory();
-        ViewController::getInstance()->goToStart(false);
-    };
-
+    // Exia: the game importer entry is temporarily disabled (see devdoc/30 item 5). To restore it,
+    // reinstate the "GAME IMPORTER" row and its update function here.
     ComponentListRow row;
-    row.addElement(std::make_shared<TextComponent>(_("GAME IMPORTER"), getMenuThemeFont(FONT_SIZE_MEDIUM),
-                                                   mMenuColorPrimary),
-                   true);
-    row.addElement(mMenu.makeArrow(), false);
-    row.makeAcceptInputHandler(std::bind([this, gameImporterUpdateFunc] {
-        mWindow->pushGui(new GuiGameImporter(_("GAME IMPORTER"), gameImporterUpdateFunc));
-    }));
-    s->addRow(row);
 
     row.elements.clear();
     row.addElement(std::make_shared<TextComponent>(_("ORPHANED DATA CLEANUP"),

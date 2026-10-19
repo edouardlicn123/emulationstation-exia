@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-09-13 13:47+0200\n"
 "Last-Translator: Johnnydement <johnnydement@duck.com>\n"
 "Language-Team: Català <info@es-de.org>\n"
@@ -587,12 +587,6 @@ msgstr "PROXY DEL GIT"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "COMPTA ENRERE DEL LIGHTDM"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "COMPTA ENRERE LIGHTDM 0-60"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "INTRODUEIX UN NÚMERO D'0 A 60 SEGONS"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "LIGHTDM.CONF: CONTRASENYA SUDO ERRÒNIA"
 
@@ -619,14 +613,8 @@ msgstr "JOCOS"
 msgid "FAVORITES"
 msgstr "PREFERITS"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "RECOMPTES EN VIU (ES-DE)"
-
 msgid "ES-DE PATHS"
 msgstr "CAMINS DE L'ES-DE"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "VALORS DE EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "INICIA ES-DE EN ARRANCAR"
@@ -909,6 +897,9 @@ msgstr "OPCIONS D'INTERFÍCIE"
 
 msgid "SOUND SETTINGS"
 msgstr "OPCIONS DE SÓ"
+
+msgid "NETWORK SETTINGS"
+msgstr "CONFIGURACIÓ DE XARXA"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "OPCIONS DE DISPOSITIU D'ENTRADA"
@@ -1414,9 +1405,6 @@ msgstr "HABILITAR EL MENÚ EN MODE INFANTIL"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "MOSTRAR MENÚ SORTIR (OPCIONS DE REINICI I APAGAR)"
 
-msgid "GAME IMPORTER"
-msgstr "IMPORTADOR DE JOCS"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "NETEJA DADES ORFES"
 
@@ -1568,6 +1556,117 @@ msgstr "ESBORRAR"
 
 msgid "delete game"
 msgstr "esborrar joc"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "NO S'HA TROBAT CAP DISPOSITIU WI-FI"
+
+msgid "CURRENT STATUS"
+msgstr "ESTAT ACTUAL"
+
+msgid "INFORMATION"
+msgstr "INFORMACIÓ"
+
+msgid "CONNECTION"
+msgstr "CONNEXIÓ"
+
+msgid "NOT CONNECTED"
+msgstr "NO CONNECTAT"
+
+msgid "IP ADDRESS"
+msgstr "ADREÇA IP"
+
+msgid "GATEWAY"
+msgstr "PORTA D'ENLLAÇ"
+
+msgid "INTERNET STATUS"
+msgstr "ESTAT D'INTERNET"
+
+msgid "OVERSEAS NETWORK"
+msgstr "XARXA EXTERIOR"
+
+msgid "CONNECTED"
+msgstr "CONNECTAT"
+
+msgid "DOMESTIC NETWORK"
+msgstr "XARXA NACIONAL"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "EL GESTOR DE XARXA NO ESTÀ DISPONIBLE"
+
+msgid "WI-FI"
+msgstr "WI-FI"
+
+msgid "ENABLE WI-FI"
+msgstr "ACTIVA EL WI-FI"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "XARXES DISPONIBLES"
+
+msgid "SAVED NETWORKS"
+msgstr "XARXES DESADES"
+
+msgid "DISCONNECT"
+msgstr "DESCONNECTA"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "NO S'HA POGUT DESCONNECTAR"
+
+msgid "ETHERNET"
+msgstr "ETHERNET"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "S'ESTAN CERCANT XARXES WI-FI..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "NO S'HA TROBAT CAP XARXA WI-FI"
+
+msgid "OPEN"
+msgstr "OBERTA"
+
+msgid "SCAN"
+msgstr "CERCA"
+
+msgid "scan"
+msgstr "cerca"
+
+msgid "INPUT MANUALLY"
+msgstr "ENTRADA MANUAL"
+
+msgid "manual input"
+msgstr "entrada manual"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "INTRODUEIX LA CONTRASENYA DEL WI-FI"
+
+msgid "CONNECTING"
+msgstr "S'ESTÀ CONNECTANT A"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "NO S'HA POGUT CONNECTAR A"
+
+msgid "CONNECTED TO"
+msgstr "CONNECTAT A"
+
+msgid "ENTER SSID"
+msgstr "INTRODUEIX L'SSID"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "NO HI HA XARXES WI-FI DESADES"
+
+msgid "AUTOCONNECT"
+msgstr "CONNEXIÓ AUTOMÀTICA"
+
+msgid "CONNECT"
+msgstr "CONNECTA"
+
+msgid "FORGET NETWORK"
+msgstr "OBLIDA LA XARXA"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "SEGUR QUE VOLS OBLIDAR LA XARXA?"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "NO S'HA POGUT OBLIDAR LA XARXA"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "GENERADOR FORA DE LÍNIA DE COMPOSICIÓ D'IMATGES"
@@ -3338,6 +3437,21 @@ msgstr "Creant carpetes de sistema…"
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "ERROR: NO ES POT RENDERITZAR L'ARXIU PDF"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "COMPTA ENRERE LIGHTDM 0-60"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "INTRODUEIX UN NÚMERO D'0 A 60 SEGONS"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "RECOMPTES EN VIU (ES-DE)"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "VALORS DE EXIA.CONF"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "IMPORTADOR DE JOCS"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "ESCALA DE LA LETRA DEL MENÚ EN PERCENTATGE, D'80 A 150"

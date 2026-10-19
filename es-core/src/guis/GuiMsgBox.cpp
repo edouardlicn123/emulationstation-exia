@@ -64,6 +64,9 @@ GuiMsgBox::GuiMsgBox(const std::string& text,
     setPosition((mRenderer->getScreenWidth() - mSize.x) / 2.0f,
                 (mRenderer->getScreenHeight() - mSize.y) / 2.0f);
 
+    // Exia: use square corners for message boxes to match the square menu panels (devdoc/30).
+    mBackground.setCornerSize(glm::vec2 {0.0f, 0.0f});
+
     addChild(&mBackground);
     addChild(&mGrid);
 }

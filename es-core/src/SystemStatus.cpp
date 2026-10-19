@@ -17,11 +17,18 @@
 #include <SDL2/SDL_timer.h>
 
 #include <algorithm>
+#include <cstring>
 
 #if defined(__linux__) && !defined(__ANDROID__)
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/hci.h>
 #include <bluetooth/hci_lib.h>
+
+#include <arpa/inet.h>
+#include <linux/wireless.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <unistd.h>
 #endif
 
 #if defined(__APPLE__) && !defined(__IOS__)
@@ -55,6 +62,7 @@ SystemStatus::SystemStatus() noexcept
     , mHasBattery {false}
     , mBatteryCharging {false}
     , mBatteryCapacity {0}
+    , mHasEthernet {false}
 {
     setCheckFlags();
 
@@ -156,10 +164,19 @@ SystemStatus::Status SystemStatus::getStatus(const bool update)
 
     mStatus.hasBluetooth = mHasBluetooth;
     mStatus.hasWifi = mHasWifi;
+    mStatus.hasEthernet = mHasEthernet;
     mStatus.hasCellular = mHasCellular;
     mStatus.hasBattery = mHasBattery;
     mStatus.batteryCharging = mBatteryCharging;
     mStatus.batteryCapacity = mBatteryCapacity;
+
+    // The two strings are not read atomically, so they are copied while the polling thread is
+    // not allowed to write to them.
+    {
+        std::unique_lock<std::mutex> statusLock {mStatusMutex};
+        mStatus.wifiNetworkName = mWifiNetworkName;
+        mStatus.ethernetAddress = mEthernetAddress;
+    }
 
     return mStatus;
 }
@@ -171,6 +188,7 @@ void SystemStatus::pollStatus()
 
         getStatusBluetooth();
         getStatusWifi();
+        getStatusEthernet();
         getStatusCellular();
         getStatusBattery();
         statusLock.unlock();
@@ -236,6 +254,78 @@ void SystemStatus::getStatusBluetooth()
 
     mHasBluetooth = hasBluetooth;
 }
+
+#if defined(__linux__) && !defined(__ANDROID__)
+namespace {
+
+// Reads one of the single value files below /sys/class/net.
+std::string readNetworkSysValue(const std::string& path)
+{
+    std::string value;
+    std::ifstream fileStream {path};
+    if (fileStream.is_open())
+        getline(fileStream, value);
+    return Utils::String::toLower(value);
+}
+
+// The network name of a wireless interface, retrieved through the deprecated wireless
+// extensions ioctl interface. Using an ioctl here means that no helper process has to be
+// spawned and nothing has to be linked against NetworkManager.
+std::string wifiInterfaceNetworkName(const std::string& interfaceName)
+{
+    const int descriptor {socket(AF_INET, SOCK_DGRAM, 0)};
+    if (descriptor < 0)
+        return "";
+
+    struct iwreq request {};
+    std::strncpy(request.ifr_name, interfaceName.c_str(), IFNAMSIZ - 1);
+
+    char networkName[IW_ESSID_MAX_SIZE + 1] {};
+    request.u.essid.pointer = networkName;
+    request.u.essid.length = IW_ESSID_MAX_SIZE + 1;
+    request.u.essid.flags = 0;
+
+    std::string result;
+    if (ioctl(descriptor, SIOCGIWESSID, &request) == 0 && request.u.essid.length > 0) {
+        const std::size_t length {
+            std::min<std::size_t>(request.u.essid.length, IW_ESSID_MAX_SIZE)};
+        result.assign(networkName, length);
+
+        // Some drivers include the terminating null character in the reported length.
+        const std::size_t terminator {result.find('\0')};
+        if (terminator != std::string::npos)
+            result.resize(terminator);
+    }
+
+    close(descriptor);
+    return result;
+}
+
+// The IPv4 address of an interface, an empty string if it does not have one.
+std::string interfaceIpv4Address(const std::string& interfaceName)
+{
+    const int descriptor {socket(AF_INET, SOCK_DGRAM, 0)};
+    if (descriptor < 0)
+        return "";
+
+    struct ifreq request {};
+    std::strncpy(request.ifr_name, interfaceName.c_str(), IFNAMSIZ - 1);
+
+    std::string result;
+    if (ioctl(descriptor, SIOCGIFADDR, &request) == 0) {
+        char address[INET_ADDRSTRLEN] {};
+        const struct sockaddr_in* socketAddress {
+            reinterpret_cast<const struct sockaddr_in*>(&request.ifr_addr)};
+        if (inet_ntop(AF_INET, &socketAddress->sin_addr, address, sizeof(address)) != nullptr)
+            result = address;
+    }
+
+    close(descriptor);
+    return result;
+}
+
+} // namespace
+#endif
 
 void SystemStatus::getStatusWifi()
 {
@@ -319,23 +409,58 @@ void SystemStatus::getStatusWifi()
         hasWifi = true;
 
 #elif defined(__linux__)
+    std::string interfaceName;
     const std::string sysEntry {"/sys/class/net"};
-    auto entries {Utils::FileSystem::getDirContent(sysEntry, false)};
-    for (auto& entry : entries) {
+    for (const std::string& entry : Utils::FileSystem::getDirContent(sysEntry, false)) {
         if (Utils::FileSystem::exists(entry + "/wireless") &&
             Utils::FileSystem::exists(entry + "/operstate")) {
-            std::string wifiState;
-            std::ifstream fileStream;
-            fileStream.open(entry + "/operstate");
-            getline(fileStream, wifiState);
-            fileStream.close();
-            if (Utils::String::toLower(wifiState) == "up")
+            if (readNetworkSysValue(entry + "/operstate") == "up") {
                 hasWifi = true;
+                interfaceName = Utils::FileSystem::getFileName(entry);
+            }
         }
     }
+
+    // The network name is only meaningful while the interface is up, it is also only displayed
+    // in that case.
+    mWifiNetworkName = hasWifi ? wifiInterfaceNetworkName(interfaceName) : "";
 #endif
 
     mHasWifi = hasWifi;
+}
+
+// Exia addition, the wired interfaces are not part of the upstream status information.
+void SystemStatus::getStatusEthernet()
+{
+    bool hasEthernet {false};
+    std::string ethernetAddress;
+
+#if defined(__linux__) && !defined(__ANDROID__)
+    const std::string sysEntry {"/sys/class/net"};
+
+    for (const std::string& entry : Utils::FileSystem::getDirContent(sysEntry, false)) {
+        const std::string interfaceName {Utils::FileSystem::getFileName(entry)};
+
+        // The loopback interface and the wireless interfaces are not wired, and an interface
+        // which is not connected or which has no address is of no interest either.
+        if (interfaceName == "lo" || Utils::FileSystem::exists(entry + "/wireless"))
+            continue;
+        if (readNetworkSysValue(entry + "/operstate") != "up" &&
+            readNetworkSysValue(entry + "/carrier") != "1")
+            continue;
+
+        const std::string interfaceAddress {interfaceIpv4Address(interfaceName)};
+        if (interfaceAddress.empty())
+            continue;
+
+        hasEthernet = true;
+        ethernetAddress = interfaceAddress;
+        break;
+    }
+#endif
+
+    mHasEthernet = hasEthernet;
+    mEthernetAddress = ethernetAddress;
 }
 
 void SystemStatus::getStatusCellular()

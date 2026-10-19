@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-09-09 19:24+0800\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: 简体中文 <info@es-de.org>\n"
@@ -572,12 +572,6 @@ msgstr "Git 代理"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "LightDM 倒计时"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "LightDM 倒计时(秒,0 到 60)"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "请输入 0 到 60 的数字(秒)"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "更新 lightdm.conf 失败,sudo 密码是否错误?"
 
@@ -604,14 +598,8 @@ msgstr "游戏"
 msgid "FAVORITES"
 msgstr "收藏"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "取自 ES-DE 系统列表的实时计数"
-
 msgid "ES-DE PATHS"
 msgstr "ES-DE 路径"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "数值读取自 exia.conf"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "开机自动进入 ES-DE"
@@ -891,6 +879,9 @@ msgstr "界面设置"
 
 msgid "SOUND SETTINGS"
 msgstr "声音设置"
+
+msgid "NETWORK SETTINGS"
+msgstr "网络设置"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "输入设备设置"
@@ -1394,9 +1385,6 @@ msgstr "在儿童模式下启用菜单"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "显示退出菜单（包含重启和关机选项）"
 
-msgid "GAME IMPORTER"
-msgstr "游戏导入器"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "数据清理"
 
@@ -1542,6 +1530,117 @@ msgstr "删除"
 
 msgid "delete game"
 msgstr "删除游戏"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "未找到无线网卡"
+
+msgid "CURRENT STATUS"
+msgstr "当前状态"
+
+msgid "INFORMATION"
+msgstr "信息"
+
+msgid "CONNECTION"
+msgstr "连接"
+
+msgid "NOT CONNECTED"
+msgstr "未连接"
+
+msgid "IP ADDRESS"
+msgstr "IP 地址"
+
+msgid "GATEWAY"
+msgstr "网关"
+
+msgid "INTERNET STATUS"
+msgstr "联网状态"
+
+msgid "OVERSEAS NETWORK"
+msgstr "国外网络"
+
+msgid "CONNECTED"
+msgstr "已连接"
+
+msgid "DOMESTIC NETWORK"
+msgstr "国内网络"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "网络管理器不可用"
+
+msgid "WI-FI"
+msgstr "无线网络"
+
+msgid "ENABLE WI-FI"
+msgstr "启用无线网络"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "可用网络"
+
+msgid "SAVED NETWORKS"
+msgstr "已保存网络"
+
+msgid "DISCONNECT"
+msgstr "断开连接"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "断开连接失败"
+
+msgid "ETHERNET"
+msgstr "有线网络"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "正在扫描无线网络..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "未找到无线网络"
+
+msgid "OPEN"
+msgstr "开放"
+
+msgid "SCAN"
+msgstr "扫描"
+
+msgid "scan"
+msgstr "扫描"
+
+msgid "INPUT MANUALLY"
+msgstr "手动输入"
+
+msgid "manual input"
+msgstr "手动输入"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "输入无线网络密码"
+
+msgid "CONNECTING"
+msgstr "正在连接"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "连接失败"
+
+msgid "CONNECTED TO"
+msgstr "已连接到"
+
+msgid "ENTER SSID"
+msgstr "输入 SSID"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "没有已保存的无线网络"
+
+msgid "AUTOCONNECT"
+msgstr "自动连接"
+
+msgid "CONNECT"
+msgstr "连接"
+
+msgid "FORGET NETWORK"
+msgstr "忘记网络"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "确定要忘记该网络吗？"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "忘记网络失败"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "混合图像离线生成器"
@@ -3233,6 +3332,21 @@ msgstr "正在创建平台目录……"
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "错误：无法渲染 PDF 文件"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "LightDM 倒计时(秒,0 到 60)"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "请输入 0 到 60 的数字(秒)"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "取自 ES-DE 系统列表的实时计数"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "数值读取自 exia.conf"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "游戏导入器"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "菜单字体缩放百分比,80 到 150"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-08 01:02+0800\n"
+"POT-Creation-Date: 2026-10-19 07:20+0800\n"
 "PO-Revision-Date: 2026-09-01 18:44+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: English (United Kingdom) <info@es-de.org>\n"
@@ -583,12 +583,6 @@ msgstr "GIT PROXY"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "LIGHTDM COUNTDOWN"
 
-msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-msgstr "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
-
-msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-msgstr "ENTER A NUMBER FROM 0 TO 60 SECONDS"
-
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 
@@ -615,14 +609,8 @@ msgstr "GAMES"
 msgid "FAVORITES"
 msgstr "FAVORITES"
 
-msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-msgstr "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
-
 msgid "ES-DE PATHS"
 msgstr "ES-DE PATHS"
-
-msgid "VALUES ARE READ FROM EXIA.CONF"
-msgstr "VALUES ARE READ FROM EXIA.CONF"
 
 msgid "AUTO-START ES-DE ON BOOT"
 msgstr "AUTO-START ES-DE ON BOOT"
@@ -904,6 +892,9 @@ msgstr "UI SETTINGS"
 
 msgid "SOUND SETTINGS"
 msgstr "SOUND SETTINGS"
+
+msgid "NETWORK SETTINGS"
+msgstr "NETWORK SETTINGS"
 
 msgid "INPUT DEVICE SETTINGS"
 msgstr "INPUT DEVICE SETTINGS"
@@ -1411,9 +1402,6 @@ msgstr "ENABLE MENU IN KID MODE"
 msgid "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 msgstr "SHOW QUIT MENU (REBOOT AND POWER OFF ENTRIES)"
 
-msgid "GAME IMPORTER"
-msgstr "GAME IMPORTER"
-
 msgid "ORPHANED DATA CLEANUP"
 msgstr "ORPHANED DATA CLEANUP"
 
@@ -1564,6 +1552,117 @@ msgstr "DELETE"
 
 msgid "delete game"
 msgstr "delete game"
+
+msgid "NO WI-FI DEVICE FOUND"
+msgstr "NO WI-FI DEVICE FOUND"
+
+msgid "CURRENT STATUS"
+msgstr "CURRENT STATUS"
+
+msgid "INFORMATION"
+msgstr "INFORMATION"
+
+msgid "CONNECTION"
+msgstr "CONNECTION"
+
+msgid "NOT CONNECTED"
+msgstr "NOT CONNECTED"
+
+msgid "IP ADDRESS"
+msgstr "IP ADDRESS"
+
+msgid "GATEWAY"
+msgstr "GATEWAY"
+
+msgid "INTERNET STATUS"
+msgstr "INTERNET STATUS"
+
+msgid "OVERSEAS NETWORK"
+msgstr "OVERSEAS NETWORK"
+
+msgid "CONNECTED"
+msgstr "CONNECTED"
+
+msgid "DOMESTIC NETWORK"
+msgstr "DOMESTIC NETWORK"
+
+msgid "NETWORK MANAGER IS NOT AVAILABLE"
+msgstr "NETWORK MANAGER IS NOT AVAILABLE"
+
+msgid "WI-FI"
+msgstr "WI-FI"
+
+msgid "ENABLE WI-FI"
+msgstr "ENABLE WI-FI"
+
+msgid "AVAILABLE NETWORKS"
+msgstr "AVAILABLE NETWORKS"
+
+msgid "SAVED NETWORKS"
+msgstr "SAVED NETWORKS"
+
+msgid "DISCONNECT"
+msgstr "DISCONNECT"
+
+msgid "FAILED TO DISCONNECT"
+msgstr "FAILED TO DISCONNECT"
+
+msgid "ETHERNET"
+msgstr "ETHERNET"
+
+msgid "SCANNING FOR WI-FI NETWORKS..."
+msgstr "SCANNING FOR WI-FI NETWORKS..."
+
+msgid "NO WI-FI NETWORKS FOUND"
+msgstr "NO WI-FI NETWORKS FOUND"
+
+msgid "OPEN"
+msgstr "OPEN"
+
+msgid "SCAN"
+msgstr "SCAN"
+
+msgid "scan"
+msgstr "scan"
+
+msgid "INPUT MANUALLY"
+msgstr "INPUT MANUALLY"
+
+msgid "manual input"
+msgstr "manual input"
+
+msgid "ENTER WI-FI PASSWORD"
+msgstr "ENTER WI-FI PASSWORD"
+
+msgid "CONNECTING"
+msgstr "CONNECTING"
+
+msgid "FAILED TO CONNECT TO"
+msgstr "FAILED TO CONNECT TO"
+
+msgid "CONNECTED TO"
+msgstr "CONNECTED TO"
+
+msgid "ENTER SSID"
+msgstr "ENTER SSID"
+
+msgid "NO SAVED WI-FI NETWORKS"
+msgstr "NO SAVED WI-FI NETWORKS"
+
+msgid "AUTOCONNECT"
+msgstr "AUTOCONNECT"
+
+msgid "CONNECT"
+msgstr "CONNECT"
+
+msgid "FORGET NETWORK"
+msgstr "FORGET NETWORK"
+
+msgid "ARE YOU SURE YOU WANT TO FORGET THE NETWORK"
+msgstr "ARE YOU SURE YOU WANT TO FORGET THE NETWORK?"
+
+msgid "FAILED TO FORGET THE NETWORK"
+msgstr "FAILED TO FORGET THE NETWORK"
 
 msgid "MIXIMAGE OFFLINE GENERATOR"
 msgstr "MIXIMAGE OFFLINE GENERATOR"
@@ -3311,6 +3410,21 @@ msgstr "Creating system directories..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "ERROR: COULDN'T RENDER PDF FILE"
+
+#~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+#~ msgstr "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
+
+#~ msgid "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+#~ msgstr "ENTER A NUMBER FROM 0 TO 60 SECONDS"
+
+#~ msgid "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+#~ msgstr "LIVE COUNTS FROM THE ES-DE SYSTEM LIST"
+
+#~ msgid "VALUES ARE READ FROM EXIA.CONF"
+#~ msgstr "VALUES ARE READ FROM EXIA.CONF"
+
+#~ msgid "GAME IMPORTER"
+#~ msgstr "GAME IMPORTER"
 
 #~ msgid "MENU FONT SCALE IN PERCENT, 80 TO 150"
 #~ msgstr "MENU FONT SCALE IN PERCENT, 80 TO 150"

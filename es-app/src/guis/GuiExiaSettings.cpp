@@ -339,11 +339,13 @@ bios.pcfx=pcfx(JP).rom
 # ------------ F - ES-DE Paths ------------ #
 
 ## 会话脚本与 EXIA SETTINGS 的 ES-DE PATHS 均以此为准(原 es_de.conf)。
-esde.home.parent=/home/emu/.config/emu
+## 注意:esde.* 的值由 es-de-session 按字面量读取(不经 shell 展开),一律写绝对路径,勿用 $HOME/~
+## (否则 es-de 收到的是字面量 "$HOME/..." → 报 "Home path ... does not exist" 直接退出)。
+esde.home.parent=/home/emu/.config
 esde.roms=/home/emu/roms/emus
 esde.themes=/home/emu/themes
-esde.media=/home/emu/.config/emu/ES-DE/downloaded_media
-esde.launch=es-de --home /home/emu/.config/emu
+esde.media=/home/emu/.config/ES-DE/downloaded_media
+esde.launch=es-de --home /home/emu/.config
 )"};
 
 std::vector<std::string> splitTemplate()

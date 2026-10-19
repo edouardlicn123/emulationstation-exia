@@ -124,3 +124,7 @@ CPackSourceConfig.cmake
 # VSCode
 .vscode/
 .continueignore
+
+# exia: 迁移前补充（备份文件与 python 缓存不入库）
+*.bak-*
+__pycache__/
