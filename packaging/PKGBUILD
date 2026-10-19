@@ -1,0 +1,25 @@
+pkgname=es-exia
+pkgver=3.5.0
+pkgrel=1
+pkgdesc="ES-DE (EmulationStation Desktop Edition) derivative - es-exia"
+arch=('x86_64')
+url="https://gitlab.com/es-de/emulationstation-de"
+license=('MIT')
+depends=('bluez-libs' 'curl' 'ffmpeg' 'freeimage' 'freetype2' 'gettext' 'harfbuzz' 'icu' 'libgit2' 'poppler' 'pugixml' 'sdl2')
+makedepends=('cmake' 'bluez-libs' 'curl' 'pkgconf' 'make' 'ffmpeg' 'freeimage' 'freetype2' 'gettext' 'harfbuzz' 'icu' 'libgit2' 'poppler' 'pugixml' 'sdl2')
+provides=('emulationstation-de')
+conflicts=('emulationstation-de')
+
+source=("es-exia-${pkgver}.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+  export CXXFLAGS=""
+  export MAKEFLAGS="-j4"
+  cmake -DAUR_BUILD=on -B build -S "$srcdir/emulationstation-exia"
+  make -C build -j4
+}
+
+package() {
+  make -C build DESTDIR="$pkgdir" install
+}

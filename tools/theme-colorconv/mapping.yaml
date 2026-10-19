@@ -1,0 +1,134 @@
+# 主题配色变量映射表(theme-colorconv)
+#
+# 转换机制的核心复用资产。详见 ~/eos/devdoc/11-主题配色转换机制.md
+#
+# 变量表围绕「文字颜色 + 菜单透明度」设计,而不是套用 linear-es-de 的词汇表
+# (它的变量是为它自己的视图结构设计的,在 exia 上有 5 个用不到)。
+
+# ---------------------------------------------------------------------------
+# 标准语义变量表
+# ---------------------------------------------------------------------------
+# 主界面(system / gamelist 视图)
+variables:
+  - primaryColor              # 主文字
+  - secondaryColor            # 次文字
+  - tertiaryColor             # 三级/弱化文字
+  - backgroundColor           # 文字背后的底色/遮罩
+
+  # 菜单(由 es-exia 的原生 menu 视图消费)
+  - menuBackgroundColor       # 菜单面板底色
+  - menuDimming               # 菜单遮罩浓度 = 透明度(alpha 越高越透明)
+  - menuTitleColor            # 菜单标题
+  - menuTextColor             # 菜单条目文字
+  - menuTextSelectedColor     # 菜单选中条目文字
+  - menuSelectorColor         # 菜单选中条
+  - menuSeparatorColor        # 菜单分隔线
+  - menuSmallTextColor        # 菜单次级文字(标签等)
+
+# ---------------------------------------------------------------------------
+# 元素级优先映射
+# ---------------------------------------------------------------------------
+# 同一色值在不同语义处重复出现时(如 menuText 的 <color> 与 <selectedColor>
+# 可能同值),按元素标签消歧。本段优先于下面的颜色映射段。
+context_mapping:
+  centerColor: menuBackgroundColor
+  dimming: menuDimming
+  selectedColor: menuTextSelectedColor
+  selectorColor: menuSelectorColor
+  separatorColor: menuSeparatorColor
+  textColor: primaryColor
+  iconColor: primaryColor
+
+# ---------------------------------------------------------------------------
+# 颜色字面量 → 语义变量
+# ---------------------------------------------------------------------------
+mapping:
+  # 主界面(来自 exia 原始配色,保证 netflix 方案 100% 还原原观感)
+  FFFFFF: primaryColor
+  BBBBBB: secondaryColor
+  777777: tertiaryColor
+  000000FF: backgroundColor
+
+  # 菜单
+  14141ECC: menuBackgroundColor
+  14141CCC: menuDimming
+  ECECECFF: menuTitleColor
+  7A7A8AFF: menuTextColor
+  5A5A6AFF: menuSmallTextColor
+
+# 完全透明的色值不表达配色语义,保持字面量
+transparent_skip:
+  - '00000000'
+  - 'FFFFFF22'
+  - 'FFFFFF18'
+
+# ---------------------------------------------------------------------------
+# 配色方案:三个主机平台
+#
+# ⚠️ 色值来源说明:本环境的联网检索不可用(websearch 一律返回空,
+# brandcolors.net / Wikipedia 只取到框架内容),以下色值依据对各平台 UI 的
+# 既有认知填写,**尚未经权威来源校验**。实机观感不对时直接改这里即可。
+#
+# 约定:
+#   netflix 必须列为第一套 —— ES-DE 在 ThemeColorScheme 无匹配时取第一套作默认,
+#   且它最接近 exia 原始观感,应作为默认方案。
+# ---------------------------------------------------------------------------
+schemes:
+  netflix:
+    label:
+      en_US: Netflix
+      zh_CN: Netflix
+    values:
+      # Netflix:深灰黑 #141414 底 + 白字,品牌红仅作选中/强调
+      # 色板依据 Netflix UI 设计说明(深色底 #141414、Netflix Red #E50914)。
+      # #141414 与 exia 原有菜单底色 14141ECC 同源,视觉连贯。
+      primaryColor: FFFFFF
+      secondaryColor: AAAAAA
+      tertiaryColor: 888888
+      backgroundColor: 141414
+      menuBackgroundColor: 141414BF
+      menuDimming: 14141499
+      menuTitleColor: FFFFFF
+      menuTextColor: AAAAAA
+      menuTextSelectedColor: FFFFFF
+      menuSelectorColor: E50914
+      menuSeparatorColor: FFFFFF1F
+      menuSmallTextColor: 888888
+
+  ps5:
+    label:
+      en_US: PlayStation
+      zh_CN: 索尼主机
+    values:
+      # PS5:深蓝黑底 + 白字 + 亮蓝强调
+      primaryColor: FFFFFF
+      secondaryColor: B8C4D8
+      tertiaryColor: 7B8AA0
+      backgroundColor: 0B1220
+      menuBackgroundColor: 1B2A4ABF
+      menuDimming: 0B122099
+      menuTitleColor: FFFFFF
+      menuTextColor: B8C4D8
+      menuTextSelectedColor: FFFFFF
+      menuSelectorColor: 0070D1
+      menuSeparatorColor: 7B8AA033
+      menuSmallTextColor: 7B8AA0
+
+  xbox:
+    label:
+      en_US: Xbox
+      zh_CN: 微软主机
+    values:
+      # Xbox:近黑底 + 白字 + 绿强调
+      primaryColor: FFFFFF
+      secondaryColor: C2C2C2
+      tertiaryColor: 8A8A8A
+      backgroundColor: 0F0F0F
+      menuBackgroundColor: 1A1A1ABF
+      menuDimming: 0F0F0F8C
+      menuTitleColor: FFFFFF
+      menuTextColor: C2C2C2
+      menuTextSelectedColor: FFFFFF
+      menuSelectorColor: 107C10
+      menuSeparatorColor: FFFFFF1F
+      menuSmallTextColor: 8A8A8A

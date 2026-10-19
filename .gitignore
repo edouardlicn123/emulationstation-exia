@@ -128,3 +128,21 @@ CPackSourceConfig.cmake
 # exia: 迁移前补充（备份文件与 python 缓存不入库）
 *.bak-*
 __pycache__/
+
+# exia: 合并自新仓 GitHub 模板（ES-DE 版 .gitignore 缺失的条目）
+compile_commands.json
+*.bak
+*.tmp
+*.log
+*.swp
+.cache/
+build-*/
+Testing/
+vcpkg_installed/
+
+# exia: packaging 产物（makepkg 中间件与成品，不入库）
+packaging/src/
+packaging/pkg/
+packaging/es-exia/
+packaging/*.pkg.tar.zst
+packaging/*.tar.gz
