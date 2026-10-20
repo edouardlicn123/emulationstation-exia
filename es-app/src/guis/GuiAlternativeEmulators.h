@@ -13,12 +13,19 @@
 #include "GuiComponent.h"
 #include "guis/GuiSettings.h"
 
+#include <functional>
+
 template <typename T> class OptionListComponent;
 
 class GuiAlternativeEmulators : public GuiComponent
 {
 public:
-    GuiAlternativeEmulators();
+    // Without arguments the page lists every platform that defines alternative emulators.
+    // With a systemFilter it instead lists the emulators of that single platform, which is
+    // how the platform settings page reuses the selector. onChanged is called after a
+    // selection was stored, it lets the caller refresh what it displays.
+    explicit GuiAlternativeEmulators(SystemData* systemFilter = nullptr,
+                                     std::function<void()> onChanged = nullptr);
 
 private:
     void updateMenu(const std::string& systemName, const std::string& label, bool defaultEmulator);
@@ -29,6 +36,10 @@ private:
 
     MenuComponent mMenu;
     bool mHasSystems;
+
+    // Set when the page was opened for a single platform, see the constructor.
+    SystemData* mSystemFilter;
+    std::function<void()> mOnChanged;
 
     std::map<std::string, std::shared_ptr<TextComponent>> mCommandRows;
     std::shared_ptr<OptionListComponent<std::string>> mCommandSelection;

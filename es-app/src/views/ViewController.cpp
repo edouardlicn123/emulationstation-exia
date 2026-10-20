@@ -33,6 +33,7 @@
 #include "guis/GuiMenu.h"
 #include "guis/GuiTextEditKeyboardPopup.h"
 #include "guis/GuiTextEditPopup.h"
+#include "guis/PlatformSettings.h"
 #include "utils/LocalizationUtil.h"
 #include "views/GamelistView.h"
 #include "views/SystemView.h"
@@ -534,7 +535,7 @@ void ViewController::goToStart(bool playTransition)
     SystemData* selectedSystem {nullptr};
 
     if (requestedSystem == "") {
-        selectedSystem = SystemData::sSystemVector.front();
+        selectedSystem = PlatformSettings::firstVisibleSystem();
     }
     else {
         for (auto it = SystemData::sSystemVector.cbegin(); // Line break.
@@ -544,11 +545,16 @@ void ViewController::goToStart(bool playTransition)
                 break;
             }
         }
+
+        // A platform the user has hidden must not be entered on startup either, that would
+        // leave the interface in a state the carousel cannot navigate back to.
+        if (selectedSystem != nullptr && !PlatformSettings::isSystemVisible(selectedSystem))
+            selectedSystem = nullptr;
     }
 
     // If the requested system doesn't exist.
     if (selectedSystem == nullptr) {
-        selectedSystem = SystemData::sSystemVector.front();
+        selectedSystem = PlatformSettings::firstVisibleSystem();
         Settings::getInstance()->setString("StartupSystem", "");
     }
 
@@ -566,12 +572,17 @@ void ViewController::ReloadAndGoToStart()
 {
     mWindow->renderSplashScreen(Window::SplashScreenState::RELOADING, 0.0f);
     reloadAll();
+
+    // Everything below works from the first visible platform, so a hidden platform is never
+    // the one the interface lands on.
+    SystemData* firstSystem {PlatformSettings::firstVisibleSystem()};
+
     if (mState.viewing == ViewMode::GAMELIST) {
-        goToSystemView(SystemData::sSystemVector.front(), false);
-        goToSystem(SystemData::sSystemVector.front(), false);
+        goToSystemView(firstSystem, false);
+        goToSystem(firstSystem, false);
     }
     else {
-        goToSystem(SystemData::sSystemVector.front(), false);
+        goToSystem(firstSystem, false);
     }
 }
 
@@ -626,6 +637,18 @@ void ViewController::stopScrolling()
 int ViewController::getSystemId(SystemData* system)
 {
     std::vector<SystemData*>& sysVec {SystemData::sSystemVector};
+
+    // Platforms hidden through the platform settings are not part of the carousel, so the
+    // index has to be counted over the visible platforms only. Otherwise the X offset of the
+    // system list would not line up with the carousel entry (devdoc/36 section 5.2).
+    int id {0};
+    for (SystemData* entry : sysVec) {
+        if (entry == system)
+            return id;
+        if (PlatformSettings::isSystemVisible(entry))
+            ++id;
+    }
+
     return static_cast<int>(std::find(sysVec.cbegin(), sysVec.cend(), system) - sysVec.cbegin());
 }
 
@@ -823,15 +846,26 @@ void ViewController::goToGamelist(SystemData* system)
 
     // Find if we're wrapping around the first and last systems, which requires the gamelist
     // to be moved in order to avoid weird camera movements. This is only needed for the
-    // slide transition style.
-    if (mState.viewing == ViewMode::GAMELIST && SystemData::sSystemVector.size() > 1 &&
-        slideTransitions) {
-        if (SystemData::sSystemVector.front() == mState.getSystem()) {
-            if (SystemData::sSystemVector.back() == system)
+    // slide transition style. The first and last system are the first and last *visible* one,
+    // hidden platforms are not part of the carousel (devdoc/36 section 5.2).
+    SystemData* firstVisible {PlatformSettings::firstVisibleSystem()};
+    SystemData* lastVisible {nullptr};
+    for (auto it = SystemData::sSystemVector.crbegin(); it != SystemData::sSystemVector.crend();
+         ++it) {
+        if (PlatformSettings::isSystemVisible(*it)) {
+            lastVisible = *it;
+            break;
+        }
+    }
+
+    if (mState.viewing == ViewMode::GAMELIST && slideTransitions &&
+        firstVisible != nullptr && lastVisible != nullptr && firstVisible != lastVisible) {
+        if (firstVisible == mState.getSystem()) {
+            if (lastVisible == system)
                 wrapFirstToLast = true;
         }
-        else if (SystemData::sSystemVector.back() == mState.getSystem()) {
-            if (SystemData::sSystemVector.front() == system)
+        else if (lastVisible == mState.getSystem()) {
+            if (firstVisible == system)
                 wrapLastToFirst = true;
         }
     }
@@ -1592,12 +1626,16 @@ void ViewController::reloadAll()
     }
     else if (mState.viewing == ViewMode::SYSTEM_SELECT) {
         SystemData* system {mState.getSystem()};
+        // The system that was on screen may have been hidden in the meantime, fall back to
+        // the first visible one in that case.
+        if (system == nullptr || !PlatformSettings::isSystemVisible(system))
+            system = PlatformSettings::firstVisibleSystem();
         mSystemListView->goToSystem(system, false);
         mCurrentView = mSystemListView;
         mCamera[3].x = 0.0f;
     }
     else {
-        goToSystemView(SystemData::sSystemVector.front(), false);
+        goToSystemView(PlatformSettings::firstVisibleSystem(), false);
     }
 
     // Load navigation sounds, either from the theme if it supports it, or otherwise from

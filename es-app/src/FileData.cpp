@@ -21,6 +21,7 @@
 #include "SystemStatus.h"
 #include "UIModeController.h"
 #include "Window.h"
+#include "guis/PlatformSettings.h"
 #include "utils/FileSystemUtil.h"
 #include "utils/PlatformUtil.h"
 #include "utils/TimeUtil.h"
@@ -2304,6 +2305,12 @@ void FileData::launchGame()
 
     // Trim any leading and trailing whitespace characters as they could cause launch issues.
     command = Utils::String::trim(command);
+
+    // Exia local addition, appends the windowed mode arguments when the platform was put into
+    // windowed mode in the platform settings (devdoc/36 section 4). The append happens after
+    // the token expansion and after the trimming, so the arguments are never touched by the
+    // escaping of the paths above.
+    command = PlatformSettings::applyWindowedMode(command, gameSystem->getName(), gameSystem);
 
 #if defined(DEINIT_ON_LAUNCH)
     runInBackground = false;

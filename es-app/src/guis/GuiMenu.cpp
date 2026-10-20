@@ -38,6 +38,8 @@
 #include "guis/GuiMsgBox.h"
 #include "guis/GuiNetworkSettings.h"
 #include "guis/GuiOrphanedDataCleanup.h"
+#include "guis/GuiPlatformSettings.h"
+#include "guis/PlatformSettings.h"
 #include "guis/GuiScraperMenu.h"
 #include "guis/GuiScreensaverOptions.h"
 #include "guis/GuiSystemStatusOptions.h"
@@ -92,6 +94,9 @@ GuiMenu::GuiMenu()
                  [this] { openCollectionSystemOptions(); });
 
     if (isFullUI)
+        addEntry(_("PLATFORM SETTINGS"), mMenuColorPrimary, true, [this] { openPlatformSettings(); });
+
+    if (isFullUI)
         addEntry(_("OTHER SETTINGS"), mMenuColorPrimary, true, [this] { openOtherOptions(); });
 
     if (isFullUI)
@@ -144,6 +149,12 @@ void GuiMenu::openNetworkSettings()
 {
     // Open the Exia local NetworkManager backed settings page.
     mWindow->pushGui(new GuiNetworkSettings(_("NETWORK SETTINGS")));
+}
+
+void GuiMenu::openPlatformSettings()
+{
+    // Open the Exia local per platform settings page.
+    mWindow->pushGui(new GuiPlatformSettings(_("PLATFORM SETTINGS")));
 }
 
 void GuiMenu::openScraperOptions()
@@ -676,12 +687,15 @@ void GuiMenu::openUIOptions()
         }
     });
 
-    // Start at the selected system.
+    // Start at the selected system. Platforms hidden through the platform settings are not
+    // offered, they are not part of the carousel either (devdoc/36 section 5.2).
     auto startupSystem =
         std::make_shared<OptionListComponent<std::string>>(_("SYSTEM ON STARTUP"), false);
     startupSystem->add(_("DEFAULT"), "", Settings::getInstance()->getString("StartupSystem") == "");
     for (auto it = SystemData::sSystemVector.cbegin(); // Line break.
          it != SystemData::sSystemVector.cend(); ++it) {
+        if (!PlatformSettings::isSystemVisible(*it))
+            continue;
         // If required, abbreviate the system name so it doesn't overlap the setting name.
         float maxNameLength {mSize.x * 0.51f};
         std::string sysName {(*it)->getFullName()};
@@ -693,8 +707,9 @@ void GuiMenu::openUIOptions()
                            Settings::getInstance()->getString("StartupSystem") == (*it)->getName(),
                            maxNameLength);
     }
-    // If there are no objects returned, then the configured system is probably no longer present.
-    // Simply set the startup system to default in this case.
+    // If there are no objects returned, then the configured system is either no longer present
+    // or was hidden, which the platform settings allow at any time. The startup system is set
+    // to default in this case.
     if (startupSystem->getSelectedObjects().size() == 0)
         startupSystem->selectEntry(0);
     s->addWithLabel(_("SYSTEM ON STARTUP"), startupSystem);
@@ -1700,17 +1715,10 @@ void GuiMenu::openOtherOptions()
 {
     auto s = new GuiSettings(_("OTHER SETTINGS"));
 
-    // Alternative emulators GUI.
-    ComponentListRow alternativeEmulatorsRow;
-    alternativeEmulatorsRow.elements.clear();
-    alternativeEmulatorsRow.addElement(std::make_shared<TextComponent>(_("ALTERNATIVE EMULATORS"),
-                                                                       getMenuThemeFont(FONT_SIZE_MEDIUM),
-                                                                       mMenuColorPrimary),
-                                       true);
-    alternativeEmulatorsRow.addElement(mMenu.makeArrow(), false);
-    alternativeEmulatorsRow.makeAcceptInputHandler(
-        std::bind([this] { mWindow->pushGui(new GuiAlternativeEmulators); }));
-    s->addRow(alternativeEmulatorsRow);
+    // The alternative emulators GUI has moved into the platform settings, which handle both
+    // the default emulator and the per platform display mode in one place. The old entry is
+    // removed so there is only one way to reach the setting (devdoc/36 section 7).
+    // The per game selection in the game list is unaffected and stays available.
 
 #if defined(__ANDROID__)
     // Launch on other screen.

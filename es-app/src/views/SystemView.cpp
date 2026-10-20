@@ -16,6 +16,7 @@
 #include "Window.h"
 #include "animations/LambdaAnimation.h"
 #include "guis/GuiMsgBox.h"
+#include "guis/PlatformSettings.h"
 #include "utils/LocalizationUtil.h"
 #include "views/ViewController.h"
 
@@ -533,13 +534,25 @@ void SystemView::populate()
 
     LOG(LogDebug) << "SystemView::populate(): Populating primary element...";
 
+    // Platforms that the user chose to hide are left out of the carousel. If that would hide
+    // every platform the list is shown in full instead, otherwise the carousel would end up
+    // empty and unusable (devdoc/36 section 5.3).
+    std::vector<SystemData*> visibleSystems;
+    for (SystemData* system : SystemData::sSystemVector) {
+        if (PlatformSettings::isSystemVisible(system))
+            visibleSystems.push_back(system);
+    }
+
+    if (visibleSystems.empty())
+        visibleSystems = SystemData::sSystemVector;
+
     auto themes = ThemeData::getThemes();
     std::map<std::string, ThemeData::Theme, ThemeData::StringComparator>::const_iterator
         selectedTheme {themes.find(Settings::getInstance()->getString("Theme"))};
 
     assert(selectedTheme != themes.cend());
 
-    for (auto it : SystemData::sSystemVector) {
+    for (auto it : visibleSystems) {
         const std::shared_ptr<ThemeData>& theme {it->getTheme()};
         std::string imagePath;
         std::string defaultImagePath;
@@ -623,7 +636,7 @@ void SystemView::populate()
                 else if (element.second.type == "image" &&
                          !(element.second.has("visible") && !element.second.get<bool>("visible"))) {
                     // If this is the first system then forceload to avoid texture pop-in.
-                    if (it == SystemData::sSystemVector.front())
+                    if (it == visibleSystems.front())
                         elements.imageComponents.emplace_back(
                             std::make_unique<ImageComponent>(true));
                     else

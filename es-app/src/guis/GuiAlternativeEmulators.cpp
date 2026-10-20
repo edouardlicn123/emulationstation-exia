@@ -16,12 +16,25 @@
 #include "utils/LocalizationUtil.h"
 #include "views/ViewController.h"
 
-GuiAlternativeEmulators::GuiAlternativeEmulators()
-    : mMenu {_("ALTERNATIVE EMULATORS")}
+GuiAlternativeEmulators::GuiAlternativeEmulators(SystemData* systemFilter,
+                                                 std::function<void()> onChanged)
+    : mMenu {systemFilter == nullptr ? _("ALTERNATIVE EMULATORS") :
+                                       Utils::String::toUpper(systemFilter->getFullName())}
     , mHasSystems {false}
+    , mSystemFilter {systemFilter}
+    , mOnChanged {onChanged}
 {
     addChild(&mMenu);
     mMenu.addButton(_("BACK"), _("back"), [this] { delete this; });
+
+    // When a platform was passed in, go straight to its selector instead of showing the
+    // platform list. That is what the platform settings page uses, so one class serves both
+    // entry points and there is only one implementation of the selection and of the write
+    // back to the gamelist.
+    if (mSystemFilter != nullptr) {
+        selectorWindow(mSystemFilter);
+        return;
+    }
 
     // Horizontal sizes for the system and label entries.
     float systemSizeX {mMenu.getSize().x / 3.27f};
@@ -131,6 +144,13 @@ void GuiAlternativeEmulators::updateMenu(const std::string& systemName,
                                          const std::string& label,
                                          bool defaultEmulator)
 {
+    // In the filtered mode there is no list row to update, the caller is notified instead.
+    if (mSystemFilter != nullptr) {
+        if (mOnChanged)
+            mOnChanged();
+        return;
+    }
+
     // If another label was selected, then update the menu accordingly.
     if (defaultEmulator) {
         mCommandRows[systemName].get()->setFont(menuLabelFont());

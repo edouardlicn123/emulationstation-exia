@@ -44,6 +44,7 @@ set(ES_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiNetworkSettings.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiOfflineGenerator.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiOrphanedDataCleanup.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiPlatformSettings.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperMenu.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperMulti.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperSearch.h
@@ -52,6 +53,7 @@ set(ES_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSettings.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSystemStatusOptions.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiThemeDownloader.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/PlatformSettings.h
 
     # Scrapers
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/GamesDBJSONScraper.h
@@ -102,6 +104,7 @@ set(ES_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiNetworkSettings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiOfflineGenerator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiOrphanedDataCleanup.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiPlatformSettings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperMenu.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperMulti.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperSearch.cpp
@@ -110,6 +113,7 @@ set(ES_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSettings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSystemStatusOptions.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiThemeDownloader.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/PlatformSettings.cpp
 
     # Scrapers
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/GamesDBJSONScraper.cpp

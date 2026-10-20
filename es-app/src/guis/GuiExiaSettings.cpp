@@ -461,6 +461,21 @@ bool ExiaConfig::set(const std::string& key, const std::string& value)
     return save();
 }
 
+bool ExiaConfig::remove(const std::string& key)
+{
+    if (!mLoaded)
+        load();
+    const auto existing {mIndex.find(key)};
+    if (existing == mIndex.end())
+        return false;
+
+    // The index of every line below the removed one shifts, so it has to be rebuilt.
+    mLines.erase(mLines.begin() + static_cast<std::ptrdiff_t>(existing->second));
+    mIndex.clear();
+    indexLines(mLines, mIndex);
+    return save();
+}
+
 namespace {
 
 struct BiosPlatform

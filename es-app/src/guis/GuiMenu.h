@@ -46,6 +46,7 @@ private:
     void openInputDeviceOptions();
     void openConfigInput(GuiSettings* settings);
     void openCollectionSystemOptions();
+    void openPlatformSettings();
     void openOtherOptions();
     void openUtilities();
     void openQuitMenu();

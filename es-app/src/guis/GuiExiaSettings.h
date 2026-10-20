@@ -37,6 +37,10 @@ public:
 
     std::string get(const std::string& key, const std::string& def = "");
     bool set(const std::string& key, const std::string& value);
+    // Removes a key from the file. Used by the platform settings reset, which has to leave no
+    // trace behind, unlike set() which would write the default value back. Returns true if the
+    // key was present and the file was written.
+    bool remove(const std::string& key);
 
 private:
     ExiaConfig() = default;
