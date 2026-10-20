@@ -20,6 +20,7 @@
 #include "Settings.h"
 #include "SystemData.h"
 #include "utils/FileSystemUtil.h"
+#include "utils/LocalizationUtil.h"
 #include "utils/StringUtil.h"
 
 #include <pugixml.hpp>
@@ -34,6 +35,13 @@ namespace GamelistStore
     {
         // Bump when the schema changes in a way that needs to be detected on load.
         const char* schemaVersion {"1"};
+
+        // Private per game metadata keys. MetaDataList is a plain key value map and only
+        // keys from the metadata declaration are persisted, so these two stay in memory:
+        // they remember which name belongs to the store (the untranslated one) and which
+        // name the language aware overlay put in place for display, see devdoc/38 §7.
+        const char* nameOriginalKey {"name_original"};
+        const char* nameLocalizedKey {"name_localized"};
 
         // ------------------------------------------------------------------
         // sqlite helpers
@@ -192,6 +200,65 @@ namespace GamelistStore
             return meta;
         }
 
+        bool tableExists(sqlite3* handle, const std::string& table)
+        {
+            Statement statement {handle,
+                                 "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?"};
+            if (!statement.isValid())
+                return false;
+            statement.bind(1, table);
+            return statement.step();
+        }
+
+        // Reads all translated names for the active locale, keyed by the relative path
+        // exactly as it is stored in the game table.
+        std::map<std::string, std::string> readLocalizedNames(sqlite3* handle)
+        {
+            std::map<std::string, std::string> names;
+
+            const std::string& locale {Utils::Localization::sCurrentLocale};
+            if (locale.empty() || !tableExists(handle, "game_name_i18n"))
+                return names;
+
+            Statement statement {handle, "SELECT path, name FROM game_name_i18n WHERE locale = ?"};
+            if (!statement.isValid())
+                return names;
+            statement.bind(1, locale);
+
+            while (statement.step()) {
+                const std::string path {statement.column(0)};
+                if (!path.empty())
+                    names[path] = statement.column(1);
+            }
+            return names;
+        }
+
+        // True when the name in memory is neither the store value nor the translated value,
+        // i.e. when the user or the scraper has actually renamed the game.
+        bool wasRenamed(const FileData* file)
+        {
+            const std::string& original {file->metadata.get(nameOriginalKey)};
+            if (original.empty())
+                return false;
+
+            const std::string& current {file->metadata.get("name")};
+            if (current == original)
+                return false;
+
+            return current != file->metadata.get(nameLocalizedKey);
+        }
+
+        // The name column always holds the untranslated name so switching the application
+        // language can never lose a translation, and never writes one by accident.
+        std::string storedName(const FileData* file)
+        {
+            if (wasRenamed(file))
+                return file->metadata.get("name");
+
+            const std::string& original {file->metadata.get(nameOriginalKey)};
+            return original.empty() ? file->metadata.get("name") : original;
+        }
+
         std::string insertSql(const std::string& table, const std::vector<MetaDataDecl>& mdd)
         {
             std::string sql {"INSERT OR REPLACE INTO " + table + " (path"};
@@ -348,7 +415,8 @@ namespace GamelistStore
         // gamelist.xml parser did.
         void applyEntry(SystemData* system,
                         const std::map<std::string, std::string>& row,
-                        FileType type)
+                        FileType type,
+                        const std::map<std::string, std::string>& localizedNames)
         {
             const auto pathEntry {row.find("path")};
             if (pathEntry == row.cend() || pathEntry->second.empty()) {
@@ -421,6 +489,19 @@ namespace GamelistStore
             // Make sure a name gets set if one doesn't exist.
             if (file->metadata.get("name").empty())
                 file->metadata.set("name", defaultName);
+
+            const std::string originalName {file->metadata.get("name")};
+
+            // Language aware display name. The untranslated name stays in the store and is
+            // remembered in memory so a later save cannot overwrite a translation, see
+            // devdoc/38 section 7.
+            const auto localized {localizedNames.find(pathEntry->second)};
+            if (localized != localizedNames.cend() && !localized->second.empty() &&
+                localized->second != originalName) {
+                file->metadata.set(nameLocalizedKey, localized->second);
+                file->metadata.set("name", localized->second);
+            }
+            file->metadata.set(nameOriginalKey, originalName);
 
             file->metadata.resetChangedFlag();
 
@@ -504,8 +585,11 @@ namespace GamelistStore
             statement.bind(1, storedPath(file, system));
 
             const std::vector<MetaDataDecl>& mdd {file->metadata.getMDD()};
-            for (size_t i {0}; i < mdd.size(); ++i)
-                statement.bind(static_cast<int>(i) + 2, file->metadata.get(mdd.at(i).key));
+            for (size_t i {0}; i < mdd.size(); ++i) {
+                const std::string& key {mdd.at(i).key};
+                statement.bind(static_cast<int>(i) + 2,
+                               key == "name" ? storedName(file) : file->metadata.get(key));
+            }
 
             return statement.stepDone();
         }
@@ -518,6 +602,23 @@ namespace GamelistStore
             if (!statement.isValid())
                 return false;
             statement.bind(1, storedPath(file, system));
+            return statement.stepDone();
+        }
+
+        // Drops the translation for the active locale once a game has been renamed, the new
+        // name is the one which should be displayed from then on.
+        bool deleteLocalizedName(sqlite3* handle, const FileData* file, const SystemData* system)
+        {
+            const std::string& locale {Utils::Localization::sCurrentLocale};
+            if (locale.empty() || !tableExists(handle, "game_name_i18n"))
+                return true;
+
+            Statement statement {handle,
+                                 "DELETE FROM game_name_i18n WHERE path = ? AND locale = ?"};
+            if (!statement.isValid())
+                return false;
+            statement.bind(1, storedPath(file, system));
+            statement.bind(2, locale);
             return statement.stepDone();
         }
 
@@ -593,10 +694,12 @@ namespace GamelistStore
 
         applySystemMetaData(system, readMeta(connection.get()));
 
+        const std::map<std::string, std::string> localizedNames {readLocalizedNames(connection.get())};
+
         for (const auto& row : gameRows)
-            applyEntry(system, row, GAME);
+            applyEntry(system, row, GAME, localizedNames);
         for (const auto& row : folderRows)
-            applyEntry(system, row, FOLDER);
+            applyEntry(system, row, FOLDER, localizedNames);
 
         removeOrphanedNoLoadEntries(system);
     }
@@ -753,6 +856,10 @@ namespace GamelistStore
                     success = false;
                     break;
                 }
+                if (wasRenamed(file) && !deleteLocalizedName(connection.get(), file, system)) {
+                    success = false;
+                    break;
+                }
                 writtenFiles.push_back(file);
             }
         }
@@ -767,8 +874,15 @@ namespace GamelistStore
             return;
         }
 
-        for (FileData* file : writtenFiles)
+        for (FileData* file : writtenFiles) {
+            // A renamed game has its new name in the store now, remember it so the next
+            // save does not mistake the translated display name for another rename.
+            if (wasRenamed(file)) {
+                file->metadata.set(nameOriginalKey, file->metadata.get("name"));
+                file->metadata.set(nameLocalizedKey, std::string());
+            }
             file->metadata.resetChangedFlag();
+        }
 
         LOG(LogDebug) << "GamelistStore::save(): Updated " << writtenFiles.size()
                       << (writtenFiles.size() == 1 ? " entity in \"" : " entities in \"")
