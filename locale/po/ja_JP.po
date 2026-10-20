@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-19 07:20+0800\n"
+"POT-Creation-Date: 2026-10-20 11:55+0800\n"
 "PO-Revision-Date: 2026-09-09 19:23+0800\n"
 "Last-Translator: ice <natsumekyousuke211314@gmail.com>\n"
 "Language-Team: 日本語 <info@es-de.org>\n"
@@ -800,6 +800,12 @@ msgstr "このフォルダのメタデータを編集"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "このゲームのメタデータを編集"
 
+msgid "SHOW GAME"
+msgstr "ゲームを表示"
+
+msgid "HIDE GAME"
+msgstr "ゲームを隠す"
+
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "フォルダを入力してください（フォルダリンクをオーバーライドします）"
 
@@ -1138,6 +1144,9 @@ msgstr "時計を表示"
 msgid "BLUR BACKGROUND WHEN MENU IS OPEN"
 msgstr "メニューが開いているときに背景をぼかす"
 
+msgid "DO NOT SHOW HIDDEN GAMES"
+msgstr "隠したゲームを表示しない"
+
 msgid "SORT FOLDERS ON TOP OF GAMELISTS"
 msgstr "ゲームリストの上にフォルダを並べる"
 
@@ -1377,9 +1386,6 @@ msgstr "ゲームごとに代替エミュレータを有効に"
 msgid "SHOW HIDDEN FILES AND FOLDERS"
 msgstr "隠しファイルとフォルダを表示"
 
-msgid "SHOW HIDDEN GAMES"
-msgstr "非表示中のゲームを表示"
-
 msgid "ENABLE CUSTOM EVENT SCRIPTS"
 msgstr "カスタムイベントスクリプトを有効に"
 
@@ -1389,8 +1395,8 @@ msgstr "カスタムイベントを閲覧"
 msgid "RUN BROWSING EVENTS AS NON-BLOCKING"
 msgstr "ブラウジングイベントをノンブロッキングで実行"
 
-msgid "ONLY SHOW GAMES FROM GAMELIST.XML FILES"
-msgstr "GAMELIST.XML ファイルにあるゲームのみを表示"
+msgid "ONLY SHOW GAMES FROM THE DATABASE"
+msgstr "データベースにあるゲームのみ表示"
 
 msgid "STRIP EXTRA MAME NAME INFO (REQUIRES RESTART)"
 msgstr "余分なMAME名情報を削除（再起動が必要）"
@@ -1452,6 +1458,19 @@ msgid ""
 msgstr ""
 "追加または削除されたゲームやシステムなどの変更を検出するために、ROMディレクト"
 "リを再スキャンします"
+
+msgid "EXPORT GAMELIST.XML"
+msgstr "GAMELIST.XML をエクスポート"
+
+msgid ""
+"THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
+"ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
+"TAGS IS PRESERVED"
+msgstr "データベースの内容を ROM フォルダー内の GAMELIST.XML ファイルに書き込みます。既存のファイルにはマージされるため、メディアタグなどの外部データは保持されます"
+
+#, c-format
+msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
+msgstr "%i 個のシステムの GAMELIST.XML をエクスポートしました"
 
 msgid "REALLY RESTART?"
 msgstr "本当に再起動しますか?"
@@ -2380,6 +2399,13 @@ msgstr "（秒）経過後にビデオを交換"
 
 msgid "RENDER BLUR"
 msgstr "ぼかしをレンダリング"
+
+msgid ""
+"THIS CHANGE REQUIRES A RESCAN OF THE GAME LIBRARY\n"
+"DO YOU WANT TO PROCEED?"
+msgstr ""
+"この変更にはゲームライブラリの再スキャンが必要です\n"
+"続行しますか?"
 
 msgid "DISPLAY BLUETOOTH STATUS INDICATOR"
 msgstr "Bluetoothの状態インジケーターを表示"
@@ -3441,6 +3467,12 @@ msgstr "システムディレクトリを作成中..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "エラー：PDFファイルをレンダリングできませんでした"
+
+#~ msgid "SHOW HIDDEN GAMES"
+#~ msgstr "非表示中のゲームを表示"
+
+#~ msgid "ONLY SHOW GAMES FROM GAMELIST.XML FILES"
+#~ msgstr "GAMELIST.XML ファイルにあるゲームのみを表示"
 
 #~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
 #~ msgstr "LightDM カウントダウン(秒、0〜60)"

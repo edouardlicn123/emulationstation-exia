@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-19 07:20+0800\n"
+"POT-Creation-Date: 2026-10-20 11:55+0800\n"
 "PO-Revision-Date: 2026-09-08 20:53+0200\n"
 "Last-Translator: wakeboxer <ljhmd0825@gmail.com>\n"
 "Language-Team: 한국어 <info@es-de.org>\n"
@@ -782,6 +782,12 @@ msgstr "현재 폴더 메타데이터 편집"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "현재 게임 메타데이터 편집"
 
+msgid "SHOW GAME"
+msgstr "게임 표시"
+
+msgid "HIDE GAME"
+msgstr "게임 숨기기"
+
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "폴더 들어가기 (폴더 링크 오버라이드)"
 
@@ -1120,6 +1126,9 @@ msgstr "시계 표시"
 msgid "BLUR BACKGROUND WHEN MENU IS OPEN"
 msgstr "메뉴 오픈시 배경 흐려짐 효과"
 
+msgid "DO NOT SHOW HIDDEN GAMES"
+msgstr "숨긴 게임 표시 안 함"
+
 msgid "SORT FOLDERS ON TOP OF GAMELISTS"
 msgstr "폴더를 게임리스트 최상단에 표시"
 
@@ -1357,9 +1366,6 @@ msgstr "게임별 대체 에뮬레이터 사용 가능"
 msgid "SHOW HIDDEN FILES AND FOLDERS"
 msgstr "숨긴 파일 및 폴더 보이기"
 
-msgid "SHOW HIDDEN GAMES"
-msgstr "숨긴 게임 보이기"
-
 msgid "ENABLE CUSTOM EVENT SCRIPTS"
 msgstr "커스텀 이벤트 스크립트 사용 가능"
 
@@ -1369,8 +1375,8 @@ msgstr "커스텀 이벤트 탐색"
 msgid "RUN BROWSING EVENTS AS NON-BLOCKING"
 msgstr "브라우징 이벤트를 비차단(논블로킹) 방식으로 실행"
 
-msgid "ONLY SHOW GAMES FROM GAMELIST.XML FILES"
-msgstr "GAMELIST.XML 파일에 있는 게임만 보이기"
+msgid "ONLY SHOW GAMES FROM THE DATABASE"
+msgstr "데이터베이스의 게임만 표시"
 
 msgid "STRIP EXTRA MAME NAME INFO (REQUIRES RESTART)"
 msgstr "MAME NAME 에서 추가정보 제거 (재시작 필요)"
@@ -1430,6 +1436,19 @@ msgid ""
 msgstr ""
 "추가되거나 제거된 게임 및 시스템과 같은 변경 사항이 있는지 롬 디렉터리를 다"
 "시 재스캔합니다"
+
+msgid "EXPORT GAMELIST.XML"
+msgstr "GAMELIST.XML 내보내기"
+
+msgid ""
+"THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
+"ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
+"TAGS IS PRESERVED"
+msgstr "데이터베이스 내용을 ROM 폴더 안의 GAMELIST.XML 파일에 기록하며, 기존 파일에 병합되므로 미디어 태그 같은 외부 데이터는 그대로 유지됩니다"
+
+#, c-format
+msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
+msgstr "%i개 시스템의 GAMELIST.XML을 내보냈습니다"
 
 msgid "REALLY RESTART?"
 msgstr "정말 다시 시작할까요?"
@@ -2334,6 +2353,13 @@ msgstr "비디오 교체 시간 (초)"
 
 msgid "RENDER BLUR"
 msgstr "블러 랜더링 적용"
+
+msgid ""
+"THIS CHANGE REQUIRES A RESCAN OF THE GAME LIBRARY\n"
+"DO YOU WANT TO PROCEED?"
+msgstr ""
+"이 변경 사항은 게임 라이브러리 재검색이 필요합니다\n"
+"계속하시겠습니까?"
 
 msgid "DISPLAY BLUETOOTH STATUS INDICATOR"
 msgstr "블루투스 상태 표시"
@@ -3377,6 +3403,12 @@ msgstr "시스템 디렉터리 생성 중..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "오류: PDF 파일을 렌더링할 수 없습니다"
+
+#~ msgid "SHOW HIDDEN GAMES"
+#~ msgstr "숨긴 게임 보이기"
+
+#~ msgid "ONLY SHOW GAMES FROM GAMELIST.XML FILES"
+#~ msgstr "GAMELIST.XML 파일에 있는 게임만 보이기"
 
 #~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
 #~ msgstr "LightDM 카운트다운(초, 0~60)"

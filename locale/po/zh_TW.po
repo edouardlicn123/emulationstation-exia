@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-19 07:20+0800\n"
+"POT-Creation-Date: 2026-10-20 11:55+0800\n"
 "PO-Revision-Date: 2026-09-10 12:02+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: 繁體中文 <info@es-de.org>\n"
@@ -776,6 +776,12 @@ msgstr "編輯此資料夾的後設資料"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "編輯此遊戲的後設資料"
 
+msgid "SHOW GAME"
+msgstr "顯示遊戲"
+
+msgid "HIDE GAME"
+msgstr "隱藏遊戲"
+
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "輸入資料夾（覆蓋資料夾連結）"
 
@@ -1113,6 +1119,9 @@ msgstr "顯示時鐘"
 msgid "BLUR BACKGROUND WHEN MENU IS OPEN"
 msgstr "當選單開啟時模糊背景"
 
+msgid "DO NOT SHOW HIDDEN GAMES"
+msgstr "不顯示隱藏的遊戲"
+
 msgid "SORT FOLDERS ON TOP OF GAMELISTS"
 msgstr "在遊戲列表頂部對資料夾進行排序"
 
@@ -1349,9 +1358,6 @@ msgstr "為每個遊戲啟用備用模擬器"
 msgid "SHOW HIDDEN FILES AND FOLDERS"
 msgstr "顯示隱藏檔案和資料夾"
 
-msgid "SHOW HIDDEN GAMES"
-msgstr "顯示隱藏的遊戲"
-
 msgid "ENABLE CUSTOM EVENT SCRIPTS"
 msgstr "啟用自定義事件指令碼"
 
@@ -1361,8 +1367,8 @@ msgstr "瀏覽自定義事件"
 msgid "RUN BROWSING EVENTS AS NON-BLOCKING"
 msgstr "以非阻塞方式運行瀏覽事件"
 
-msgid "ONLY SHOW GAMES FROM GAMELIST.XML FILES"
-msgstr "僅顯示 gamelist.xml 檔案中的遊戲"
+msgid "ONLY SHOW GAMES FROM THE DATABASE"
+msgstr "僅顯示資料庫中的遊戲"
 
 msgid "STRIP EXTRA MAME NAME INFO (REQUIRES RESTART)"
 msgstr "刪除多餘的 MAME 名稱資訊（需要重新啟動）"
@@ -1419,6 +1425,19 @@ msgid ""
 "THIS WILL RESCAN YOUR ROM DIRECTORY FOR CHANGES SUCH AS ADDED OR REMOVED "
 "GAMES AND SYSTEMS"
 msgstr "這將重新掃描你的 ROM 目錄以查詢更改，例如新增或刪除的遊戲和平台"
+
+msgid "EXPORT GAMELIST.XML"
+msgstr "匯出 GAMELIST.XML"
+
+msgid ""
+"THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
+"ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
+"TAGS IS PRESERVED"
+msgstr "這會將資料庫內容寫入各 ROM 資料夾內的 GAMELIST.XML 檔案，並與現有檔案合併，因此媒體標籤等外部資料將得以保留"
+
+#, c-format
+msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
+msgstr "已為 %i 個系統匯出 GAMELIST.XML"
 
 msgid "REALLY RESTART?"
 msgstr "確定要重新啟動嗎?"
@@ -2317,6 +2336,13 @@ msgstr "幾秒後更換影片"
 
 msgid "RENDER BLUR"
 msgstr "渲染模糊"
+
+msgid ""
+"THIS CHANGE REQUIRES A RESCAN OF THE GAME LIBRARY\n"
+"DO YOU WANT TO PROCEED?"
+msgstr ""
+"此變更需要重新掃描遊戲庫\n"
+"是否繼續?"
 
 msgid "DISPLAY BLUETOOTH STATUS INDICATOR"
 msgstr "顯示藍芽狀態圖示"
@@ -3332,6 +3358,12 @@ msgstr "正在建立平台目錄……"
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "錯誤：無法渲染 PDF 檔案"
+
+#~ msgid "SHOW HIDDEN GAMES"
+#~ msgstr "顯示隱藏的遊戲"
+
+#~ msgid "ONLY SHOW GAMES FROM GAMELIST.XML FILES"
+#~ msgstr "僅顯示 gamelist.xml 檔案中的遊戲"
 
 #~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
 #~ msgstr "LightDM 倒數計時(秒,0 到 60)"

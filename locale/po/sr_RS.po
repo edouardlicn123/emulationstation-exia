@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-19 07:20+0800\n"
+"POT-Creation-Date: 2026-10-20 11:55+0800\n"
 "PO-Revision-Date: 2026-09-04 12:33+0200\n"
 "Last-Translator: SecularSteve <info@es-de.org>\n"
 "Language-Team: Serbian (Latin, Serbia) <info@es-de.org>\n"
@@ -811,6 +811,12 @@ msgstr "IZMENITE METAPODATKE OVOG FOLDERA"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "IZMENA METAPODATAKA OVE IGRE"
 
+msgid "SHOW GAME"
+msgstr "ПРИКАЖИ ИГРУ"
+
+msgid "HIDE GAME"
+msgstr "САКРИЈ ИГРУ"
+
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "UNOS MAPE (IDITE DALJE OD VEZE SA FASCIKLOM)"
 
@@ -1149,6 +1155,9 @@ msgstr "PRIKAZ SATA"
 msgid "BLUR BACKGROUND WHEN MENU IS OPEN"
 msgstr "ZAMUĆENJE POZADINE KADA JE MENI OTVOREN"
 
+msgid "DO NOT SHOW HIDDEN GAMES"
+msgstr "НЕ ПРИКАЗУЈ САКРИВЕНЕ ИГРЕ"
+
 msgid "SORT FOLDERS ON TOP OF GAMELISTS"
 msgstr "SORTIRAJ MAPE NA VRHU LISTA IGRE"
 
@@ -1388,9 +1397,6 @@ msgstr "OMOGUĆITE ALTERNATIVNE EMULATORE PO IGRI"
 msgid "SHOW HIDDEN FILES AND FOLDERS"
 msgstr "SHOV SKRIVENE DATOTEKE I FASCIKLE"
 
-msgid "SHOW HIDDEN GAMES"
-msgstr "SHOV SKRIVENE IGRE"
-
 msgid "ENABLE CUSTOM EVENT SCRIPTS"
 msgstr "OMOGUĆITE PRILAGOĐENE SKRIPTE DOGAĐAJA"
 
@@ -1400,8 +1406,8 @@ msgstr "PREGLED PRILAGOĐENIH DOGAĐAJA"
 msgid "RUN BROWSING EVENTS AS NON-BLOCKING"
 msgstr "POKRENITE PREGLEDAVANJE DOGAĐAJA KAO NEBLOKIRAJUĆE"
 
-msgid "ONLY SHOW GAMES FROM GAMELIST.XML FILES"
-msgstr "SAMO SHOV IGRE IZ GAMELIST.XML FAJLOVA"
+msgid "ONLY SHOW GAMES FROM THE DATABASE"
+msgstr "ПРИКАЖИ САМО ИГРЕ ИЗ БАЗЕ ПОДАТАКА"
 
 msgid "STRIP EXTRA MAME NAME INFO (REQUIRES RESTART)"
 msgstr "UKLONITE DODATNE INFORMACIJE O IMENU (POTREBNO JE PONOVNO POKRETANJE)"
@@ -1462,6 +1468,19 @@ msgid ""
 msgstr ""
 "OVO ĆE PONOVO SKENIRATI SVOJ ROM DIREKTOR ZA PROMENE KAO ŠTO SU DODATE ILI "
 "UKLONJENE IGRE I SISTEMI"
+
+msgid "EXPORT GAMELIST.XML"
+msgstr "ИЗВЕЗИ GAMELIST.XML"
+
+msgid ""
+"THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
+"ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
+"TAGS IS PRESERVED"
+msgstr "ОВО ЋЕ ЗАПИСАТИ САДРЖАЈ БАЗЕ ПОДАТАКА У GAMELIST.XML ДАТОТЕКЕ УНУТАР ВАШИХ ROM ФАСЦИКЛИ, СПАЈАЈУЋИ ИХ СА ПОСТОЈЕЋИМ ДАТОТЕКАМА ТАКО ДА СЕ ВАНСКИ ПОДАЦИ ПОПУТ МЕДИЈСКИХ ОЗНАКА САЧУВАЈУ"
+
+#, c-format
+msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
+msgstr "ИЗВЕЗЕН GAMELIST.XML ЗА %i СИСТЕМА"
 
 msgid "REALLY RESTART?"
 msgstr "ДА ЛИ СИГУРНО ЖЕЛИТЕ ДА ПОКРЕНИТЕ ПОНОВО?"
@@ -2386,6 +2405,13 @@ msgstr "ZAMENITE VIDEO POSLE (SEKUNDE)"
 
 msgid "RENDER BLUR"
 msgstr "RENDER ZAMUĆENJE"
+
+msgid ""
+"THIS CHANGE REQUIRES A RESCAN OF THE GAME LIBRARY\n"
+"DO YOU WANT TO PROCEED?"
+msgstr ""
+"ОВА ПРОМЕНА ЗАХТЕВА ПОНОВНО СКЕНИРАЊЕ БИБЛИОТЕКЕ ИГАРА\n"
+"ЖЕЛИТЕ ЛИ ДА НАСТАВИТЕ?"
 
 msgid "DISPLAY BLUETOOTH STATUS INDICATOR"
 msgstr "BLUETOOTH INDIKATOR STATUSA NA EKRANU"
@@ -3463,6 +3489,12 @@ msgstr "Kreiranje sistemskih direktorijuma..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "GREŠKA: NIJE MOGUĆE DA VIDITE PDF DATOTEKU"
+
+#~ msgid "SHOW HIDDEN GAMES"
+#~ msgstr "SHOV SKRIVENE IGRE"
+
+#~ msgid "ONLY SHOW GAMES FROM GAMELIST.XML FILES"
+#~ msgstr "SAMO SHOV IGRE IZ GAMELIST.XML FAJLOVA"
 
 #~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
 #~ msgstr "LIGHTDM ОДБРОЈАВАЊЕ 0-60"

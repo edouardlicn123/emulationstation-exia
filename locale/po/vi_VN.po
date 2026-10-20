@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-19 07:20+0800\n"
+"POT-Creation-Date: 2026-10-20 11:55+0800\n"
 "PO-Revision-Date: 2026-09-12 19:49+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Tiếng Việt <info@es-de.org>\n"
@@ -787,6 +787,12 @@ msgstr "SỬA DỮ LIỆU CỦA THƯ MỤC NÀY"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "SỬA DỮ LIỆU CỦA TRÒ CHƠI NÀY"
 
+msgid "SHOW GAME"
+msgstr "HIỆN TRÒ CHƠI"
+
+msgid "HIDE GAME"
+msgstr "ẨN TRÒ CHƠI"
+
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "NHẬP THƯ MỤC (GHI ĐÈ LIÊN KẾT THƯ MỤC)"
 
@@ -1125,6 +1131,9 @@ msgstr "HIỂN THỊ ĐỒNG HỒ"
 msgid "BLUR BACKGROUND WHEN MENU IS OPEN"
 msgstr "LÀM MỜ NỀN KHI MỞ MENU"
 
+msgid "DO NOT SHOW HIDDEN GAMES"
+msgstr "KHÔNG HIỆN TRÒ CHƠI ĐÃ ẨN"
+
 msgid "SORT FOLDERS ON TOP OF GAMELISTS"
 msgstr "HIỆN THƯ MỤC TRÊN ĐẦU TRÒ CHƠI"
 
@@ -1364,9 +1373,6 @@ msgstr "CHỌN GIẢ LẬP CHO TỪNG TRÒ CHƠI"
 msgid "SHOW HIDDEN FILES AND FOLDERS"
 msgstr "HIỂN THỊ TỆP VÀ THƯ MỤC ẨN"
 
-msgid "SHOW HIDDEN GAMES"
-msgstr "HIỂN THỊ TRÒ CHƠI ẨN"
-
 msgid "ENABLE CUSTOM EVENT SCRIPTS"
 msgstr "BẬT TẬP LỆNH SỰ KIỆN"
 
@@ -1376,8 +1382,8 @@ msgstr "TÙY CHỈNH KHI DUYỆT"
 msgid "RUN BROWSING EVENTS AS NON-BLOCKING"
 msgstr "CHẠY CÁC SỰ KIỆN DUYỆT WEB Ở CHẾ ĐỘ KHÔNG CHẶN"
 
-msgid "ONLY SHOW GAMES FROM GAMELIST.XML FILES"
-msgstr "CHỈ HIỂN THỊ TRÒ CHƠI TỪ TỆP GAMELIST.XML"
+msgid "ONLY SHOW GAMES FROM THE DATABASE"
+msgstr "CHỈ HIỆN TRÒ CHƠI TRONG CƠ SỞ DỮ LIỆU"
 
 msgid "STRIP EXTRA MAME NAME INFO (REQUIRES RESTART)"
 msgstr "XÓA TÊN MAME THỪA (CẦN KHỞI ĐỘNG LẠI)"
@@ -1438,6 +1444,19 @@ msgid ""
 msgstr ""
 "HỆ THỐNG SẼ QUÉT LẠI THƯ MỤC ROM CỦA BẠN ĐỂ KIỂM TRA CÁC THAY ĐỔI NHƯ THÊM "
 "HOẶC XÓA TRÒ CHƠI VÀ HỆ THỐNG"
+
+msgid "EXPORT GAMELIST.XML"
+msgstr "XUẤT GAMELIST.XML"
+
+msgid ""
+"THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
+"ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
+"TAGS IS PRESERVED"
+msgstr "THAO TÁC NÀY SẼ GHI NỘI DUNG CƠ SỞ DỮ LIỆU VÀO CÁC TỆP GAMELIST.XML TRONG THƯ MỤC ROM CỦA BẠN, HỢP NHẤT VỚI CÁC TỆP HIỆN CÓ ĐỂ DỮ LIỆU BÊN NGOÀI NHƯ THẺ PHƯƠNG TIỆN ĐƯỢC GIỮ NGUYÊN"
+
+#, c-format
+msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
+msgstr "ĐÃ XUẤT GAMELIST.XML CHO %i HỆ THỐNG"
 
 msgid "REALLY RESTART?"
 msgstr "KHỞI ĐỘNG LẠI THẬT SỰ?"
@@ -2352,6 +2371,13 @@ msgstr "ĐỔI VIDEO SAU (GIÂY)"
 
 msgid "RENDER BLUR"
 msgstr "HIỆU ỨNG MỜ"
+
+msgid ""
+"THIS CHANGE REQUIRES A RESCAN OF THE GAME LIBRARY\n"
+"DO YOU WANT TO PROCEED?"
+msgstr ""
+"THAY ĐỔI NÀY YÊU CẦU QUÉT LẠI THƯ VIỆN TRÒ CHƠI\n"
+"BẠN CÓ MUỐN TIẾP TỤC KHÔNG?"
 
 msgid "DISPLAY BLUETOOTH STATUS INDICATOR"
 msgstr "HIỂN THỊ TRẠNG THÁI BLUETOOTH"
@@ -3403,6 +3429,12 @@ msgstr "Đang tạo thư mục hệ thống..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "LỖI: KHÔNG THỂ HIỂN THỊ TỆP PDF"
+
+#~ msgid "SHOW HIDDEN GAMES"
+#~ msgstr "HIỂN THỊ TRÒ CHƠI ẨN"
+
+#~ msgid "ONLY SHOW GAMES FROM GAMELIST.XML FILES"
+#~ msgstr "CHỈ HIỂN THỊ TRÒ CHƠI TỪ TỆP GAMELIST.XML"
 
 #~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
 #~ msgstr "ĐẾM NGƯỢC LIGHTDM 0-60"

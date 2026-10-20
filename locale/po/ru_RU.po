@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-19 07:20+0800\n"
+"POT-Creation-Date: 2026-10-20 11:55+0800\n"
 "PO-Revision-Date: 2026-09-12 20:05+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Русский <info@es-de.org>\n"
@@ -799,6 +799,12 @@ msgstr "РЕД. МЕТАДАННЫЕ ЭТОЙ ПАПКИ"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "РЕД. МЕТАДАННЫЕ ЭТОЙ ИГРЫ"
 
+msgid "SHOW GAME"
+msgstr "ПОКАЗАТЬ ИГРУ"
+
+msgid "HIDE GAME"
+msgstr "СКРЫТЬ ИГРУ"
+
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "ВВЕДИТЕ ПАПКУ (ПЕРЕЗАПИСАТЬ ССЫЛКУ НА ПАПКУ)"
 
@@ -1137,6 +1143,9 @@ msgstr "ОТОБРАЖАТЬ ЧАСЫ"
 msgid "BLUR BACKGROUND WHEN MENU IS OPEN"
 msgstr "РАЗМЫТИЕ ФОНА ПРИ ОТКРЫТИИ МЕНЮ"
 
+msgid "DO NOT SHOW HIDDEN GAMES"
+msgstr "НЕ ПОКАЗЫВАТЬ СКРЫТЫЕ ИГРЫ"
+
 msgid "SORT FOLDERS ON TOP OF GAMELISTS"
 msgstr "СОРТ. ПАПКИ ПОВЕРХ ГЕЙМЛИСТЫ"
 
@@ -1377,9 +1386,6 @@ msgstr "РАЗРЕШИТЬ АЛЬТ. ЭМУЛЯТОРЫ ДЛЯ КАЖДОЙ ИГ
 msgid "SHOW HIDDEN FILES AND FOLDERS"
 msgstr "ПОКАЗЫВАТЬ СКРЫТЫЕ ФАЙЛЫ И ПАПКИ"
 
-msgid "SHOW HIDDEN GAMES"
-msgstr "ПОКАЗЫВАТЬ СКРЫТЫЕ ИГРЫ"
-
 msgid "ENABLE CUSTOM EVENT SCRIPTS"
 msgstr "РАЗРЕШИТЬ ПОЛЬЗ. СЦЕНАРИИ СОБЫТИЙ"
 
@@ -1389,8 +1395,8 @@ msgstr "ПОЛЬЗ. СОБЫТИЯ ПРИ НАВИГАЦИИ"
 msgid "RUN BROWSING EVENTS AS NON-BLOCKING"
 msgstr "ЗАПУСКАТЬ СОБЫТИЯ ПРОСМОТРА В НЕБЛОКИРУЮЩЕМ РЕЖИМЕ"
 
-msgid "ONLY SHOW GAMES FROM GAMELIST.XML FILES"
-msgstr "ПОКАЗЫВАТЬ ИГРЫ ТОЛЬКО ИЗ GAMELIST.XML"
+msgid "ONLY SHOW GAMES FROM THE DATABASE"
+msgstr "ПОКАЗЫВАТЬ ТОЛЬКО ИГРЫ ИЗ БАЗЫ ДАННЫХ"
 
 msgid "STRIP EXTRA MAME NAME INFO (REQUIRES RESTART)"
 msgstr "УДАЛЯТЬ ЛИШНЕЕ В ИМЕНИ MAME (НУЖЕН ПЕРЕЗАПУСК)"
@@ -1451,6 +1457,19 @@ msgid ""
 msgstr ""
 "ЭТО ПРОСКАНИРУЕТ КАТАЛОГ РОМОВ НА ПРЕДМЕТ ИЗМЕНЕНИЙ, ТАКИХ КАК ДОБАВЛЕНИЕ "
 "ИЛИ УДАЛЕНИЕ ИГР И СИСТЕМ"
+
+msgid "EXPORT GAMELIST.XML"
+msgstr "ЭКСПОРТ GAMELIST.XML"
+
+msgid ""
+"THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
+"ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
+"TAGS IS PRESERVED"
+msgstr "БУДЕТ ВЫПОЛНЕНА ЗАПИСЬ СОДЕРЖИМОГО БАЗЫ ДАННЫХ В ФАЙЛЫ GAMELIST.XML В ВАШИХ ПАПКАХ ROM С ОБЪЕДИНЕНИЕМ С УЖЕ СУЩЕСТВУЮЩИМИ ФАЙЛАМИ, ПОЭТОМУ ВНЕШНИЕ ДАННЫЕ, ТАКИЕ КАК МЕДИАТЕГИ, БУДУТ СОХРАНЕНЫ"
+
+#, c-format
+msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
+msgstr "GAMELIST.XML ЭКСПОРТИРОВАН ДЛЯ %i СИСТЕМ"
 
 msgid "REALLY RESTART?"
 msgstr "ДЕЙСТВИТЕЛЬНО ПЕРЕЗАПУСТИТЬ?"
@@ -2374,6 +2393,13 @@ msgstr "СМЕНА ВИДЕО ЧЕРЕЗ (В СЕКУНДАХ)"
 
 msgid "RENDER BLUR"
 msgstr "РЕНДЕРИНГ РАЗМЫТИЯ"
+
+msgid ""
+"THIS CHANGE REQUIRES A RESCAN OF THE GAME LIBRARY\n"
+"DO YOU WANT TO PROCEED?"
+msgstr ""
+"ЭТО ИЗМЕНЕНИЕ ПОТРЕБУЕТ ПОВТОРНОГО СКАНИРОВАНИЯ БИБЛИОТЕКИ ИГР\n"
+"ПРОДОЛЖИТЬ?"
 
 msgid "DISPLAY BLUETOOTH STATUS INDICATOR"
 msgstr "ОТОБРАЖАТЬ СТАТУС BLUETOOTH"
@@ -3460,6 +3486,12 @@ msgstr "Создание папок систем..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "ОШИБКА: НЕ УДАЛОСЬ ОТОБРАЗИТЬ PDF-ФАЙЛ"
+
+#~ msgid "SHOW HIDDEN GAMES"
+#~ msgstr "ПОКАЗЫВАТЬ СКРЫТЫЕ ИГРЫ"
+
+#~ msgid "ONLY SHOW GAMES FROM GAMELIST.XML FILES"
+#~ msgstr "ПОКАЗЫВАТЬ ИГРЫ ТОЛЬКО ИЗ GAMELIST.XML"
 
 #~ msgid "LIGHTDM COUNTDOWN IN SECONDS, 0 TO 60"
 #~ msgstr "ОТСЧЁТ LIGHTDM 0-60 СЕК"
