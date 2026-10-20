@@ -134,6 +134,7 @@ elseif(NOT EMSCRIPTEN AND NOT ANDROID AND NOT IOS)
     find_package(Libgit2 REQUIRED)
     find_package(Pugixml REQUIRED)
     find_package(SDL2 REQUIRED)
+    find_package(SQLite3 REQUIRED)
 endif()
 
 # Add ALSA and BlueZ for Linux.
@@ -501,7 +502,8 @@ else()
                             ${HarfBuzz_INCLUDE_DIRS}
                             ${ICU_INCLUDE_DIRS}
                             ${PUGIXML_INCLUDE_DIRS}
-                            ${SDL2_INCLUDE_DIR})
+                            ${SDL2_INCLUDE_DIR}
+                            ${SQLite3_INCLUDE_DIRS})
 endif()
 
 # For Linux, add the ALSA include directory.
@@ -643,7 +645,8 @@ else()
                          ${HarfBuzz_LIBRARIES}
                          ${ICU_LIBRARIES}
                          ${PUGIXML_LIBRARIES}
-                         ${SDL2_LIBRARY})
+                         ${SDL2_LIBRARY}
+                         ${SQLite3_LIBRARIES})
     if(Intl_LIBRARY)
         # On Unix systems where the gettext functions are not part of the C standard library
         # we need to explicitly link with the libintl library.

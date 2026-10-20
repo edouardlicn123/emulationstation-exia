@@ -3,7 +3,8 @@
 //  ES-DE Frontend
 //  GamelistFileParser.h
 //
-//  Parses and updates the gamelist.xml files.
+//  Loads and stores per game metadata. These are thin wrappers around the
+//  sqlite based GamelistStore so existing call sites keep working unchanged.
 //
 
 #ifndef ES_APP_GAMELIST_FILE_PARSER_H
@@ -13,10 +14,11 @@ class SystemData;
 
 namespace GamelistFileParser
 {
-    // Loads gamelist.xml data into a SystemData.
+    // Loads stored metadata into a SystemData, importing gamelist.xml one time
+    // if the system has no store yet.
     void parseGamelist(SystemData* system);
 
-    // Writes currently loaded metadata for a SystemData to gamelist.xml.
+    // Writes currently loaded metadata for a SystemData to its metadata store.
     void updateGamelist(SystemData* system,
                         const bool updateAlternativeEmulator = false,
                         const bool updateScreenLaunch = false);
