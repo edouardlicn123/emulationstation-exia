@@ -33,6 +33,12 @@ GuiAlternativeEmulators::GuiAlternativeEmulators(SystemData* systemFilter,
     // back to the gamelist.
     if (mSystemFilter != nullptr) {
         selectorWindow(mSystemFilter);
+        // The selector page has been pushed onto the window stack. Remove this empty
+        // wrapper component so there is only one level of menus, otherwise the UI
+        // shows an extra blank submenu (devdoc/36 fix).
+        if (mWindow != nullptr)
+            mWindow->removeGui(this);
+        delete this;
         return;
     }
 
