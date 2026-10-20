@@ -1638,9 +1638,10 @@ void CollectionSystemsManager::importCollectionsFromCfgFiles()
         if (input.is_open())
             input.close();
 
-        if (GamelistStore::saveCollectionMembers(collectionName, members))
+        if (GamelistStore::saveCollectionMembers(collectionName, members)) {
             LOG(LogInfo) << "Imported custom collection \"" << collectionName << "\" ("
                          << members.size() << " entries) from \"" << filename << "\"";
+        }
     }
 }
 

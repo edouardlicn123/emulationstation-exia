@@ -754,10 +754,11 @@ namespace GamelistStore
                      "Couldn't finalize the store transaction"))
             success = false;
 
-        if (!success)
+        if (!success) {
             LOG(LogError) << "GamelistStore::saveCollectionMembers(): Couldn't write the "
                              "collection store for \""
                           << collectionName << "\"";
+        }
         return success;
     }
 
@@ -1179,6 +1180,138 @@ namespace GamelistStore
         }
 
         return true;
+    }
+
+    // ------------------------------------------------------------------
+    // Export of the stores back to gamelist.xml files
+    // ------------------------------------------------------------------
+
+    // Writes the store of a single system to the gamelist.xml file inside its ROM
+    // directory. Existing entries are located by their path and only the fields ES-DE
+    // knows about are overwritten, so data written by external tools such as batocera
+    // media elements is preserved. Entries which are not part of the store are left
+    // untouched as well, the export only adds and updates, it never removes.
+    static bool exportXml(SystemData* system)
+    {
+        const std::string storePath {getPlatformStorePath(system->getName())};
+        if (!Utils::FileSystem::exists(storePath))
+            return false;
+
+        Connection connection {storePath, true};
+        if (!connection.isValid())
+            return false;
+
+        std::vector<std::map<std::string, std::string>> rows[2];
+        if (!readTable(connection.get(), "game", rows[0]) ||
+            !readTable(connection.get(), "folder", rows[1]))
+            return false;
+
+        // An empty store must not produce or rewrite an xml file, whatever is in an
+        // existing file belongs to other tools at that point.
+        if (rows[0].empty() && rows[1].empty())
+            return true;
+
+        const std::string xmlPath {system->getRootFolder()->getPath() + "/gamelist.xml"};
+
+        pugi::xml_document doc;
+        if (Utils::FileSystem::exists(xmlPath) && Utils::FileSystem::getFileSize(xmlPath) > 0) {
+#if defined(_WIN64)
+            const pugi::xml_parse_result& result {
+                doc.load_file(Utils::String::stringToWideString(xmlPath).c_str())};
+#else
+            const pugi::xml_parse_result& result {doc.load_file(xmlPath.c_str())};
+#endif
+            if (!result) {
+                LOG(LogError) << "GamelistStore::exportXml(): Error parsing gamelist file \""
+                              << xmlPath << "\": " << result.description()
+                              << ", not exporting system \"" << system->getName() << "\"";
+                return false;
+            }
+        }
+
+        pugi::xml_node root {doc.child("gameList")};
+        if (!root) {
+            pugi::xml_node decl {doc.prepend_child(pugi::node_declaration)};
+            decl.append_attribute("version") = "1.0";
+            root = doc.append_child("gameList");
+        }
+
+        size_t updated {0};
+        size_t added {0};
+
+        for (int i {0}; i < 2; ++i) {
+            const std::string tag {i == 0 ? "game" : "folder"};
+            const MetaDataListType type {i == 0 ? GAME_METADATA : FOLDER_METADATA};
+
+            for (const auto& row : rows[i]) {
+                const auto pathIt {row.find("path")};
+                if (pathIt == row.cend() || pathIt->second.empty())
+                    continue;
+
+                pugi::xml_node fileNode;
+                for (pugi::xml_node node {root.child(tag.c_str())}; node;
+                     node = node.next_sibling(tag.c_str())) {
+                    const pugi::xml_node& pathNode {node.child("path")};
+                    if (pathNode && pathNode.text().get() == pathIt->second) {
+                        fileNode = node;
+                        break;
+                    }
+                }
+
+                if (fileNode) {
+                    ++updated;
+                }
+                else {
+                    fileNode = root.append_child(tag.c_str());
+                    fileNode.append_child("path").text().set(pathIt->second.c_str());
+                    ++added;
+                }
+
+                for (const auto& decl : getMDDByType(type)) {
+                    const auto valueIt {row.find(decl.key)};
+                    const std::string value {
+                        valueIt != row.cend() ? valueIt->second : std::string()};
+                    pugi::xml_node fieldNode {fileNode.child(decl.key.c_str())};
+                    if (value.empty()) {
+                        if (fieldNode)
+                            fileNode.remove_child(fieldNode);
+                    }
+                    else if (fieldNode) {
+                        fieldNode.text().set(value.c_str());
+                    }
+                    else {
+                        fileNode.append_child(decl.key.c_str()).text().set(value.c_str());
+                    }
+                }
+            }
+        }
+
+#if defined(_WIN64)
+        if (!doc.save_file(Utils::String::stringToWideString(xmlPath).c_str()))
+#else
+        if (!doc.save_file(xmlPath.c_str()))
+#endif
+        {
+            LOG(LogError) << "GamelistStore::exportXml(): Couldn't write \"" << xmlPath
+                          << "\" for system \"" << system->getName() << "\"";
+            return false;
+        }
+
+        LOG(LogInfo) << "GamelistStore::exportXml(): Wrote \"" << xmlPath << "\" (" << updated
+                     << " updated, " << added << " added, system \"" << system->getName() << "\")";
+        return true;
+    }
+
+    int exportAllXml()
+    {
+        int count {0};
+        for (SystemData* system : SystemData::sSystemVector) {
+            if (system->isCollection() || !system->isGameSystem())
+                continue;
+            if (exportXml(system))
+                ++count;
+        }
+        return count;
     }
 
 } // namespace GamelistStore

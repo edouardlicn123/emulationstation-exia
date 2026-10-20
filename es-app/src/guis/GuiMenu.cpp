@@ -21,6 +21,7 @@
 #include "FileFilterIndex.h"
 #include "FileSorts.h"
 #include "GamelistFileParser.h"
+#include "GamelistStore.h"
 #include "Scripting.h"
 #include "SystemData.h"
 #include "UIModeController.h"
@@ -2156,10 +2157,10 @@ void GuiMenu::openOtherOptions()
     }
 #endif
 
-    // Only show games included in the gamelist.xml files.
+    // Only show games which have a record in the database, see devdoc/38 section 6.3.
     auto parseGamelistOnly = std::make_shared<SwitchComponent>();
     parseGamelistOnly->setState(Settings::getInstance()->getBool("ParseGamelistOnly"));
-    s->addWithLabel(_("ONLY SHOW GAMES FROM GAMELIST.XML FILES"), parseGamelistOnly);
+    s->addWithLabel(_("ONLY SHOW GAMES FROM THE DATABASE"), parseGamelistOnly);
     s->addSaveFunc([this, parseGamelistOnly, s] {
         if (parseGamelistOnly->getState() !=
             Settings::getInstance()->getBool("ParseGamelistOnly")) {
@@ -2476,6 +2477,32 @@ void GuiMenu::openUtilities()
                         system->writeMetaData();
                 }
                 ViewController::getInstance()->rescanROMDirectory();
+            },
+            _("CANCEL"), nullptr, "", nullptr, "", nullptr, nullptr, false, true,
+            (mRenderer->getIsVerticalOrientation() ?
+                 0.76f :
+                 0.52f * (1.778f / mRenderer->getScreenAspectRatio()))));
+    });
+    s->addRow(row);
+
+    row.elements.clear();
+    row.addElement(std::make_shared<TextComponent>(_("EXPORT GAMELIST.XML"),
+                                                   getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary),
+                   true);
+
+    // This transparent dummy arrow is only here to enable the "select" help prompt.
+    row.addElement(dummyArrow, false);
+
+    row.makeAcceptInputHandler([this] {
+        mWindow->pushGui(new GuiMsgBox(
+            _("THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR ROM "
+              "FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA TAGS IS "
+              "PRESERVED"),
+            _("PROCEED"),
+            [this] {
+                const int count {GamelistStore::exportAllXml()};
+                mWindow->queueInfoPopup(
+                    Utils::String::format(_("EXPORTED GAMELIST.XML FOR %i SYSTEMS"), count), 5000);
             },
             _("CANCEL"), nullptr, "", nullptr, "", nullptr, nullptr, false, true,
             (mRenderer->getIsVerticalOrientation() ?

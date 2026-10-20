@@ -48,6 +48,12 @@ namespace GamelistStore
     // ever read, it is never modified or removed.
     bool importXml(SystemData* system);
 
+    // Writes the store contents back to the gamelist.xml files inside the ROM
+    // directories, merging into any existing files. Only fields known to ES-DE are
+    // overwritten, external data such as media tags written by other frontends is
+    // preserved. Returns the number of systems which were exported.
+    int exportAllXml();
+
 } // namespace GamelistStore
 
 #endif // ES_APP_GAMELIST_STORE_H
