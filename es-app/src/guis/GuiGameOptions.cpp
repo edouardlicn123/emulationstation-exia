@@ -14,6 +14,7 @@
 #include "MenuFontUtil.h"
 
 #include "CollectionSystemsManager.h"
+#include "components/SwitchComponent.h"
 #include "GuiMetaDataEd.h"
 #include "Sound.h"
 #include "UIModeController.h"
@@ -27,8 +28,33 @@
 #include "views/GamelistView.h"
 #include "views/ViewController.h"
 
+namespace
+{
+    // Exia local addition: the title of this menu is one third smaller than the title of the
+    // other menus. The theme supplies a relative font size (theme.xml "menutitle"), so the
+    // size cannot be lowered through the default size argument the way it is done for the
+    // menu rows. A copy of the theme's title element with a scaled size is resolved through
+    // the normal ThemeData entry point instead, which keeps the theme supplied font path,
+    // its fallback handling and the user font scale exactly as they are for other menus.
+    // The title height, the scroll indicators and the grid layout of MenuComponent are all
+    // derived from the font metrics during construction, so nothing else needs adjusting.
+    std::shared_ptr<Font> getReducedTitleFont()
+    {
+        const auto& menuTheme {ThemeData::getMenuTheme()};
+
+        if (menuTheme == nullptr || !menuTheme->loadedFromTheme ||
+            !menuTheme->Title.hasFont())
+            return getMenuThemeFont(FONT_SIZE_LARGE * (2.0f / 3.0f));
+
+        MenuTextElement title {menuTheme->Title};
+        title.fontSize *= 2.0f / 3.0f;
+
+        return menuTheme->getFont(title, FONT_SIZE_LARGE * (2.0f / 3.0f));
+    }
+} // namespace
+
 GuiGameOptions::GuiGameOptions(FileData* game)
-    : mMenu {Utils::String::toUpper(game->getName())}
+    : mMenu {Utils::String::toUpper(game->getName()), getReducedTitleFont()}
     , mGame {game}
     , mFavoritesChanged {false}
 {
@@ -77,6 +103,10 @@ GuiGameOptions::GuiGameOptions(FileData* game)
         openMetaDataEd();
         close();
     });
+
+    addHiddenSwitch();
+
+    addHiddenSwitch();
 
     if (mGame->getSystem()->isGameSystem()) {
         addEntry(isFavorite() ? _("REMOVE FROM FAVORITES") : _("ADD TO FAVORITES"), [this] {
@@ -148,6 +178,38 @@ void GuiGameOptions::addInfoEntry(const std::string& label, const std::string& v
                                                    mMenuColorSecondary, ALIGN_RIGHT,
                                                    ALIGN_CENTER),
                    false);
+
+    mMenu.addRow(row, false, false);
+}
+
+void GuiGameOptions::addHiddenSwitch()
+{
+    // Hide or show this game. The compensation (write to the store, unlink from the indexes,
+    // refresh the collections) is shared with the metadata editor so both entry points behave
+    // identically, see devdoc/38 section 8.4. This switch is the only hide entry point in the
+    // gamelist, it replaced the former text row of the SELECT menu.
+    if (!UIModeController::getInstance()->isUIModeFull() || mGame->isPlaceHolder() ||
+        (mGame->getSystem()->isCollection() && mGame->getType() == FOLDER))
+        return;
+
+    auto hiddenSwitch = std::make_shared<SwitchComponent>();
+    hiddenSwitch->setState(mGame->getHidden());
+
+    ComponentListRow row;
+    row.addElement(std::make_shared<TextComponent>(_("HIDDEN"), getMenuThemeFont(FONT_SIZE_MEDIUM),
+                                                   mMenuColorPrimary, ALIGN_LEFT, ALIGN_CENTER,
+                                                   glm::ivec2 {0, 0}),
+                   true);
+    row.addElement(hiddenSwitch, false);
+    row.makeAcceptInputHandler([this, hiddenSwitch] {
+        // The list gives the input to this handler before the switch component sees it, so the
+        // new state has to be derived here instead of reading the state of the component. The
+        // component is updated as well so the menu reflects the change if it stays open.
+        const bool hide {!hiddenSwitch->getState()};
+        hiddenSwitch->setState(hide);
+        mGame->setHidden(hide);
+        close();
+    });
 
     mMenu.addRow(row, false, false);
 }

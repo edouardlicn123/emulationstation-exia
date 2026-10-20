@@ -28,6 +28,8 @@ private:
     // Adds a selectable entry that runs the given function when accepted.
     void addEntry(const std::string& label, const std::function<void()>& func);
     void addInfoEntry(const std::string& label, const std::string& value);
+    // Adds the hide/show switch for the game (devdoc/38 section 8.4).
+    void addHiddenSwitch();
 
     void openMetaDataEd();
     void onMetadataSaved(FileData* file, bool reload);

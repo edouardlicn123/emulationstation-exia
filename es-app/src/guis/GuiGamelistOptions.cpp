@@ -238,22 +238,9 @@ GuiGamelistOptions::GuiGamelistOptions(SystemData* system)
         }
     }
 
-    // Hide or show this game or folder. The compensation is shared with the metadata
-    // editor so both entry points behave identically (devdoc/38 section 8.4).
-    if (UIModeController::getInstance()->isUIModeFull() && !mFromPlaceholder &&
-        !(mSystem->isCollection() && file->getType() == FOLDER)) {
-        row.elements.clear();
-        row.addElement(std::make_shared<TextComponent>(
-                           file->getHidden() ? _("SHOW GAME") : _("HIDE GAME"),
-                           getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary),
-                       true);
-        row.makeAcceptInputHandler([this, file] {
-            file->setHidden(!file->getHidden());
-            mWindow->invalidateCachedBackground();
-            delete this;
-        });
-        mMenu.addRow(row);
-    }
+    // Hide or show this game or folder. Moved to the long press menu (GuiGameOptions) as a
+    // switch, see devdoc/38 section 8.4. The compensation itself is unchanged and shared
+    // through FileData::setHidden().
 
     if (file->getType() == FOLDER && file->metadata.get("folderlink") != "") {
         row.elements.clear();
