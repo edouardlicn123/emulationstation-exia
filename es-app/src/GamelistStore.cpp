@@ -650,6 +650,117 @@ namespace GamelistStore
         return Utils::FileSystem::exists(getPlatformStorePath(systemName));
     }
 
+    std::string getCollectionStoreFolder()
+    {
+        return getLibraryRoot() + "/collections";
+    }
+
+    std::string getCollectionStorePath(const std::string& collectionName)
+    {
+        return getCollectionStoreFolder() + "/" + collectionName + ".sqlite";
+    }
+
+    // Returns the stored member paths of a custom collection, in the same form
+    // they were saved in (i.e. with the %ROMPATH% prefix for paths below the ROM
+    // directory). An empty list is returned when the collection has no store yet.
+    std::vector<std::string> loadCollectionMembers(const std::string& collectionName)
+    {
+        std::vector<std::string> members;
+        const std::string storePath {getCollectionStorePath(collectionName)};
+        if (!Utils::FileSystem::exists(storePath))
+            return members;
+
+        Connection connection {storePath, true};
+        if (!connection.isValid())
+            return members;
+
+        Statement statement {connection.get(), "SELECT path FROM member ORDER BY rowid"};
+        if (!statement.isValid())
+            return members;
+
+        while (statement.step())
+            members.push_back(statement.column(0));
+        return members;
+    }
+
+    // Replaces the member list of a custom collection, creating the store if it
+    // does not exist yet. The members are stored exactly as passed in, see
+    // devdoc/38 section 9 for the schema.
+    bool saveCollectionMembers(const std::string& collectionName,
+                               const std::vector<std::string>& members)
+    {
+        const std::string storePath {getCollectionStorePath(collectionName)};
+        if (!Utils::FileSystem::exists(storePath))
+            Utils::FileSystem::createDirectory(Utils::FileSystem::getParent(storePath));
+
+        Connection connection {storePath, false};
+        if (!connection.isValid()) {
+            LOG(LogError) << "GamelistStore::saveCollectionMembers(): Couldn't write the "
+                             "collection store for \""
+                          << collectionName << "\"";
+            return false;
+        }
+
+        if (!execSql(connection.get(),
+                     "CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT)",
+                     "Couldn't create the meta table") ||
+            !execSql(connection.get(),
+                     "CREATE TABLE IF NOT EXISTS member (path TEXT PRIMARY KEY)",
+                     "Couldn't create the member table"))
+            return false;
+
+        if (!execSql(connection.get(), "BEGIN", "Couldn't start the store transaction"))
+            return false;
+
+        bool success {execSql(connection.get(), "DELETE FROM member",
+                              "Couldn't clear the member table")};
+
+        if (success) {
+            for (const std::string& member : members) {
+                Statement statement {connection.get(),
+                                     "INSERT OR REPLACE INTO member (path) VALUES (?)"};
+                if (!statement.isValid()) {
+                    success = false;
+                    break;
+                }
+                statement.bind(1, member);
+                if (!statement.stepDone()) {
+                    success = false;
+                    break;
+                }
+            }
+        }
+
+        if (success) {
+            const std::vector<std::pair<std::string, std::string>> meta {
+                {"schema_version", schemaVersion}, {"collection_name", collectionName}};
+            for (const auto& entry : meta) {
+                Statement statement {connection.get(),
+                                     "INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)"};
+                if (!statement.isValid()) {
+                    success = false;
+                    break;
+                }
+                statement.bind(1, entry.first);
+                statement.bind(2, entry.second);
+                if (!statement.stepDone()) {
+                    success = false;
+                    break;
+                }
+            }
+        }
+
+        if (!execSql(connection.get(), success ? "COMMIT" : "ROLLBACK",
+                     "Couldn't finalize the store transaction"))
+            success = false;
+
+        if (!success)
+            LOG(LogError) << "GamelistStore::saveCollectionMembers(): Couldn't write the "
+                             "collection store for \""
+                          << collectionName << "\"";
+        return success;
+    }
+
     // ------------------------------------------------------------------
     // Loading
     // ------------------------------------------------------------------

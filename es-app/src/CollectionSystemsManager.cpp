@@ -23,6 +23,7 @@
 
 #include "FileData.h"
 #include "FileFilterIndex.h"
+#include "GamelistStore.h"
 #include "Log.h"
 #include "Settings.h"
 #include "SystemData.h"
@@ -149,35 +150,28 @@ void CollectionSystemsManager::saveCustomCollection(SystemData* sys)
 
     if (found) {
         CollectionSystemData sysData {mCustomCollectionSystemsData.at(name)};
-        // Read back any entries from the configuration file for game files that are
+        // Read back any entries from the collection store for game files that are
         // currently missing, and combine them with the active content. If we wouldn't do
         // this, they would be purged from the collection. Maybe a directory has been
         // temporarily moved or the files are not reachable for whatever reason. It would
         // be incredibly annoying to have entries purged from the collection in such
         // instances. Using the logic below, the handling of custom collections corresponds
-        // to the handling of gamelist.xml files, i.e. it's up to the user to make a
+        // to the handling of the platform stores, i.e. it's up to the user to make a
         // conscious decision of what entries to remove.
         std::vector<std::string> fileGameEntries;
         std::vector<std::string> activeGameEntries;
-        std::ifstream configFileIn;
-        std::ofstream configFileOut;
 
-#if defined(_WIN64)
-        configFileIn.open(
-            Utils::String::stringToWideString(getCustomCollectionConfigPath(name)).c_str());
-#else
-        configFileIn.open(getCustomCollectionConfigPath(name));
-#endif
-        for (std::string gameEntry; getline(configFileIn, gameEntry);) {
-            // Remove Windows carriage return characters.
-            gameEntry = Utils::String::replace(gameEntry, "\r", "");
-            std::string gamePath {Utils::String::replace(gameEntry, "%ROMPATH%", rompath)};
-            gamePath = Utils::String::replace(gamePath, "//", "/");
-            // Only add the entry if it doesn't exist, i.e. only add missing files.
-            if (!Utils::FileSystem::exists(gamePath))
-                fileGameEntries.push_back(gameEntry);
+        // A newly created collection has no store yet, its members are written when it
+        // is saved for the first time.
+        if (Utils::FileSystem::exists(GamelistStore::getCollectionStorePath(name))) {
+            for (const std::string& gameEntry : GamelistStore::loadCollectionMembers(name)) {
+                std::string gamePath {Utils::String::replace(gameEntry, "%ROMPATH%", rompath)};
+                gamePath = Utils::String::replace(gamePath, "//", "/");
+                // Only add the entry if it doesn't exist, i.e. only add missing files.
+                if (!Utils::FileSystem::exists(gamePath))
+                    fileGameEntries.push_back(gameEntry);
+            }
         }
-        configFileIn.close();
 
         for (std::unordered_map<std::string, FileData*>::const_iterator it = games.cbegin();
              it != games.cend(); ++it) {
@@ -196,18 +190,7 @@ void CollectionSystemsManager::saveCustomCollection(SystemData* sys)
         auto last = std::unique(fileGameEntries.begin(), fileGameEntries.end());
         fileGameEntries.erase(last, fileGameEntries.end());
 
-#if defined(_WIN64)
-        configFileOut.open(
-            Utils::String::stringToWideString(getCustomCollectionConfigPath(name)).c_str(),
-            std::ios::binary);
-#else
-        configFileOut.open(getCustomCollectionConfigPath(name), std::ios::binary);
-#endif
-
-        for (auto it = fileGameEntries.cbegin(); it != fileGameEntries.cend(); ++it)
-            configFileOut << (*it) << std::endl;
-
-        configFileOut.close();
+        GamelistStore::saveCollectionMembers(name, fileGameEntries);
     }
     else {
         LOG(LogError) << "Couldn't find collection to save: " << name;
@@ -1051,16 +1034,19 @@ void CollectionSystemsManager::deleteCustomCollection(const std::string& collect
         delete collectionEntry->second.system;
         mCustomCollectionSystemsData.erase(collectionName);
 
-        // Remove the collection configuration file.
-        std::string configFile {getCustomCollectionConfigPath(collectionName)};
-        Utils::FileSystem::removeFile(configFile);
+        // Remove the collection store and the legacy configuration file. The latter is
+        // deleted as well so recreating a collection with the same name cannot resurrect
+        // the old members from a stale import source, see devdoc/38 section 17.11.
+        const std::string storePath {GamelistStore::getCollectionStorePath(collectionName)};
+        Utils::FileSystem::removeFile(storePath);
+        Utils::FileSystem::removeFile(getCustomCollectionConfigPath(collectionName));
         LOG(LogInfo) << "Deleted custom collection \"" << collectionName << "\"";
         LOG(LogDebug) << "CollectionSystemsManager::deleteCustomCollection(): Deleted "
-                         "configuration file \""
+                         "collection store \""
 #if defined(_WIN64)
-                      << Utils::String::replace(configFile, "/", "\\") << "\"";
+                      << Utils::String::replace(storePath, "/", "\\") << "\"";
 #else
-                      << configFile << "\"";
+                      << storePath << "\"";
 #endif
         mWindow->queueInfoPopup(
             Utils::String::format(_("DELETED COLLECTION '%s'"),
@@ -1082,35 +1068,26 @@ void CollectionSystemsManager::reactivateCustomCollectionEntry(FileData* game)
 #endif
     rompath = Utils::String::replace(rompath, "//", "/");
 
-    std::string gamePath {Utils::String::replace(game->getFullPath(), rompath, "%ROMPATH%/")};
-
-    // Try to read from all custom collection configuration files to see if there are any
-    // matching entries for the game passed as the parameter. If so, then enable it in each
-    // of those collections. This is done also for disabled collections, as otherwise the
+    // Try to read from all custom collection stores to see if there are any matching
+    // entries for the game passed as the parameter. If so, then enable it in each of
+    // those collections. This is done also for disabled collections, as otherwise the
     // game would be missing if the collection was enabled during the program session.
+    // The members are compared after %ROMPATH% expansion so entries stored with
+    // absolute paths (old imported collections) are matched as well.
     for (std::map<std::string, CollectionSystemData, StringComparator>::const_iterator it =
              mCustomCollectionSystemsData.cbegin();
          it != mCustomCollectionSystemsData.cend(); ++it) {
         if (!it->second.isEnabled)
             continue;
-        std::string path {getCustomCollectionConfigPath(it->first)};
-        if (Utils::FileSystem::exists(path)) {
-#if defined(_WIN64)
-            std::ifstream input {Utils::String::stringToWideString(path).c_str()};
-#else
-            std::ifstream input {path};
-#endif
-            for (std::string gameKey; getline(input, gameKey);) {
-                // Remove Windows carriage return characters.
-                gameKey = Utils::String::replace(gameKey, "\r", "");
-                if (gameKey == gamePath) {
-                    setEditMode(it->first, false);
-                    toggleGameInCollection(game);
-                    exitEditMode(false);
-                }
+        for (const std::string& member : GamelistStore::loadCollectionMembers(it->first)) {
+            std::string memberPath {Utils::String::replace(member, "%ROMPATH%", rompath)};
+            memberPath = Utils::String::replace(memberPath, "//", "/");
+            if (memberPath == game->getFullPath()) {
+                setEditMode(it->first, false);
+                toggleGameInCollection(game);
+                exitEditMode(false);
+                break;
             }
-            if (input.is_open())
-                input.close();
         }
     }
 }
@@ -1209,7 +1186,7 @@ void CollectionSystemsManager::initAutoCollectionSystems()
 
 void CollectionSystemsManager::initCustomCollectionSystems()
 {
-    std::vector<std::string> systems {getCollectionsFromConfigFolder()};
+    std::vector<std::string> systems {getCollectionsFromStores()};
     for (auto nameIt = systems.cbegin(); nameIt != systems.cend(); ++nameIt) {
         addNewCustomCollection(*nameIt);
     }
@@ -1327,29 +1304,21 @@ void CollectionSystemsManager::populateCustomCollection(CollectionSystemData* sy
     SystemData* newSys {sysData->system};
     sysData->isPopulated = true;
     CollectionSystemDecl sysDecl {sysData->decl};
-    std::string path {getCustomCollectionConfigPath(newSys->getName())};
+    std::string storePath {GamelistStore::getCollectionStorePath(newSys->getName())};
 
-    if (!Utils::FileSystem::exists(path)) {
-        LOG(LogInfo) << "Couldn't find custom collection config file \"" << path << "\"";
+    if (!Utils::FileSystem::exists(storePath)) {
+        LOG(LogInfo) << "Couldn't find custom collection store file \"" << storePath << "\"";
         return;
     }
 #if defined(_WIN64)
-    LOG(LogInfo) << "Parsing custom collection file \"" << Utils::String::replace(path, "/", "\\")
-                 << "\"...";
+    LOG(LogInfo) << "Parsing custom collection store \""
+                 << Utils::String::replace(storePath, "/", "\\") << "\"...";
 #else
-    LOG(LogInfo) << "Parsing custom collection file \"" << path << "\"...";
+    LOG(LogInfo) << "Parsing custom collection store \"" << storePath << "\"...";
 #endif
 
     FileData* rootFolder {newSys->getRootFolder()};
     FileFilterIndex* index {newSys->getIndex()};
-
-    // Get configuration for this custom collection.
-
-#if defined(_WIN64)
-    std::ifstream input {Utils::String::stringToWideString(path).c_str()};
-#else
-    std::ifstream input {path};
-#endif
 
     // Get all files map.
     std::unordered_map<std::string, FileData*> allFilesMap {
@@ -1364,14 +1333,13 @@ void CollectionSystemsManager::populateCustomCollection(CollectionSystemData* sy
 #endif
     rompath = Utils::String::replace(rompath, "//", "/");
 
-    // Iterate list of files in the config file.
-    for (std::string gameKey; getline(input, gameKey);) {
+    // Iterate the stored member paths of the collection.
+    for (std::string gameKey : GamelistStore::loadCollectionMembers(newSys->getName())) {
         // If there is a %ROMPATH% variable set for the game, expand it. By doing this
-        // it's possible to use either absolute ROM paths in the collection files or using
+        // it's possible to use either absolute ROM paths in the collection store or using
         // the path variable. The absolute ROM paths are only used for backward compatibility
-        // with old custom collections. All custom collections saved by ES-DE will use the
-        // %ROMPATH% variable instead. Also remove Windows carriage return characters.
-        gameKey = Utils::String::replace(gameKey, "\r", "");
+        // with old imported collections. All custom collections saved by ES-DE use the
+        // %ROMPATH% variable instead.
         gameKey = Utils::String::replace(gameKey, "%ROMPATH%", rompath);
         gameKey = Utils::String::replace(gameKey, "//", "/");
 
@@ -1405,8 +1373,6 @@ void CollectionSystemsManager::populateCustomCollection(CollectionSystemData* sy
         }
     }
 
-    if (input.is_open())
-        input.close();
 }
 
 void CollectionSystemsManager::removeCollectionsFromDisplayedSystems()
@@ -1572,14 +1538,19 @@ std::vector<std::string> CollectionSystemsManager::getSystemsFromTheme()
     return systems;
 }
 
-std::vector<std::string> CollectionSystemsManager::getCollectionsFromConfigFolder()
+std::vector<std::string> CollectionSystemsManager::getCollectionsFromStores()
 {
+    // One time import of any custom collection configuration files which do not have a
+    // corresponding collection store yet. The configuration files are left in place so
+    // they can be inspected or used for a rollback, see devdoc/38 sections 9 and 10.
+    importCollectionsFromCfgFiles();
+
     std::vector<std::string> systems;
-    std::string configPath {getCollectionsFolder()};
+    std::string storePath {GamelistStore::getCollectionStoreFolder()};
     std::vector<std::string> filenames;
 
-    if (Utils::FileSystem::exists(configPath)) {
-        Utils::FileSystem::StringList dirContent {Utils::FileSystem::getDirContent(configPath)};
+    if (Utils::FileSystem::exists(storePath)) {
+        Utils::FileSystem::StringList dirContent {Utils::FileSystem::getDirContent(storePath)};
         for (Utils::FileSystem::StringList::const_iterator it = dirContent.cbegin();
              it != dirContent.cend(); ++it) {
             if (Utils::FileSystem::isRegularFile(*it)) {
@@ -1588,7 +1559,7 @@ std::vector<std::string> CollectionSystemsManager::getCollectionsFromConfigFolde
                 if (Utils::FileSystem::getStem(filename).find_first_of(
                         INVALID_COLLECTION_CHARACTERS) != std::string::npos) {
                     LOG(LogWarning)
-                        << "Found a custom collection configuration file name with at least one "
+                        << "Found a custom collection store file name with at least one "
                            "invalid character, skipping file \""
                         << filename << "\"";
                     continue;
@@ -1597,17 +1568,16 @@ std::vector<std::string> CollectionSystemsManager::getCollectionsFromConfigFolde
                 if (std::find(filenames.cbegin(), filenames.cend(),
                               Utils::String::toLower(filename)) != filenames.cend()) {
                     LOG(LogWarning)
-                        << "Found a custom collection configuration file name conflict (mixed "
+                        << "Found a custom collection store file name conflict (mixed "
                            "case filenames), skipping file \""
                         << filename << "\"";
                     continue;
                 }
                 filenames.emplace_back(Utils::String::toLower(filename));
-                // Need to confirm filename matches config format.
-                if (filename != "custom-.cfg" && Utils::String::startsWith(filename, "custom-") &&
-                    Utils::String::endsWith(filename, ".cfg")) {
+                // Need to confirm filename matches store format.
+                if (filename != ".sqlite" && Utils::String::endsWith(filename, ".sqlite")) {
                     const std::string origFilename {filename};
-                    filename = filename.substr(7, filename.size() - 11);
+                    filename = filename.substr(0, filename.size() - 7);
                     if (std::find_if(
                             SystemData::sSystemVector.cbegin(), SystemData::sSystemVector.cend(),
                             [filename](SystemData* system) {
@@ -1623,13 +1593,55 @@ std::vector<std::string> CollectionSystemsManager::getCollectionsFromConfigFolde
                     systems.push_back(filename);
                 }
                 else {
-                    LOG(LogInfo) << "Found non-collection config file in collections folder: "
+                    LOG(LogInfo) << "Found non-collection store file in collections folder: "
                                  << filename;
                 }
             }
         }
     }
     return systems;
+}
+
+void CollectionSystemsManager::importCollectionsFromCfgFiles()
+{
+    std::string configPath {getCollectionsFolder()};
+    if (!Utils::FileSystem::exists(configPath))
+        return;
+
+    Utils::FileSystem::StringList dirContent {Utils::FileSystem::getDirContent(configPath)};
+    for (Utils::FileSystem::StringList::const_iterator it = dirContent.cbegin();
+         it != dirContent.cend(); ++it) {
+        if (!Utils::FileSystem::isRegularFile(*it))
+            continue;
+
+        std::string filename {Utils::FileSystem::getFileName(*it)};
+        if (filename == "custom-.cfg" || !Utils::String::startsWith(filename, "custom-") ||
+            !Utils::String::endsWith(filename, ".cfg"))
+            continue;
+
+        const std::string collectionName {filename.substr(7, filename.size() - 11)};
+        if (Utils::FileSystem::exists(GamelistStore::getCollectionStorePath(collectionName)))
+            continue;
+
+        std::vector<std::string> members;
+#if defined(_WIN64)
+        std::ifstream input {Utils::String::stringToWideString(*it).c_str()};
+#else
+        std::ifstream input {*it};
+#endif
+        for (std::string gameKey; getline(input, gameKey);) {
+            // Remove Windows carriage return characters.
+            gameKey = Utils::String::replace(gameKey, "\r", "");
+            if (!gameKey.empty())
+                members.push_back(gameKey);
+        }
+        if (input.is_open())
+            input.close();
+
+        if (GamelistStore::saveCollectionMembers(collectionName, members))
+            LOG(LogInfo) << "Imported custom collection \"" << collectionName << "\" ("
+                         << members.size() << " entries) from \"" << filename << "\"";
+    }
 }
 
 std::vector<std::string> CollectionSystemsManager::getCollectionThemeFolders(bool custom)

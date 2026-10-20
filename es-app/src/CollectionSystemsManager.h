@@ -183,8 +183,10 @@ private:
     // Auxiliary functions:
     std::vector<std::string> getSystemsFromConfig();
     std::vector<std::string> getSystemsFromTheme();
-    // Return which collection config files exist in the user folder.
-    std::vector<std::string> getCollectionsFromConfigFolder();
+    // Return which collection stores exist in the store library folder.
+    std::vector<std::string> getCollectionsFromStores();
+    // One time import of legacy custom-*.cfg configuration files into collection stores.
+    void importCollectionsFromCfgFiles();
     // Return the theme folders for automatic collections (All, Favorites and Last Played)
     // or a generic custom collections folder.
     std::vector<std::string> getCollectionThemeFolders(bool custom);

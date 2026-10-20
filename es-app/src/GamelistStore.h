@@ -11,6 +11,7 @@
 #define ES_APP_GAMELIST_STORE_H
 
 #include <string>
+#include <vector>
 
 class SystemData;
 
@@ -23,6 +24,15 @@ namespace GamelistStore
 
     std::string getPlatformStorePath(const std::string& systemName);
     bool platformStoreExists(const std::string& systemName);
+
+    // Custom collection stores, one per collection with the collection name as
+    // the file name. Only the membership is stored here, the game metadata
+    // always comes from the platform stores, see devdoc/38 section 9.
+    std::string getCollectionStoreFolder();
+    std::string getCollectionStorePath(const std::string& collectionName);
+    std::vector<std::string> loadCollectionMembers(const std::string& collectionName);
+    bool saveCollectionMembers(const std::string& collectionName,
+                               const std::vector<std::string>& members);
 
     // Loads metadata into a SystemData, importing an existing gamelist.xml file
     // one time if the store for the system does not exist yet.
