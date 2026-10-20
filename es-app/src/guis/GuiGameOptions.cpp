@@ -106,8 +106,6 @@ GuiGameOptions::GuiGameOptions(FileData* game)
 
     addHiddenSwitch();
 
-    addHiddenSwitch();
-
     if (mGame->getSystem()->isGameSystem()) {
         addEntry(isFavorite() ? _("REMOVE FROM FAVORITES") : _("ADD TO FAVORITES"), [this] {
             toggleFavorite();
