@@ -55,6 +55,14 @@ public:
     void setNeedsSortingCollections() { mNeedsSortingCollections = true; }
     void setNeedsResetFilters() { mNeedsResetFilters = true; }
     void setNeedsRescanROMDirectory() { mNeedsRescanROMDirectory = true; }
+    // Same as setNeedsRescanROMDirectory() but asks for confirmation first (devdoc/38
+    // section 8.3), used by the hidden games switch which was moved to UI SETTINGS.
+    void setNeedsRescanPrompt() { mNeedsRescanPrompt = true; }
+    // Called if the user cancels the confirmation prompt, restores the previous setting value.
+    void setRescanPromptRollback(std::function<void()> rollbackFunction)
+    {
+        mRescanPromptRollbackFunction = rollbackFunction;
+    }
     void setNeedsReloading() { mNeedsReloading = true; }
     void setNeedsGoToStart() { mNeedsGoToStart = true; }
     void setNeedsGoToSystem(SystemData* goToSystem)
@@ -75,10 +83,15 @@ public:
     std::vector<HelpPrompt> getHelpPrompts() override;
 
 private:
+    // Runs the ROM directory rescan. It is static because the confirmation prompt outlives
+    // the GuiSettings instance, so nothing may be captured through this.
+    static void performRescan(Window* window, const std::function<void()>& closeMenuFunction);
+
     Renderer* mRenderer;
     MenuComponent mMenu;
     std::vector<std::function<void()>> mSaveFuncs;
     std::function<void()> mCloseMenuFunction;
+    std::function<void()> mRescanPromptRollbackFunction;
     SystemData* mGoToSystem;
 
     bool mNeedsSaving;
@@ -87,6 +100,7 @@ private:
     bool mNeedsSortingCollections;
     bool mNeedsResetFilters;
     bool mNeedsRescanROMDirectory;
+    bool mNeedsRescanPrompt;
     bool mNeedsReloading;
     bool mNeedsGoToStart;
     bool mNeedsGoToSystem;

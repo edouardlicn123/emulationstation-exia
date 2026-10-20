@@ -18,6 +18,7 @@
 #include "SystemStatus.h"
 #include "Window.h"
 #include "components/HelpComponent.h"
+#include "guis/GuiMsgBox.h"
 #include "guis/GuiTextEditKeyboardPopup.h"
 #include "guis/GuiTextEditPopup.h"
 #include "views/GamelistView.h"
@@ -34,6 +35,7 @@ GuiSettings::GuiSettings(std::string title)
     , mNeedsSortingCollections {false}
     , mNeedsResetFilters {false}
     , mNeedsRescanROMDirectory {false}
+    , mNeedsRescanPrompt {false}
     , mNeedsReloading {false}
     , mNeedsGoToStart {false}
     , mNeedsGoToSystem {false}
@@ -55,6 +57,22 @@ GuiSettings::~GuiSettings()
     save();
 }
 
+void GuiSettings::performRescan(Window* window, const std::function<void()>& closeMenuFunction)
+{
+    if (CollectionSystemsManager::getInstance()->isEditing())
+        CollectionSystemsManager::getInstance()->exitEditMode();
+    window->stopInfoPopup();
+    // Write any metadata changes before proceeding with the rescan.
+    if (Settings::getInstance()->getString("SaveGamelistsMode") == "on exit") {
+        for (auto system : SystemData::sSystemVector)
+            system->writeMetaData();
+    }
+    // If a close menu function was passed to us, then run it.
+    if (closeMenuFunction)
+        closeMenuFunction();
+    ViewController::getInstance()->rescanROMDirectory();
+}
+
 void GuiSettings::save()
 {
     if (!mSaveFuncs.size())
@@ -66,21 +84,31 @@ void GuiSettings::save()
     if (mNeedsSaving)
         Settings::getInstance()->saveFile();
 
+    if (mNeedsRescanPrompt) {
+        // Ask for confirmation before rescanning the game library (devdoc/38 section 8.3).
+        // Everything the prompt needs is captured by value as this instance is gone by the
+        // time one of its buttons is pressed.
+        const std::string message {
+            _("THIS CHANGE REQUIRES A RESCAN OF THE GAME LIBRARY\nDO YOU WANT TO PROCEED?")};
+        const std::function<void()> closeMenuFunction {mCloseMenuFunction};
+        const std::function<void()> rollbackFunction {mRescanPromptRollbackFunction};
+        Window* window {mWindow};
+        mCloseMenuFunction = nullptr;
+        window->pushGui(new GuiMsgBox(
+            message, _("PROCEED"),
+            [window, closeMenuFunction] { performRescan(window, closeMenuFunction); },
+            _("CANCEL"), [rollbackFunction] {
+                if (rollbackFunction)
+                    rollbackFunction();
+            },
+            "", nullptr, "", nullptr, [rollbackFunction] {
+                if (rollbackFunction)
+                    rollbackFunction();
+            }));
+    }
+
     if (mNeedsRescanROMDirectory) {
-        if (CollectionSystemsManager::getInstance()->isEditing())
-            CollectionSystemsManager::getInstance()->exitEditMode();
-        mWindow->stopInfoPopup();
-        //  Write any gamelist.xml changes before proceeding with the rescan.
-        if (Settings::getInstance()->getString("SaveGamelistsMode") == "on exit") {
-            for (auto system : SystemData::sSystemVector)
-                system->writeMetaData();
-        }
-        // If a close menu function was passed to us, then run it.
-        if (mCloseMenuFunction) {
-            mCloseMenuFunction();
-            mCloseMenuFunction = nullptr;
-        }
-        ViewController::getInstance()->rescanROMDirectory();
+        performRescan(mWindow, mCloseMenuFunction);
     }
 
     if (mNeedsCollectionsUpdate) {

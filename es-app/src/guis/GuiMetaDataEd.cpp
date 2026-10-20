@@ -984,37 +984,10 @@ void GuiMetaDataEd::save()
         mSavedCallback();
 
     if (hideGameWhileHidden) {
-        std::vector<FileData*> hideGames;
-        // If a folder was hidden there may be children inside that we also need to hide.
-        if (mScraperParams.game->getType() == FOLDER) {
-            for (FileData* child : mScraperParams.game->getChildrenRecursive()) {
-                if (!child->getHidden())
-                    child->metadata.set("hidden", "true");
-                hideGames.push_back(child);
-            }
-        }
-        else {
-            hideGames.push_back(mScraperParams.game);
-        }
-        for (FileData* hideGame : hideGames) {
-            if (hideGame->getType() == GAME) {
-                // Update disabled auto collections when hiding a game, as otherwise these could
-                // get invalid gamelist cursor positions. A cursor pointing to a removed game
-                // would crash the application upon enabling the collections.
-                CollectionSystemsManager::getInstance()->refreshCollectionSystems(hideGame, true);
-                // Remove the game from the index of all systems.
-                for (SystemData* sys : SystemData::sSystemVector) {
-                    std::vector<FileData*> children;
-                    for (FileData* child : sys->getRootFolder()->getChildrenRecursive())
-                        children.push_back(child->getSourceFileData());
-                    if (std::find(children.begin(), children.end(), hideGame) != children.end()) {
-                        sys->getIndex()->removeFromIndex(hideGame);
-                        // Reload the gamelist as well as the view style may need to change.
-                        ViewController::getInstance()->reloadGamelistView(sys);
-                    }
-                }
-            }
-        }
+        // The compensation is shared with the long press menu (devdoc/38 section 8.4), it
+        // hides the children of a folder, updates the collections and removes the game from
+        // the indexes of all systems. The metadata was already written above.
+        mScraperParams.game->applyHiddenCompensation(true);
     }
     else {
         // Update all collections where the game is present.

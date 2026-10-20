@@ -49,6 +49,8 @@ public:
     const bool getFavorite();
     const bool getKidgame();
     const bool getHidden();
+    void setHidden(const bool hide);
+    void applyHiddenCompensation(const bool hide);
     const bool getCountAsGame();
     const std::pair<unsigned int, unsigned int>& getGameCount() const { return mGameCount; }
     const bool getExcludeFromScraper();

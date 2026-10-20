@@ -1061,6 +1061,28 @@ void GuiMenu::openUIOptions()
         });
     }
 
+    // Do not show hidden games. This was previously named SHOW HIDDEN GAMES and lived in
+    // the other settings menu, the label is inverted so the option is off by default while
+    // the underlying setting key and its default value stay untouched (devdoc/38 section 8.2).
+    auto notShowHiddenGames = std::make_shared<SwitchComponent>();
+    notShowHiddenGames->setState(!Settings::getInstance()->getBool("ShowHiddenGames"));
+    s->addWithLabel(_("DO NOT SHOW HIDDEN GAMES"), notShowHiddenGames);
+    s->addSaveFunc([this, notShowHiddenGames, s] {
+        const bool newValue {!notShowHiddenGames->getState()};
+        if (newValue != Settings::getInstance()->getBool("ShowHiddenGames")) {
+            const bool previousValue {Settings::getInstance()->getBool("ShowHiddenGames")};
+            Settings::getInstance()->setBool("ShowHiddenGames", newValue);
+            s->setNeedsSaving();
+            s->setNeedsCloseMenu([this] { delete this; });
+            // Restores the previous value if the user cancels the rescan prompt.
+            s->setRescanPromptRollback([previousValue] {
+                Settings::getInstance()->setBool("ShowHiddenGames", previousValue);
+                Settings::getInstance()->saveFile();
+            });
+            s->setNeedsRescanPrompt();
+        }
+    });
+
     // Sort folders on top of the gamelists.
     auto foldersOnTop = std::make_shared<SwitchComponent>();
     foldersOnTop->setState(Settings::getInstance()->getBool("FoldersOnTop"));
@@ -2065,19 +2087,6 @@ void GuiMenu::openOtherOptions()
     s->addSaveFunc([this, showHiddenFiles, s] {
         if (showHiddenFiles->getState() != Settings::getInstance()->getBool("ShowHiddenFiles")) {
             Settings::getInstance()->setBool("ShowHiddenFiles", showHiddenFiles->getState());
-            s->setNeedsSaving();
-            s->setNeedsCloseMenu([this] { delete this; });
-            s->setNeedsRescanROMDirectory();
-        }
-    });
-
-    // Show hidden games.
-    auto showHiddenGames = std::make_shared<SwitchComponent>();
-    showHiddenGames->setState(Settings::getInstance()->getBool("ShowHiddenGames"));
-    s->addWithLabel(_("SHOW HIDDEN GAMES"), showHiddenGames);
-    s->addSaveFunc([this, showHiddenGames, s] {
-        if (showHiddenGames->getState() != Settings::getInstance()->getBool("ShowHiddenGames")) {
-            Settings::getInstance()->setBool("ShowHiddenGames", showHiddenGames->getState());
             s->setNeedsSaving();
             s->setNeedsCloseMenu([this] { delete this; });
             s->setNeedsRescanROMDirectory();

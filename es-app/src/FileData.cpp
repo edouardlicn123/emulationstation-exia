@@ -147,6 +147,73 @@ const bool FileData::getHidden()
         return false;
 }
 
+// Sets the hidden flag and applies the compensation which is needed when a game leaves the
+// gamelist right away, i.e. when hidden games are not displayed. Used by the long press menu,
+// the metadata editor calls applyHiddenCompensation() itself as part of its own save sequence.
+// See devdoc/38 section 8.4.
+void FileData::setHidden(const bool hide)
+{
+    if (getHidden() == hide)
+        return;
+
+    metadata.set("hidden", hide ? "true" : "false");
+    applyHiddenCompensation(hide);
+
+    // Hiding may have removed entries from the gamelist so it needs re-sorting.
+    if (hide)
+        getSystem()->sortSystem(true);
+}
+
+void FileData::applyHiddenCompensation(const bool hide)
+{
+    std::vector<FileData*> affected;
+
+    // If a folder was hidden there may be children inside that we also need to hide.
+    if (getType() == FOLDER) {
+        for (FileData* child : getChildrenRecursive()) {
+            if (child->getHidden() != hide)
+                child->metadata.set("hidden", hide ? "true" : "false");
+            affected.push_back(child);
+        }
+    }
+    else {
+        affected.push_back(this);
+    }
+
+    // The metadata is written right away as a hidden entry leaves the gamelist immediately
+    // when hidden games are not shown. Reloading the view below triggers a sort which takes
+    // hidden entries out of the tree, and the store save only collects entries which are
+    // inside the tree, so the write must happen before the reload. Unhiding is flushed as
+    // well as there may be no later save point before the application exits. This mirrors
+    // the metadata editor save sequence, see devdoc/38 section 8.4.
+    getSystem()->writeMetaData();
+
+    for (FileData* file : affected) {
+        if (file->getType() != GAME)
+            continue;
+
+        // Update disabled auto collections when hiding a game, as otherwise these could get
+        // invalid gamelist cursor positions. A cursor pointing to a removed game would crash
+        // the application upon enabling the collections.
+        CollectionSystemsManager::getInstance()->refreshCollectionSystems(file, hide);
+
+        if (!hide)
+            continue;
+
+        // Remove the game from the index of all systems.
+        for (SystemData* sys : SystemData::sSystemVector) {
+            std::vector<FileData*> children;
+            for (FileData* child : sys->getRootFolder()->getChildrenRecursive())
+                children.push_back(child->getSourceFileData());
+            if (std::find(children.begin(), children.end(), file) != children.end()) {
+                sys->getIndex()->removeFromIndex(file);
+                // Reload the gamelist as well as the view style may need to change.
+                ViewController::getInstance()->reloadGamelistView(sys);
+            }
+        }
+    }
+}
+
 const bool FileData::getCountAsGame()
 {
     if (metadata.get("nogamecount") == "true")
