@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-20 11:55+0800\n"
+"POT-Creation-Date: 2026-10-20 19:52+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <info@es-de.org>\n"
@@ -775,12 +775,6 @@ msgstr ""
 msgid "EDIT THIS GAME'S METADATA"
 msgstr ""
 
-msgid "SHOW GAME"
-msgstr ""
-
-msgid "HIDE GAME"
-msgstr ""
-
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr ""
 
@@ -890,6 +884,9 @@ msgid "INPUT DEVICE SETTINGS"
 msgstr ""
 
 msgid "GAME COLLECTION SETTINGS"
+msgstr ""
+
+msgid "PLATFORM SETTINGS"
 msgstr ""
 
 msgid "OTHER SETTINGS"
@@ -1829,6 +1826,51 @@ msgid "GAMELISTS CLEANUP FAILED"
 msgstr ""
 
 msgid "THE APPLICATION WILL RELOAD WHEN CLOSING THIS UTILITY."
+msgstr ""
+
+msgid "NO PLATFORMS FOUND"
+msgstr ""
+
+msgid "DEFAULT EMULATOR"
+msgstr ""
+
+msgid "NO ALTERNATIVE EMULATORS"
+msgstr ""
+
+msgid "DISPLAY MODE"
+msgstr ""
+
+msgid "FULLSCREEN"
+msgstr ""
+
+msgid "WINDOWED"
+msgstr ""
+
+msgid "NOT SUPPORTED BY THE CURRENT EMULATOR"
+msgstr ""
+
+msgid "SHOW PLATFORM"
+msgstr ""
+
+msgid "AT LEAST ONE PLATFORM HAS TO STAY VISIBLE"
+msgstr ""
+
+msgid "FULL NAME"
+msgstr ""
+
+msgid "INTERNAL NAME"
+msgstr ""
+
+msgid "THEME DIRECTORY"
+msgstr ""
+
+msgid "GAME COUNT"
+msgstr ""
+
+msgid "RESET PLATFORM SETTINGS"
+msgstr ""
+
+msgid "RESET THE SETTINGS OF THIS PLATFORM?"
 msgstr ""
 
 msgid "SCRAPE FROM"

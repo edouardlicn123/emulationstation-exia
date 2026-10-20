@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-20 11:55+0800\n"
+"POT-Creation-Date: 2026-10-20 19:52+0800\n"
 "PO-Revision-Date: 2026-09-08 20:53+0200\n"
 "Last-Translator: wakeboxer <ljhmd0825@gmail.com>\n"
 "Language-Team: 한국어 <info@es-de.org>\n"
@@ -782,12 +782,6 @@ msgstr "현재 폴더 메타데이터 편집"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "현재 게임 메타데이터 편집"
 
-msgid "SHOW GAME"
-msgstr "게임 표시"
-
-msgid "HIDE GAME"
-msgstr "게임 숨기기"
-
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "폴더 들어가기 (폴더 링크 오버라이드)"
 
@@ -900,6 +894,9 @@ msgstr "입력 기기 설정"
 
 msgid "GAME COLLECTION SETTINGS"
 msgstr "게임 컬렉션 설정"
+
+msgid "PLATFORM SETTINGS"
+msgstr ""
 
 msgid "OTHER SETTINGS"
 msgstr "기타 설정"
@@ -1444,7 +1441,9 @@ msgid ""
 "THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
 "ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
 "TAGS IS PRESERVED"
-msgstr "데이터베이스 내용을 ROM 폴더 안의 GAMELIST.XML 파일에 기록하며, 기존 파일에 병합되므로 미디어 태그 같은 외부 데이터는 그대로 유지됩니다"
+msgstr ""
+"데이터베이스 내용을 ROM 폴더 안의 GAMELIST.XML 파일에 기록하며, 기존 파일에 "
+"병합되므로 미디어 태그 같은 외부 데이터는 그대로 유지됩니다"
 
 #, c-format
 msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
@@ -1884,6 +1883,51 @@ msgstr "게임리스트 정리 실패"
 
 msgid "THE APPLICATION WILL RELOAD WHEN CLOSING THIS UTILITY."
 msgstr "이 유틸리티를 닫으면 애플리케이션이 다시 로드됩니다."
+
+msgid "NO PLATFORMS FOUND"
+msgstr ""
+
+msgid "DEFAULT EMULATOR"
+msgstr ""
+
+msgid "NO ALTERNATIVE EMULATORS"
+msgstr ""
+
+msgid "DISPLAY MODE"
+msgstr ""
+
+msgid "FULLSCREEN"
+msgstr ""
+
+msgid "WINDOWED"
+msgstr ""
+
+msgid "NOT SUPPORTED BY THE CURRENT EMULATOR"
+msgstr ""
+
+msgid "SHOW PLATFORM"
+msgstr ""
+
+msgid "AT LEAST ONE PLATFORM HAS TO STAY VISIBLE"
+msgstr ""
+
+msgid "FULL NAME"
+msgstr ""
+
+msgid "INTERNAL NAME"
+msgstr ""
+
+msgid "THEME DIRECTORY"
+msgstr ""
+
+msgid "GAME COUNT"
+msgstr ""
+
+msgid "RESET PLATFORM SETTINGS"
+msgstr ""
+
+msgid "RESET THE SETTINGS OF THIS PLATFORM?"
+msgstr ""
 
 msgid "SCRAPE FROM"
 msgstr "스크랩 출처"
@@ -3403,6 +3447,12 @@ msgstr "시스템 디렉터리 생성 중..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "오류: PDF 파일을 렌더링할 수 없습니다"
+
+#~ msgid "SHOW GAME"
+#~ msgstr "게임 표시"
+
+#~ msgid "HIDE GAME"
+#~ msgstr "게임 숨기기"
 
 #~ msgid "SHOW HIDDEN GAMES"
 #~ msgstr "숨긴 게임 보이기"

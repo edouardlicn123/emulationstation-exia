@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-20 11:55+0800\n"
+"POT-Creation-Date: 2026-10-20 19:52+0800\n"
 "PO-Revision-Date: 2026-09-12 20:05+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Русский <info@es-de.org>\n"
@@ -799,12 +799,6 @@ msgstr "РЕД. МЕТАДАННЫЕ ЭТОЙ ПАПКИ"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "РЕД. МЕТАДАННЫЕ ЭТОЙ ИГРЫ"
 
-msgid "SHOW GAME"
-msgstr "ПОКАЗАТЬ ИГРУ"
-
-msgid "HIDE GAME"
-msgstr "СКРЫТЬ ИГРУ"
-
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "ВВЕДИТЕ ПАПКУ (ПЕРЕЗАПИСАТЬ ССЫЛКУ НА ПАПКУ)"
 
@@ -917,6 +911,9 @@ msgstr "НАСТРОЙКИ ВВОДА"
 
 msgid "GAME COLLECTION SETTINGS"
 msgstr "НАСТРОЙКИ КОЛЛЕКЦИЙ"
+
+msgid "PLATFORM SETTINGS"
+msgstr ""
 
 msgid "OTHER SETTINGS"
 msgstr "ПРОЧИЕ НАСТРОЙКИ"
@@ -1465,7 +1462,10 @@ msgid ""
 "THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
 "ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
 "TAGS IS PRESERVED"
-msgstr "БУДЕТ ВЫПОЛНЕНА ЗАПИСЬ СОДЕРЖИМОГО БАЗЫ ДАННЫХ В ФАЙЛЫ GAMELIST.XML В ВАШИХ ПАПКАХ ROM С ОБЪЕДИНЕНИЕМ С УЖЕ СУЩЕСТВУЮЩИМИ ФАЙЛАМИ, ПОЭТОМУ ВНЕШНИЕ ДАННЫЕ, ТАКИЕ КАК МЕДИАТЕГИ, БУДУТ СОХРАНЕНЫ"
+msgstr ""
+"БУДЕТ ВЫПОЛНЕНА ЗАПИСЬ СОДЕРЖИМОГО БАЗЫ ДАННЫХ В ФАЙЛЫ GAMELIST.XML В ВАШИХ "
+"ПАПКАХ ROM С ОБЪЕДИНЕНИЕМ С УЖЕ СУЩЕСТВУЮЩИМИ ФАЙЛАМИ, ПОЭТОМУ ВНЕШНИЕ "
+"ДАННЫЕ, ТАКИЕ КАК МЕДИАТЕГИ, БУДУТ СОХРАНЕНЫ"
 
 #, c-format
 msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
@@ -1915,6 +1915,51 @@ msgstr "ОЧИСТКА ГЕЙМЛИСТОВ НЕ УДАЛАСЬ"
 
 msgid "THE APPLICATION WILL RELOAD WHEN CLOSING THIS UTILITY."
 msgstr "ПРИЛОЖЕНИЕ БУДЕТ ПЕРЕЗАПУЩЕНО ПОСЛЕ ЗАКРЫТИЯ ЭТОЙ УТИЛИТЫ."
+
+msgid "NO PLATFORMS FOUND"
+msgstr ""
+
+msgid "DEFAULT EMULATOR"
+msgstr ""
+
+msgid "NO ALTERNATIVE EMULATORS"
+msgstr ""
+
+msgid "DISPLAY MODE"
+msgstr ""
+
+msgid "FULLSCREEN"
+msgstr ""
+
+msgid "WINDOWED"
+msgstr ""
+
+msgid "NOT SUPPORTED BY THE CURRENT EMULATOR"
+msgstr ""
+
+msgid "SHOW PLATFORM"
+msgstr ""
+
+msgid "AT LEAST ONE PLATFORM HAS TO STAY VISIBLE"
+msgstr ""
+
+msgid "FULL NAME"
+msgstr ""
+
+msgid "INTERNAL NAME"
+msgstr ""
+
+msgid "THEME DIRECTORY"
+msgstr ""
+
+msgid "GAME COUNT"
+msgstr ""
+
+msgid "RESET PLATFORM SETTINGS"
+msgstr ""
+
+msgid "RESET THE SETTINGS OF THIS PLATFORM?"
+msgstr ""
 
 msgid "SCRAPE FROM"
 msgstr "СКРЕЙПИТЬ ИЗ"
@@ -3486,6 +3531,12 @@ msgstr "Создание папок систем..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "ОШИБКА: НЕ УДАЛОСЬ ОТОБРАЗИТЬ PDF-ФАЙЛ"
+
+#~ msgid "SHOW GAME"
+#~ msgstr "ПОКАЗАТЬ ИГРУ"
+
+#~ msgid "HIDE GAME"
+#~ msgstr "СКРЫТЬ ИГРУ"
 
 #~ msgid "SHOW HIDDEN GAMES"
 #~ msgstr "ПОКАЗЫВАТЬ СКРЫТЫЕ ИГРЫ"

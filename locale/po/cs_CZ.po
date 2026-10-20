@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-20 11:55+0800\n"
+"POT-Creation-Date: 2026-10-20 19:52+0800\n"
 "PO-Revision-Date: 2026-09-12 19:35+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Čeština <info@es-de.org>\n"
@@ -791,12 +791,6 @@ msgstr "UPRAVIT METADATA TÉTO SLOŽKY"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "UPRAVIT METADATA TÉTO HRY"
 
-msgid "SHOW GAME"
-msgstr "ZOBRAZIT HRU"
-
-msgid "HIDE GAME"
-msgstr "SKRÝT HRU"
-
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "VSTOUPIT DO SLOŽKY (PŘEPSAT ODKAZ NA SLOŽKU)"
 
@@ -909,6 +903,9 @@ msgstr "NASTAVENÍ VSTUPNÍCH ZAŘÍZENÍ"
 
 msgid "GAME COLLECTION SETTINGS"
 msgstr "NASTAVENÍ HERNÍCH KOLEKCÍ"
+
+msgid "PLATFORM SETTINGS"
+msgstr ""
 
 msgid "OTHER SETTINGS"
 msgstr "OSTATNÍ NASTAVENÍ"
@@ -1456,7 +1453,10 @@ msgid ""
 "THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
 "ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
 "TAGS IS PRESERVED"
-msgstr "TÍM SE OBSAH DATABÁZE ZAPÍŠE DO SOUBORŮ GAMELIST.XML VE VAŠICH SLOŽKÁCH ROM A SLOUČÍ SE S EXISTUJÍCÍMI SOUBORY, TAKŽE EXTERNÍ DATA, NAPŘÍKLAD ZNAČKY MÉDIÍ, ZŮSTANOU ZACHOVÁNA"
+msgstr ""
+"TÍM SE OBSAH DATABÁZE ZAPÍŠE DO SOUBORŮ GAMELIST.XML VE VAŠICH SLOŽKÁCH ROM "
+"A SLOUČÍ SE S EXISTUJÍCÍMI SOUBORY, TAKŽE EXTERNÍ DATA, NAPŘÍKLAD ZNAČKY "
+"MÉDIÍ, ZŮSTANOU ZACHOVÁNA"
 
 #, c-format
 msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
@@ -1901,6 +1901,51 @@ msgstr "VYČIŠTĚNÍ SEZNAMŮ HER SELHALO"
 
 msgid "THE APPLICATION WILL RELOAD WHEN CLOSING THIS UTILITY."
 msgstr "PO ZAVŘENÍ TOHOTO NÁSTROJE SE APLIKACE ZNOVU NAČTE."
+
+msgid "NO PLATFORMS FOUND"
+msgstr ""
+
+msgid "DEFAULT EMULATOR"
+msgstr ""
+
+msgid "NO ALTERNATIVE EMULATORS"
+msgstr ""
+
+msgid "DISPLAY MODE"
+msgstr ""
+
+msgid "FULLSCREEN"
+msgstr ""
+
+msgid "WINDOWED"
+msgstr ""
+
+msgid "NOT SUPPORTED BY THE CURRENT EMULATOR"
+msgstr ""
+
+msgid "SHOW PLATFORM"
+msgstr ""
+
+msgid "AT LEAST ONE PLATFORM HAS TO STAY VISIBLE"
+msgstr ""
+
+msgid "FULL NAME"
+msgstr ""
+
+msgid "INTERNAL NAME"
+msgstr ""
+
+msgid "THEME DIRECTORY"
+msgstr ""
+
+msgid "GAME COUNT"
+msgstr ""
+
+msgid "RESET PLATFORM SETTINGS"
+msgstr ""
+
+msgid "RESET THE SETTINGS OF THIS PLATFORM?"
+msgstr ""
 
 msgid "SCRAPE FROM"
 msgstr "STAHOVAT DATA Z"
@@ -3452,6 +3497,12 @@ msgstr "Vytváření systémových adresářů..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "CHYBA: NELZE ZOBRAZIT SOUBOR PDF"
+
+#~ msgid "SHOW GAME"
+#~ msgstr "ZOBRAZIT HRU"
+
+#~ msgid "HIDE GAME"
+#~ msgstr "SKRÝT HRU"
 
 #~ msgid "SHOW HIDDEN GAMES"
 #~ msgstr "ZOBRAZIT SKRYTÉ HRY"

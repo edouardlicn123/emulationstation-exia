@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-20 11:55+0800\n"
+"POT-Creation-Date: 2026-10-20 19:52+0800\n"
 "PO-Revision-Date: 2026-09-09 19:24+0800\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: 简体中文 <info@es-de.org>\n"
@@ -776,12 +776,6 @@ msgstr "编辑此文件夹的元数据"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "编辑此游戏的元数据"
 
-msgid "SHOW GAME"
-msgstr "显示游戏"
-
-msgid "HIDE GAME"
-msgstr "隐藏游戏"
-
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "输入文件夹（覆盖文件夹链接）"
 
@@ -894,6 +888,9 @@ msgstr "输入设备设置"
 
 msgid "GAME COLLECTION SETTINGS"
 msgstr "游戏收藏设置"
+
+msgid "PLATFORM SETTINGS"
+msgstr ""
 
 msgid "OTHER SETTINGS"
 msgstr "其他设置"
@@ -1433,7 +1430,9 @@ msgid ""
 "THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
 "ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
 "TAGS IS PRESERVED"
-msgstr "这会将数据库内容写入各 ROM 文件夹内的 GAMELIST.XML 文件，并与现有文件合并，因此媒体标签等外部数据将得到保留"
+msgstr ""
+"这会将数据库内容写入各 ROM 文件夹内的 GAMELIST.XML 文件，并与现有文件合并，因"
+"此媒体标签等外部数据将得到保留"
 
 #, c-format
 msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
@@ -1871,6 +1870,51 @@ msgstr "游戏列表清理失败"
 
 msgid "THE APPLICATION WILL RELOAD WHEN CLOSING THIS UTILITY."
 msgstr "关闭此实用程序时，应用程序将重新加载。"
+
+msgid "NO PLATFORMS FOUND"
+msgstr ""
+
+msgid "DEFAULT EMULATOR"
+msgstr ""
+
+msgid "NO ALTERNATIVE EMULATORS"
+msgstr ""
+
+msgid "DISPLAY MODE"
+msgstr ""
+
+msgid "FULLSCREEN"
+msgstr ""
+
+msgid "WINDOWED"
+msgstr ""
+
+msgid "NOT SUPPORTED BY THE CURRENT EMULATOR"
+msgstr ""
+
+msgid "SHOW PLATFORM"
+msgstr ""
+
+msgid "AT LEAST ONE PLATFORM HAS TO STAY VISIBLE"
+msgstr ""
+
+msgid "FULL NAME"
+msgstr ""
+
+msgid "INTERNAL NAME"
+msgstr ""
+
+msgid "THEME DIRECTORY"
+msgstr ""
+
+msgid "GAME COUNT"
+msgstr ""
+
+msgid "RESET PLATFORM SETTINGS"
+msgstr ""
+
+msgid "RESET THE SETTINGS OF THIS PLATFORM?"
+msgstr ""
 
 msgid "SCRAPE FROM"
 msgstr "抓取源"
@@ -3358,6 +3402,12 @@ msgstr "正在创建平台目录……"
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "错误：无法渲染 PDF 文件"
+
+#~ msgid "SHOW GAME"
+#~ msgstr "显示游戏"
+
+#~ msgid "HIDE GAME"
+#~ msgstr "隐藏游戏"
 
 #~ msgid "SHOW HIDDEN GAMES"
 #~ msgstr "显示隐藏的游戏"

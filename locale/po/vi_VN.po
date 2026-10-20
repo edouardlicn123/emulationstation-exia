@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-20 11:55+0800\n"
+"POT-Creation-Date: 2026-10-20 19:52+0800\n"
 "PO-Revision-Date: 2026-09-12 19:49+0200\n"
 "Last-Translator: Northwestern Software <info@es-de.org>\n"
 "Language-Team: Tiếng Việt <info@es-de.org>\n"
@@ -787,12 +787,6 @@ msgstr "SỬA DỮ LIỆU CỦA THƯ MỤC NÀY"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "SỬA DỮ LIỆU CỦA TRÒ CHƠI NÀY"
 
-msgid "SHOW GAME"
-msgstr "HIỆN TRÒ CHƠI"
-
-msgid "HIDE GAME"
-msgstr "ẨN TRÒ CHƠI"
-
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "NHẬP THƯ MỤC (GHI ĐÈ LIÊN KẾT THƯ MỤC)"
 
@@ -905,6 +899,9 @@ msgstr "CÀI ĐẶT THIẾT BỊ NHẬP"
 
 msgid "GAME COLLECTION SETTINGS"
 msgstr "CÀI ĐẶT BỘ SƯU TẬP TRÒ CHƠI"
+
+msgid "PLATFORM SETTINGS"
+msgstr ""
 
 msgid "OTHER SETTINGS"
 msgstr "CÀI ĐẶT KHÁC"
@@ -1452,7 +1449,10 @@ msgid ""
 "THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
 "ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
 "TAGS IS PRESERVED"
-msgstr "THAO TÁC NÀY SẼ GHI NỘI DUNG CƠ SỞ DỮ LIỆU VÀO CÁC TỆP GAMELIST.XML TRONG THƯ MỤC ROM CỦA BẠN, HỢP NHẤT VỚI CÁC TỆP HIỆN CÓ ĐỂ DỮ LIỆU BÊN NGOÀI NHƯ THẺ PHƯƠNG TIỆN ĐƯỢC GIỮ NGUYÊN"
+msgstr ""
+"THAO TÁC NÀY SẼ GHI NỘI DUNG CƠ SỞ DỮ LIỆU VÀO CÁC TỆP GAMELIST.XML TRONG "
+"THƯ MỤC ROM CỦA BẠN, HỢP NHẤT VỚI CÁC TỆP HIỆN CÓ ĐỂ DỮ LIỆU BÊN NGOÀI NHƯ "
+"THẺ PHƯƠNG TIỆN ĐƯỢC GIỮ NGUYÊN"
 
 #, c-format
 msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
@@ -1901,6 +1901,51 @@ msgstr "DỌN DẸP DANH SÁCH TRÒ CHƠI THẤT BẠI"
 
 msgid "THE APPLICATION WILL RELOAD WHEN CLOSING THIS UTILITY."
 msgstr "ỨNG DỤNG SẼ TẢI LẠI KHI ĐÓNG TIỆN ÍCH NÀY."
+
+msgid "NO PLATFORMS FOUND"
+msgstr ""
+
+msgid "DEFAULT EMULATOR"
+msgstr ""
+
+msgid "NO ALTERNATIVE EMULATORS"
+msgstr ""
+
+msgid "DISPLAY MODE"
+msgstr ""
+
+msgid "FULLSCREEN"
+msgstr ""
+
+msgid "WINDOWED"
+msgstr ""
+
+msgid "NOT SUPPORTED BY THE CURRENT EMULATOR"
+msgstr ""
+
+msgid "SHOW PLATFORM"
+msgstr ""
+
+msgid "AT LEAST ONE PLATFORM HAS TO STAY VISIBLE"
+msgstr ""
+
+msgid "FULL NAME"
+msgstr ""
+
+msgid "INTERNAL NAME"
+msgstr ""
+
+msgid "THEME DIRECTORY"
+msgstr ""
+
+msgid "GAME COUNT"
+msgstr ""
+
+msgid "RESET PLATFORM SETTINGS"
+msgstr ""
+
+msgid "RESET THE SETTINGS OF THIS PLATFORM?"
+msgstr ""
 
 msgid "SCRAPE FROM"
 msgstr "THU THẬP TỪ"
@@ -3429,6 +3474,12 @@ msgstr "Đang tạo thư mục hệ thống..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "LỖI: KHÔNG THỂ HIỂN THỊ TỆP PDF"
+
+#~ msgid "SHOW GAME"
+#~ msgstr "HIỆN TRÒ CHƠI"
+
+#~ msgid "HIDE GAME"
+#~ msgstr "ẨN TRÒ CHƠI"
 
 #~ msgid "SHOW HIDDEN GAMES"
 #~ msgstr "HIỂN THỊ TRÒ CHƠI ẨN"

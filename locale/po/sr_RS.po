@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-20 11:55+0800\n"
+"POT-Creation-Date: 2026-10-20 19:52+0800\n"
 "PO-Revision-Date: 2026-09-04 12:33+0200\n"
 "Last-Translator: SecularSteve <info@es-de.org>\n"
 "Language-Team: Serbian (Latin, Serbia) <info@es-de.org>\n"
@@ -811,12 +811,6 @@ msgstr "IZMENITE METAPODATKE OVOG FOLDERA"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "IZMENA METAPODATAKA OVE IGRE"
 
-msgid "SHOW GAME"
-msgstr "ПРИКАЖИ ИГРУ"
-
-msgid "HIDE GAME"
-msgstr "САКРИЈ ИГРУ"
-
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "UNOS MAPE (IDITE DALJE OD VEZE SA FASCIKLOM)"
 
@@ -929,6 +923,9 @@ msgstr "PODEŠAVANJA ULAZNOG UREĐAJA"
 
 msgid "GAME COLLECTION SETTINGS"
 msgstr "PODEŠAVANJA KOLEKCIJE IGARA"
+
+msgid "PLATFORM SETTINGS"
+msgstr ""
 
 msgid "OTHER SETTINGS"
 msgstr "OSTALA PODEŠAVANJA"
@@ -1476,7 +1473,10 @@ msgid ""
 "THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
 "ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
 "TAGS IS PRESERVED"
-msgstr "ОВО ЋЕ ЗАПИСАТИ САДРЖАЈ БАЗЕ ПОДАТАКА У GAMELIST.XML ДАТОТЕКЕ УНУТАР ВАШИХ ROM ФАСЦИКЛИ, СПАЈАЈУЋИ ИХ СА ПОСТОЈЕЋИМ ДАТОТЕКАМА ТАКО ДА СЕ ВАНСКИ ПОДАЦИ ПОПУТ МЕДИЈСКИХ ОЗНАКА САЧУВАЈУ"
+msgstr ""
+"ОВО ЋЕ ЗАПИСАТИ САДРЖАЈ БАЗЕ ПОДАТАКА У GAMELIST.XML ДАТОТЕКЕ УНУТАР ВАШИХ "
+"ROM ФАСЦИКЛИ, СПАЈАЈУЋИ ИХ СА ПОСТОЈЕЋИМ ДАТОТЕКАМА ТАКО ДА СЕ ВАНСКИ ПОДАЦИ "
+"ПОПУТ МЕДИЈСКИХ ОЗНАКА САЧУВАЈУ"
 
 #, c-format
 msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
@@ -1928,6 +1928,51 @@ msgstr "BRISANJE LISTE IGRAČA NIJE USPELO"
 
 msgid "THE APPLICATION WILL RELOAD WHEN CLOSING THIS UTILITY."
 msgstr "APLIKACIJA ĆE SE PONOVO UČITATI KADA ZATVORITE OVAJ USLUŽNI PROGRAM."
+
+msgid "NO PLATFORMS FOUND"
+msgstr ""
+
+msgid "DEFAULT EMULATOR"
+msgstr ""
+
+msgid "NO ALTERNATIVE EMULATORS"
+msgstr ""
+
+msgid "DISPLAY MODE"
+msgstr ""
+
+msgid "FULLSCREEN"
+msgstr ""
+
+msgid "WINDOWED"
+msgstr ""
+
+msgid "NOT SUPPORTED BY THE CURRENT EMULATOR"
+msgstr ""
+
+msgid "SHOW PLATFORM"
+msgstr ""
+
+msgid "AT LEAST ONE PLATFORM HAS TO STAY VISIBLE"
+msgstr ""
+
+msgid "FULL NAME"
+msgstr ""
+
+msgid "INTERNAL NAME"
+msgstr ""
+
+msgid "THEME DIRECTORY"
+msgstr ""
+
+msgid "GAME COUNT"
+msgstr ""
+
+msgid "RESET PLATFORM SETTINGS"
+msgstr ""
+
+msgid "RESET THE SETTINGS OF THIS PLATFORM?"
+msgstr ""
 
 msgid "SCRAPE FROM"
 msgstr "OGREBOTIЦA OD"
@@ -3489,6 +3534,12 @@ msgstr "Kreiranje sistemskih direktorijuma..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "GREŠKA: NIJE MOGUĆE DA VIDITE PDF DATOTEKU"
+
+#~ msgid "SHOW GAME"
+#~ msgstr "ПРИКАЖИ ИГРУ"
+
+#~ msgid "HIDE GAME"
+#~ msgstr "САКРИЈ ИГРУ"
 
 #~ msgid "SHOW HIDDEN GAMES"
 #~ msgstr "SHOV SKRIVENE IGRE"

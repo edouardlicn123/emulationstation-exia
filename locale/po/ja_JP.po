@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ES-DE Frontend\n"
 "Report-Msgid-Bugs-To: info@es-de.org\n"
-"POT-Creation-Date: 2026-10-20 11:55+0800\n"
+"POT-Creation-Date: 2026-10-20 19:52+0800\n"
 "PO-Revision-Date: 2026-09-09 19:23+0800\n"
 "Last-Translator: ice <natsumekyousuke211314@gmail.com>\n"
 "Language-Team: 日本語 <info@es-de.org>\n"
@@ -800,12 +800,6 @@ msgstr "このフォルダのメタデータを編集"
 msgid "EDIT THIS GAME'S METADATA"
 msgstr "このゲームのメタデータを編集"
 
-msgid "SHOW GAME"
-msgstr "ゲームを表示"
-
-msgid "HIDE GAME"
-msgstr "ゲームを隠す"
-
 msgid "ENTER FOLDER (OVERRIDE FOLDER LINK)"
 msgstr "フォルダを入力してください（フォルダリンクをオーバーライドします）"
 
@@ -918,6 +912,9 @@ msgstr "入力デバイス設定"
 
 msgid "GAME COLLECTION SETTINGS"
 msgstr "ゲームコレクション設定"
+
+msgid "PLATFORM SETTINGS"
+msgstr ""
 
 msgid "OTHER SETTINGS"
 msgstr "他の設定"
@@ -1466,7 +1463,10 @@ msgid ""
 "THIS WILL WRITE THE DATABASE CONTENTS TO THE GAMELIST.XML FILES INSIDE YOUR "
 "ROM FOLDERS, MERGING INTO ANY EXISTING FILES SO EXTERNAL DATA SUCH AS MEDIA "
 "TAGS IS PRESERVED"
-msgstr "データベースの内容を ROM フォルダー内の GAMELIST.XML ファイルに書き込みます。既存のファイルにはマージされるため、メディアタグなどの外部データは保持されます"
+msgstr ""
+"データベースの内容を ROM フォルダー内の GAMELIST.XML ファイルに書き込みます。"
+"既存のファイルにはマージされるため、メディアタグなどの外部データは保持されま"
+"す"
 
 #, c-format
 msgid "EXPORTED GAMELIST.XML FOR %i SYSTEMS"
@@ -1928,6 +1928,51 @@ msgstr "ゲームリストのクリーンアップに失敗"
 
 msgid "THE APPLICATION WILL RELOAD WHEN CLOSING THIS UTILITY."
 msgstr "このユーティリティを閉じると、アプリケーションが再読み込みされます。"
+
+msgid "NO PLATFORMS FOUND"
+msgstr ""
+
+msgid "DEFAULT EMULATOR"
+msgstr ""
+
+msgid "NO ALTERNATIVE EMULATORS"
+msgstr ""
+
+msgid "DISPLAY MODE"
+msgstr ""
+
+msgid "FULLSCREEN"
+msgstr ""
+
+msgid "WINDOWED"
+msgstr ""
+
+msgid "NOT SUPPORTED BY THE CURRENT EMULATOR"
+msgstr ""
+
+msgid "SHOW PLATFORM"
+msgstr ""
+
+msgid "AT LEAST ONE PLATFORM HAS TO STAY VISIBLE"
+msgstr ""
+
+msgid "FULL NAME"
+msgstr ""
+
+msgid "INTERNAL NAME"
+msgstr ""
+
+msgid "THEME DIRECTORY"
+msgstr ""
+
+msgid "GAME COUNT"
+msgstr ""
+
+msgid "RESET PLATFORM SETTINGS"
+msgstr ""
+
+msgid "RESET THE SETTINGS OF THIS PLATFORM?"
+msgstr ""
 
 msgid "SCRAPE FROM"
 msgstr "スクレイプ源"
@@ -3467,6 +3512,12 @@ msgstr "システムディレクトリを作成中..."
 
 msgid "ERROR: COULDN'T RENDER PDF FILE"
 msgstr "エラー：PDFファイルをレンダリングできませんでした"
+
+#~ msgid "SHOW GAME"
+#~ msgstr "ゲームを表示"
+
+#~ msgid "HIDE GAME"
+#~ msgstr "ゲームを隠す"
 
 #~ msgid "SHOW HIDDEN GAMES"
 #~ msgstr "非表示中のゲームを表示"
