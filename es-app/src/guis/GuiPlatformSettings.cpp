@@ -27,6 +27,7 @@
 #include <algorithm>
 
 static GuiSettings* buildPlatformPage(SystemData* system, Window* window);
+static GuiSettings* buildPlatformInfoPage(SystemData* system);
 
 namespace
 {
@@ -40,17 +41,6 @@ namespace
         row.addElement(std::make_shared<TextComponent>(value, menuValueFont(),
                                                        0x888888FF, ALIGN_RIGHT),
                        false);
-        return row;
-    }
-
-    // Section header for the read only part of the page. Not a data row, so there is no arrow
-    // and no action, and the secondary color keeps it apart from the rows below it.
-    ComponentListRow makeSectionRow(const std::string& label)
-    {
-        ComponentListRow row;
-        row.addElement(std::make_shared<TextComponent>(label, getMenuThemeFont(FONT_SIZE_MEDIUM),
-                                                       0x888888FF),
-                       true);
         return row;
     }
 
@@ -135,6 +125,21 @@ GuiPlatformSettings::GuiPlatformSettings(const std::string& title)
 // ---------------------------------------------------------------------------------------------
 // Per platform page
 // ---------------------------------------------------------------------------------------------
+
+static GuiSettings* buildPlatformInfoPage(SystemData* system)
+{
+    auto page = new GuiSettings(_("PLATFORM INFO"));
+
+    // Read only information, useful when diagnosing a platform.
+    page->addRow(makeInfoRow(_("FULL NAME"), system->getFullName()));
+    page->addRow(makeInfoRow(_("INTERNAL NAME"), system->getName()));
+    page->addRow(makeInfoRow(_("THEME DIRECTORY"), system->getThemeFolder()));
+
+    const std::pair<unsigned int, unsigned int> gameCount {system->getDisplayedGameCount()};
+    page->addRow(makeInfoRow(_("GAME COUNT"), std::to_string(gameCount.first)));
+
+    return page;
+}
 
 static GuiSettings* buildPlatformPage(SystemData* system, Window* window)
 {
@@ -237,14 +242,17 @@ static GuiSettings* buildPlatformPage(SystemData* system, Window* window)
         page->setNeedsReloading();
     });
 
-    // Read only information, useful when diagnosing a platform.
-    page->addRow(makeSectionRow(_("SYSTEM INFO")));
-    page->addRow(makeInfoRow(_("FULL NAME"), system->getFullName()));
-    page->addRow(makeInfoRow(_("INTERNAL NAME"), systemName));
-    page->addRow(makeInfoRow(_("THEME DIRECTORY"), system->getThemeFolder()));
-
-    const std::pair<unsigned int, unsigned int> gameCount {system->getDisplayedGameCount()};
-    page->addRow(makeInfoRow(_("GAME COUNT"), std::to_string(gameCount.first)));
+    // The platform information is read only and kept on its own page, so the settings stay
+    // short and the information has room to grow.
+    ComponentListRow infoRow;
+    infoRow.addElement(std::make_shared<TextComponent>(_("PLATFORM INFO"),
+                                                       getMenuThemeFont(FONT_SIZE_MEDIUM),
+                                                       0x777777FF),
+                       true);
+    infoRow.addElement(page->getMenu().makeArrow(), false);
+    infoRow.makeAcceptInputHandler(
+        [window, system] { window->pushGui(buildPlatformInfoPage(system)); });
+    page->addRow(infoRow);
 
     // Resets all per platform settings at once.
     ComponentListRow resetRow;

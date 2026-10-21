@@ -10,10 +10,12 @@
 
 #include "CollectionSystemsManager.h"
 #include "Scripting.h"
+#include "Settings.h"
 #include "UIModeController.h"
 #include "animations/LambdaAnimation.h"
 #include "guis/GuiGameOptions.h"
 #include "utils/LocalizationUtil.h"
+#include "utils/StringUtil.h"
 
 #define FADE_IN_START_OPACITY 0.5f
 #define FADE_IN_TIME 325
@@ -24,6 +26,7 @@ GamelistView::GamelistView(FileData* root)
     , mStaticVideoAudio {false}
     , mTriggerEvent {false}
     , mTriggeredEventFastScroll {false}
+    , mVideoEndedHandled {false}
 {
 }
 
@@ -246,6 +249,9 @@ void GamelistView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
                     mVideoComponents.back()->applyTheme(theme, "gamelist", element.first, ALL);
                     if (mVideoComponents.back()->getThemeImageTypes().size() != 0)
                         mVideoComponents.back()->setScrollHide(true);
+                    // Lets the nflix variants advance to the next game when a video ends.
+                    mVideoComponents.back()->setVideoEndedCallback(
+                        [this] { return advanceToNextGameVideo(); });
                     addChild(mVideoComponents.back().get());
                 }
             }
@@ -657,8 +663,38 @@ std::vector<HelpPrompt> GamelistView::getHelpPrompts()
     return prompts;
 }
 
+bool GamelistView::advanceToNextGameVideo()
+{
+    // Only the nflix variants auto-advance, every other view keeps looping the video.
+    const std::string variant {
+        Utils::String::toUpper(Settings::getInstance()->getString("ThemeVariant"))};
+    if (variant != "NFLIXIMMERSIVE" && variant != "NFLIXCOINOPS")
+        return false;
+
+    // Several video elements may play the same file, only the first one may switch the game.
+    if (mVideoEndedHandled)
+        return true;
+
+    FileData* next {getNextEntry()};
+    // getNextEntry() returns the current entry at the end of the list, wrap around so the
+    // platform keeps cycling.
+    if (next == getCursor())
+        next = getFirstEntry();
+
+    // A platform with a single game has nowhere to advance to, fall back to looping.
+    if (next == nullptr || next == getCursor())
+        return false;
+
+    mVideoEndedHandled = true;
+    mPrimary->setCursor(next);
+    return true;
+}
+
 void GamelistView::updateView(const CursorState& state)
 {
+    // A new game is about to be shown, so the next video end may advance again.
+    mVideoEndedHandled = false;
+
     bool loadedTexture {false};
     mTriggerEvent = false;
 

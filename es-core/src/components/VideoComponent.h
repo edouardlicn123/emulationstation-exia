@@ -13,6 +13,7 @@
 #include "components/ImageComponent.h"
 
 #include <atomic>
+#include <functional>
 #include <string>
 
 #include <SDL2/SDL_timer.h>
@@ -98,6 +99,14 @@ public:
     // Set the video start delay in milliseconds (overrides theme delay).
     void setStartDelay(unsigned delayMs) { mConfig.startDelay = delayMs; }
 
+    // Called when the video has reached its end. Returning true means the owner has taken
+    // over, for example by selecting another game, so the player must not be restarted.
+    // Returning false falls back to the normal looping behaviour.
+    void setVideoEndedCallback(std::function<bool()> callback)
+    {
+        mVideoEndedCallback = callback;
+    }
+
     // Handle looping of the video. Must be called periodically.
     virtual void handleLooping() {}
     // Used to immediately mute audio even if there are still samples to play in the buffer.
@@ -107,6 +116,8 @@ public:
 protected:
     virtual void startVideoStream() {}
     void renderStaticImage(const glm::mat4& parentTrans, bool forceRender);
+
+    std::function<bool()> mVideoEndedCallback;
 
     enum class OnIterationsDone {
         NOTHING,

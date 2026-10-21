@@ -905,8 +905,6 @@ GuiNetworkSettings::GuiNetworkSettings(const std::string& title)
 
 void GuiNetworkSettings::addWifiRows()
 {
-    addRow(makeSectionRow(_("WI-FI")));
-
     const std::string device {wifiDeviceName()};
     if (device.empty()) {
         addRow(makeNoteRow(_("NO WI-FI DEVICE FOUND")));

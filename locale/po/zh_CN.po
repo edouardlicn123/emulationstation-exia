@@ -566,6 +566,9 @@ msgstr "游戏汉化设置"
 msgid "SYSTEM INFO"
 msgstr "系统信息"
 
+msgid "PLATFORM INFO"
+msgstr "平台信息"
+
 msgid "GIT PROXY"
 msgstr "Git 代理"
 

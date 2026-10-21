@@ -1719,6 +1719,11 @@ void VideoFFmpegComponent::handleLooping()
             Settings::getInstance()->getInt("ScreensaverSwapVideoTimeout") == 0) {
             mWindow->screensaverTriggerNextGame();
         }
+        else if (mVideoEndedCallback && mVideoEndedCallback()) {
+            // The owner has taken over, for example by selecting another game. The new video
+            // is already being set up, so do not restart this player.
+            return;
+        }
         else if (mIterationCount == 0 || mPlayCount < mIterationCount) {
             stopVideoPlayer();
             startVideoStream();

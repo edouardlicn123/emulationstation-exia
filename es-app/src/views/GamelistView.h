@@ -116,11 +116,15 @@ private:
     void updateView(const CursorState& state);
     void setGameImage(FileData* file, GuiComponent* comp);
     void showSelectedGameOptions();
+    // Advances to the next game when a gamelist video has finished playing. Returns true when
+    // the game was switched (or another video component already handled this round).
+    bool advanceToNextGameVideo();
 
     Renderer* mRenderer;
     bool mStaticVideoAudio;
     bool mTriggerEvent;
     bool mTriggeredEventFastScroll;
+    bool mVideoEndedHandled;
 
     std::shared_ptr<ThemeData> mTheme;
     std::vector<GuiComponent*> mThemeExtras;
