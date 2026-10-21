@@ -203,7 +203,8 @@ void GuiGamelistFilter::addFiltersToMenu()
             }
             else {
                 for (auto it : *allKeys)
-                    optionList->add(it.first, it.first,
+                    optionList->add(SystemData::getAlternativeEmulatorDisplayName(it.first),
+                                    it.first,
                                     mFilterIndex->isKeyBeingFilteredBy(it.first, type));
             }
         }

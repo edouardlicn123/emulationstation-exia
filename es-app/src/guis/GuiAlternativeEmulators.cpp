@@ -85,15 +85,19 @@ GuiAlternativeEmulators::GuiAlternativeEmulators(SystemData* systemFilter,
 
         std::shared_ptr<TextComponent> labelText;
 
+        // The stored label is kept for the comparisons, only the shown text is translated
+        // into a friendlier name (e.g. the libretro MAME core).
+        const std::string displayLabel {SystemData::getAlternativeEmulatorDisplayName(label)};
+
         if (label == (*it)->getSystemEnvData()->mLaunchCommands.front().second) {
             labelText = std::make_shared<TextComponent>(
-                label, menuLabelFont(), mMenuColorPrimary, ALIGN_RIGHT,
+                displayLabel, menuLabelFont(), mMenuColorPrimary, ALIGN_RIGHT,
                 ALIGN_CENTER, glm::ivec2 {0, 0});
         }
         else {
             // Mark any non-default value with bold and add a gear symbol as well.
             labelText = std::make_shared<TextComponent>(
-                label + (!invalidEntry ? " " + ViewController::GEAR_CHAR : ""),
+                displayLabel + (!invalidEntry ? " " + ViewController::GEAR_CHAR : ""),
                 menuLabelFont(), mMenuColorPrimary, ALIGN_RIGHT,
                 ALIGN_CENTER, glm::ivec2 {0, 0});
         }
@@ -178,8 +182,12 @@ void GuiAlternativeEmulators::selectorWindow(SystemData* system)
         else
             label = entry.second;
 
+        // Comparisons below keep using the label from es_systems.xml, only the shown text
+        // uses the friendlier name.
+        const std::string displayLabel {SystemData::getAlternativeEmulatorDisplayName(label)};
+
         std::shared_ptr<TextComponent> labelText = std::make_shared<TextComponent>(
-            label, getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary, ALIGN_LEFT);
+            displayLabel, getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary, ALIGN_LEFT);
         labelText->setSelectable(true);
 
         if (system->getSystemEnvData()->mLaunchCommands.front().second == label)
@@ -204,7 +212,8 @@ void GuiAlternativeEmulators::selectorWindow(SystemData* system)
                     }
                     else {
                         updateMenu(system->getName(),
-                                   system->getSystemEnvData()->mLaunchCommands.front().second,
+                                   SystemData::getAlternativeEmulatorDisplayName(
+                                       system->getSystemEnvData()->mLaunchCommands.front().second),
                                    (entry.second ==
                                     system->getSystemEnvData()->mLaunchCommands.front().second));
                     }

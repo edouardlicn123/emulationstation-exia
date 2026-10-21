@@ -65,7 +65,7 @@ namespace
 
         for (const auto& command : system->getSystemEnvData()->mLaunchCommands) {
             if (command.second == configured)
-                return command.second;
+                return SystemData::getAlternativeEmulatorDisplayName(command.second);
         }
 
         return "";

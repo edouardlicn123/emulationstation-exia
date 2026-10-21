@@ -91,12 +91,13 @@ void GuiEmulatorSelector::buildMenu(bool invalidEntry, const std::string& curren
         if (invalidEntry && singleEntry && entry.second != currentValue && launchCommands.size() <= 1)
             continue;
 
-        std::string label {entry.second};
+        std::string label {SystemData::getAlternativeEmulatorDisplayName(entry.second)};
 
-        // Annotate the command that the system-wide setting currently resolves to.
-        if (mSystem->getAlternativeEmulator() == label ||
+        // Annotate the command that the system-wide setting currently resolves to. The
+        // comparison uses the stored label, not the name shown to the user.
+        if (mSystem->getAlternativeEmulator() == entry.second ||
             (mSystem->getAlternativeEmulator().empty() && !launchCommands.front().second.empty() &&
-             launchCommands.front().second == label)) {
+             launchCommands.front().second == entry.second)) {
             label += " [";
             label += _("SYSTEM-WIDE");
             label += "]";

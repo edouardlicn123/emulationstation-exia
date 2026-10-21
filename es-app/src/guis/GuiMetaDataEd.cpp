@@ -390,8 +390,9 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
                                 label = entry.second;
 
                             std::shared_ptr<TextComponent> labelText {
-                                std::make_shared<TextComponent>(label, getMenuThemeFont(FONT_SIZE_MEDIUM),
-                                                                mMenuColorPrimary)};
+                                std::make_shared<TextComponent>(
+                                    SystemData::getAlternativeEmulatorDisplayName(label),
+                                    getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
                             labelText->setSelectable(true);
 
                             if (scraperParams.system->getAlternativeEmulator() == "" &&
@@ -490,7 +491,8 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
                         std::shared_ptr<TextComponent> labelText {std::make_shared<TextComponent>(
                             label, getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary)};
                         labelText->setSelectable(true);
-                        labelText->setValue(entry.second);
+                        labelText->setValue(
+                            SystemData::getAlternativeEmulatorDisplayName(entry.second));
 
                         label = entry.second;
 

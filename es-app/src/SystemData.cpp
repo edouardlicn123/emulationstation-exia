@@ -1313,6 +1313,18 @@ std::string SystemData::getLaunchCommandFromLabel(const std::string& label)
     return "";
 }
 
+std::string SystemData::getAlternativeEmulatorDisplayName(const std::string& label)
+{
+    // "MAME - Current" is the libretro core (mame_libretro.so). The label doubles as the
+    // value stored in the gamelist metadata, so it cannot be renamed there; this only gives
+    // the user interface a name that can be told apart from the standalone MAME entry.
+    // The gamelist filter index stores uppercased labels, hence the case insensitive check.
+    if (Utils::String::toUpper(label) == "MAME - CURRENT")
+        return "MAME (libretro)";
+
+    return label;
+}
+
 void SystemData::deleteSystems()
 {
     for (unsigned int i {0}; i < sSystemVector.size(); ++i)

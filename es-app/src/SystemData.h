@@ -149,6 +149,9 @@ public:
 
     const std::string& getAlternativeEmulator() const { return mAlternativeEmulator; }
     void setAlternativeEmulator(const std::string& command) { mAlternativeEmulator = command; }
+    // Name shown in the user interface for an alternative emulator label. The value stored
+    // in the metadata and used for command matching stays the es_systems.xml label.
+    static std::string getAlternativeEmulatorDisplayName(const std::string& label);
     const bool getLaunchOnOtherScreen() const { return mLaunchOnOtherScreen; }
     void setLaunchOnOtherScreen(bool state) { mLaunchOnOtherScreen = state; }
     std::string getLaunchCommandFromLabel(const std::string& label);
