@@ -890,7 +890,7 @@ msgid "GAME COLLECTION SETTINGS"
 msgstr "游戏收藏设置"
 
 msgid "PLATFORM SETTINGS"
-msgstr ""
+msgstr "平台设置"
 
 msgid "OTHER SETTINGS"
 msgstr "其他设置"
@@ -1872,49 +1872,49 @@ msgid "THE APPLICATION WILL RELOAD WHEN CLOSING THIS UTILITY."
 msgstr "关闭此实用程序时，应用程序将重新加载。"
 
 msgid "NO PLATFORMS FOUND"
-msgstr ""
+msgstr "未找到平台"
 
 msgid "DEFAULT EMULATOR"
-msgstr ""
+msgstr "默认模拟器"
 
 msgid "NO ALTERNATIVE EMULATORS"
-msgstr ""
+msgstr "没有备用模拟器"
 
 msgid "DISPLAY MODE"
-msgstr ""
+msgstr "显示模式"
 
 msgid "FULLSCREEN"
-msgstr ""
+msgstr "全屏"
 
 msgid "WINDOWED"
-msgstr ""
+msgstr "窗口化"
 
 msgid "NOT SUPPORTED BY THE CURRENT EMULATOR"
-msgstr ""
+msgstr "当前模拟器不支持"
 
 msgid "SHOW PLATFORM"
-msgstr ""
+msgstr "显示平台"
 
 msgid "AT LEAST ONE PLATFORM HAS TO STAY VISIBLE"
-msgstr ""
+msgstr "至少需要保留一个可见平台"
 
 msgid "FULL NAME"
-msgstr ""
+msgstr "完整名称"
 
 msgid "INTERNAL NAME"
-msgstr ""
+msgstr "内部名称"
 
 msgid "THEME DIRECTORY"
-msgstr ""
+msgstr "主题目录"
 
 msgid "GAME COUNT"
-msgstr ""
+msgstr "游戏数量"
 
 msgid "RESET PLATFORM SETTINGS"
-msgstr ""
+msgstr "重置平台设置"
 
 msgid "RESET THE SETTINGS OF THIS PLATFORM?"
-msgstr ""
+msgstr "重置此平台的设置？"
 
 msgid "SCRAPE FROM"
 msgstr "抓取源"
