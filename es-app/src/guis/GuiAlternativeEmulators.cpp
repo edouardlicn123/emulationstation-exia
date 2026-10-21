@@ -27,16 +27,12 @@ GuiAlternativeEmulators::GuiAlternativeEmulators(SystemData* systemFilter,
     addChild(&mMenu);
     mMenu.addButton(_("BACK"), _("back"), [this] { delete this; });
 
-    // When a platform was passed in, go straight to its selector instead of showing the
-    // platform list. That is what the platform settings page uses, so one class serves both
-    // entry points and there is only one implementation of the selection and of the write
-    // back to the gamelist.
-    if (mSystemFilter != nullptr) {
-        selectorWindow(mSystemFilter);
-        // Keep the wrapper on stack but make it inert; deleting it while stacked
-        // can cause issues with input/stack management.
+    // When a platform was passed in, the selector is opened by openSelector() once this
+    // wrapper is on the gui stack. That is what the platform settings page uses, so one class
+    // serves both entry points and there is only one implementation of the selection and of
+    // the write back to the gamelist.
+    if (mSystemFilter != nullptr)
         return;
-    }
 
     // Horizontal sizes for the system and label entries.
     float systemSizeX {mMenu.getSize().x / 3.27f};
@@ -269,7 +265,26 @@ void GuiAlternativeEmulators::selectorWindow(SystemData* system)
     list->setCursor(list->getFirst());
     list->moveCursor(cursor);
 
+    mSelector = s;
     mWindow->pushGui(s);
+}
+
+void GuiAlternativeEmulators::openSelector()
+{
+    if (mSystemFilter != nullptr)
+        selectorWindow(mSystemFilter);
+}
+
+void GuiAlternativeEmulators::update(int deltaTime)
+{
+    GuiComponent::update(deltaTime);
+
+    // The wrapper only hosts the selector of a single platform, close it together with the
+    // selector instead of leaving an empty submenu on the stack.
+    if (mSelector != nullptr && mWindow->peekGui() != mSelector) {
+        mSelector = nullptr;
+        delete this;
+    }
 }
 
 bool GuiAlternativeEmulators::input(InputConfig* config, Input input)

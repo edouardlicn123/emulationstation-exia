@@ -173,7 +173,11 @@ static GuiSettings* buildPlatformPage(SystemData* system, Window* window)
             row.addElement(emulatorValue, false);
             row.addElement(page->getMenu().makeArrow(), false);
             row.makeAcceptInputHandler([window, system, refreshEmulatorValue] {
-                window->pushGui(new GuiAlternativeEmulators(system, refreshEmulatorValue));
+                auto* emulatorPage {new GuiAlternativeEmulators(system, refreshEmulatorValue)};
+                window->pushGui(emulatorPage);
+                // The selector has to be opened after the wrapper is on the gui stack,
+                // otherwise it would end up below it.
+                emulatorPage->openSelector();
             });
         }
         else {

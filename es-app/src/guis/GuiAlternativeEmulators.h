@@ -27,10 +27,16 @@ public:
     explicit GuiAlternativeEmulators(SystemData* systemFilter = nullptr,
                                      std::function<void()> onChanged = nullptr);
 
+    // Opens the selector of the platform passed to the constructor. It has to be called after
+    // this component was pushed onto the gui stack, otherwise the selector is pushed first and
+    // ends up below this wrapper.
+    void openSelector();
+
 private:
     void updateMenu(const std::string& systemName, const std::string& label, bool defaultEmulator);
     void selectorWindow(SystemData* system);
 
+    void update(int deltaTime) override;
     bool input(InputConfig* config, Input input) override;
     std::vector<HelpPrompt> getHelpPrompts() override;
 
@@ -43,6 +49,9 @@ private:
 
     std::map<std::string, std::shared_ptr<TextComponent>> mCommandRows;
     std::shared_ptr<OptionListComponent<std::string>> mCommandSelection;
+
+    // The selector opened for mSystemFilter, tracked so the wrapper can be closed with it.
+    GuiSettings* mSelector {nullptr};
 };
 
 #endif // ES_APP_GUIS_GUI_ALTERNATIVE_EMULATORS_H
