@@ -30,6 +30,7 @@
 #include "components/SliderComponent.h"
 #include "components/SwitchComponent.h"
 #include "guis/GuiAlternativeEmulators.h"
+#include "guis/GuiArcadeKeybinds.h"
 #include "guis/GuiCollectionSystemsOptions.h"
 #include "guis/GuiDetectDevice.h"
 #include "guis/GuiExiaSettings.h"
@@ -1671,6 +1672,19 @@ void GuiMenu::openInputDeviceOptions()
             s->setNeedsSaving();
         }
     });
+
+    // Arcade simulator key setup (devdoc/43), a page that captures keyboard keys for
+    // the arcade emulators and writes them into the simulator configurations.
+    ComponentListRow arcadeKeybindsRow;
+    arcadeKeybindsRow.elements.clear();
+    arcadeKeybindsRow.addElement(
+        std::make_shared<TextComponent>(_("ARCADE SIMULATOR KEY SETUP"),
+                                        getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary),
+        true);
+    arcadeKeybindsRow.addElement(mMenu.makeArrow(), false);
+    arcadeKeybindsRow.makeAcceptInputHandler(
+        [window = mWindow] { window->pushGui(new GuiArcadeKeybinds()); });
+    s->addRow(arcadeKeybindsRow);
 
     // Configure keyboard and controllers.
     ComponentListRow configureInputRow;

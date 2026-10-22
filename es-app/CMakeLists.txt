@@ -33,6 +33,7 @@ set(ES_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiCollectionSystemsOptions.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGameImporter.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiEmulatorSelector.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiArcadeKeybinds.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiExiaSettings.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGameOptions.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGamelistFilter.h
@@ -93,6 +94,7 @@ set(ES_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiCollectionSystemsOptions.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGameImporter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiEmulatorSelector.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiArcadeKeybinds.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiExiaSettings.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGameOptions.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGamelistFilter.cpp
