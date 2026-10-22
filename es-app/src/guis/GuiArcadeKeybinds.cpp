@@ -9,9 +9,10 @@
 //
 //    Demul      ~/Applications/demul/padDemul.ini         (evdev key codes)
 //    Dolphin    flatpak GCPadNew.ini                      (X11 keysym names)
-//    Flycast    flatpak mappings/SDL_Keyboard_arcade.cfg  (SDL scancodes)
+//    Flycast    flatpak mappings/SDL_Keyboard.cfg         (SDL scancodes)
 //    Play!      flatpak inputprofiles/default.xml         (Qt key codes)
-//    Lindbergh  ~/roms/emus/lindbergh/<game>/controls.ini (evdev names)
+//    Lindbergh  ~/roms/emus/lindbergh/controls.ini        (SDL scancode names)
+//    RetroArch  flatpak config/remaps/<core>/<core>.rmp   (RetroArch key names)
 //
 //  The values are stored in ES-DE space as SDL key names and converted per emulator
 //  during the write. Writes are idempotent: files whose content does not change are
@@ -28,6 +29,8 @@
 #include "guis/GuiMsgBox.h"
 #include "utils/FileSystemUtil.h"
 
+#include <algorithm>
+#include <cctype>
 #include <ctime>
 #include <fstream>
 #include <set>
@@ -128,70 +131,69 @@ namespace {
 struct KeyEntry {
     int scan_;         // SDL scancode
     int evdev_;        // Linux key code used by Demul
-    const char* name_; // evdev mnemonic, Lindbergh uses "KEY_" + name_
     const char* dolphin_;
     int qtKey_;        // Qt::Key value used by Play!
 };
 
-// Letters are SDL_SCANCODE_A=4..Z=29 against evdev KEY_A=30..KEY_Z=50, digits are
-// SDL_SCANCODE_1=30..0=39 against evdev KEY_1=2..KEY_0=11. Both directions verified
-// against the current padDemul.ini contents.
+// The evdev column follows the physical QWERTY layout of <linux/input-event-codes.h>,
+// not the alphabetical order: KEY_Q=16, KEY_A=30, KEY_Z=44 and so on. Digits are
+// SDL_SCANCODE_1=30..0=39 against evdev KEY_1=2..KEY_0=11.
 const std::vector<KeyEntry> sKeyEntries {
-    {4, 30, "A", "A", 65},     {5, 31, "B", "B", 66},     {6, 32, "C", "C", 67},
-    {7, 33, "D", "D", 68},     {8, 34, "E", "E", 69},     {9, 35, "F", "F", 70},
-    {10, 36, "G", "G", 71},    {11, 37, "H", "H", 72},    {12, 38, "I", "I", 73},
-    {13, 39, "J", "J", 74},    {14, 40, "K", "K", 75},    {15, 41, "L", "L", 76},
-    {16, 42, "M", "M", 77},    {17, 43, "N", "N", 78},    {18, 44, "O", "O", 79},
-    {19, 45, "P", "P", 80},    {20, 46, "Q", "Q", 81},    {21, 47, "R", "R", 82},
-    {22, 48, "S", "S", 83},    {23, 49, "T", "T", 84},    {24, 50, "U", "U", 85},
-    {25, 51, "V", "V", 86},    {26, 52, "W", "W", 87},    {27, 53, "X", "X", 88},
-    {28, 54, "Y", "Y", 89},    {29, 55, "Z", "Z", 90},
-    {30, 2, "1", "1", 49},     {31, 3, "2", "2", 50},     {32, 4, "3", "3", 51},
-    {33, 5, "4", "4", 52},     {34, 6, "5", "5", 53},     {35, 7, "6", "6", 54},
-    {36, 8, "7", "7", 55},     {37, 9, "8", "8", 56},     {38, 10, "9", "9", 57},
-    {39, 11, "0", "0", 48},
-    {41, 1, "ESCAPE", "Escape", 16777216},
-    {42, 14, "BACKSPACE", "BackSpace", 16777219},
-    {43, 15, "TAB", "Tab", 9},
-    {44, 57, "SPACE", "space", 32},
-    {45, 12, "MINUS", "minus", 45},
-    {46, 13, "EQUAL", "equal", 61},
-    {47, 26, "LEFTBRACKET", "bracketleft", 91},
-    {48, 27, "RIGHTBRACKET", "bracketright", 93},
-    {49, 43, "BACKSLASH", "backslash", 92},
-    {51, 39, "SEMICOLON", "semicolon", 59},
-    {52, 40, "APOSTROPHE", "apostrophe", 39},
-    {54, 51, "COMMA", "comma", 44},
-    {55, 52, "PERIOD", "period", 46},
-    {56, 53, "SLASH", "slash", 47},
-    {58, 59, "F1", "F1", 16777264},
-    {59, 60, "F2", "F2", 16777265},
-    {60, 61, "F3", "F3", 16777266},
-    {61, 62, "F4", "F4", 16777267},
-    {62, 63, "F5", "F5", 16777268},
-    {63, 64, "F6", "F6", 16777269},
-    {64, 65, "F7", "F7", 16777270},
-    {65, 66, "F8", "F8", 16777271},
-    {66, 67, "F9", "F9", 16777272},
-    {67, 68, "F10", "F10", 16777273},
-    {68, 87, "F11", "F11", 16777274},
-    {69, 88, "F12", "F12", 16777275},
-    {74, 102, "HOME", "Home", 16777232},
-    {75, 104, "PAGEUP", "Page_Up", 16777238},
-    {76, 111, "DELETE", "Delete", 16777223},
-    {77, 107, "END", "End", 16777233},
-    {78, 109, "PAGEDOWN", "Page_Down", 16777239},
-    {79, 106, "RIGHT", "Right", 16777236},
-    {80, 105, "LEFT", "Left", 16777234},
-    {81, 108, "DOWN", "Down", 16777237},
-    {82, 103, "UP", "Up", 16777235},
-    {40, 28, "RETURN", "Return", 16777220},
-    {224, 29, "LEFTCTRL", "Ctrl", 16777249},
-    {225, 42, "LEFTSHIFT", "Shift", 16777248},
-    {226, 56, "LEFTALT", "Alt", 16777251},
-    {228, 97, "RIGHTCTRL", "Ctrl", 16777249},
-    {229, 54, "RIGHTSHIFT", "Shift", 16777248},
-    {230, 100, "RIGHTALT", "Alt", 16777251}};
+    {4, 30, "A", 65},     {5, 48, "B", 66},     {6, 46, "C", 67},
+    {7, 32, "D", 68},     {8, 18, "E", 69},     {9, 33, "F", 70},
+    {10, 34, "G", 71},    {11, 35, "H", 72},    {12, 23, "I", 73},
+    {13, 36, "J", 74},    {14, 37, "K", 75},    {15, 38, "L", 76},
+    {16, 50, "M", 77},    {17, 49, "N", 78},    {18, 24, "O", 79},
+    {19, 25, "P", 80},    {20, 16, "Q", 81},    {21, 19, "R", 82},
+    {22, 31, "S", 83},    {23, 20, "T", 84},    {24, 22, "U", 85},
+    {25, 47, "V", 86},    {26, 17, "W", 87},    {27, 45, "X", 88},
+    {28, 21, "Y", 89},    {29, 44, "Z", 90},
+    {30, 2, "1", 49},     {31, 3, "2", 50},     {32, 4, "3", 51},
+    {33, 5, "4", 52},     {34, 6, "5", 53},     {35, 7, "6", 54},
+    {36, 8, "7", 55},     {37, 9, "8", 56},     {38, 10, "9", 57},
+    {39, 11, "0", 48},
+    {41, 1, "Escape", 16777216},
+    {42, 14, "BackSpace", 16777219},
+    {43, 15, "Tab", 9},
+    {44, 57, "space", 32},
+    {45, 12, "minus", 45},
+    {46, 13, "equal", 61},
+    {47, 26, "bracketleft", 91},
+    {48, 27, "bracketright", 93},
+    {49, 43, "backslash", 92},
+    {51, 39, "semicolon", 59},
+    {52, 40, "apostrophe", 39},
+    {54, 51, "comma", 44},
+    {55, 52, "period", 46},
+    {56, 53, "slash", 47},
+    {58, 59, "F1", 16777264},
+    {59, 60, "F2", 16777265},
+    {60, 61, "F3", 16777266},
+    {61, 62, "F4", 16777267},
+    {62, 63, "F5", 16777268},
+    {63, 64, "F6", 16777269},
+    {64, 65, "F7", 16777270},
+    {65, 66, "F8", 16777271},
+    {66, 67, "F9", 16777272},
+    {67, 68, "F10", 16777273},
+    {68, 87, "F11", 16777274},
+    {69, 88, "F12", 16777275},
+    {74, 102, "Home", 16777232},
+    {75, 104, "Page_Up", 16777238},
+    {76, 111, "Delete", 16777223},
+    {77, 107, "End", 16777233},
+    {78, 109, "Page_Down", 16777239},
+    {79, 106, "Right", 16777236},
+    {80, 105, "Left", 16777234},
+    {81, 108, "Down", 16777237},
+    {82, 103, "Up", 16777235},
+    {40, 28, "Return", 16777220},
+    {224, 29, "Ctrl", 16777249},
+    {225, 42, "Shift", 16777248},
+    {226, 56, "Alt", 16777251},
+    {228, 97, "Ctrl", 16777249},
+    {229, 54, "Shift", 16777248},
+    {230, 100, "Alt", 16777251}};
 
 const KeyEntry* findEntry(int scan)
 {
@@ -209,6 +211,54 @@ int scancodeOf(const std::string& keyName)
     if (keycode == SDLK_UNKNOWN)
         return -1;
     return static_cast<int>(SDL_GetScancodeFromKey(keycode));
+}
+
+// RetroArch key names (input_config_key_map in input/input_keymaps.c). The SDL
+// scancode name is translated into the spelling RetroArch writes into its
+// configuration files: letters are lower case, digits carry a "num" prefix and the
+// named keys use short forms such as "ctrl", "enter" or "pageup".
+std::string retroArchKeyName(int scan)
+{
+    const char* raw {SDL_GetScancodeName(static_cast<SDL_Scancode>(scan))};
+    if (raw == nullptr || *raw == '\0')
+        return std::string();
+    const std::string name {raw};
+    if (name.size() == 1) {
+        const char character {name.front()};
+        if (character >= 'A' && character <= 'Z')
+            return std::string(1, static_cast<char>(character - 'A' + 'a'));
+        if (character >= '0' && character <= '9')
+            return "num" + name;
+        switch (character) {
+            case '-': return "minus";
+            case '=': return "equals";
+            case '[': return "leftbracket";
+            case ']': return "rightbracket";
+            case '\\': return "backslash";
+            case ';': return "semicolon";
+            case '\'': return "quote";
+            case ',': return "comma";
+            case '.': return "period";
+            case '/': return "slash";
+            case '`': return "tilde";
+            default: break;
+        }
+    }
+    static const std::map<std::string, std::string> named {
+        {"Left Ctrl", "ctrl"},      {"Left Shift", "shift"}, {"Left Alt", "alt"},
+        {"Right Ctrl", "rctrl"},    {"Right Shift", "rshift"}, {"Right Alt", "ralt"},
+        {"Return", "enter"},        {"Escape", "escape"},     {"Backspace", "backspace"},
+        {"Tab", "tab"},             {"Space", "space"},       {"Up", "up"},
+        {"Down", "down"},           {"Left", "left"},         {"Right", "right"},
+        {"Page Up", "pageup"},      {"Page Down", "pagedown"}, {"Delete", "del"},
+        {"Insert", "insert"},       {"Home", "home"},         {"End", "end"}};
+    const auto found {named.find(name)};
+    if (found != named.end())
+        return found->second;
+    std::string lower {name};
+    std::transform(lower.begin(), lower.end(), lower.begin(),
+                   [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+    return lower;
 }
 } // namespace
 
@@ -285,10 +335,14 @@ bool backupAndWrite(const std::string& path, const std::string& newContent)
         else
             backupFile << original;
     }
-    const bool moved {Utils::FileSystem::renameFile(staging, path, true)};
-    if (!moved)
+    Utils::FileSystem::renameFile(staging, path, true);
+    // renameFile() returns the raw std::rename() result on POSIX (0 means success),
+    // so the staging file disappearing is the reliable success check.
+    if (Utils::FileSystem::exists(staging)) {
         LOG(LogError) << "GuiArcadeKeybinds: rename failed for " << path;
-    return moved;
+        return false;
+    }
+    return true;
 }
 
 // Joins lines back to bytes using the original line ending.
@@ -416,10 +470,8 @@ bool patchIniFile(const std::string& path, const std::vector<KeyPatch>& patches,
             break;
         }
 
-        if (replaced) {
-            result.touched = true;
+        if (replaced)
             continue;
-        }
 
         if (patch.optional) {
             result.skippedCount++;
@@ -458,7 +510,6 @@ bool patchIniFile(const std::string& path, const std::vector<KeyPatch>& patches,
                          << "] not found, skipped";
             continue;
         }
-        result.touched = true;
     }
 
     std::string newContent {joinLines(lines, ending, trailingEnding)};
@@ -466,7 +517,10 @@ bool patchIniFile(const std::string& path, const std::vector<KeyPatch>& patches,
         LOG(LogInfo) << "GuiArcadeKeybinds: " << path << " unchanged";
         return true;
     }
-    return backupAndWrite(path, newContent);
+    if (!backupAndWrite(path, newContent))
+        return false;
+    result.touched = true;
+    return true;
 }
 
 // Play! profile patcher: replaces the values of the integer preferences of an action
@@ -485,7 +539,6 @@ bool patchPlayProfile(const std::string& path, const std::string& pad,
     const bool trailingEnding {!content.empty() && content.back() == '\n'};
     std::vector<std::string> lines {splitLines(content)};
 
-    bool changed {false};
     for (const auto& [action, prefValues] : actions) {
         const size_t c1 {prefValues.find(':')};
         const size_t c2 {prefValues.find(':', c1 + 1)};
@@ -525,16 +578,15 @@ bool patchPlayProfile(const std::string& path, const std::string& pad,
         }
     }
 
-    changed = true; // Values were replaced unconditionally, treat as a content change
-                    // candidate; the equality check below decides the final outcome.
-    (void)changed;
     const std::string newContent {joinLines(lines, ending, trailingEnding)};
     if (newContent == content) {
         LOG(LogInfo) << "GuiArcadeKeybinds: " << path << " unchanged";
         return true;
     }
+    if (!backupAndWrite(path, newContent))
+        return false;
     result.touched = true;
-    return backupAndWrite(path, newContent);
+    return true;
 }
 
 // Flycast keyboard mapping: full rewrite because a user mapping file completely
@@ -700,7 +752,9 @@ EmuResult writeDolphin(const ArcadeKeybindStore& store)
         const KeyEntry* entry {(scan >= 0) ? findEntry(scan) : nullptr};
         if (entry == nullptr)
             return std::string("");
-        return std::string(entry->dolphin_);
+        // Dolphin stores keyboard bindings as backtick quoted keysyms; a bare name
+        // would be parsed as a button of the currently selected input device.
+        return "`" + std::string(entry->dolphin_) + "`";
     }};
 
     std::vector<KeyPatch> patches;
@@ -819,98 +873,309 @@ EmuResult writePlay(const ArcadeKeybindStore& store)
     return result;
 }
 
-// Lindbergh: every game folder gets its own controls.ini. The loader loads it from
-// the game directory, files not present yet stay untouched.
+// Default controls.ini generated by `lindbergh-loader --create controls`. Used when
+// the shared file does not exist yet, so the loader gets a complete binding set
+// instead of a partial file with missing actions.
+const char* kLindberghTemplate {R"LBT([Config]
+Steer_DeadZone = 8000
+Gas_DeadZone = 500
+Brake_DeadZone = 500
+ABC_X_DeadZone = 8000
+ABC_Y_DeadZone = 8000
+Throttle_DeadZone = 8000
+ShakeIncreaseRate = 10.0
+ShakeDecayRate = 0.95
+
+[Common]
+Test = KEY_T
+P1_Coin = KEY_5
+P2_Coin = KEY_6
+P1_Start = KEY_1, JOY0_BUTTON_11, GC0_BUTTON_START
+P2_Start = KEY_2
+P1_Service = KEY_S, JOY0_BUTTON_10, GC0_BUTTON_BACK
+
+[Digital]
+P1_Up = KEY_Up, GC0_BUTTON_DPUP, GC0_AXIS_LEFTY_NEGATIVE, JOY0_HAT0_UP, JOY0_AXIS_1_NEGATIVE
+P1_Down = KEY_Down, GC0_BUTTON_DPDOWN, GC0_AXIS_LEFTY_POSITIVE, JOY0_HAT0_DOWN, JOY0_AXIS_1_POSITIVE
+P1_Left = KEY_Left, GC0_BUTTON_DPLEFT, GC0_AXIS_LEFTX_NEGATIVE, JOY0_HAT0_LEFT, JOY0_AXIS_0_NEGATIVE
+P1_Right = KEY_Right, GC0_BUTTON_DPRIGHT, GC0_AXIS_LEFTX_POSITIVE, JOY0_HAT0_RIGHT, JOY0_AXIS_0_POSITIVE
+P1_Button1 = KEY_Q, GC0_BUTTON_A, JOY0_BUTTON_0
+P1_Button2 = KEY_W, GC0_BUTTON_B, JOY0_BUTTON_1
+P1_Button3 = KEY_E, GC0_BUTTON_X, JOY0_BUTTON_2
+P1_Card1Insert = KEY_F7, GC0_BUTTON_GUIDE, JOY0_BUTTON_11
+P2_Card2Insert = KEY_F8, GC1_BUTTON_GUIDE, JOY1_BUTTON_11
+
+[Driving]
+P1_Steer_Left = KEY_Left
+P1_Steer_Right = KEY_Right
+P1_Gas_Digital = KEY_Up
+P1_Brake_Digital = KEY_Down
+ViewChange = KEY_V, GC0_BUTTON_Y, JOY0_BUTTON_2
+Boost = KEY_Q, GC0_BUTTON_A, JOY0_BUTTON_0
+BoostRight = KEY_W, GC0_BUTTON_B, JOY0_BUTTON_1
+GearUp = KEY_A, GC0_BUTTON_RIGHTSHOULDER, JOY0_BUTTON_5
+GearDown = KEY_Z, GC0_BUTTON_LEFTSHOULDER, JOY0_BUTTON_4
+MusicChange = KEY_M, GC0_BUTTON_X, JOY0_BUTTON_3
+Up = KEY_I, GC0_BUTTON_DPUP, JOY0_HAT0_UP
+Down = KEY_K, GC0_BUTTON_DPDOWN, JOY0_HAT0_DOWN
+Left = KEY_J, GC0_BUTTON_DPLEFT, JOY0_HAT0_LEFT
+Right = KEY_L, GC0_BUTTON_DPRIGHT, JOY0_HAT0_RIGHT
+CardInsert = KEY_F7, GC0_BUTTON_GUIDE, JOY0_BUTTON_12
+P1_Steer = GC0_AXIS_LEFTX, JOY0_AXIS_0
+P1_Gas = GC0_AXIS_RIGHTTRIGGER, JOY0_AXIS_5
+P1_Brake = GC0_AXIS_LEFTTRIGGER, JOY0_AXIS_2
+
+[ABC]
+ABC_Left = KEY_Left
+ABC_Right = KEY_Right
+ABC_Up = KEY_Up
+ABC_Down = KEY_Down
+Throttle_Accelerate = KEY_A
+Throttle_Slowdown = KEY_Z
+GunTrigger = KEY_Q, GC0_BUTTON_A, JOY0_BUTTON_0
+MissileTrigger = KEY_W, GC0_BUTTON_B, JOY0_BUTTON_1
+ClimaxSwitch = KEY_E, GC0_BUTTON_Y, JOY0_BUTTON_4
+ABC_X = GC0_AXIS_LEFTX, JOY0_AXIS_0
+ABC_Y = GC0_AXIS_LEFTY, JOY0_AXIS_1
+Throttle = GC0_AXIS_RIGHTY_INVERTED, GC0_AXIS_RIGHTTRIGGER_POSITIVE_HALF, GC0_AXIS_LEFTTRIGGER_NEGATIVE_HALF, JOY0_AXIS_4_INVERTED, JOY0_AXIS_5_POSITIVE_HALF, JOY0_AXIS_4_NEGATIVE_HALF
+
+[Shooting]
+P1_GunX = MOUSE_AXIS_X
+P1_GunY = MOUSE_AXIS_Y
+P1_Trigger = MOUSE_LEFT_BUTTON, KEY_Q
+P1_Reload = MOUSE_RIGHT_BUTTON, KEY_W
+P1_GunButton = MOUSE_MIDDLE_BUTTON, KEY_E
+P1_ActionButton = KEY_R
+P1_PedalLeft = KEY_Left
+P1_PedalRight = KEY_Right
+
+[Mahjong]
+ButtonA = KEY_Y
+ButtonB = KEY_U
+ButtonC = KEY_I
+ButtonD = KEY_O
+ButtonE = KEY_G
+ButtonF = KEY_H
+ButtonG = KEY_J
+ButtonH = KEY_K
+ButtonI = KEY_L
+ButtonJ = KEY_V
+ButtonK = KEY_B
+ButtonL = KEY_N
+ButtonM = KEY_M
+ButtonN = KEY_,
+ButtonChi = KEY_F1
+ButtonPon = KEY_F2
+ButtonKan = KEY_F3
+ButtonReach = KEY_F4
+ButtonAgari = KEY_F5
+ButtonCancel = KEY_F6
+CardInsert = KEY_F7
+)LBT"};
+
+// Lindbergh: controls.ini is read from the working directory of the loader, which
+// ~/tools/lindbergh-launch.sh sets to the per game root. One shared file in the
+// lindbergh folder is patched and the launcher links it into the other roots.
 EmuResult writeLindbergh(const ArcadeKeybindStore& store)
 {
     const std::string base {
         Utils::FileSystem::getSystemHomeDirectory() + "/roms/emus/lindbergh"};
+    const std::string path {base + "/controls.ini"};
     EmuResult result;
 
-    // Top level game ids: lines without indentation ending in a colon.
-    std::vector<std::string> gameIds;
-    std::string ymlContent;
-    if (readFileBytes(base + "/games_config.yml", ymlContent)) {
-        std::istringstream stream {ymlContent};
-        std::string line;
-        while (std::getline(stream, line)) {
-            if (line.empty() || line.front() == '#' || line.front() == ' ' ||
-                line.front() == '\t')
-                continue;
-            const size_t colon {line.find(':')};
-            if (colon == std::string::npos)
-                continue;
-            const std::string id {line.substr(0, colon)};
-            if (!id.empty() && id.find(' ') == std::string::npos)
-                gameIds.push_back(id);
+    // A missing file is created from the loader's own default template. Without it
+    // the loader falls back to its built-in bindings and ignores our values.
+    if (!Utils::FileSystem::exists(path)) {
+        if (!Utils::FileSystem::exists(base)) {
+            result.missing = true;
+            LOG(LogWarning) << "GuiArcadeKeybinds: " << base << " not found";
+            return result;
         }
-    }
-    else {
-        result.missing = true;
+        if (!backupAndWrite(path, kLindberghTemplate))
+            return result;
+        result.touched = true;
+        LOG(LogInfo) << "GuiArcadeKeybinds: created " << path << " from the default template";
     }
 
-    int appliedFiles {0};
-    for (const std::string& gameId : gameIds) {
-        const std::string path {base + "/" + gameId + "/controls.ini"};
-        if (!Utils::FileSystem::exists(path)) {
-            result.skippedCount++;
-            continue;
-        }
-        std::vector<KeyPatch> patches;
-        auto evdevName {[&store](const std::string& prefix,
-                             const char* unifiedKey) -> std::string {
+    auto loaderKey {[&store](const std::string& prefix, const char* unifiedKey) -> std::string {
         const std::string value {store.get(prefix + unifiedKey)};
         if (value.empty())
             return std::string("");
         const int scan {scancodeOf(value)};
-        const KeyEntry* entry {(scan >= 0) ? findEntry(scan) : nullptr};
-        if (entry == nullptr)
+        if (scan < 0 || findEntry(scan) == nullptr)
             return std::string("");
-        return std::string(entry->name_);
+        // The loader resolves KEY_<name> through SDL_GetScancodeFromName, so the SDL
+        // scancode name ("Left Ctrl", "Up", "5") is the token it expects here.
+        const char* name {SDL_GetScancodeName(static_cast<SDL_Scancode>(scan))};
+        if (name == nullptr || *name == '\0')
+            return std::string("");
+        return std::string(name);
     }};
-        if (const std::string value {evdevName("p1.", "coin")}; !value.empty())
-            patches.push_back({"Common", "P1_Coin", value, true});
-        if (const std::string value {evdevName("p2.", "coin")}; !value.empty())
-            patches.push_back({"Common", "P2_Coin", value, true});
-        if (const std::string value {evdevName("p1.", "start")}; !value.empty())
-            patches.push_back({"Common", "P1_Start", value, true});
-        if (const std::string value {evdevName("p2.", "start")}; !value.empty())
-            patches.push_back({"Common", "P2_Start", value, true});
-        if (const std::string value {evdevName("global.", "service")}; !value.empty())
-            patches.push_back({"Common", "P1_Service", value, true});
-        if (const std::string value {evdevName("global.", "test")}; !value.empty())
-            patches.push_back({"Common", "Test", value, true});
 
-        const std::vector<std::pair<const char*, const char*>> digital {
-            {"P1_Up", "up"}, {"P1_Down", "down"}, {"P1_Left", "left"}, {"P1_Right", "right"},
-            {"P1_Button1", "btn1"}, {"P1_Button2", "btn2"}, {"P1_Button3", "btn3"}};
-        for (const auto& [key, unifiedKey] : digital) {
-            const std::string value {evdevName("p1.", unifiedKey)};
-            if (!value.empty())
-                patches.push_back({"Digital", key, value, true});
-        }
-        const std::vector<std::pair<const char*, const char*>> driving {
-            {"P1_Gas_Digital", "throttle"}, {"P1_Brake_Digital", "brake"},
-            {"P1_Steer_Left", "left"}, {"P1_Steer_Right", "right"}};
-        for (const auto& [key, unifiedKey] : driving) {
-            const std::string value {evdevName("p1.", unifiedKey)};
-            if (!value.empty())
-                patches.push_back({"Driving", key, value, true});
-        }
-        if (const std::string value {evdevName("p1.", "boost")}; !value.empty())
-            patches.push_back({"Driving", "Boost", value, true});
-        // P2 directional and button entries are not part of the loader template.
+    std::vector<KeyPatch> patches;
+    if (const std::string value {loaderKey("p1.", "coin")}; !value.empty())
+        patches.push_back({"Common", "P1_Coin", value, true});
+    if (const std::string value {loaderKey("p2.", "coin")}; !value.empty())
+        patches.push_back({"Common", "P2_Coin", value, true});
+    if (const std::string value {loaderKey("p1.", "start")}; !value.empty())
+        patches.push_back({"Common", "P1_Start", value, true});
+    if (const std::string value {loaderKey("p2.", "start")}; !value.empty())
+        patches.push_back({"Common", "P2_Start", value, true});
+    if (const std::string value {loaderKey("global.", "service")}; !value.empty())
+        patches.push_back({"Common", "P1_Service", value, true});
+    if (const std::string value {loaderKey("global.", "test")}; !value.empty())
+        patches.push_back({"Common", "Test", value, true});
 
-        EmuResult fileResult;
-        if (patches.empty())
-            continue;
-        if (patchIniFile(path, patches, true, fileResult))
-            ++appliedFiles;
-        result.touched |= fileResult.touched;
-        result.skippedCount += fileResult.skippedCount;
+    const std::vector<std::pair<const char*, const char*>> digital {
+        {"P1_Up", "up"}, {"P1_Down", "down"}, {"P1_Left", "left"}, {"P1_Right", "right"},
+        {"P1_Button1", "btn1"}, {"P1_Button2", "btn2"}, {"P1_Button3", "btn3"}};
+    for (const auto& [key, unifiedKey] : digital) {
+        const std::string value {loaderKey("p1.", unifiedKey)};
+        if (!value.empty())
+            patches.push_back({"Digital", key, value, true});
     }
-    if (appliedFiles == 0 && gameIds.size() >= 1) {
-        // Nothing changed; keep the summary honest without counting it as a failure.
+    const std::vector<std::pair<const char*, const char*>> driving {
+        {"P1_Gas_Digital", "throttle"}, {"P1_Brake_Digital", "brake"},
+        {"P1_Steer_Left", "left"}, {"P1_Steer_Right", "right"}};
+    for (const auto& [key, unifiedKey] : driving) {
+        const std::string value {loaderKey("p1.", unifiedKey)};
+        if (!value.empty())
+            patches.push_back({"Driving", key, value, true});
+    }
+    if (const std::string value {loaderKey("p1.", "boost")}; !value.empty())
+        patches.push_back({"Driving", "Boost", value, true});
+    // P2 directional and button entries are not part of the loader template.
+
+    if (patches.empty())
+        return result;
+    patchIniFile(path, patches, true, result);
+    return result;
+}
+
+// RetroArch: per-core remap files keep the arcade layout out of the global
+// retroarch.cfg, so non arcade cores keep their own bindings. When a core starts,
+// RetroArch loads <input_remapping_directory>/<core>/<core>.rmp.
+EmuResult writeRetroArch(const ArcadeKeybindStore& store)
+{
+    const std::string retroarchDir {
+        Utils::FileSystem::getSystemHomeDirectory() +
+        "/.var/app/org.libretro.RetroArch/config/retroarch"};
+    const std::string configPath {retroarchDir + "/retroarch.cfg"};
+    EmuResult result;
+
+    std::string config;
+    if (!readFileBytes(configPath, config)) {
+        result.missing = true;
+        LOG(LogWarning) << "GuiArcadeKeybinds: " << configPath << " not found";
+        return result;
+    }
+
+    // input_remapping_directory is "~/.var/app/..." on this station; relative values
+    // are resolved against the RetroArch configuration directory.
+    std::string remapDirectory;
+    {
+        std::istringstream stream {config};
+        std::string line;
+        while (std::getline(stream, line)) {
+            if (line.rfind("input_remapping_directory", 0) != 0)
+                continue;
+            const size_t equals {line.find('=')};
+            if (equals == std::string::npos)
+                break;
+            std::string value {line.substr(equals + 1)};
+            while (!value.empty() && (value.front() == ' ' || value.front() == '\t'))
+                value.erase(value.begin());
+            while (!value.empty() && (value.back() == ' ' || value.back() == '\t' ||
+                                      value.back() == '\r'))
+                value.pop_back();
+            if (value.size() >= 2 && value.front() == '"' && value.back() == '"')
+                value = value.substr(1, value.size() - 2);
+            if (!value.empty() && value.front() == '~')
+                value = Utils::FileSystem::getSystemHomeDirectory() + value.substr(1);
+            remapDirectory = value;
+            break;
+        }
+    }
+    if (remapDirectory.empty())
+        remapDirectory = retroarchDir + "/config/remaps";
+    else if (remapDirectory.front() != '/')
+        remapDirectory = retroarchDir + "/" + remapDirectory;
+
+    const auto keyFor {[&store](const std::string& prefix, const char* unifiedKey) {
+        const std::string value {store.get(prefix + unifiedKey)};
+        if (value.empty())
+            return std::string();
+        const int scan {scancodeOf(value)};
+        if (scan < 0 || findEntry(scan) == nullptr)
+            return std::string();
+        return retroArchKeyName(scan);
+    }};
+
+    std::stringstream remap;
+    const auto add {[&remap](const char* player, const char* action, const std::string& key) {
+        if (!key.empty())
+            remap << "input_" << player << "_" << action << " = \"" << key << "\"\n";
+    }};
+    const auto addPlayer {[&](const char* player, const std::string& prefix) {
+        add(player, "select", keyFor(prefix, "coin"));
+        add(player, "start", keyFor(prefix, "start"));
+        add(player, "up", keyFor(prefix, "up"));
+        add(player, "down", keyFor(prefix, "down"));
+        add(player, "left", keyFor(prefix, "left"));
+        add(player, "right", keyFor(prefix, "right"));
+        // Arcade cores map the six buttons as B/A/Y/X/L/R (button 1 first).
+        add(player, "b", keyFor(prefix, "btn1"));
+        add(player, "a", keyFor(prefix, "btn2"));
+        add(player, "y", keyFor(prefix, "btn3"));
+        add(player, "x", keyFor(prefix, "btn4"));
+        add(player, "l", keyFor(prefix, "btn5"));
+        add(player, "r", keyFor(prefix, "btn6"));
+        // Racing pedals live on the analog trigger slots.
+        add(player, "l2", keyFor(prefix, "throttle"));
+        add(player, "r2", keyFor(prefix, "brake"));
+    }};
+    addPlayer("player1", "p1.");
+    addPlayer("player2", "p2.");
+
+    // Boost and the machine keys have no libretro joypad slot; count them once.
+    for (const auto& [prefix, key] :
+         std::initializer_list<std::pair<const char*, const char*>> {
+             {"p1.", "boost"}, {"p2.", "boost"}, {"global.", "service"},
+             {"global.", "test"}, {"global.", "reset"}}) {
+        if (!store.get(std::string(prefix) + key).empty())
+            ++result.skippedCount;
+    }
+
+    // Only patch cores that were already used on this station (their option
+    // directory exists); the directory name is the core library name.
+    static const std::vector<const char*> cores {
+        "MAME", "FinalBurn Neo", "Flycast", "MAME 2003-Plus", "MAME 2010",
+        "FB Alpha 2012 CPS-3"};
+    int coreCount {0};
+    for (const char* core : cores) {
+        const std::string coreOptionDirectory {retroarchDir + "/config/" + core};
+        if (!Utils::FileSystem::exists(coreOptionDirectory))
+            continue;
+        ++coreCount;
+        const std::string targetDirectory {remapDirectory + "/" + core};
+        if (!Utils::FileSystem::exists(targetDirectory) &&
+            !Utils::FileSystem::createDirectory(targetDirectory)) {
+            LOG(LogError) << "GuiArcadeKeybinds: cannot create " << targetDirectory;
+            continue;
+        }
+        const std::string path {targetDirectory + "/" + core + ".rmp"};
+        std::string previous;
+        if (readFileBytes(path, previous) && previous == remap.str()) {
+            LOG(LogInfo) << "GuiArcadeKeybinds: " << path << " unchanged";
+            continue;
+        }
+        if (backupAndWrite(path, remap.str()))
+            result.touched = true;
+    }
+    if (coreCount == 0) {
+        result.missing = true;
+        LOG(LogWarning) << "GuiArcadeKeybinds: no RetroArch arcade core found in "
+                        << retroarchDir << "/config";
     }
     return result;
 }
@@ -970,12 +1235,13 @@ void applyAllConfigs(Window* window, bool report)
             const std::string path {
                 Utils::FileSystem::getSystemHomeDirectory() +
                 "/.var/app/org.flycast.Flycast/config/flycast/mappings/"
-                "SDL_Keyboard_arcade.cfg"};
+                "SDL_Keyboard.cfg"};
             writeFlycastMapping(path, binds, flycast);
         }
     }
 
     const EmuResult lindbergh {writeLindbergh(store)};
+    const EmuResult retroarch {writeRetroArch(store)};
 
     if (!report || window == nullptr) {
         LOG(LogInfo) << "GuiArcadeKeybinds: applied all configs (report off)";
@@ -1003,6 +1269,7 @@ void applyAllConfigs(Window* window, bool report)
             << "\n"
             << line("Play!", play) << "\n"
             << line("Lindbergh", lindbergh) << "\n"
+            << line("RetroArch", retroarch) << "\n"
             << "\n"
             << _("SOME ENTRIES ARE SKIPPED WHEN THE EMULATOR HAS NO MATCHING OPTION; "
                  "DETAILS ARE IN THE LOG");
@@ -1055,7 +1322,7 @@ ComponentListRow GuiArcadeKeybinds::makeNavRow(const std::string& label, const s
     if (!value.empty()) {
         row.addElement(std::make_shared<TextComponent>(value, menuValueFont(),
                                                        mMenuColorPrimary, ALIGN_RIGHT),
-                       false);
+                       true);
     }
     row.addElement(getMenu().makeArrow(), false);
     if (func)
@@ -1114,7 +1381,9 @@ GuiArcadeKeybindPage::GuiArcadeKeybindPage(const std::string& title, const std::
 
         auto mapping {std::make_shared<TextComponent>("", menuValueFont(), mMenuColorPrimary,
                                                       ALIGN_RIGHT)};
-        row.addElement(mapping, false);
+        // Both label and value must request width, otherwise the list never assigns
+        // a size to the value column and the text is clipped away.
+        row.addElement(mapping, true);
         mMappings.push_back(mapping);
 
         row.inputHandler = [this, index = static_cast<int>(mTargetKeys.size())](InputConfig* config,

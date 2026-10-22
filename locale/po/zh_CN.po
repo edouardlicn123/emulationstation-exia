@@ -3444,3 +3444,121 @@ msgstr "错误：无法渲染 PDF 文件"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "~/biosalt 中没有匹配的 BIOS 文件"
+
+msgid "ARCADE SIMULATOR KEY SETUP"
+msgstr "街机模拟器按键设置"
+
+msgid "BOOST"
+msgstr "加速"
+
+msgid "BRAKE"
+msgstr "刹车"
+
+msgid "BUTTON 1"
+msgstr "按钮 1"
+
+msgid "BUTTON 2"
+msgstr "按钮 2"
+
+msgid "BUTTON 3"
+msgstr "按钮 3"
+
+msgid "BUTTON 4"
+msgstr "按钮 4"
+
+msgid "BUTTON 5"
+msgstr "按钮 5"
+
+msgid "BUTTON 6"
+msgstr "按钮 6"
+
+msgid "COIN"
+msgstr "投币"
+
+msgid "COMMON MACHINE KEYS"
+msgstr "通用机台按键"
+
+msgid "CONFIGURATION FILE NOT FOUND"
+msgstr "找不到配置文件"
+
+msgid "DOWN"
+msgstr "下"
+
+msgid "HOLD FOR"
+msgstr "再按住"
+
+msgid "LEFT"
+msgstr "左"
+
+msgid "PLAYER 1"
+msgstr "玩家 1"
+
+msgid "PLAYER 1 KEYBOARD"
+msgstr "玩家 1 键盘"
+
+msgid "PLAYER 1 ONLY"
+msgstr "仅玩家 1"
+
+msgid "PLAYER 2"
+msgstr "玩家 2"
+
+msgid "PLAYER 2 KEYBOARD"
+msgstr "玩家 2 键盘"
+
+msgid "PRESS A KEY"
+msgstr "请按键"
+
+msgid ""
+"PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD "
+"FOR ONE SECOND TO SKIP THE ROW, PRESS B TO STOP."
+msgstr ""
+"在某一行按回车开始捕获，然后按下实际的按键。长按一秒跳过该行，按 B 键停止。"
+
+msgid "RESET"
+msgstr "Reset"
+
+msgid "RIGHT"
+msgstr "右"
+
+msgid "S TO SKIP"
+msgstr "秒跳过"
+
+msgid "SAVE AND WRITE TO THE EMULATORS"
+msgstr "保存并写入模拟器"
+
+msgid "SEE LOG"
+msgstr "见日志"
+
+msgid "SERVICE"
+msgstr "Service"
+
+msgid "SKIPPED"
+msgstr "已跳过"
+
+msgid ""
+"SOME ENTRIES ARE SKIPPED WHEN THE EMULATOR HAS NO MATCHING OPTION; DETAILS "
+"ARE IN THE LOG"
+msgstr "部分条目因该模拟器没有对应选项而跳过；详情见日志"
+
+msgid "TEST"
+msgstr "Test"
+
+msgid ""
+"THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS ON SAVE. THIS "
+"ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP "
+"THEIR OWN BINDINGS."
+msgstr ""
+"保存时这些按键会写入街机模拟器的配置。仅影响模拟器，不影响本前端。仅支持键"
+"盘，手柄保持各自的按键。"
+
+msgid "THROTTLE"
+msgstr "油门"
+
+msgid "UNCHANGED"
+msgstr "未变化"
+
+msgid "UP"
+msgstr "上"
+
+msgid "WRITTEN"
+msgstr "已写入"
