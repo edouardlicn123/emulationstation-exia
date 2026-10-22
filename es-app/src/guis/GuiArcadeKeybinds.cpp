@@ -1149,8 +1149,9 @@ EmuResult writeRetroArch(const ArcadeKeybindStore& store)
     // Only patch cores that were already used on this station (their option
     // directory exists); the directory name is the core library name.
     static const std::vector<const char*> cores {
-        "MAME", "FinalBurn Neo", "Flycast", "MAME 2003-Plus", "MAME 2010",
-        "FB Alpha 2012 CPS-3"};
+        "MAME", "HBMAME", "FinalBurn Neo", "MAME 2003-Plus", "MAME 2010",
+        "FB Alpha 2012", "FB Alpha 2012 CPS-1", "FB Alpha 2012 CPS-2",
+        "FB Alpha 2012 CPS-3", "FB Alpha 2012 Neo Geo", "Flycast"};
     int coreCount {0};
     for (const char* core : cores) {
         const std::string coreOptionDirectory {retroarchDir + "/config/" + core};
