@@ -207,10 +207,13 @@ const KeyEntry* findEntry(int scan)
 // Unified SDL key name -> SDL scancode, -1 when the name is unknown.
 int scancodeOf(const std::string& keyName)
 {
-    const SDL_Keycode keycode {SDL_GetKeyFromName(keyName.c_str())};
-    if (keycode == SDLK_UNKNOWN)
+    // Do not go through SDL_GetKeyFromName() + SDL_GetScancodeFromKey(): with
+    // sdl2-compat on X11 the latter returns SDL_SCANCODE_UNKNOWN for function keys
+    // (F1-F12), so the name lookup would silently skip every F-key binding.
+    const SDL_Scancode scan {SDL_GetScancodeFromName(keyName.c_str())};
+    if (scan == SDL_SCANCODE_UNKNOWN)
         return -1;
-    return static_cast<int>(SDL_GetScancodeFromKey(keycode));
+    return static_cast<int>(scan);
 }
 
 // RetroArch key names (input_config_key_map in input/input_keymaps.c). The SDL
