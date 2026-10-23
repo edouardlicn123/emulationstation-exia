@@ -360,6 +360,32 @@ std::string joinLines(const std::vector<std::string>& lines, const std::string& 
     return out;
 }
 
+// Replaces a top level "key = value" line. retroarch.cfg has no sections, so the
+// generic INI patcher cannot be used here. Returns true when the content changed.
+bool setTopLevelValue(std::string& content, const std::string& key, const std::string& value)
+{
+    std::string ending {"\n"};
+    determineLineEnding(content, ending);
+    const bool trailingEnding {content.size() >= ending.size() &&
+                               content.compare(content.size() - ending.size(), ending.size(),
+                                               ending) == 0};
+    const std::string prefix {key + " ="};
+    const std::string replacement {key + " = \"" + value + "\""};
+    std::vector<std::string> lines {splitLines(content)};
+    for (std::string& line : lines) {
+        if (line.compare(0, prefix.size(), prefix) != 0)
+            continue;
+        if (line == replacement)
+            return false;
+        line = replacement;
+        content = joinLines(lines, ending, trailingEnding);
+        return true;
+    }
+    lines.push_back(replacement);
+    content = joinLines(lines, ending, trailingEnding);
+    return true;
+}
+
 struct KeyPatch {
     std::string section; // Ini section name without brackets.
     std::string key;     // Field copies keep the value alive for any caller.
@@ -624,11 +650,14 @@ bool writeFlycastMapping(const std::string& path, const std::map<std::string, st
         out << "bind" << bindIndex++ << " = " << scan << ":" << option << "\n";
     }
     // The retained emulation hotkeys match the built-in keyboard defaults (Space =
-    // fast forward, Tab = menu) so a fresh mapping file does not lose them.
+    // fast forward, Tab = menu, F12 = screenshot) so a fresh mapping file does not
+    // lose them. A loaded mapping replaces the defaults entirely.
     if (binds.find("btn_fforward") == binds.end())
         out << "bind" << bindIndex++ << " = 44:btn_fforward\n";
     if (binds.find("btn_menu") == binds.end())
         out << "bind" << bindIndex++ << " = 43:btn_menu\n";
+    if (binds.find("btn_screenshot") == binds.end())
+        out << "bind" << bindIndex++ << " = 69:btn_screenshot\n";
 
     std::string content;
     if (readFileBytes(path, content)) {
@@ -1100,6 +1129,16 @@ EmuResult writeRetroArch(const ArcadeKeybindStore& store)
         remapDirectory = retroarchDir + "/config/remaps";
     else if (remapDirectory.front() != '/')
         remapDirectory = retroarchDir + "/" + remapDirectory;
+
+    // With remap_save_on_exit enabled RetroArch rewrites a loaded .rmp file when the
+    // core shuts down and that rewrite only keeps the remap structure, dropping every
+    // input_player*_* key binding. The frontend owns these files, so disable it.
+    if (setTopLevelValue(config, "remap_save_on_exit", "false")) {
+        if (backupAndWrite(configPath, config))
+            result.touched = true;
+        else
+            LOG(LogError) << "GuiArcadeKeybinds: cannot update " << configPath;
+    }
 
     const auto keyFor {[&store](const std::string& prefix, const char* unifiedKey) {
         const std::string value {store.get(prefix + unifiedKey)};
