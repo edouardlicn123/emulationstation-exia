@@ -10,6 +10,7 @@
 
 #include "FileData.h"
 
+#include "ApplicationVersion.h"
 #include "AudioManager.h"
 #include "CollectionSystemsManager.h"
 #include "FileFilterIndex.h"
@@ -35,6 +36,14 @@
 #include <assert.h>
 #include <regex>
 
+#include <SDL2/SDL.h>
+
+#include <algorithm>
+#include <cctype>
+#include <ctime>
+#include <iomanip>
+#include <vector>
+
 namespace {
 // Exia: media types stored next to the ROM files in the Batocera/Skraper layout
 // (<romdir>/images/<stem>-image.png etc.). Returns the filename suffixes to try for
@@ -59,6 +68,134 @@ std::vector<std::string> getRomMediaSuffixes(const std::string& subdirectory)
         return {"-media", "#media"};
 
     return {};
+}
+
+// Exia (devdoc/45): one log per emulator launch. The files live below the ES-DE
+// application data directory so --home keeps them together with the other logs.
+std::string emulatorLogTimestamp()
+{
+    const std::time_t now {std::time(nullptr)};
+    const std::tm* local {std::localtime(&now)};
+    std::stringstream stamp;
+    stamp << std::put_time(local, "%Y%m%d-%H%M%S");
+    return stamp.str();
+}
+
+std::string safeLogToken(const std::string& text, size_t maximum)
+{
+    std::string result;
+    for (unsigned char character : text) {
+        if (std::isalnum(character) || character == '-' || character == '_' || character == '.')
+            result.push_back(static_cast<char>(character));
+        else
+            result.push_back('_');
+    }
+    if (result.size() > maximum)
+        result.resize(maximum);
+    if (result.empty())
+        result = "unknown";
+    return result;
+}
+
+void pruneEmulatorLogs(const std::string& directory)
+{
+    constexpr size_t kMaximumLogs {30};
+    constexpr long kMaximumBytes {100L * 1024L * 1024L};
+
+    std::vector<std::string> logs;
+    for (const std::string& path : Utils::FileSystem::getDirContent(directory)) {
+        if (Utils::FileSystem::getExtension(path) == ".log")
+            logs.push_back(path);
+    }
+    std::sort(logs.begin(), logs.end());
+
+    long totalBytes {0};
+    for (const std::string& path : logs)
+        totalBytes += std::max(0L, Utils::FileSystem::getFileSize(path));
+
+    while (logs.size() >= kMaximumLogs || (totalBytes > kMaximumBytes && !logs.empty())) {
+        const std::string& oldest {logs.front()};
+        totalBytes -= std::max(0L, Utils::FileSystem::getFileSize(oldest));
+        Utils::FileSystem::removeFile(oldest);
+        logs.erase(logs.begin());
+    }
+}
+
+std::string createEmulatorLogPath(const std::string& systemName, const std::string& gameName)
+{
+#if defined(_WIN64) || defined(__ANDROID__)
+    return "";
+#else
+    const std::string directory {
+        Utils::FileSystem::getAppDataDirectory() + "/logs/emulators"};
+    if (!Utils::FileSystem::exists(directory) &&
+        !Utils::FileSystem::createDirectory(directory)) {
+        LOG(LogWarning) << "FileData: cannot create emulator log directory " << directory;
+        return "";
+    }
+    pruneEmulatorLogs(directory);
+
+    const std::string base {directory + "/" + emulatorLogTimestamp() + "-" +
+                            safeLogToken(systemName, 32) + "-" +
+                            safeLogToken(gameName, 64)};
+    std::string path {base + ".log"};
+    int suffix {1};
+    while (Utils::FileSystem::exists(path))
+        path = base + "-" + std::to_string(suffix++) + ".log";
+    return path;
+#endif
+}
+
+std::string environmentValue(const char* name)
+{
+    const char* value {std::getenv(name)};
+    return value != nullptr ? std::string(value) : std::string();
+}
+
+void writeEmulatorLogHeader(const std::string& path,
+                            const std::string& systemName,
+                            const std::string& systemFullName,
+                            const std::string& gameName,
+                            const std::string& gameTitle,
+                            const std::string& romPath,
+                            const std::string& emulatorLabel,
+                            const std::string& emulatorPath,
+                            const std::string& coreName,
+                            const std::string& startDirectory,
+                            const std::string& command,
+                            bool runInBackground)
+{
+    std::ofstream file(path, std::ios::binary | std::ios::trunc);
+    if (!file.is_open()) {
+        LOG(LogWarning) << "FileData: cannot write emulator log header " << path;
+        return;
+    }
+
+    const char* videoDriver {SDL_GetCurrentVideoDriver()};
+    file << "ES-DE emulator launch log\n";
+    file << "time: " << emulatorLogTimestamp() << "\n";
+    file << "es-de: " << PROGRAM_VERSION_STRING << " (release " << PROGRAM_RELEASE_NUMBER
+         << "), " << EXIA_VERSION_STRING << "\n";
+    file << "system: " << systemName << " (" << systemFullName << ")\n";
+    file << "game: " << gameName << " (" << gameTitle << ")\n";
+    file << "rom: " << romPath << "\n";
+    file << "emulator: " << emulatorLabel << " [" << emulatorPath << "]\n";
+    file << "core: " << (coreName.empty() ? "(none)" : coreName) << "\n";
+    file << "run_in_background: " << (runInBackground ? "true" : "false") << "\n";
+    file << "start_directory: "
+         << (startDirectory.empty() ? Utils::FileSystem::getCWDPath() : startDirectory) << "\n";
+    file << "process_cwd: " << Utils::FileSystem::getCWDPath() << "\n";
+    file << "video_driver: " << (videoDriver != nullptr ? videoDriver : "unknown") << "\n";
+    file << "session: XDG_SESSION_TYPE=" << environmentValue("XDG_SESSION_TYPE")
+         << " DISPLAY=" << environmentValue("DISPLAY")
+         << " WAYLAND_DISPLAY=" << environmentValue("WAYLAND_DISPLAY") << "\n";
+    file << "home: " << environmentValue("HOME")
+         << " appdata: " << Utils::FileSystem::getAppDataDirectory() << "\n";
+    file << "command: " << command << "\n";
+    file << "\n=== output ===\n";
+    file.flush();
+    file.close();
+    LOG(LogInfo) << "FileData: emulator launch log: " << path;
 }
 } // namespace
 
@@ -2430,6 +2567,20 @@ void FileData::launchGame()
     command = "flatpak-spawn --host " + command;
 #endif
 
+    // Exia (devdoc/45): keep the full stdout/stderr of this launch in a separate file.
+    // The main es_log.txt only receives the path, the exit code and a short error tail.
+    std::string emulatorLogPath;
+#if !defined(_WIN64) && !defined(__ANDROID__)
+    emulatorLogPath = createEmulatorLogPath(gameSystem->getName(), baseName);
+    if (!emulatorLogPath.empty()) {
+        writeEmulatorLogHeader(
+            emulatorLogPath, gameSystem->getName(), gameSystem->getFullName(), baseName,
+            metadata.get("name"), mPath,
+            alternativeEmulator.empty() ? "default" : alternativeEmulator, emulator.first,
+            coreEntry, startDirectory, command, runInBackground);
+    }
+#endif
+
     // Flush the log buffer to es_log.txt, otherwise game launch logging will only be written
     // once we have returned from the game.
     if (!runInBackground) {
@@ -2456,11 +2607,13 @@ void FileData::launchGame()
 // Deinit both the AudioManager and the window which allows emulators to launch in KMS mode.
 AudioManager::getInstance().deinit();
 window->deinit();
-returnValue = Utils::Platform::launchGameUnix(command, startDirectory, false);
+returnValue =
+    Utils::Platform::launchGameUnix(command, startDirectory, false, emulatorLogPath);
 AudioManager::getInstance().init();
 window->init();
 #else
-returnValue = Utils::Platform::launchGameUnix(command, startDirectory, runInBackground);
+returnValue = Utils::Platform::launchGameUnix(command, startDirectory, runInBackground,
+                                              emulatorLogPath);
 #endif
 
 #endif

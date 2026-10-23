@@ -1107,6 +1107,25 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+#if !defined(__ANDROID__) && !defined(__IOS__)
+    // Runtime header for support and emulator-log correlation. SDL only reports the
+    // driver after the window exists, hence this placement.
+    const auto envOr {[](const char* name) {
+        const char* value {std::getenv(name)};
+        return value != nullptr ? std::string(value) : std::string();
+    }};
+    const char* videoDriver {SDL_GetCurrentVideoDriver()};
+    LOG(LogInfo) << "Video driver: " << (videoDriver != nullptr ? videoDriver : "unknown");
+    LOG(LogInfo) << "Session: XDG_SESSION_TYPE=" << envOr("XDG_SESSION_TYPE")
+                 << " DISPLAY=" << envOr("DISPLAY")
+                 << " WAYLAND_DISPLAY=" << envOr("WAYLAND_DISPLAY");
+    LOG(LogInfo) << "Environment: HOME=" << envOr("HOME")
+                 << " ESDE_APPDATA_DIR=" << envOr("ESDE_APPDATA_DIR");
+    LOG(LogInfo) << "RunInBackground: "
+                 << (Settings::getInstance()->getBool("RunInBackground") ? "enabled" :
+                                                                            "disabled");
+#endif
+
 #if defined(__ANDROID__) || defined(__IOS__)
     InputOverlay::getInstance().init();
 #endif

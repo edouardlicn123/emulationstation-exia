@@ -575,6 +575,9 @@ msgstr "Git 代理"
 msgid "LIGHTDM COUNTDOWN"
 msgstr "LightDM 倒计时"
 
+msgid "FAILED"
+msgstr "失败"
+
 msgid "FAILED TO UPDATE LIGHTDM.CONF, WRONG SUDO PASSWORD?"
 msgstr "更新 lightdm.conf 失败,sudo 密码是否错误?"
 

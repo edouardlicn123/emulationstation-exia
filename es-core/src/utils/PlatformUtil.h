@@ -41,7 +41,8 @@ namespace Utils
 
         int launchGameUnix(const std::string& cmdUtf8,
                            const std::string& startDirectory,
-                           bool runInBackground);
+                           bool runInBackground,
+                           const std::string& logPath = "");
         int launchGameWindows(const std::wstring& cmdUtf16,
                               const std::wstring& startDirectory,
                               bool runInBackground,

@@ -11,6 +11,37 @@
 #include "Settings.h"
 #include "utils/StringUtil.h"
 
+#include <ctime>
+#include <fstream>
+#include <sstream>
+
+namespace {
+std::string logTimestamp()
+{
+    const std::time_t now {std::time(nullptr)};
+    const std::tm* local {std::localtime(&now)};
+    std::stringstream stamp;
+    stamp << std::put_time(local, "%Y%m%d-%H%M%S");
+    return stamp.str();
+}
+
+// A log without the normal shutdown line belongs to a crash, a SIGKILL or a failed
+// restart. Preserve it before the normal .bak rotation overwrites it.
+bool previousRunEndedCleanly(const std::string& path)
+{
+    std::ifstream file(path, std::ios::binary);
+    if (!file.is_open())
+        return true;
+    std::stringstream content;
+    content << file.rdbuf();
+    const std::string text {content.str()};
+    if (text.empty())
+        return true;
+    return text.find("ES-DE cleanly shutting down") != std::string::npos ||
+           text.find("Restarting the application") != std::string::npos;
+}
+} // namespace
+
 LogLevel Log::getReportingLevel()
 {
     std::unique_lock<std::mutex> lock {sLogMutex};
@@ -26,6 +57,22 @@ void Log::setReportingLevel(LogLevel level)
 void Log::init()
 {
     sLogPath = Utils::FileSystem::getAppDataDirectory() + "/logs/es_log.txt";
+
+    if (Utils::FileSystem::exists(sLogPath) && !previousRunEndedCleanly(sLogPath)) {
+        const std::string base {Utils::FileSystem::getAppDataDirectory() +
+                                "/logs/es_log-crash-" + logTimestamp()};
+        std::string crashPath {base + ".txt"};
+        int suffix {1};
+        while (Utils::FileSystem::exists(crashPath))
+            crashPath = base + "-" + std::to_string(suffix++) + ".txt";
+        if (Utils::FileSystem::renameFile(sLogPath, crashPath, false))
+            std::cerr << "Previous ES-DE run did not shut down cleanly, log preserved at "
+                      << crashPath << std::endl;
+        else
+            std::cerr << "Previous ES-DE run did not shut down cleanly, but its log could "
+                         "not be preserved"
+                      << std::endl;
+    }
 
     Utils::FileSystem::removeFile(sLogPath + ".bak");
     // Rename the previous log file.

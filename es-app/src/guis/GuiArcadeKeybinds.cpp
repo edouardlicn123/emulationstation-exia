@@ -33,6 +33,7 @@
 #include <cctype>
 #include <ctime>
 #include <fstream>
+#include <iomanip>
 #include <set>
 #include <sstream>
 
@@ -274,6 +275,8 @@ struct EmuResult {
     bool touched {false}; // File written (content changed).
     bool missing {false}; // Configuration file not found.
     int skippedCount {0}; // Entries skipped because the emulator has no bucket.
+    int verifiedCount {0}; // Entries read back from the written file and matched.
+    int failedCount {0}; // Entries that could not be written or did not match.
 };
 
 std::string backupSuffix()
@@ -283,6 +286,112 @@ std::string backupSuffix()
     std::stringstream out;
     out << std::put_time(local, "%Y%m%d-%H%M%S");
     return out.str();
+}
+
+// The SAVE audit is written directly to disk instead of being collected in memory, so
+// a crash halfway through still leaves the entries handled up to that point on disk.
+std::ofstream sReportFile;
+std::string sReportPath;
+
+std::string reportField(const std::string& value)
+{
+    std::string result {value};
+    for (char& character : result) {
+        if (character == '\t' || character == '\n' || character == '\r')
+            character = ' ';
+    }
+    return result;
+}
+
+void reportRow(const std::string& emulator,
+               const std::string& action,
+               const std::string& keyName,
+               int scan,
+               const std::string& target,
+               const std::string& value,
+               const std::string& status,
+               const std::string& detail = "")
+{
+    if (!sReportFile.is_open())
+        return;
+    sReportFile << reportField(emulator) << '\t' << reportField(action) << '\t'
+                << reportField(keyName) << '\t' << (scan >= 0 ? std::to_string(scan) : "-")
+                << '\t' << reportField(target) << '\t' << reportField(value) << '\t'
+                << reportField(status) << '\t' << reportField(detail) << '\n';
+    sReportFile.flush();
+}
+
+void pruneReports(const std::string& directory, size_t keep)
+{
+    std::vector<std::string> reports;
+    for (const std::string& path : Utils::FileSystem::getDirContent(directory)) {
+        if (Utils::FileSystem::getExtension(path) == ".tsv")
+            reports.push_back(path);
+    }
+    std::sort(reports.begin(), reports.end());
+    while (reports.size() >= keep) {
+        Utils::FileSystem::removeFile(reports.front());
+        reports.erase(reports.begin());
+    }
+}
+
+bool beginReport(const std::string& storePath)
+{
+    const std::string directory {
+        Utils::FileSystem::getAppDataDirectory() + "/logs/arcade-keybinds"};
+    if (!Utils::FileSystem::exists(directory) &&
+        !Utils::FileSystem::createDirectory(directory)) {
+        LOG(LogError) << "GuiArcadeKeybinds: cannot create " << directory;
+        return false;
+    }
+    pruneReports(directory, 20);
+
+    const std::string base {directory + "/" + backupSuffix()};
+    std::string path {base + ".tsv"};
+    int suffix {1};
+    while (Utils::FileSystem::exists(path))
+        path = base + "-" + std::to_string(suffix++) + ".tsv";
+
+    sReportFile.open(path, std::ios::binary | std::ios::trunc);
+    if (!sReportFile.is_open()) {
+        LOG(LogError) << "GuiArcadeKeybinds: cannot write audit report " << path;
+        return false;
+    }
+    sReportPath = path;
+    sReportFile << "# ES-DE arcade keybind audit\n";
+    sReportFile << "# time\t" << backupSuffix() << "\n";
+    sReportFile << "# store\t" << reportField(storePath) << "\n";
+    sReportFile << "emulator\taction\tkey\tscancode\ttarget\tvalue\tstatus\tdetail\n";
+    return true;
+}
+
+void endReport(const EmuResult& demul,
+               const EmuResult& dolphin,
+               const EmuResult& flycast,
+               const EmuResult& play,
+               const EmuResult& lindbergh,
+               const EmuResult& retroarch)
+{
+    if (!sReportFile.is_open())
+        return;
+
+    const auto summary {[](const char* name, const EmuResult& result) {
+        std::stringstream row;
+        row << name << ": verified=" << result.verifiedCount << " skipped=" << result.skippedCount
+            << " failed=" << result.failedCount << " written=" << (result.touched ? 1 : 0)
+            << " missing=" << (result.missing ? 1 : 0);
+        return row.str();
+    }};
+
+    sReportFile << "\n# summary\n";
+    sReportFile << "# " << summary("Demul", demul) << "\n";
+    sReportFile << "# " << summary("Dolphin", dolphin) << "\n";
+    sReportFile << "# " << summary("Flycast", flycast) << "\n";
+    sReportFile << "# " << summary("Play!", play) << "\n";
+    sReportFile << "# " << summary("Lindbergh", lindbergh) << "\n";
+    sReportFile << "# " << summary("RetroArch", retroarch) << "\n";
+    sReportFile.close();
+    LOG(LogInfo) << "GuiArcadeKeybinds: audit report written to " << sReportPath;
 }
 
 bool readFileBytes(const std::string& path, std::string& content)
@@ -552,8 +661,114 @@ bool patchIniFile(const std::string& path, const std::vector<KeyPatch>& patches,
     return true;
 }
 
-// Play! profile patcher: replaces the values of the integer preferences of an action
-// block like input.pad1.cross.bindingtarget1.keyId. Missing lines count as skipped.
+// Reads the file back and checks every patched value. This catches writers that
+// silently skipped a row or files that were changed again between write and read.
+void verifyIniPatches(const std::string& emulator,
+                      const std::string& path,
+                      const std::vector<KeyPatch>& patches,
+                      EmuResult& result)
+{
+    std::string content;
+    if (!readFileBytes(path, content)) {
+        ++result.failedCount;
+        reportRow(emulator, "verify", "", -1, path, "", "ERROR", "cannot read back");
+        LOG(LogError) << "GuiArcadeKeybinds: cannot read back " << path;
+        return;
+    }
+
+    const auto trim {[](std::string text) {
+        while (!text.empty() && (text.front() == ' ' || text.front() == '\t'))
+            text.erase(text.begin());
+        while (!text.empty() && (text.back() == ' ' || text.back() == '\t' ||
+                                 text.back() == '\r'))
+            text.pop_back();
+        return text;
+    }};
+    const std::vector<std::string> lines {splitLines(content)};
+
+    for (const KeyPatch& patch : patches) {
+        bool found {false};
+        std::string actual;
+        std::string currentSection;
+        for (const std::string& line : lines) {
+            std::string trimmed {trim(line)};
+            if (trimmed.size() > 1 && trimmed.front() == '[' && trimmed.back() == ']') {
+                currentSection = trimmed.substr(1, trimmed.size() - 2);
+                continue;
+            }
+            if (currentSection != patch.section)
+                continue;
+            const size_t equals {trimmed.find('=')};
+            if (equals == std::string::npos)
+                continue;
+            if (trim(trimmed.substr(0, equals)) != patch.key)
+                continue;
+            actual = trim(trimmed.substr(equals + 1));
+            found = true;
+            break;
+        }
+
+        const std::string target {"[" + patch.section + "] " + patch.key};
+        if (!found) {
+            if (!patch.optional) {
+                ++result.failedCount;
+                reportRow(emulator, "verify", patch.key, -1, target, "",
+                          "MISSING", "expected=" + patch.value);
+                LOG(LogError) << "GuiArcadeKeybinds: " << emulator << " " << target
+                              << " missing after write";
+            }
+            continue;
+        }
+
+        if (patch.replaceFirstKeyToken) {
+            bool keyTokenFound {false};
+            std::string firstToken;
+            std::stringstream stream {actual};
+            std::string token;
+            while (std::getline(stream, token, ',')) {
+                token = trim(token);
+                if (token.rfind("KEY_", 0) == 0) {
+                    firstToken = token;
+                    keyTokenFound = true;
+                    break;
+                }
+            }
+            if (!keyTokenFound) {
+                reportRow(emulator, "verify", patch.key, -1, target, actual,
+                          "SKIP", "no KEY_ token in row");
+                continue;
+            }
+            const std::string expected {"KEY_" + patch.value};
+            if (firstToken == expected) {
+                ++result.verifiedCount;
+                reportRow(emulator, "verify", patch.key, -1, target, firstToken,
+                          "OK", "expected=" + expected);
+            }
+            else {
+                ++result.failedCount;
+                reportRow(emulator, "verify", patch.key, -1, target, firstToken,
+                          "MISMATCH", "expected=" + expected);
+                LOG(LogError) << "GuiArcadeKeybinds: " << emulator << " " << target
+                              << " is " << firstToken << ", expected " << expected;
+            }
+            continue;
+        }
+
+        if (actual == patch.value) {
+            ++result.verifiedCount;
+            reportRow(emulator, "verify", patch.key, -1, target, actual, "OK",
+                      "expected=" + patch.value);
+        }
+        else {
+            ++result.failedCount;
+            reportRow(emulator, "verify", patch.key, -1, target, actual,
+                      "MISMATCH", "expected=" + patch.value);
+            LOG(LogError) << "GuiArcadeKeybinds: " << emulator << " " << target << " is "
+                          << actual << ", expected " << patch.value;
+        }
+    }
+}
+
 bool patchPlayProfile(const std::string& path, const std::string& pad,
                       const std::map<std::string, std::string>& actions, EmuResult& result)
 {
@@ -618,6 +833,76 @@ bool patchPlayProfile(const std::string& path, const std::string& pad,
     return true;
 }
 
+// Play! has no section/INI syntax, so its verification is a separate scan of the
+// Name="..." / Value="..." rows that patchPlayProfile() just edited.
+void verifyPlayProfile(const std::string& path,
+                       const std::string& pad,
+                       const std::map<std::string, std::string>& actions,
+                       EmuResult& result)
+{
+    std::string content;
+    if (!readFileBytes(path, content)) {
+        ++result.failedCount;
+        reportRow("Play!", "verify", pad, -1, path, "", "ERROR", "cannot read back");
+        LOG(LogError) << "GuiArcadeKeybinds: cannot read back " << path;
+        return;
+    }
+    const std::vector<std::string> lines {splitLines(content)};
+
+    for (const auto& [action, prefValues] : actions) {
+        const size_t c1 {prefValues.find(':')};
+        const size_t c2 {prefValues.find(':', c1 + 1)};
+        const size_t c3 {prefValues.find(':', c2 + 1)};
+        if (c1 == std::string::npos || c2 == std::string::npos || c3 == std::string::npos)
+            continue;
+        const std::string keyId {prefValues.substr(0, c1)};
+        const std::string providerId {prefValues.substr(c1 + 1, c2 - c1 - 1)};
+        const std::string keyType {prefValues.substr(c2 + 1, c3 - c2 - 1)};
+        const std::string bindingType {prefValues.substr(c3 + 1)};
+        const std::vector<std::pair<const char*, std::string>> prefs {
+            {"bindingtarget1.keyId", keyId},
+            {"bindingtarget1.keyType", keyType},
+            {"bindingtarget1.providerId", providerId},
+            {"bindingtype", bindingType}};
+        for (const auto& [pref, expected] : prefs) {
+            const std::string needle {"Name=\"input." + pad + "." + action + "." + pref + "\""};
+            const std::string target {pad + "." + action + "." + pref};
+            bool found {false};
+            std::string actual;
+            for (const std::string& line : lines) {
+                if (line.find(needle) == std::string::npos)
+                    continue;
+                const size_t valueAt {line.find("Value=\"")};
+                if (valueAt == std::string::npos)
+                    continue;
+                const size_t valueEnd {line.find('"', valueAt + 7)};
+                if (valueEnd == std::string::npos)
+                    continue;
+                actual = line.substr(valueAt + 7, valueEnd - valueAt - 7);
+                found = true;
+                break;
+            }
+            if (!found) {
+                reportRow("Play!", "verify", action, -1, target, "", "SKIP",
+                          "row not in profile");
+                continue;
+            }
+            if (actual == expected) {
+                ++result.verifiedCount;
+                reportRow("Play!", "verify", action, -1, target, actual, "OK",
+                          "expected=" + expected);
+            }
+            else {
+                ++result.failedCount;
+                reportRow("Play!", "verify", action, -1, target, actual, "MISMATCH",
+                          "expected=" + expected);
+                LOG(LogError) << "GuiArcadeKeybinds: Play! " << target << " is " << actual
+                              << ", expected " << expected;
+            }
+        }
+    }
+}
+
 // Flycast keyboard mapping: full rewrite because a user mapping file completely
 // replaces the built-in default, so the emulation hotkeys are always written together
 // with the game keys.
@@ -627,6 +912,8 @@ bool writeFlycastMapping(const std::string& path, const std::map<std::string, st
     const std::string dir {path.substr(0, path.rfind('/'))};
     if (!Utils::FileSystem::exists(dir) && !Utils::FileSystem::createDirectory(dir)) {
         LOG(LogError) << "GuiArcadeKeybinds: cannot create " << dir;
+        ++result.failedCount;
+        reportRow("Flycast", "file", "", -1, path, "", "ERROR", "cannot create directory");
         return false;
     }
 
@@ -640,40 +927,79 @@ bool writeFlycastMapping(const std::string& path, const std::map<std::string, st
     out << "\n";
     out << "[digital]\n";
     int bindIndex {0};
+    std::vector<std::string> expectedLines;
     // The game keys from the unified bindings. Keys that cannot be resolved land in
     // the skipped count and keep their default behaviour in Flycast.
     for (const auto& [option, keyName] : binds) {
         const int scan {scancodeOf(keyName)};
         if (scan < 0) {
             result.skippedCount++;
+            reportRow("Flycast", option, keyName, -1, "SDL scancode", "", "SKIP",
+                      "unknown key");
             LOG(LogInfo) << "GuiArcadeKeybinds: Flycast " << option << ": unknown key " << keyName
                          << ", skipped";
             continue;
         }
-        out << "bind" << bindIndex++ << " = " << scan << ":" << option << "\n";
+        const std::string line {"bind" + std::to_string(bindIndex++) + " = " +
+                                std::to_string(scan) + ":" + option};
+        out << line << "\n";
+        expectedLines.push_back(line);
+        reportRow("Flycast", option, keyName, scan, "SDL scancode", std::to_string(scan),
+                  "MAPPED");
     }
     // The retained emulation hotkeys match the built-in keyboard defaults (Space =
     // fast forward, Tab = menu, F12 = screenshot) so a fresh mapping file does not
     // lose them. A loaded mapping replaces the defaults entirely.
+    const auto addDefault {[&](const char* option, int scan) {
+        const std::string line {"bind" + std::to_string(bindIndex++) + " = " +
+                                std::to_string(scan) + ":" + option};
+        out << line << "\n";
+        expectedLines.push_back(line);
+        reportRow("Flycast", option, "default", scan, "SDL scancode", std::to_string(scan),
+                  "MAPPED", "retained default hotkey");
+    }};
     if (binds.find("btn_fforward") == binds.end())
-        out << "bind" << bindIndex++ << " = 44:btn_fforward\n";
+        addDefault("btn_fforward", 44);
     if (binds.find("btn_menu") == binds.end())
-        out << "bind" << bindIndex++ << " = 43:btn_menu\n";
+        addDefault("btn_menu", 43);
     if (binds.find("btn_screenshot") == binds.end())
-        out << "bind" << bindIndex++ << " = 69:btn_screenshot\n";
+        addDefault("btn_screenshot", 69);
 
     std::string content;
-    if (readFileBytes(path, content)) {
-        const std::string newContent {out.str()};
-        if (newContent == content) {
-            LOG(LogInfo) << "GuiArcadeKeybinds: " << path << " unchanged";
-            return true;
+    const bool existed {readFileBytes(path, content)};
+    if (existed && content == out.str()) {
+        LOG(LogInfo) << "GuiArcadeKeybinds: " << path << " unchanged";
+    }
+    else if (!backupAndWrite(path, out.str())) {
+        ++result.failedCount;
+        reportRow("Flycast", "file", "", -1, path, "", "ERROR", "write failed");
+        return false;
+    }
+    else {
+        result.touched = true;
+    }
+
+    std::string written;
+    if (!readFileBytes(path, written)) {
+        ++result.failedCount;
+        reportRow("Flycast", "file", "", -1, path, "", "ERROR", "cannot read back");
+        return false;
+    }
+    for (const std::string& expected : expectedLines) {
+        if (written.find(expected) != std::string::npos) {
+            ++result.verifiedCount;
+            reportRow("Flycast", "verify", "", -1, path, expected, "OK",
+                      "expected=" + expected);
+        }
+        else {
+            ++result.failedCount;
+            reportRow("Flycast", "verify", "", -1, path, "", "MISSING",
+                      "expected=" + expected);
+            LOG(LogError) << "GuiArcadeKeybinds: Flycast " << path
+                          << " is missing after write: " << expected;
         }
     }
-    const bool written {backupAndWrite(path, out.str())};
-    if (written)
-        result.touched = true;
-    return written;
+    return result.failedCount == 0;
 }
 } // namespace
 
@@ -703,11 +1029,15 @@ EmuResult writeDemul(const ArcadeKeybindStore& store)
         const KeyEntry* entry {(scan >= 0) ? findEntry(scan) : nullptr};
         if (entry == nullptr) {
             result.skippedCount++;
+            reportRow("Demul", prefix + unifiedKey, value, scan, "evdev", "", "SKIP",
+                      "unsupported key (no Demul evdev mapping)");
             LOG(LogInfo) << "GuiArcadeKeybinds: Demul " << prefix << unifiedKey
                          << ": unsupported key " << value;
             return std::string("");
         }
-        return std::to_string(entry->evdev_);
+        const std::string evdev {std::to_string(entry->evdev_)};
+        reportRow("Demul", prefix + unifiedKey, value, scan, "evdev", evdev, "MAPPED");
+        return evdev;
     }};
 
     const std::vector<std::pair<const char*, const char*>> jamm {
@@ -746,7 +1076,18 @@ EmuResult writeDemul(const ArcadeKeybindStore& store)
             patches.push_back({section, "ANALOGUP", throttle});
         if (!brake.empty())
             patches.push_back({section, "ANALOGDOWN", brake});
-        // Boost and reset have no Demul bucket, they are skipped on purpose.
+    }
+
+    // Boost and reset have no Demul bucket, they are skipped on purpose.
+    for (const auto& [prefix, key] :
+         std::initializer_list<std::pair<const char*, const char*>> {
+             {"p1.", "boost"}, {"p2.", "boost"}, {"global.", "reset"}}) {
+        const std::string value {store.get(std::string(prefix) + key)};
+        if (!value.empty()) {
+            ++result.skippedCount;
+            reportRow("Demul", std::string(prefix) + key, value, scancodeOf(value),
+                      "no Demul slot", "", "SKIP", "no matching Demul option");
+        }
     }
 
     // Global machine keys live in [GLOBAL0]; per player service keys are kept aligned.
@@ -764,7 +1105,14 @@ EmuResult writeDemul(const ArcadeKeybindStore& store)
 
     if (patches.empty())
         return result;
-    patchIniFile(path, patches, false, result);
+    if (!patchIniFile(path, patches, false, result)) {
+        if (!result.missing) {
+            ++result.failedCount;
+            reportRow("Demul", "file", "", -1, path, "", "ERROR", "write failed");
+        }
+        return result;
+    }
+    verifyIniPatches("Demul", path, patches, result);
     return result;
 }
 
@@ -776,17 +1124,24 @@ EmuResult writeDolphin(const ArcadeKeybindStore& store)
         "/.var/app/org.DolphinEmu.dolphin-emu/config/dolphin-emu/GCPadNew.ini"};
     EmuResult result;
 
-    auto dolphinOf {[&store](const std::string& prefix, const char* unifiedKey) {
+    auto dolphinOf {[&store, &result](const std::string& prefix, const char* unifiedKey) {
         const std::string value {store.get(prefix + unifiedKey)};
         if (value.empty())
             return std::string("");
         const int scan {scancodeOf(value)};
         const KeyEntry* entry {(scan >= 0) ? findEntry(scan) : nullptr};
-        if (entry == nullptr)
+        if (entry == nullptr) {
+            ++result.skippedCount;
+            reportRow("Dolphin", prefix + unifiedKey, value, scan, "X11 keysym", "",
+                      "SKIP", "unsupported key (no Dolphin keysym)");
             return std::string("");
+        }
         // Dolphin stores keyboard bindings as backtick quoted keysyms; a bare name
         // would be parsed as a button of the currently selected input device.
-        return "`" + std::string(entry->dolphin_) + "`";
+        const std::string keysym {"`" + std::string(entry->dolphin_) + "`"};
+        reportRow("Dolphin", prefix + unifiedKey, value, scan, "X11 keysym", keysym,
+                  "MAPPED");
+        return keysym;
     }};
 
     std::vector<KeyPatch> patches;
@@ -833,9 +1188,30 @@ EmuResult writeDolphin(const ArcadeKeybindStore& store)
         }
         // Throttle, brake, boost and reset have no Dolphin pad bucket.
     }
+
+    for (const auto& [prefix, key] :
+         std::initializer_list<std::pair<const char*, const char*>> {
+             {"p1.", "throttle"}, {"p1.", "brake"}, {"p1.", "boost"},
+             {"p1.", "btn6"}, {"p2.", "throttle"}, {"p2.", "brake"},
+             {"p2.", "boost"}, {"p2.", "btn6"}, {"global.", "reset"}}) {
+        const std::string value {store.get(std::string(prefix) + key)};
+        if (!value.empty()) {
+            ++result.skippedCount;
+            reportRow("Dolphin", std::string(prefix) + key, value, scancodeOf(value),
+                      "no Dolphin slot", "", "SKIP", "no matching Dolphin option");
+        }
+    }
+
     if (applied == 0)
         return result;
-    patchIniFile(path, patches, true, result);
+    if (!patchIniFile(path, patches, true, result)) {
+        if (!result.missing) {
+            ++result.failedCount;
+            reportRow("Dolphin", "file", "", -1, path, "", "ERROR", "write failed");
+        }
+        return result;
+    }
+    verifyIniPatches("Dolphin", path, patches, result);
     return result;
 }
 
@@ -849,14 +1225,20 @@ EmuResult writePlay(const ArcadeKeybindStore& store)
     EmuResult result;
     constexpr int kQtKyProvider {1367943289}; // 'QtKy' packed as uint32.
 
-    auto qtOf {[&store](const std::string& prefix, const char* unifiedKey) {
+    auto qtOf {[&store, &result](const std::string& prefix, const char* unifiedKey) {
         const std::string value {store.get(prefix + unifiedKey)};
         if (value.empty())
             return -1;
         const int scan {scancodeOf(value)};
         const KeyEntry* entry {(scan >= 0) ? findEntry(scan) : nullptr};
-        if (entry == nullptr)
+        if (entry == nullptr) {
+            ++result.skippedCount;
+            reportRow("Play!", prefix + unifiedKey, value, scan, "Qt key", "", "SKIP",
+                      "unsupported key (no Qt keysym)");
             return -1;
+        }
+        reportRow("Play!", prefix + unifiedKey, value, scan, "Qt key",
+                  std::to_string(entry->qtKey_), "MAPPED");
         return entry->qtKey_;
     }};
 
@@ -898,7 +1280,29 @@ EmuResult writePlay(const ArcadeKeybindStore& store)
         // bucket and stay with whatever the Play! defaults provide.
         if (actions.empty())
             continue;
-        patchPlayProfile(path, pad, actions, result);
+        if (!patchPlayProfile(path, pad, actions, result)) {
+            if (!result.missing) {
+                ++result.failedCount;
+                reportRow("Play!", "file", "", -1, path, "", "ERROR", "write failed");
+            }
+            continue;
+        }
+        verifyPlayProfile(path, pad, actions, result);
+    }
+
+    for (const auto& [prefix, key] :
+         std::initializer_list<std::pair<const char*, const char*>> {
+             {"p1.", "coin"}, {"p1.", "throttle"}, {"p1.", "brake"}, {"p1.", "boost"},
+             {"p1.", "service"}, {"p1.", "test"}, {"p1.", "reset"}, {"p2.", "coin"},
+             {"p2.", "throttle"}, {"p2.", "brake"}, {"p2.", "boost"}, {"p2.", "service"},
+             {"p2.", "test"}, {"p2.", "reset"}, {"global.", "service"}, {"global.", "test"},
+             {"global.", "reset"}}) {
+        const std::string value {store.get(std::string(prefix) + key)};
+        if (!value.empty()) {
+            ++result.skippedCount;
+            reportRow("Play!", std::string(prefix) + key, value, scancodeOf(value),
+                      "no Play! slot", "", "SKIP", "no matching Play! option");
+        }
     }
     if (applied == 0)
         result.missing = true;
@@ -1029,18 +1433,29 @@ EmuResult writeLindbergh(const ArcadeKeybindStore& store)
         LOG(LogInfo) << "GuiArcadeKeybinds: created " << path << " from the default template";
     }
 
-    auto loaderKey {[&store](const std::string& prefix, const char* unifiedKey) -> std::string {
+    auto loaderKey {[&store, &result](const std::string& prefix,
+                                      const char* unifiedKey) -> std::string {
         const std::string value {store.get(prefix + unifiedKey)};
         if (value.empty())
             return std::string("");
         const int scan {scancodeOf(value)};
-        if (scan < 0 || findEntry(scan) == nullptr)
+        if (scan < 0 || findEntry(scan) == nullptr) {
+            ++result.skippedCount;
+            reportRow("Lindbergh", prefix + unifiedKey, value, scan, "SDL scancode name", "",
+                      "SKIP", "unsupported key (no SDL scancode name)");
             return std::string("");
+        }
         // The loader resolves KEY_<name> through SDL_GetScancodeFromName, so the SDL
         // scancode name ("Left Ctrl", "Up", "5") is the token it expects here.
         const char* name {SDL_GetScancodeName(static_cast<SDL_Scancode>(scan))};
-        if (name == nullptr || *name == '\0')
+        if (name == nullptr || *name == '\0') {
+            ++result.skippedCount;
+            reportRow("Lindbergh", prefix + unifiedKey, value, scan, "SDL scancode name", "",
+                      "SKIP", "SDL returned an empty scancode name");
             return std::string("");
+        }
+        reportRow("Lindbergh", prefix + unifiedKey, value, scan, "SDL scancode name", name,
+                  "MAPPED");
         return std::string(name);
     }};
 
@@ -1078,9 +1493,29 @@ EmuResult writeLindbergh(const ArcadeKeybindStore& store)
         patches.push_back({"Driving", "Boost", value, true});
     // P2 directional and button entries are not part of the loader template.
 
+    for (const auto& [prefix, key] :
+         std::initializer_list<std::pair<const char*, const char*>> {
+             {"p2.", "up"}, {"p2.", "down"}, {"p2.", "left"}, {"p2.", "right"},
+             {"p2.", "btn1"}, {"p2.", "btn2"}, {"p2.", "btn3"}, {"p2.", "throttle"},
+             {"p2.", "brake"}, {"p2.", "boost"}, {"global.", "reset"}}) {
+        const std::string value {store.get(std::string(prefix) + key)};
+        if (!value.empty()) {
+            ++result.skippedCount;
+            reportRow("Lindbergh", std::string(prefix) + key, value, scancodeOf(value),
+                      "no Lindbergh slot", "", "SKIP", "no matching Lindbergh option");
+        }
+    }
+
     if (patches.empty())
         return result;
-    patchIniFile(path, patches, true, result);
+    if (!patchIniFile(path, patches, true, result)) {
+        if (!result.missing) {
+            ++result.failedCount;
+            reportRow("Lindbergh", "file", "", -1, path, "", "ERROR", "write failed");
+        }
+        return result;
+    }
+    verifyIniPatches("Lindbergh", path, patches, result);
     return result;
 }
 
@@ -1137,20 +1572,86 @@ EmuResult writeRetroArch(const ArcadeKeybindStore& store)
     // core shuts down and that rewrite only keeps the remap structure, dropping every
     // input_player*_* key binding. The frontend owns these files, so disable it.
     if (setTopLevelValue(config, "remap_save_on_exit", "false")) {
-        if (backupAndWrite(configPath, config))
+        if (backupAndWrite(configPath, config)) {
             result.touched = true;
-        else
+            reportRow("RetroArch", "config", "remap_save_on_exit", -1, configPath, "false",
+                      "WRITTEN", "frontend owns the remap files");
+        }
+        else {
+            ++result.failedCount;
+            reportRow("RetroArch", "config", "remap_save_on_exit", -1, configPath, "",
+                      "ERROR", "cannot update retroarch.cfg");
             LOG(LogError) << "GuiArcadeKeybinds: cannot update " << configPath;
+        }
     }
 
-    const auto keyFor {[&store](const std::string& prefix, const char* unifiedKey) {
+    // Read the setting back: a later write or an unusual quoting style must not leave
+    // remap_save_on_exit enabled, because RetroArch then truncates the .rmp files.
+    {
+        std::string check;
+        if (readFileBytes(configPath, check)) {
+            bool found {false};
+            std::string actual;
+            std::istringstream stream {check};
+            std::string line;
+            while (std::getline(stream, line)) {
+                if (line.rfind("remap_save_on_exit", 0) != 0)
+                    continue;
+                const size_t equals {line.find('=')};
+                if (equals == std::string::npos)
+                    continue;
+                actual = line.substr(equals + 1);
+                while (!actual.empty() && (actual.front() == ' ' || actual.front() == '\t'))
+                    actual.erase(actual.begin());
+                while (!actual.empty() && (actual.back() == ' ' || actual.back() == '\t' ||
+                                          actual.back() == '\r'))
+                    actual.pop_back();
+                if (actual.size() >= 2 && actual.front() == '"' && actual.back() == '"')
+                    actual = actual.substr(1, actual.size() - 2);
+                found = true;
+                break;
+            }
+            if (!found || actual != "false") {
+                ++result.failedCount;
+                reportRow("RetroArch", "verify", "remap_save_on_exit", -1, configPath,
+                          actual, "MISMATCH", "expected=false");
+                LOG(LogError) << "GuiArcadeKeybinds: remap_save_on_exit is " << actual
+                              << ", expected false";
+            }
+            else {
+                ++result.verifiedCount;
+                reportRow("RetroArch", "verify", "remap_save_on_exit", -1, configPath,
+                          actual, "OK", "expected=false");
+            }
+        }
+        else {
+            ++result.failedCount;
+            reportRow("RetroArch", "verify", "remap_save_on_exit", -1, configPath, "",
+                      "ERROR", "cannot read back");
+        }
+    }
+
+    const auto keyFor {[&store, &result](const std::string& prefix, const char* unifiedKey) {
         const std::string value {store.get(prefix + unifiedKey)};
         if (value.empty())
             return std::string();
         const int scan {scancodeOf(value)};
-        if (scan < 0 || findEntry(scan) == nullptr)
+        if (scan < 0 || findEntry(scan) == nullptr) {
+            ++result.skippedCount;
+            reportRow("RetroArch", prefix + unifiedKey, value, scan, "RetroArch key", "",
+                      "SKIP", "unsupported key (no RetroArch key name)");
             return std::string();
-        return retroArchKeyName(scan);
+        }
+        const std::string key {retroArchKeyName(scan)};
+        if (key.empty()) {
+            ++result.skippedCount;
+            reportRow("RetroArch", prefix + unifiedKey, value, scan, "RetroArch key", "",
+                      "SKIP", "empty RetroArch key name");
+            return std::string();
+        }
+        reportRow("RetroArch", prefix + unifiedKey, value, scan, "RetroArch key", key,
+                  "MAPPED");
+        return key;
     }};
 
     std::stringstream remap;
@@ -1184,8 +1685,12 @@ EmuResult writeRetroArch(const ArcadeKeybindStore& store)
          std::initializer_list<std::pair<const char*, const char*>> {
              {"p1.", "boost"}, {"p2.", "boost"}, {"global.", "service"},
              {"global.", "test"}, {"global.", "reset"}}) {
-        if (!store.get(std::string(prefix) + key).empty())
+        const std::string value {store.get(std::string(prefix) + key)};
+        if (!value.empty()) {
             ++result.skippedCount;
+            reportRow("RetroArch", std::string(prefix) + key, value, scancodeOf(value),
+                      "no libretro slot", "", "SKIP", "no matching RetroArch joypad slot");
+        }
     }
 
     // Only patch cores that were already used on this station (their option
@@ -1203,17 +1708,39 @@ EmuResult writeRetroArch(const ArcadeKeybindStore& store)
         const std::string targetDirectory {remapDirectory + "/" + core};
         if (!Utils::FileSystem::exists(targetDirectory) &&
             !Utils::FileSystem::createDirectory(targetDirectory)) {
+            ++result.failedCount;
+            reportRow("RetroArch", "core", core, -1, targetDirectory, "", "ERROR",
+                      "cannot create remap directory");
             LOG(LogError) << "GuiArcadeKeybinds: cannot create " << targetDirectory;
             continue;
         }
         const std::string path {targetDirectory + "/" + core + ".rmp"};
         std::string previous;
-        if (readFileBytes(path, previous) && previous == remap.str()) {
+        const bool existed {readFileBytes(path, previous)};
+        if (existed && previous == remap.str()) {
             LOG(LogInfo) << "GuiArcadeKeybinds: " << path << " unchanged";
+        }
+        else if (!backupAndWrite(path, remap.str())) {
+            ++result.failedCount;
+            reportRow("RetroArch", "core", core, -1, path, "", "ERROR", "write failed");
             continue;
         }
-        if (backupAndWrite(path, remap.str()))
+        else {
             result.touched = true;
+        }
+
+        std::string written;
+        if (!readFileBytes(path, written) || written != remap.str()) {
+            ++result.failedCount;
+            reportRow("RetroArch", "core", core, -1, path, "", "MISMATCH",
+                      "read-back content differs");
+            LOG(LogError) << "GuiArcadeKeybinds: " << path
+                          << " does not match the generated remap after write";
+            continue;
+        }
+        ++result.verifiedCount;
+        reportRow("RetroArch", "core", core, -1, path, "remap", "OK",
+                  "read-back content matches");
     }
     if (coreCount == 0) {
         result.missing = true;
@@ -1232,6 +1759,8 @@ namespace {
 void applyAllConfigs(Window* window, bool report)
 {
     const ArcadeKeybindStore& store {ArcadeKeybindStore::getInstance()};
+    if (report)
+        beginReport(ArcadeKeybindStore::getPath());
 
     const EmuResult demul {writeDemul(store)};
     const EmuResult dolphin {writeDolphin(store)};
@@ -1286,6 +1815,9 @@ void applyAllConfigs(Window* window, bool report)
     const EmuResult lindbergh {writeLindbergh(store)};
     const EmuResult retroarch {writeRetroArch(store)};
 
+    if (report)
+        endReport(demul, dolphin, flycast, play, lindbergh, retroarch);
+
     if (!report || window == nullptr) {
         LOG(LogInfo) << "GuiArcadeKeybinds: applied all configs (report off)";
         return;
@@ -1303,6 +1835,9 @@ void applyAllConfigs(Window* window, bool report)
         if (result.skippedCount > 0)
             row << " - " << result.skippedCount << " " << _("SKIPPED")
                 << " (" << _("SEE LOG") << ")";
+        if (result.failedCount > 0)
+            row << " - " << result.failedCount << " " << _("FAILED") << " (" << _("SEE LOG")
+                << ")";
         return row.str();
     }};
 

@@ -25,6 +25,7 @@
 #include <SDL2/SDL_events.h>
 
 #if !defined(_WIN64)
+#include <sys/wait.h>
 #include <unistd.h>
 #endif
 
@@ -32,9 +33,14 @@
 #include <sys/time.h>
 #endif
 
+#include <algorithm>
 #include <array>
+#include <chrono>
 #include <climits>
+#include <cstring>
 #include <fcntl.h>
+#include <fstream>
+#include <iomanip>
 
 #define MAX_RUNNING_COMMANDS 8
 inline static std::atomic<int> sRunningCommands {0};
@@ -290,10 +296,24 @@ namespace Utils
 
         int launchGameUnix(const std::string& cmdUtf8,
                            const std::string& startDirectory,
-                           bool runInBackground)
+                           bool runInBackground,
+                           const std::string& logPath)
         {
 #if defined(__unix__) || defined(__APPLE__) || defined(__HAIKU__)
-            std::string command {std::string(cmdUtf8) + " 2>&1 &"};
+            // The foreground path must not append '&': the shell would exit immediately and
+            // pclose() would report the shell status instead of the emulator status. The
+            // read loop below still waits for EOF from the emulator's stdout/stderr.
+            std::string command {std::string(cmdUtf8) + " 2>&1"};
+
+            std::ofstream logFile;
+            if (!logPath.empty()) {
+                logFile.open(logPath, std::ios::binary | std::ios::app);
+                if (!logFile.is_open())
+                    LOG(LogWarning) << "Platform::launchGameUnix(): cannot open emulator log "
+                                    << logPath;
+                else
+                    logFile << "\n--- emulator output (stdout/stderr) ---\n";
+            }
 
             // Launching games while keeping ES-DE running in the background is very crude as for
             // instance no output from the command is captured and no real error handling is
@@ -301,13 +321,25 @@ namespace Utils
             if (runInBackground) {
                 if (startDirectory != "")
                     command = "cd " + startDirectory + " && " + command;
+                command += " &";
                 LOG(LogDebug)
                     << "Platform::launchGameUnix(): Launching game while keeping ES-DE running "
                        "in the background, no command output will be written to the log file";
+                if (logFile.is_open()) {
+                    logFile << "[background launch: output is not captured by ES-DE]\n";
+                    logFile.close();
+                }
 #if defined(__IOS__)
                 return 0;
 #else
-                return system(command.c_str());
+                const int status {system(command.c_str())};
+                if (status == -1)
+                    return -1;
+                if (WIFEXITED(status))
+                    return WEXITSTATUS(status);
+                if (WIFSIGNALED(status))
+                    return 128 + WTERMSIG(status);
+                return status;
 #endif
             }
 
@@ -321,6 +353,10 @@ namespace Utils
 
             if (!(commandPipe = reinterpret_cast<FILE*>(popen(command.c_str(), "r")))) {
                 LOG(LogError) << "Couldn't open pipe to command";
+                if (logFile.is_open()) {
+                    logFile << "\n--- ES-DE could not open the command pipe ---\n";
+                    logFile.close();
+                }
                 return -1;
             }
 
@@ -334,6 +370,9 @@ namespace Utils
             timeout.tv_usec = 10000;
 
             SDL_Event event {};
+            const auto startTime {std::chrono::steady_clock::now()};
+            size_t logBytes {0};
+            bool logTruncated {false};
 
             // We're not completely suspended when launching a game, instead we'll continue to
             // poll events. As part of this we'll handle adding and removal of controllers, all
@@ -341,9 +380,25 @@ namespace Utils
             while (true) {
                 // Check if pipe is available for reading.
                 if (select(fd + 1, &readfds, nullptr, nullptr, &timeout) != 0) {
-                    if (fgets(buffer.data(), buffer.size(), commandPipe) != nullptr)
+                    if (fgets(buffer.data(), buffer.size(), commandPipe) != nullptr) {
+                        const size_t length {std::strlen(buffer.data())};
+                        if (logFile.is_open() && !logTruncated) {
+                            const size_t remaining {MAX_GAME_LOG_OUTPUT - logBytes};
+                            const size_t writeLength {std::min(length, remaining)};
+                            if (writeLength > 0) {
+                                logFile.write(buffer.data(), static_cast<std::streamsize>(writeLength));
+                                logBytes += writeLength;
+                            }
+                            if (writeLength < length || logBytes >= MAX_GAME_LOG_OUTPUT) {
+                                logFile << "\n[emulator output truncated at "
+                                        << MAX_GAME_LOG_OUTPUT << " bytes]\n";
+                                logTruncated = true;
+                            }
+                            logFile.flush();
+                        }
                         commandOutput.append(
                             commandOutput.length() < MAX_GAME_LOG_OUTPUT ? buffer.data() : "");
+                    }
                     else
                         break;
                 }
@@ -358,10 +413,34 @@ namespace Utils
                 }
             }
 
-            returnValue = pclose(commandPipe);
+            const int rawStatus {pclose(commandPipe)};
+            int signalNumber {0};
+            if (rawStatus == -1) {
+                returnValue = -1;
+            }
+            else if (WIFEXITED(rawStatus)) {
+                returnValue = WEXITSTATUS(rawStatus);
+            }
+            else if (WIFSIGNALED(rawStatus)) {
+                signalNumber = WTERMSIG(rawStatus);
+                returnValue = 128 + signalNumber;
+            }
+            else {
+                returnValue = rawStatus >> 8;
+            }
 
-            // We need to shift the return value as it contains some flags (which we don't need).
-            returnValue >>= 8;
+            const double duration {
+                std::chrono::duration<double>(std::chrono::steady_clock::now() - startTime)
+                    .count()};
+
+            if (logFile.is_open()) {
+                logFile << "\n--- emulator exit: code=" << returnValue;
+                if (signalNumber != 0)
+                    logFile << " signal=" << signalNumber;
+                logFile << " duration=" << std::fixed << std::setprecision(3) << duration
+                        << "s ---\n";
+                logFile.close();
+            }
 
             const size_t commandOutputSize {commandOutput.size()};
 
@@ -371,19 +450,35 @@ namespace Utils
                     commandOutput.pop_back();
             }
 
+            const auto tail {[](const std::string& text, size_t maximum) {
+                if (text.size() <= maximum)
+                    return text;
+                return std::string("...") + text.substr(text.size() - maximum);
+            }};
+
             if (returnValue) {
                 LOG(LogError) << "launchGameUnix - return value "
                               << std::to_string(returnValue) + ":";
-                if (commandOutput.size())
-                    LOG(LogError) << commandOutput;
+                if (commandOutput.size()) {
+                    if (logPath.empty())
+                        LOG(LogError) << commandOutput;
+                    else
+                        LOG(LogError) << "Last emulator output:\n" << tail(commandOutput, 8192);
+                }
                 else
                     LOG(LogError) << "No error output provided by game or emulator";
             }
-            else if (commandOutput.size()) {
-                LOG(LogDebug) << "Platform::launchGameUnix():";
-                LOG(LogDebug) << "Output from launched game:\n" << commandOutput;
-                if (commandOutputSize >= MAX_GAME_LOG_OUTPUT) {
-                    LOG(LogWarning) << "Output was capped to " << commandOutputSize << " bytes";
+            else {
+                LOG(LogInfo) << "Platform::launchGameUnix(): exit code 0"
+                             << " duration=" << std::fixed << std::setprecision(3) << duration
+                             << "s log=" << (logPath.empty() ? "(none)" : logPath);
+                if (commandOutput.size()) {
+                    LOG(LogDebug) << "Platform::launchGameUnix():";
+                    LOG(LogDebug) << "Output from launched game:\n" << commandOutput;
+                    if (commandOutputSize >= MAX_GAME_LOG_OUTPUT) {
+                        LOG(LogWarning) << "Output was capped to " << commandOutputSize
+                                        << " bytes";
+                    }
                 }
             }
 
