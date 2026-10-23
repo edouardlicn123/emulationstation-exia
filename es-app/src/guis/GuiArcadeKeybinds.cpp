@@ -666,7 +666,8 @@ bool patchIniFile(const std::string& path, const std::vector<KeyPatch>& patches,
 void verifyIniPatches(const std::string& emulator,
                       const std::string& path,
                       const std::vector<KeyPatch>& patches,
-                      EmuResult& result)
+                      EmuResult& result,
+                      bool createMissingSection)
 {
     std::string content;
     if (!readFileBytes(path, content)) {
@@ -688,12 +689,15 @@ void verifyIniPatches(const std::string& emulator,
 
     for (const KeyPatch& patch : patches) {
         bool found {false};
+        bool sectionFound {false};
         std::string actual;
         std::string currentSection;
         for (const std::string& line : lines) {
             std::string trimmed {trim(line)};
             if (trimmed.size() > 1 && trimmed.front() == '[' && trimmed.back() == ']') {
                 currentSection = trimmed.substr(1, trimmed.size() - 2);
+                if (currentSection == patch.section)
+                    sectionFound = true;
                 continue;
             }
             if (currentSection != patch.section)
@@ -710,7 +714,14 @@ void verifyIniPatches(const std::string& emulator,
 
         const std::string target {"[" + patch.section + "] " + patch.key};
         if (!found) {
-            if (!patch.optional) {
+            if (!createMissingSection && !sectionFound) {
+                // patchIniFile() deliberately leaves missing sections alone for
+                // emulators such as Demul; mirror that decision instead of calling
+                // the intentional skip a failed write.
+                reportRow(emulator, "verify", patch.key, -1, target, "",
+                          "SKIP", "section missing, writer does not create it");
+            }
+            else if (!patch.optional) {
                 ++result.failedCount;
                 reportRow(emulator, "verify", patch.key, -1, target, "",
                           "MISSING", "expected=" + patch.value);
@@ -1112,7 +1123,7 @@ EmuResult writeDemul(const ArcadeKeybindStore& store)
         }
         return result;
     }
-    verifyIniPatches("Demul", path, patches, result);
+    verifyIniPatches("Demul", path, patches, result, false);
     return result;
 }
 
@@ -1211,7 +1222,7 @@ EmuResult writeDolphin(const ArcadeKeybindStore& store)
         }
         return result;
     }
-    verifyIniPatches("Dolphin", path, patches, result);
+    verifyIniPatches("Dolphin", path, patches, result, true);
     return result;
 }
 
@@ -1515,7 +1526,7 @@ EmuResult writeLindbergh(const ArcadeKeybindStore& store)
         }
         return result;
     }
-    verifyIniPatches("Lindbergh", path, patches, result);
+    verifyIniPatches("Lindbergh", path, patches, result, true);
     return result;
 }
 
