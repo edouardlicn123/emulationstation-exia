@@ -104,7 +104,7 @@ bool MediaViewer::startMediaViewer(FileData* game, bool fromPDFViewer)
         Scripting::fireEvent("mediaviewer-start", mGame->getPath(),
 #endif
                              mGame->metadata.get("name"), mGame->getSourceSystem()->getName(),
-                             mGame->getSourceSystem()->getFullName());
+                             mGame->getSourceSystem()->getFullNameLocalized());
     }
 
     return true;

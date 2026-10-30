@@ -3573,3 +3573,30 @@ msgstr "GREŠKA: NIJE MOGUĆE DA VIDITE PDF DATOTEKU"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "NEMA ПОДУДАРНЕ BIOS ДАТОТЕКЕ У ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Тастери за игру"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Подешавање тастера за игру"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Ове тастере уписују се у конфигурацију аркадних емулатора при напуштању странице тастера. Утиче само на емулаторе, не на овај фронтенд. Само тастатура; гејмпади задржавају сопствена подешавања."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Редови који нису промењени прате глобална подешавања. Ентер започиње снимање, задржавање једне секунде враћа глобални тастер, B завршава и чува."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Ентер у реду започиње снимање, затим притисните физички тастер. Задржавање једне секунде прескаче ред, B завршава и чува."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Свака игра има сопствени Demul профил тастатуре. Редови који нису промењени прате глобална подешавања тастера, а чување овде ажурира све профиле."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "Број десно показује колико је тастера промењено за ту игру; наслеђено значи да се користе глобална подешавања."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Редови који нису промењени прате глобална подешавања тастера."

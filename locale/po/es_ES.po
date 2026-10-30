@@ -3588,3 +3588,30 @@ msgstr "ERROR: NO SE HA PODIDO PROCESAR EL ARCHIVO PDF"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "NO HAY UN ARCHIVO BIOS COINCIDENTE EN ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Teclas por juego"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Configuración de teclas por juego"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Estas teclas se escriben en la configuración de los emuladores de arcade al salir de una página de teclas. Solo afecta a los emuladores, no a este frontend. Solo teclado; los mandos conservan sus propias asignaciones."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Las filas sin override siguen la configuración global. Intro inicia la captura, mantén un segundo para volver a la tecla global, B termina y guarda."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Intro en una fila inicia la captura y luego pulsa la tecla física. Mantén un segundo para omitir la fila, B termina y guarda."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Cada juego tiene su propio perfil de teclado de Demul. Las filas sin override siguen la configuración global y, al guardar ahí, se actualizan todos los perfiles."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "El número de la derecha indica cuántas teclas están sobrescritas para ese juego; heredado significa que usa la configuración global."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Las filas sin override siguen la configuración global."

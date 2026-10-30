@@ -56,20 +56,21 @@ class GuiExiaSettings : public GuiSettings
 {
 public:
     explicit GuiExiaSettings(const std::string& title);
+    ~GuiExiaSettings() override;
+    static void showSystemInfo(Window* window);
 
 private:
     ComponentListRow makeNavRow(const std::string& label,
                                 const std::string& value,
                                 const std::function<void()>& func);
     ComponentListRow makeNoteRow(const std::string& text);
-    ComponentListRow makeSectionRow(const std::string& label);
+    static ComponentListRow makeSectionRow(const std::string& label);
 
     void openBiosSwitch();
     void openBiosPlatform(const std::string& title,
                           const std::string& confKey,
                           const std::string& target,
                           const std::vector<std::pair<std::string, std::string>>& options);
-    void openSystemInfo();
     void openGitProxy();
     void addFontSizeRow();
     void addPasswordRow();

@@ -54,7 +54,7 @@ public:
     Status getStatus(const bool update = true);
 
     static constexpr int updateTime {300};
-    static constexpr int pollingTime {2500};
+    static constexpr int pollingTime {1000};
 
 private:
     SystemStatus() noexcept;

@@ -120,7 +120,19 @@ public:
     FileData* getRootFolder() const { return mRootFolder; }
     const std::string& getName() const { return mName; }
     const std::string& getFullName() const { return mFullName; }
+    // Platform name for the UI, localized from the system_name_i18n store according to the
+    // application language (devdoc/54). Falls back to the configured fullname.
+    const std::string& getFullNameLocalized() const { return mFullNameLocalized; }
+    // Localized system introduction from the sqlite store (devdoc/54).
+    std::string getDescription() const;
     const std::string& getSortName() const { return mSortName; }
+    // Data used by the platform sorting menu (devdoc/56), provided by the sqlite system store.
+    const std::string& getHardwareType() const { return mHardwareType; }
+    void setHardwareType(const std::string& hardwareType) { mHardwareType = hardwareType; }
+    const std::string& getManufacturer() const { return mManufacturer; }
+    void setManufacturer(const std::string& manufacturer) { mManufacturer = manufacturer; }
+    const std::string& getReleaseDate() const { return mReleaseDate; }
+    void setReleaseDate(const std::string& releaseDate) { mReleaseDate = releaseDate; }
     const std::string& getStartPath() const { return mEnvData->mStartPath; }
     const std::vector<std::string>& getExtensions() const { return mEnvData->mSearchExtensions; }
     const std::string& getThemeFolder() const { return mThemeFolder; }
@@ -162,6 +174,9 @@ public:
     static std::vector<std::string> getConfigPath();
     // Parses an optional es_systems_sorting.xml file.
     static void loadSortingConfig();
+    // Sorts the loaded systems according to the "SystemsSorting" setting. Collections are
+    // always kept last (devdoc/56).
+    static void sortSystems();
 
     // Generates the game system directories and information files based on es_systems.xml.
     static bool createSystemDirectories();
@@ -201,7 +216,11 @@ public:
 private:
     std::string mName;
     std::string mFullName;
+    std::string mFullNameLocalized;
     std::string mSortName;
+    std::string mHardwareType;
+    std::string mManufacturer;
+    std::string mReleaseDate;
     SystemEnvironmentData* mEnvData;
     std::string mAlternativeEmulator;
     std::string mThemeFolder;

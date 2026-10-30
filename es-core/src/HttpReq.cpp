@@ -40,9 +40,10 @@ std::string HttpReq::urlEncode(const std::string& s)
     return escaped;
 }
 
-HttpReq::HttpReq(const std::string& url, bool scraperRequest)
+HttpReq::HttpReq(const std::string& url, bool scraperRequest, const HttpReqOptions* options)
     : mStatus {REQ_IN_PROGRESS}
     , mHandle {nullptr}
+    , mHeaders {nullptr}
     , mTotalBytes {0}
     , mDownloadedBytes {0}
     , mScraperRequest {scraperRequest}
@@ -249,6 +250,43 @@ HttpReq::HttpReq(const std::string& url, bool scraperRequest)
     }
 #endif
 
+    // Optional custom headers and POST body. Used by the IGDB and HfsDB scrapers
+    // which need API tokens in the headers and send their queries as POST requests.
+    if (options != nullptr) {
+        if (!options->customHeaders.empty()) {
+            for (const std::string& header : options->customHeaders) {
+                curl_slist* newHeaders {curl_slist_append(mHeaders, header.c_str())};
+                if (newHeaders == nullptr) {
+                    mStatus = REQ_IO_ERROR;
+                    onError("curl_slist_append failed");
+                    return;
+                }
+                mHeaders = newHeaders;
+            }
+            err = curl_easy_setopt(mHandle, CURLOPT_HTTPHEADER, mHeaders);
+            if (err != CURLE_OK) {
+                mStatus = REQ_IO_ERROR;
+                onError(curl_easy_strerror(err));
+                return;
+            }
+        }
+
+        if (!options->dataToPost.empty()) {
+            mPostData = options->dataToPost;
+            err = curl_easy_setopt(mHandle, CURLOPT_POST, 1L);
+            if (err == CURLE_OK)
+                err = curl_easy_setopt(mHandle, CURLOPT_POSTFIELDS, mPostData.c_str());
+            if (err == CURLE_OK)
+                err = curl_easy_setopt(mHandle, CURLOPT_POSTFIELDSIZE,
+                                       static_cast<long>(mPostData.size()));
+            if (err != CURLE_OK) {
+                mStatus = REQ_IO_ERROR;
+                onError(curl_easy_strerror(err));
+                return;
+            }
+        }
+    }
+
     // Add the handle to the multi. This is done in pollCurl(), running in a separate thread.
     std::unique_lock<std::mutex> handleLock {sHandleMutex};
     sAddHandleQueue.push(mHandle);
@@ -269,7 +307,7 @@ HttpReq::~HttpReq()
         requestLock.unlock();
 
         std::unique_lock<std::mutex> handleLock {sHandleMutex};
-        sRemoveHandleQueue.push(mHandle);
+        sRemoveHandleQueue.push({mHandle, mHeaders});
         handleLock.unlock();
 
         curl_multi_wakeup(sMultiHandle);
@@ -369,12 +407,17 @@ void HttpReq::pollCurl()
 
         if (sRemoveHandleQueue.size() > 0) {
             // Remove the handle from our multi.
-            CURLMcode merr {curl_multi_remove_handle(sMultiHandle, sRemoveHandleQueue.front())};
+            CURL* removeHandle {sRemoveHandleQueue.front().first};
+            curl_slist* removeHeaders {sRemoveHandleQueue.front().second};
+            CURLMcode merr {curl_multi_remove_handle(sMultiHandle, removeHandle)};
             if (merr != CURLM_OK) {
                 LOG(LogError) << "Error removing curl easy handle from curl multi: "
                               << curl_multi_strerror(merr);
             }
-            curl_easy_cleanup(sRemoveHandleQueue.front());
+            curl_easy_cleanup(removeHandle);
+            // The header list has to stay valid until the easy handle is cleaned up.
+            if (removeHeaders != nullptr)
+                curl_slist_free_all(removeHeaders);
             sRemoveHandleQueue.pop();
         }
 

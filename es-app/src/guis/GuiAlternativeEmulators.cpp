@@ -19,7 +19,7 @@
 GuiAlternativeEmulators::GuiAlternativeEmulators(SystemData* systemFilter,
                                                  std::function<void()> onChanged)
     : mMenu {systemFilter == nullptr ? _("ALTERNATIVE EMULATORS") :
-                                       Utils::String::toUpper(systemFilter->getFullName())}
+                                       Utils::String::toUpper(systemFilter->getFullNameLocalized())}
     , mHasSystems {false}
     , mSystemFilter {systemFilter}
     , mOnChanged {onChanged}
@@ -139,7 +139,7 @@ GuiAlternativeEmulators::GuiAlternativeEmulators(SystemData* systemFilter,
     }
 
     setSize(mMenu.getSize());
-    setPosition((Renderer::getScreenWidth() - mSize.x) / 2.0f, Renderer::getScreenHeight() * 0.13f);
+    setPosition(MenuComponent::getMenuLeft(), Renderer::getScreenHeight() * 0.13f);
 }
 
 void GuiAlternativeEmulators::updateMenu(const std::string& systemName,
@@ -169,7 +169,7 @@ void GuiAlternativeEmulators::updateMenu(const std::string& systemName,
 
 void GuiAlternativeEmulators::selectorWindow(SystemData* system)
 {
-    auto s = new GuiSettings(Utils::String::toUpper(system->getFullName()));
+    auto s = new GuiSettings(Utils::String::toUpper(system->getFullNameLocalized()));
 
     std::string selectedLabel {system->getAlternativeEmulator()};
     std::string label;
@@ -246,7 +246,7 @@ void GuiAlternativeEmulators::selectorWindow(SystemData* system)
     // too large to fit. If so, allow the size to be exceeded up to the maximum size calculated
     // above.
     float systemTextWidth {
-        Font::get(FONT_SIZE_LARGE)->sizeText(Utils::String::toUpper(system->getFullName())).x *
+        Font::get(FONT_SIZE_LARGE)->sizeText(Utils::String::toUpper(system->getFullNameLocalized())).x *
         1.15f};
 
     float width {0.0f};

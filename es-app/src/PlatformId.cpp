@@ -17,7 +17,7 @@ namespace PlatformIds
     std::vector<std::string> platformNames {
         "unknown", // Nothing set.
 
-        "3do",                  // 3DO Interactive Multiplayer
+        "3do",                  // 3do
         "adam",                 // Coleco Adam
         "amiga",                // Commodore Amiga
         "amigacd32",            // Commodore Amiga CD32
@@ -54,20 +54,20 @@ namespace PlatformIds
         "dreamcast",            // Sega Dreamcast
         "easyrpg",              // EasyRPG eame engine
         "electron",             // Acorn Electron
-        "famicom",              // Nintendo Family Computer
-        "fds",                  // Nintendo Famicom Disk System
+        "famicom",              // Family Computer
+        "fds",                  // Famicom Disk System
         "flash",                // Adobe Flash
         "fm7",                  // Fujitsu FM-7
         "fmtowns",              // Fujitsu FM Towns
         "fpinball",             // Future Pinball
         "gamate",               // Bit Corporation Gamate
-        "gameandwatch",         // Nintendo Game and Watch
+        "gameandwatch",         // Game and Watch
         "gamecom",              // Tiger Electronics Game.com
         "gamegear",             // Sega Game Gear
-        "gb",                   // Nintendo Game Boy
-        "gba",                  // Nintendo Game Boy Advance
-        "gbc",                  // Nintendo Game Boy Color
-        "gc",                   // Nintendo GameCube
+        "gb",                   // Game Boy
+        "gba",                  // Game Boy Advance
+        "gbc",                  // Game Boy Color
+        "gc",                   // GameCube
         "genesis",              // Sega Genesis
         "gmaster",              // Hartung Game Master
         "gx4000",               // Amstrad GX4000
@@ -87,13 +87,13 @@ namespace PlatformIds
         "msx2",                 // MSX2
         "msxturbor",            // MSX Turbo R
         "mugen",                // M.U.G.E.N Game Engine
-        "n3ds",                 // Nintendo 3DS
-        "n64",                  // Nintendo 64
+        "n3ds",                 // 3DS
+        "n64",                  // n64
         "naomi",                // Sega NAOMI
-        "nds",                  // Nintendo DS
+        "nds",                  // DS
         "neogeo",               // SNK Neo Geo
         "neogeocd",             // SNK Neo Geo CD
-        "nes",                  // Nintendo Entertainment System
+        "nes",                  // nes
         "ngage",                // Nokia N-Gage
         "ngp",                  // SNK Neo Geo Pocket
         "ngpc",                 // SNK Neo Geo Pocket Color
@@ -107,20 +107,20 @@ namespace PlatformIds
         "pcengine",             // NEC PC Engine / TurboGrafx-16
         "pcenginecd",           // NEC PC Engine CD / TurboGrafx-CD
         "pcfx",                 // NEC PC-FX
-        "pcwindows",            // Microsoft Windows
+        "pcwindows",            // Windows
         "pico8",                // PICO-8 Fantasy Console
         "plus4",                // Commodore Plus/4
-        "pokemini",             // Nintendo Pokémon Mini
-        "ps2",                  // Sony PlayStation 2
-        "ps3",                  // Sony PlayStation 3
-        "ps4",                  // Sony PlayStation 4
-        "psp",                  // Sony PlayStation Portable
-        "psvita",               // Sony PlayStation Vita
-        "psx",                  // Sony PlayStation 1
+        "pokemini",             // Pokémon Mini
+        "ps2",                  // PlayStation 2
+        "ps3",                  // PlayStation 3
+        "ps4",                  // PlayStation 4
+        "psp",                  // PlayStation Portable
+        "psvita",               // PlayStation Vita
+        "psx",                  // PlayStation 1
         "pv1000",               // Casio PV-1000
         "residualvm",           // ResidualVM Game Engine
         "samcoupe",             // MGT SAM Coupé
-        "satellaview",          // Nintendo Satellaview
+        "satellaview",          // Satellaview
         "saturn",               // Sega Saturn
         "scummvm",              // ScummVM Game Engine
         "scv",                  // Epoch Super Cassette Vision
@@ -128,9 +128,9 @@ namespace PlatformIds
         "segacd",               // Sega CD
         "segapico",             // Sega Pico
         "sg-1000",              // Sega SG-1000
-        "sgb",                  // Nintendo Super Game Boy
-        "snes",                 // Nintendo SNES (Super Nintendo)
-        "snes-msu1",            // Nintendo SNES MSU-1
+        "sgb",                  // Super Game Boy
+        "snes",                 // SNES (Super Nintendo)
+        "snes-msu1",            // SNES MSU-1
         "solarus",              // Solarus Game Engine
         "spectravideo",         // Spectravideo
         "steam",                // Valve Steam
@@ -138,7 +138,7 @@ namespace PlatformIds
         "supergrafx",           // NEC SuperGrafx
         "supervision",          // Watara Supervision
         "supracan",             // Funtech Super A'Can
-        "switch",               // Nintendo Switch
+        "switch",               // Switch
         "ti99",                 // Texas Instruments TI-99
         "tic80",                // TIC-80 Fantasy Computer
         "trs-80",               // Tandy TRS-80
@@ -146,20 +146,20 @@ namespace PlatformIds
         "vectrex",              // GCE Vectrex
         "vic20",                // Commodore VIC-20
         "vircon32",             // Vircon32 Virtual Console
-        "virtualboy",           // Nintendo Virtual Boy
+        "virtualboy",           // Virtual Boy
         "vpinball",             // Visual Pinball
         "vsmile",               // VTech V.Smile
         "wasm4",                // WASM-4 Fantasy Console
-        "wii",                  // Nintendo Wii
-        "wiiu",                 // Nintendo Wii U
-        "windows3x",            // Microsoft Windows 3.x
+        "wii",                  // Wii
+        "wiiu",                 // Wii U
+        "windows3x",            // Windows 3.x
         "wonderswan",           // Bandai WonderSwan
         "wonderswancolor",      // Bandai WonderSwan Color
         "x1",                   // Sharp X1
         "x68000",               // Sharp X68000
-        "xbox",                 // Microsoft Xbox
-        "xbox360",              // Microsoft Xbox 360
-        "xboxone",              // Microsoft Xbox One
+        "xbox",                 // Xbox
+        "xbox360",              // Xbox 360
+        "xboxone",              // Xbox One
         "zmachine",             // Infocom Z-machine
         "zx81",                 // Sinclair ZX81
         "zxnext",               // Sinclair ZX Spectrum Next

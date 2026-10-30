@@ -3576,3 +3576,30 @@ msgstr "ERRORE: IMPOSSIBILE RENDERIZZARE IL FILE PDF"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "NESSUN FILE BIOS CORRISPONDENTE IN ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Tasti per gioco"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Impostazioni tasti per gioco"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Questi tasti vengono scritti nella configurazione degli emulatori arcade quando si esce da una pagina dei tasti. Influisce solo sugli emulatori, non su questo frontend. Solo tastiera; i gamepad mantengono le proprie assegnazioni."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Le righe non sovrascritte seguono la configurazione globale. Invio avvia la cattura, tieni premuto un secondo per tornare al tasto globale, B termina e salva."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Invio su una riga avvia la cattura, poi premi il tasto fisico. Tieni premuto un secondo per saltare la riga, B termina e salva."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Ogni gioco ha il proprio profilo tastiera Demul. Le righe non sovrascritte seguono la configurazione globale e il salvataggio qui aggiorna tutti i profili."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "Il numero a destra indica quanti tasti sono sovrascritti per quel gioco; ereditato significa che usa la configurazione globale."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Le righe non sovrascritte seguono la configurazione globale."

@@ -27,6 +27,29 @@
 #include "utils/PlatformUtilIOS.h"
 #endif
 
+namespace {
+// Exia: platform logos are shared by all themes and stored outside the theme
+// directories. Resolve logo paths to the common directory first, but keep the
+// theme-local path as a fallback for themes with their own special logos.
+std::string getSharedPlatformLogoPath(const std::string& path)
+{
+    static const std::string marker {"_inc/systems/logos/"};
+    static const std::string logoDirectory {
+        Utils::FileSystem::getSystemHomeDirectory() + "/assets/pics/platforms/"};
+
+    const std::size_t pos {path.find(marker)};
+    if (pos == std::string::npos)
+        return "";
+
+    const std::string fileName {path.substr(pos + marker.size())};
+    if (fileName.empty() || fileName.find('/') != std::string::npos)
+        return "";
+
+    const std::string sharedPath {logoDirectory + fileName};
+    return Utils::FileSystem::exists(sharedPath) ? sharedPath : "";
+}
+} // namespace
+
 // clang-format off
 std::vector<std::string> ThemeData::sSupportedViews {
     {"all"},
@@ -2552,6 +2575,10 @@ void ThemeData::parseElement(const pugi::xml_node& root,
                     path = ResourceManager::getInstance().getResourcePath(str);
                 else
                     path = Utils::FileSystem::resolveRelativePath(str, mPaths.back(), true);
+
+                const std::string sharedLogoPath {getSharedPlatformLogoPath(path)};
+                if (!sharedLogoPath.empty())
+                    path = sharedLogoPath;
 
                 if (!ResourceManager::getInstance().fileExists(path)) {
                     std::stringstream ss;

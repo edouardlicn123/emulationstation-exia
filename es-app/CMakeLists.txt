@@ -27,11 +27,15 @@ set(ES_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/UIModeController.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/VolumeControl.h
 
+    # Components
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/components/ScraperSearchComponent.h
+
     # GUIs
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiAlternativeEmulators.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiApplicationUpdater.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiCollectionSystemsOptions.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGameImporter.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGameScraper.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiEmulatorSelector.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiArcadeKeybinds.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiExiaSettings.h
@@ -52,13 +56,18 @@ set(ES_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperSingle.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScreensaverOptions.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSettings.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSystemSortOptions.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSystemStatusOptions.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiThemeDownloader.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/PlatformSettings.h
 
     # Scrapers
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/ArcadeDBJSONScraper.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/BackgroundScraper.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/GamesDBJSONScraper.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/GamesDBJSONScraperResources.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/HfsDBScraper.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/IGDBScraper.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/Scraper.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/ScreenScraper.h
 
@@ -85,14 +94,19 @@ set(ES_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/PDFViewer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Screensaver.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/SystemData.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/SystemDataSqlite.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/UIModeController.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/VolumeControl.cpp
+
+    # Components
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/components/ScraperSearchComponent.cpp
 
     # GUIs
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiAlternativeEmulators.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiApplicationUpdater.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiCollectionSystemsOptions.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGameImporter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiGameScraper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiEmulatorSelector.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiArcadeKeybinds.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiExiaSettings.cpp
@@ -113,13 +127,18 @@ set(ES_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScraperSingle.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiScreensaverOptions.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSettings.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSystemSortOptions.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSystemStatusOptions.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiThemeDownloader.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/PlatformSettings.cpp
 
     # Scrapers
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/ArcadeDBJSONScraper.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/BackgroundScraper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/GamesDBJSONScraper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/GamesDBJSONScraperResources.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/HfsDBScraper.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/IGDBScraper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/Scraper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/ScreenScraper.cpp
 

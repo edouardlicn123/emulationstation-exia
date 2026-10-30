@@ -22,6 +22,11 @@ void screenscraper_generate_scraper_requests(const ScraperSearchParams& params,
                                              std::queue<std::unique_ptr<ScraperRequest>>& requests,
                                              std::vector<ScraperSearchResult>& results);
 
+// Returns how many parallel scraping slots the service allows for the configured account.
+// This is a blocking call (bounded by a short timeout) as it's only made once when a batch
+// scrape is started. Without an account, or if the request fails, a single slot is used.
+int screenscraper_get_thread_count(std::string& error);
+
 class ScreenScraperRequest : public ScraperHttpRequest
 {
 public:

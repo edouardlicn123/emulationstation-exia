@@ -60,6 +60,15 @@ MenuComponent::MenuComponent(std::string title, const std::shared_ptr<Font>& tit
 
     mScrollIndicator = std::make_shared<ScrollIndicatorComponent>(mList, mScrollUp, mScrollDown);
 
+    // Initialize help panel members (hidden by default until refreshHelp creates them).
+    mHelpBackground = std::make_shared<BackgroundComponent>();
+    mHelpTitle = std::make_shared<TextComponent>();
+    mHelpBody = std::make_shared<TextComponent>();
+
+    addChild(mHelpBackground.get());
+    addChild(mHelpTitle.get());
+    addChild(mHelpBody.get());
+
     mGrid.setEntry(mScrollUp, glm::ivec2 {1, 0}, false, false, glm::ivec2 {1, 1});
     mGrid.setEntry(mScrollDown, glm::ivec2 {1, 1}, false, false, glm::ivec2 {1, 1});
 
@@ -67,6 +76,12 @@ MenuComponent::MenuComponent(std::string title, const std::shared_ptr<Font>& tit
     updateSize();
 
     mGrid.resetCursor();
+
+    // Register cursor changed callback for help panel.
+    mList->setCursorChangedCallback([this](CursorState) { refreshHelp(); });
+
+    // Initial help refresh after focus.
+    refreshHelp();
 }
 
 MenuComponent::~MenuComponent()
@@ -128,6 +143,7 @@ void MenuComponent::updateSize()
                  0.75f};
 
     setSize(width, height);
+    refreshHelp();
 }
 
 void MenuComponent::onSizeChanged()
@@ -198,6 +214,99 @@ std::shared_ptr<ComponentGrid> MenuComponent::makeButtonGrid(
     buttonGrid->setRowHeightPerc(1, 2.0f / buttonGrid->getSize().y);
 
     return buttonGrid;
+}
+
+float MenuComponent::getMenuLeft()
+{
+    const Renderer* renderer {Renderer::getInstance()};
+    return std::round(std::min(renderer->getScreenHeight() * 0.142f,
+                               renderer->getScreenWidth() * 0.09f));
+}
+
+void MenuComponent::refreshHelp()
+{
+    const bool showHelp {Settings::getInstance()->getBool("MenuHelp")};
+    const std::string helpStr {mList && mList->isFocused() ?
+                                  mList->getRowHelpText(mList->getCursorId()) : ""};
+
+    if (!showHelp || helpStr.empty()) {
+        mHelpBackground->setOpacity(0.0f);
+        mHelpTitle->setOpacity(0.0f);
+        mHelpBody->setOpacity(0.0f);
+        return;
+    }
+
+    mHelpTitle->setText(_("TIPS"));
+    // Exia local change: a theme supplied menu font size overrides the default size passed to
+    // getMenuThemeFont(), so scale the resolved font instead of its argument.
+    const std::shared_ptr<Font> helpTitleFont {getMenuThemeFont(FONT_SIZE_MEDIUM)};
+    mHelpTitle->setFont(Font::get(helpTitleFont->getSize() * 1.3f, helpTitleFont->getPath()));
+    mHelpTitle->setColor(mMenuColorTitle);
+    mHelpBody->setText(helpStr);
+    mHelpBody->setFont(getMenuThemeFont(FONT_SIZE_MEDIUM));
+    mHelpBody->setColor(mMenuColorPrimary);
+
+    const float gap {std::round(mRenderer->getScreenHeight() * 0.02f)};
+    const float panelWanted {getSize().x * 0.85f};
+    const float available {mRenderer->getScreenWidth() * 0.98f - (getPosition().x + getSize().x + gap)};
+    float panelW {std::min(panelWanted, std::max(available, 0.0f))};
+
+    if (showHelp && !helpStr.empty() && panelW >= panelWanted * 0.5f && panelW > 0) {
+        // Background with square corners.
+        mHelpBackground->setCornerSize(glm::vec2(0.0f, 0.0f));
+        mHelpBackground->setPosition(getPosition().x + getSize().x + gap, getPosition().y);
+
+        // Title with indent.
+        const float titleCharW {mHelpTitle->getFont()->getLetterHeight() * 0.6f};
+        const float titleIndent {titleCharW * 6.0f};
+        mHelpTitle->setSize(panelW, mHelpTitle->getFont()->getLetterHeight());
+        mHelpTitle->setPosition(getPosition().x + getSize().x + gap + titleIndent, getPosition().y);
+
+        // Body text with wrap constraint.
+        const float horizontalPadding {20.0f};
+        const float bodyContentW {panelW - horizontalPadding};
+        mHelpBody->setAutoCalcExtent(glm::ivec2 {0, 1});
+        mHelpBody->setSize(bodyContentW, 0.0f);
+
+        // Calculate adaptive height based on actual text size.
+        const float titleH {mHelpTitle->getFont()->getLetterHeight()};
+        const float bodyH {mHelpBody->getSize().y > 0.0f ? mHelpBody->getSize().y : titleH * 1.5f};
+        const float verticalPadding {8.0f};
+        const float maxPanelH {mRenderer->getScreenHeight() * 0.45f};
+        float panelH {std::min(titleH + bodyH + verticalPadding, maxPanelH)};
+        if (panelH < titleH + verticalPadding)
+            panelH = titleH + verticalPadding;
+
+        mHelpBackground->setSize(panelW, panelH);
+        mHelpBody->setPosition(getPosition().x + getSize().x + gap + 10.0f,
+                                getPosition().y + titleH + verticalPadding / 2.0f);
+
+        mHelpBackground->setOpacity(1.0f);
+        mHelpTitle->setOpacity(1.0f);
+        mHelpBody->setOpacity(1.0f);
+    } else {
+        mHelpBackground->setOpacity(0.0f);
+        mHelpTitle->setOpacity(0.0f);
+        mHelpBody->setOpacity(0.0f);
+    }
+}
+
+bool MenuComponent::input(InputConfig* config, Input input)
+{
+    // Input callbacks of the rows and buttons dispatch from here, and they may close and delete
+    // the Gui that owns this menu component (this menu is typically one of its members). Resolve
+    // the owning Gui before dispatching and only touch this object again if it is still shown.
+    Window* const window {mWindow};
+    GuiComponent* const shownGui {window != nullptr ? window->peekGui() : nullptr};
+    GuiComponent* owner {this};
+    while (owner->getParent() != nullptr)
+        owner = owner->getParent();
+
+    const bool handled {GuiComponent::input(config, input)};
+
+    if (window != nullptr && window->peekGui() == shownGui && shownGui == owner)
+        refreshHelp();
+    return handled;
 }
 
 std::shared_ptr<ImageComponent> MenuComponent::makeArrow()

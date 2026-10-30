@@ -18,9 +18,11 @@
 #include "utils/StringUtil.h"
 #include "utils/TimeUtil.h"
 
+#include <chrono>
 #include <cmath>
 #include <cstring>
 #include <pugixml.hpp>
+#include <thread>
 
 using namespace PlatformIds;
 
@@ -265,6 +267,93 @@ void screenscraper_generate_scraper_requests(const ScraperSearchParams& params,
             requests, results,
             path + "&systemeid=" + HttpReq::urlEncode(std::to_string(*platform)))));
     }
+}
+
+int screenscraper_get_thread_count(std::string& error)
+{
+    Settings* settings {Settings::getInstance()};
+
+    // Anonymous scraping is limited to a single request at a time, and there is no account
+    // information to query in that case.
+    if (!settings->getBool("ScraperUseAccountScreenScraper"))
+        return 1;
+
+    const std::string username {settings->getString("ScraperUsernameScreenScraper")};
+    const std::string password {settings->getString("ScraperPasswordScreenScraper")};
+
+    if (username.empty() || password.empty())
+        return 1;
+
+    const ScreenScraperRequest::ScreenScraperConfig ssConfig;
+
+    std::string url;
+    url.append(ssConfig.API_URL_BASE)
+        .append("/ssuserInfos.php?devid=")
+        .append(Utils::String::scramble(ssConfig.API_DEV_U, ssConfig.API_DEV_KEY))
+        .append("&devpassword=")
+        .append(Utils::String::scramble(ssConfig.API_DEV_P, ssConfig.API_DEV_KEY))
+        .append("&softname=")
+        .append(HttpReq::urlEncode(ssConfig.API_SOFT_NAME))
+        .append("&output=xml&ssid=")
+        .append(HttpReq::urlEncode(username))
+        .append("&sspassword=")
+        .append(HttpReq::urlEncode(password));
+
+    std::unique_ptr<HttpReq> req {std::make_unique<HttpReq>(url, true)};
+
+    // The transfer itself runs in the HttpReq worker thread, so poll the status here with a
+    // hard time limit to not delay the start of the scraping for too long.
+    const std::chrono::steady_clock::time_point startTime {std::chrono::steady_clock::now()};
+    while (req->status() == HttpReq::REQ_IN_PROGRESS) {
+        if (std::chrono::steady_clock::now() - startTime > std::chrono::seconds(5)) {
+            error = "timeout";
+            LOG(LogWarning) << "ScreenScraper: Timeout while requesting the user information, "
+                               "using a single scraping slot";
+            return 1;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+
+    if (req->status() != HttpReq::REQ_SUCCESS) {
+        error = req->getErrorMsg();
+        LOG(LogWarning) << "ScreenScraper: Couldn't get the user information ("
+                        << req->getErrorMsg() << "), using a single scraping slot";
+        return 1;
+    }
+
+    pugi::xml_document doc;
+    pugi::xml_parse_result parseResult {doc.load_string(req->getContent().c_str())};
+
+    if (!parseResult) {
+        error = parseResult.description();
+        LOG(LogWarning) << "ScreenScraper: Error parsing the user information XML ("
+                        << parseResult.description() << "), using a single scraping slot";
+        return 1;
+    }
+
+    // The "niveau" tag indicates whether the account is valid (correct username and password).
+    const pugi::xml_node userInfo {doc.child("Data").child("ssuser")};
+
+    if (!userInfo || userInfo.child("niveau").text().as_int(0) == 0) {
+        error = "invalid credentials";
+        LOG(LogError) << "ScreenScraper: Couldn't authenticate user \"" << username
+                      << "\", using a single scraping slot";
+        return 1;
+    }
+
+    const int maxThreads {userInfo.child("maxthreads").text().as_int(0)};
+
+    if (maxThreads < 1) {
+        error = "missing maxthreads";
+        LOG(LogWarning) << "ScreenScraper: No maxthreads value in the user information, "
+                           "using a single scraping slot";
+        return 1;
+    }
+
+    LOG(LogInfo) << "ScreenScraper: The account allows " << maxThreads
+                 << " parallel scraping slots";
+
+    return maxThreads;
 }
 
 void ScreenScraperRequest::process(const std::unique_ptr<HttpReq>& req,

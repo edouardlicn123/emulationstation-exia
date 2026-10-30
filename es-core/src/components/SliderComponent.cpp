@@ -57,19 +57,20 @@ bool SliderComponent::input(InputConfig* config, Input input)
         return false;
 
     if (input.value != 0) {
-        if (config->isMappedLike("left", input)) {
-            if (input.value)
-                setValue(mValue - mSingleIncrement);
+        if (config->isMappedLike("left", input) || config->isMappedLike("right", input)) {
+            const float increment {config->isMappedLike("left", input) ? -mSingleIncrement :
+                                                                        mSingleIncrement};
+            // setValue() runs the value changed callback, which may close and delete the Gui that
+            // owns this slider. Only touch this component again if the shown Gui is unchanged.
+            Window* const window {mWindow};
+            GuiComponent* const shownGui {window != nullptr ? window->peekGui() : nullptr};
 
-            mMoveRate = input.value ? -mSingleIncrement : 0.0f;
-            mMoveAccumulator = -MOVE_REPEAT_DELAY;
-            return true;
-        }
-        if (config->isMappedLike("right", input)) {
-            if (input.value)
-                setValue(mValue + mSingleIncrement);
+            setValue(mValue + increment);
 
-            mMoveRate = input.value ? mSingleIncrement : 0.0f;
+            if (window != nullptr && window->peekGui() != shownGui)
+                return true;
+
+            mMoveRate = increment;
             mMoveAccumulator = -MOVE_REPEAT_DELAY;
             return true;
         }
@@ -86,7 +87,15 @@ void SliderComponent::update(int deltaTime)
     if (mMoveRate != 0) {
         mMoveAccumulator += deltaTime;
         while (mMoveAccumulator >= MOVE_REPEAT_RATE) {
+            Window* const window {mWindow};
+            GuiComponent* const shownGui {window != nullptr ? window->peekGui() : nullptr};
+
             setValue(mValue + mMoveRate);
+
+            // The value changed callback may have deleted the Gui owning this slider.
+            if (window != nullptr && window->peekGui() != shownGui)
+                return;
+
             mMoveAccumulator -= MOVE_REPEAT_RATE;
         }
     }

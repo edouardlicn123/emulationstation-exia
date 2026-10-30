@@ -622,7 +622,61 @@ namespace GamelistStore
             return statement.stepDone();
         }
 
+        // ------------------------------------------------------------------
+        // Step 2 split helpers moved to namespace scope (see below).
+        // ------------------------------------------------------------------
     } // namespace
+
+    bool readStoreData(const std::string& storePath, StoreData& data)
+    {
+        Connection connection {storePath, true};
+        if (!connection.isValid())
+            return false;
+
+        sqlite3_exec(connection.get(), "PRAGMA journal_mode=WAL;", nullptr, nullptr, nullptr);
+        sqlite3_exec(connection.get(), "PRAGMA synchronous=NORMAL;", nullptr, nullptr, nullptr);
+
+        std::vector<std::map<std::string, std::string>> gameRows;
+        std::vector<std::map<std::string, std::string>> folderRows;
+
+        // Access internal readTable via a helper in anonymous namespace (already there)
+        // For simplicity, replicate readTable logic here using direct sqlite3_step.
+        Statement stmtGame {connection.get(), "SELECT * FROM game"};
+        if (stmtGame.isValid()) {
+            const int colCount {sqlite3_column_count(stmtGame.get())};
+            while (stmtGame.step()) {
+                std::map<std::string, std::string> row;
+                for (int i = 0; i < colCount; ++i)
+                    row[sqlite3_column_name(stmtGame.get(), i)] = stmtGame.column(i);
+                gameRows.push_back(row);
+            }
+        }
+        Statement stmtFolder {connection.get(), "SELECT * FROM folder"};
+        if (stmtFolder.isValid()) {
+            const int colCount {sqlite3_column_count(stmtFolder.get())};
+            while (stmtFolder.step()) {
+                std::map<std::string, std::string> row;
+                for (int i = 0; i < colCount; ++i)
+                    row[sqlite3_column_name(stmtFolder.get(), i)] = stmtFolder.column(i);
+                folderRows.push_back(row);
+            }
+        }
+
+        data.gameRows = std::move(gameRows);
+        data.folderRows = std::move(folderRows);
+        data.meta = readMeta(connection.get());
+        data.localizedNames = readLocalizedNames(connection.get());
+        return true;
+    }
+
+    void applyStoreData(SystemData* system, const StoreData& data)
+    {
+        applySystemMetaData(system, data.meta);
+        for (const auto& row : data.gameRows)
+            applyEntry(system, row, GAME, data.localizedNames);
+        for (const auto& row : data.folderRows)
+            applyEntry(system, row, FOLDER, data.localizedNames);
+    }
 
     // ------------------------------------------------------------------
     // Store paths
@@ -768,6 +822,7 @@ namespace GamelistStore
 
     void load(SystemData* system)
     {
+
         std::string storePath {getPlatformStorePath(system->getName())};
 
         if (!Utils::FileSystem::exists(storePath)) {
@@ -783,35 +838,15 @@ namespace GamelistStore
             }
         }
 
-        Connection connection {storePath, true};
-        if (!connection.isValid()) {
-            LOG(LogError) << "GamelistStore::load(): Using no metadata for system \""
-                          << system->getName() << "\"";
-            removeOrphanedNoLoadEntries(system);
-            return;
-        }
-
-        LOG(LogInfo) << "Reading metadata store \"" << storePath << "\"...";
-
-        std::vector<std::map<std::string, std::string>> gameRows;
-        std::vector<std::map<std::string, std::string>> folderRows;
-
-        if (!readTable(connection.get(), "game", gameRows) ||
-            !readTable(connection.get(), "folder", folderRows)) {
+        StoreData data;
+        if (!readStoreData(storePath, data)) {
             LOG(LogError) << "GamelistStore: Using no metadata for system \"" << system->getName()
                           << "\", the store could not be read";
             removeOrphanedNoLoadEntries(system);
             return;
         }
 
-        applySystemMetaData(system, readMeta(connection.get()));
-
-        const std::map<std::string, std::string> localizedNames {readLocalizedNames(connection.get())};
-
-        for (const auto& row : gameRows)
-            applyEntry(system, row, GAME, localizedNames);
-        for (const auto& row : folderRows)
-            applyEntry(system, row, FOLDER, localizedNames);
+        applyStoreData(system, data);
 
         removeOrphanedNoLoadEntries(system);
     }

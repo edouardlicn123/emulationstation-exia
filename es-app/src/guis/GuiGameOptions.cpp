@@ -17,8 +17,10 @@
 #include "components/SwitchComponent.h"
 #include "GuiMetaDataEd.h"
 #include "Sound.h"
+#include "Settings.h"
 #include "UIModeController.h"
 #include "guis/GuiEmulatorSelector.h"
+#include "guis/GuiGameScraper.h"
 #include "guis/GuiMsgBox.h"
 #include "guis/GuiScraperMenu.h"
 #include "scrapers/Scraper.h"
@@ -74,7 +76,18 @@ GuiGameOptions::GuiGameOptions(FileData* game)
     });
 
     addEntry(_("SCRAPE"), [this] {
-        mWindow->pushGui(new GuiScraperMenu(_("SCRAPE")));
+        // Scraping from the game options menu targets the selected game only. Folders keep
+        // the batch entry point as they are scraped through the system selections.
+        if (mGame->getType() == GAME) {
+            // close() destroys "this", so the game pointer is captured by value. The scraper
+            // reloads the gamelist itself once the metadata and the media have been written,
+            // so no callback is needed here.
+            FileData* game {mGame};
+            mWindow->pushGui(new GuiGameScraper(mWindow, game));
+        }
+        else {
+            mWindow->pushGui(new GuiScraperMenu(_("SCRAPE")));
+        }
         close();
     });
 
@@ -140,7 +153,7 @@ GuiGameOptions::GuiGameOptions(FileData* game)
     mMenu.addButton(_("BACK"), _("back"), [this] { close(); });
 
     setSize(Renderer::getScreenWidth(), Renderer::getScreenHeight());
-    mMenu.setPosition((mSize.x - mMenu.getSize().x) / 2.0f,
+    mMenu.setPosition(MenuComponent::getMenuLeft(),
                       (mSize.y - mMenu.getSize().y) / 2.0f);
 }
 
@@ -241,6 +254,8 @@ void GuiGameOptions::openMetaDataEd()
     ScraperSearchParams params;
     params.system = game->getSystem();
     params.game = game;
+    params.overwriteMedia = Settings::getInstance()->getBool("ScraperOverwriteData") &&
+                            Settings::getInstance()->getBool("ScraperOverwriteMedia");
 
     std::function<void()> clearGameFunc;
     std::function<void()> deleteGameFunc;

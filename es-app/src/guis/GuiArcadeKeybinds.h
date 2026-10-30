@@ -29,8 +29,10 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
+class SystemData;
 class TextComponent;
 
 // Persistent bindings store for the 33 setup keys (P1/P2: coin, start, dpad, buttons
@@ -57,7 +59,40 @@ private:
     std::map<std::string, std::string> mBindings;
 };
 
-// Main entry page: explanation plus the three groups and an immediate write-all.
+// Per game overrides on top of ArcadeKeybindStore (devdoc/43 extension). Only the keys
+// that differ from the global setup are stored, everything else is inherited, so the
+// main setup page keeps driving the defaults for every Demul game.
+class ArcadePerGameStore
+{
+public:
+    using Overrides = std::map<std::string, std::string>;
+
+    static ArcadePerGameStore& getInstance();
+
+    static std::string getPath();
+    // <appdata>/arcade_keybinds/demul, one complete padDemul.ini copy per game below it.
+    static std::string getSnapshotRoot();
+
+    void load();
+    bool save();
+
+    // Empty when the game inherits the global binding.
+    std::string get(const std::string& system, const std::string& rom,
+                    const std::string& key) const;
+    // An empty value removes the override and restores the inherited binding.
+    void set(const std::string& system, const std::string& rom, const std::string& key,
+             const std::string& value);
+
+    size_t overrideCount(const std::string& system, const std::string& rom) const;
+    const Overrides& overridesFor(const std::string& system, const std::string& rom) const;
+    std::vector<std::pair<std::string, std::string>> gameList() const;
+
+private:
+    std::map<std::pair<std::string, std::string>, Overrides> mGames;
+};
+
+// Main entry page: explanation plus the navigation to the key groups. Each key page
+// persists its changes when it is closed.
 class GuiArcadeKeybinds : public GuiSettings
 {
 public:
@@ -65,10 +100,8 @@ public:
 
 private:
     ComponentListRow makeNavRow(const std::string& label, const std::string& value,
-                                const std::function<void()>& func);
-    ComponentListRow makeNoteRow(const std::string& text);
-
-    void saveAll();
+                                const std::function<void()>& func,
+                                const std::string& help = "");
 };
 
 // Per group capture page. Rows are captured with the GuiInputConfig press/release
@@ -76,7 +109,10 @@ private:
 class GuiArcadeKeybindPage : public GuiSettings
 {
 public:
-    GuiArcadeKeybindPage(const std::string& title, const std::string& prefix);
+    // system/rom empty means the global setup, otherwise the page edits the overrides
+    // of that one Demul game and shows the inherited values for the untouched rows.
+    GuiArcadeKeybindPage(const std::string& title, const std::string& prefix,
+                         const std::string& system = "", const std::string& rom = "");
 
     void update(int deltaTime) override;
     bool input(InputConfig* config, Input input) override;
@@ -87,8 +123,8 @@ private:
     void rowDone();
     void setPressText(int index);
     void setNotDefined(int index);
-    void saveAll();
-    ComponentListRow makeNoteRow(const std::string& text);
+    void refreshRow(int index);
+    void saveAll(bool report = true);
 
     struct KeyRow {
         std::string settingsKey;
@@ -99,12 +135,62 @@ private:
     std::vector<std::shared_ptr<TextComponent>> mMappings;
     std::vector<KeyRow> mTargetKeys;
 
+    std::string mSystem;
+    std::string mRom;
+    bool mPerGame {false};
+
     bool mConfiguringAll {false};
     bool mConfiguringRow {false};
     bool mHoldingInput {false};
     Input mHeldInput;
     int mHeldInputId {0};
     int mHeldTime {0};
+};
+
+// Platform picker for the per game setup: lists every system launched through Demul.
+class GuiArcadePerGameSystems : public GuiSettings
+{
+public:
+    GuiArcadePerGameSystems();
+
+private:
+    ComponentListRow makeNavRow(const std::string& label, const std::string& value,
+                                const std::function<void()>& func,
+                                const std::string& help = "");
+    ComponentListRow makeNoteRow(const std::string& text);
+};
+
+// Game picker inside one Demul platform, showing how many keys are overridden.
+class GuiArcadePerGameGames : public GuiSettings
+{
+public:
+    explicit GuiArcadePerGameGames(SystemData* system);
+
+    bool input(InputConfig* config, Input input) override;
+
+private:
+    ComponentListRow makeNavRow(const std::string& label, const std::string& value,
+                                const std::function<void()>& func,
+                                std::shared_ptr<TextComponent>* valueText = nullptr,
+                                const std::string& help = "");
+    ComponentListRow makeNoteRow(const std::string& text);
+
+    std::string mSystemName;
+    std::vector<std::pair<std::string, std::shared_ptr<TextComponent>>> mValues;
+    bool mRefreshPending {false};
+};
+
+// Player picker for one game, mirroring the P1/P2 split of the global setup.
+class GuiArcadePerGamePlayers : public GuiSettings
+{
+public:
+    GuiArcadePerGamePlayers(const std::string& title, const std::string& system,
+                            const std::string& rom);
+
+private:
+    ComponentListRow makeNavRow(const std::string& label, const std::string& value,
+                                const std::function<void()>& func,
+                                const std::string& help = "");
 };
 
 #endif // ES_APP_GUIS_GUI_ARCADE_KEYBINDS_H

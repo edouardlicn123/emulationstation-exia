@@ -22,6 +22,7 @@
 #include "Settings.h"
 #include "Sound.h"
 #include "SystemData.h"
+#include "GamelistStore.h"
 #include "SystemView.h"
 #include "UIModeController.h"
 #include "Window.h"
@@ -1382,6 +1383,18 @@ void ViewController::update(int deltaTime)
 
     updateSelf(deltaTime);
 
+    // Step 5: consume background preload queue (main thread only for apply/preload).
+    {
+        std::lock_guard<std::mutex> lock(mPreloadQueueMutex);
+        while (!mPreloadQueue.empty()) {
+            auto entry = mPreloadQueue.front();
+            mPreloadQueue.pop();
+            GamelistStore::applyStoreData(entry.first, entry.second);
+            entry.first->getIndex()->resetFilters();
+            getGamelistView(entry.first)->preloadGamelist();
+        }
+    }
+
     if (mGameToLaunch) {
         launch(mGameToLaunch);
         mWindow->setGameLaunched(mGameToLaunch);
@@ -1494,6 +1507,25 @@ void ViewController::preload()
         }
         (*it)->getIndex()->resetFilters();
         getGamelistView(*it)->preloadGamelist();
+
+        // Step 3: only preload the first system at startup; others deferred.
+        break;
+    }
+
+    // Step 5: start background preload for remaining systems (pure read only).
+    if (!mPreloadRunning && SystemData::sSystemVector.size() > 1) {
+        mPreloadRunning = true;
+        mPreloadThread = std::thread([this]() {
+            for (size_t i = 1; i < SystemData::sSystemVector.size(); ++i) {
+                SystemData* system = SystemData::sSystemVector.at(i);
+                std::string storePath = GamelistStore::getPlatformStorePath(system->getName());
+                GamelistStore::StoreData data;
+                if (GamelistStore::readStoreData(storePath, data)) {
+                    std::lock_guard<std::mutex> lock(mPreloadQueueMutex);
+                    mPreloadQueue.push({system, data});
+                }
+            }
+        });
     }
 
     if (splashScreen && SystemData::sSystemVector.size() > 0)
@@ -1575,6 +1607,32 @@ void ViewController::reloadGamelistView(GamelistView* view, bool reloadTheme)
     // Redisplay the current view.
     if (mCurrentView)
         mCurrentView->onShow();
+}
+
+void ViewController::sortSystemsAndRefresh()
+{
+    if (mRenderer->getSDLWindow() == nullptr || mSystemListView == nullptr)
+        return;
+
+    cancelViewTransitions();
+    mSystemListView->stopScrolling();
+
+    SystemData* system {mState.viewing == ViewMode::SYSTEM_SELECT ? mState.getSystem() : nullptr};
+
+    // Release the current view before rebuilding, as reloadAll() does.
+    if (mState.viewing == ViewMode::SYSTEM_SELECT)
+        mCurrentView = nullptr;
+
+    mSystemListView.reset();
+    getSystemListView();
+
+    if (mState.viewing == ViewMode::SYSTEM_SELECT) {
+        if (system == nullptr || !PlatformSettings::isSystemVisible(system))
+            system = PlatformSettings::firstVisibleSystem();
+        mSystemListView->goToSystem(system, false);
+        mCurrentView = mSystemListView;
+        mCamera[3].x = 0.0f;
+    }
 }
 
 void ViewController::reloadAll()

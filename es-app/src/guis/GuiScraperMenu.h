@@ -22,12 +22,11 @@ class SwitchComponent;
 class SystemData;
 
 template <typename T> class OptionListComponent;
-using GameFilterFunc = std::function<bool(SystemData*, FileData*)>;
 
 class GuiScraperMenu : public GuiComponent
 {
 public:
-    GuiScraperMenu(std::string title);
+    GuiScraperMenu(std::string title, FileData* singleGame = nullptr);
     ~GuiScraperMenu();
 
     bool input(InputConfig* config, Input input) override;
@@ -43,13 +42,21 @@ private:
                   bool add_arrow,
                   const std::function<void()>& func);
     void openAccountOptions();
+    void openScreenScraperAccount();
+    void openHfsDBAccount();
+    void openIGDBAccount();
+    void addSubMenuRow(GuiSettings* settings, const std::string& label,
+                       const std::function<void()>& func);
     void openContentOptions();
     void openMiximageOptions();
     void openOfflineGenerator(GuiSettings* settings);
     void openOtherOptions();
 
     std::pair<std::queue<ScraperSearchParams>, std::map<SystemData*, int>> getSearches(
-        std::vector<SystemData*> systems, GameFilterFunc selector);
+        std::vector<SystemData*> systems, GameFilterFunc selector, bool overwriteMedia);
+
+    // Session-only setting, it is intentionally not persisted to the settings file.
+    static inline int sSkipRecentDays {0};
 
     std::shared_ptr<OptionListComponent<std::string>> mScraper;
     std::shared_ptr<OptionListComponent<GameFilterFunc>> mFilters;
@@ -58,6 +65,10 @@ private:
 
     Renderer* mRenderer;
     MenuComponent mMenu;
+
+    // Set when the menu is opened for a single game from the game options menu, in which
+    // case no systems or filters are shown and only this game is added to the queue.
+    FileData* mSingleGame;
 };
 
 #endif // ES_APP_GUIS_GUI_SCRAPER_MENU_H

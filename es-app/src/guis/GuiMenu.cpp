@@ -71,60 +71,90 @@ GuiMenu::GuiMenu()
 
     // Exia local addition, always the first entry of the main menu.
     if (isFullUI)
-        addEntry(_("EXIA SETTINGS"), mMenuColorPrimary, true, [this] { openExiaSettings(); });
+        addEntry(_("EXIA SETTINGS"), mMenuColorPrimary, true, [this] { openExiaSettings(); },
+                 _("System-specific settings: BIOS, info, Git proxy, LightDM countdown, font, sudo password."));
 
     if (isFullUI)
-        addEntry(_("SCRAPER"), mMenuColorPrimary, true, [this] { openScraperOptions(); });
+        addEntry(_("SCRAPER"), mMenuColorPrimary, true, [this] { openScraperOptions(); },
+                 _("Configure scraper: source, account, media types, language."));
 
     if (isFullUI)
-        addEntry(_("UI SETTINGS"), mMenuColorPrimary, true, [this] { openUIOptions(); });
+        addEntry(_("UI SETTINGS"), mMenuColorPrimary, true, [this] { openUIOptions(); },
+                 _("Appearance and interaction: theme, language, clock, menu tips, hidden games."));
 
-    addEntry(_("SOUND SETTINGS"), mMenuColorPrimary, true, [this] { openSoundOptions(); });
+    addEntry(_("SOUND SETTINGS"), mMenuColorPrimary, true, [this] { openSoundOptions(); },
+             _("Adjust volume, navigation sounds and system audio."));
 
 #if defined(__linux__)
     // Exia local addition, NetworkManager is Linux only.
-    addEntry(_("NETWORK SETTINGS"), mMenuColorPrimary, true, [this] { openNetworkSettings(); });
+    addEntry(_("NETWORK SETTINGS"), mMenuColorPrimary, true, [this] { openNetworkSettings(); },
+             _("View and configure wired/wireless network connections."));
 #endif
 
     if (isFullUI)
         addEntry(_("INPUT DEVICE SETTINGS"), mMenuColorPrimary, true,
-                 [this] { openInputDeviceOptions(); });
+                 [this] { openInputDeviceOptions(); },
+                 _("Controller and keyboard mapping, input device selection."));
 
     if (isFullUI)
         addEntry(_("GAME COLLECTION SETTINGS"), mMenuColorPrimary, true,
-                 [this] { openCollectionSystemOptions(); });
+                 [this] { openCollectionSystemOptions(); },
+                 _("Manage collections, groups and custom collections."));
 
     if (isFullUI)
-        addEntry(_("PLATFORM SETTINGS"), mMenuColorPrimary, true, [this] { openPlatformSettings(); });
+        addEntry(_("PLATFORM SETTINGS"), mMenuColorPrimary, true, [this] { openPlatformSettings(); },
+                 _("Emulator and launch options per platform."));
 
     if (isFullUI)
-        addEntry(_("OTHER SETTINGS"), mMenuColorPrimary, true, [this] { openOtherOptions(); });
+        addEntry(_("OTHER SETTINGS"), mMenuColorPrimary, true, [this] { openOtherOptions(); },
+                 _("Updater, screensaver, startup screen and miscellaneous."));
 
     if (isFullUI)
-        addEntry(_("UTILITIES"), mMenuColorPrimary, true, [this] { openUtilities(); });
+        addEntry(_("UTILITIES"), mMenuColorPrimary, true, [this] { openUtilities(); },
+                 _("Maintenance tools: cleanup, import, offline generation."));
+
+    if (isFullUI)
+        addEntry(_("SYSTEM INFO"), mMenuColorPrimary, true, [this] { openSystemInfo(); },
+                 _("Build version, system statistics, ES-DE paths, session status."));
 
     if (!Settings::getInstance()->getBool("ForceKiosk") &&
         Settings::getInstance()->getString("UIMode") != "kiosk") {
 #if !defined(__ANDROID__) && !defined(__IOS__)
-        addEntry(_("RESTART ES-DE"), mMenuColorPrimary, false, [this] { openRestartDialog(); });
+        addEntry(_("RESTART ES-DE"), mMenuColorPrimary, false, [this] { openRestartDialog(); },
+                 _("Restart the frontend with current launch parameters."));
 #endif
+        addEntry(_("REBOOT SYSTEM"), mMenuColorPrimary, false, [this] {
+            Window* window {mWindow};
+            window->pushGui(new GuiMsgBox(
+                _("REALLY REBOOT?"), _("YES"),
+                [] {
+                    if (Utils::Platform::quitES(Utils::Platform::QuitMode::REBOOT) != 0)
+                        LOG(LogWarning) << "Couldn't reboot system";
+                },
+                _("NO"), nullptr));
+        },
+        _("Reboot the computer."));
 #if defined(__APPLE__)
-        addEntry(_("QUIT ES-DE"), mMenuColorPrimary, false, [this] { openQuitMenu(); });
+        addEntry(_("QUIT ES-DE"), mMenuColorPrimary, false, [this] { openQuitMenu(); },
+                 _("Exit the frontend and return to desktop."));
 #elif defined(__ANDROID__)
         if (!AndroidVariables::sIsHomeApp)
-            addEntry(_("QUIT ES-DE"), mMenuColorPrimary, false, [this] { openQuitMenu(); });
+            addEntry(_("QUIT ES-DE"), mMenuColorPrimary, false, [this] { openQuitMenu(); },
+                 _("Exit the frontend and return to desktop."));
 #else
         if (Settings::getInstance()->getBool("ShowQuitMenu"))
-            addEntry(_("QUIT"), mMenuColorPrimary, true, [this] { openQuitMenu(); });
+            addEntry(_("QUIT"), mMenuColorPrimary, true, [this] { openQuitMenu(); },
+                     _("Exit the frontend and return to desktop."));
         else
-            addEntry(_("QUIT ES-DE"), mMenuColorPrimary, false, [this] { openQuitMenu(); });
+            addEntry(_("QUIT ES-DE"), mMenuColorPrimary, false, [this] { openQuitMenu(); },
+                 _("Exit the frontend and return to desktop."));
 #endif
     }
 
     addChild(&mMenu);
     addVersionInfo();
     setSize(mMenu.getSize());
-    setPosition((mRenderer->getScreenWidth() - mSize.x) / 2.0f,
+    setPosition(MenuComponent::getMenuLeft(),
                 std::round(mRenderer->getScreenHeight() * 0.13f));
 }
 
@@ -144,6 +174,11 @@ void GuiMenu::openExiaSettings()
 {
     // Open the Exia local settings page (central configuration and maintenance entries).
     mWindow->pushGui(new GuiExiaSettings(_("EXIA SETTINGS")));
+}
+
+void GuiMenu::openSystemInfo()
+{
+    GuiExiaSettings::showSystemInfo(mWindow);
 }
 
 void GuiMenu::openNetworkSettings()
@@ -448,164 +483,7 @@ void GuiMenu::openUIOptions()
     themeAspectRatiosFunc(Settings::getInstance()->getString("Theme"),
                           Settings::getInstance()->getString("ThemeAspectRatio"));
 
-    // Theme transitions.
-    auto themeTransitions =
-        std::make_shared<OptionListComponent<std::string>>(_("THEME TRANSITIONS"), false);
-    std::string selectedThemeTransitions {Settings::getInstance()->getString("ThemeTransitions")};
-    themeTransitions->add(_("AUTOMATIC"), "automatic", selectedThemeTransitions == "automatic");
-    // If there are no objects returned, then there must be a manually modified entry in the
-    // configuration file. Simply set theme transitions to "automatic" in this case.
-    if (themeTransitions->getSelectedObjects().size() == 0)
-        themeTransitions->selectEntry(0);
-    s->addWithLabel(_("THEME TRANSITIONS"), themeTransitions);
-    s->addSaveFunc([themeTransitions, s] {
-        if (themeTransitions->getSelected() !=
-            Settings::getInstance()->getString("ThemeTransitions")) {
-            Settings::getInstance()->setString("ThemeTransitions", themeTransitions->getSelected());
-            ThemeData::setThemeTransitions();
-            s->setNeedsSaving();
-        }
-    });
 
-    auto themeTransitionsFunc = [=](const std::string& selectedTheme,
-                                    const std::string& selectedThemeTransitions) {
-        std::map<std::string, ThemeData::Theme, ThemeData::StringComparator>::const_iterator
-            currentSet {themes.find(selectedTheme)};
-        if (currentSet == themes.cend())
-            return;
-        // We need to recreate the OptionListComponent entries.
-        themeTransitions->clearEntries();
-        themeTransitions->add(_("AUTOMATIC"), "automatic", "automatic" == selectedThemeTransitions);
-        if (currentSet->second.capabilities.transitions.size() == 1 &&
-            currentSet->second.capabilities.transitions.front().selectable) {
-            std::string label;
-            if (currentSet->second.capabilities.transitions.front().labels.front().second == "") {
-                label = _("THEME PROFILE");
-            }
-            else {
-                label = currentSet->second.capabilities.transitions.front().labels.front().second;
-                for (const auto& labelEntry :
-                     currentSet->second.capabilities.transitions.front().labels) {
-                    if (labelEntry.first == Utils::Localization::sCurrentLocale) {
-                        label = labelEntry.second;
-                        break;
-                    }
-                }
-            }
-            const std::string transitions {
-                currentSet->second.capabilities.transitions.front().name};
-            themeTransitions->add(Utils::String::toUpper(label), transitions,
-                                  transitions == selectedThemeTransitions);
-        }
-        else {
-            for (size_t i {0}; i < currentSet->second.capabilities.transitions.size(); ++i) {
-                if (!currentSet->second.capabilities.transitions[i].selectable)
-                    continue;
-                std::string label;
-                if (currentSet->second.capabilities.transitions[i].labels.empty()) {
-                    label = _("THEME PROFILE") + " " + std::to_string(i + 1);
-                }
-                else {
-                    label = currentSet->second.capabilities.transitions[i].labels.front().second;
-                    for (const auto& labelEntry :
-                         currentSet->second.capabilities.transitions[i].labels) {
-                        if (labelEntry.first == Utils::Localization::sCurrentLocale) {
-                            label = labelEntry.second;
-                            break;
-                        }
-                    }
-                }
-                const std::string transitions {currentSet->second.capabilities.transitions[i].name};
-                themeTransitions->add(Utils::String::toUpper(label), transitions,
-                                      transitions == selectedThemeTransitions);
-            }
-        }
-        if (std::find(currentSet->second.capabilities.suppressedTransitionProfiles.cbegin(),
-                      currentSet->second.capabilities.suppressedTransitionProfiles.cend(),
-                      "builtin-instant") ==
-            currentSet->second.capabilities.suppressedTransitionProfiles.cend()) {
-            themeTransitions->add(_("INSTANT (BUILT-IN)"), "builtin-instant",
-                                  "builtin-instant" == selectedThemeTransitions);
-        }
-        if (std::find(currentSet->second.capabilities.suppressedTransitionProfiles.cbegin(),
-                      currentSet->second.capabilities.suppressedTransitionProfiles.cend(),
-                      "builtin-slide") ==
-            currentSet->second.capabilities.suppressedTransitionProfiles.cend()) {
-            themeTransitions->add(_("SLIDE (BUILT-IN)"), "builtin-slide",
-                                  "builtin-slide" == selectedThemeTransitions);
-        }
-        if (std::find(currentSet->second.capabilities.suppressedTransitionProfiles.cbegin(),
-                      currentSet->second.capabilities.suppressedTransitionProfiles.cend(),
-                      "builtin-fade") ==
-            currentSet->second.capabilities.suppressedTransitionProfiles.cend()) {
-            themeTransitions->add(_("FADE (BUILT-IN)"), "builtin-fade",
-                                  "builtin-fade" == selectedThemeTransitions);
-        }
-        if (themeTransitions->getSelectedObjects().size() == 0)
-            themeTransitions->selectEntry(0);
-
-        if (themeTransitions->getNumEntries() == 1) {
-            themeTransitions->setEnabled(false);
-            themeTransitions->setOpacity(DISABLED_OPACITY);
-            themeTransitions->getParent()
-                ->getChild(themeTransitions->getChildIndex() - 1)
-                ->setOpacity(DISABLED_OPACITY);
-        }
-        else {
-            themeTransitions->setEnabled(true);
-            themeTransitions->setOpacity(1.0f);
-            themeTransitions->getParent()
-                ->getChild(themeTransitions->getChildIndex() - 1)
-                ->setOpacity(1.0f);
-        }
-    };
-
-    themeTransitionsFunc(Settings::getInstance()->getString("Theme"),
-                         Settings::getInstance()->getString("ThemeTransitions"));
-
-    // Theme language.
-    auto themeLanguage =
-        std::make_shared<OptionListComponent<std::string>>(_("THEME LANGUAGE"), false);
-    s->addWithLabel(_("THEME LANGUAGE"), themeLanguage);
-    s->addSaveFunc([themeLanguage, s] {
-        if (themeLanguage->getSelected() != Settings::getInstance()->getString("ThemeLanguage")) {
-            Settings::getInstance()->setString("ThemeLanguage", themeLanguage->getSelected());
-            s->setNeedsSaving();
-            s->setNeedsReloading();
-            s->setNeedsClearHelpPromptsImageCache();
-            s->setInvalidateCachedBackground();
-        }
-    });
-
-    auto themeLanguageFunc = [=](const std::string& selectedTheme,
-                                 const std::string& selectedLanguage) {
-        std::map<std::string, ThemeData::Theme, ThemeData::StringComparator>::const_iterator
-            currentSet {themes.find(selectedTheme)};
-        if (currentSet == themes.cend())
-            return;
-        // We need to recreate the OptionListComponent entries.
-        themeLanguage->clearEntries();
-        if (currentSet->second.capabilities.languages.size() > 0) {
-            for (auto& language : currentSet->second.capabilities.languages) {
-                themeLanguage->add(
-                    Utils::String::toUpper(_(ThemeData::getLanguageLabel(language).c_str())),
-                    language, language == selectedLanguage);
-            }
-            if (themeLanguage->getSelectedObjects().size() == 0)
-                themeLanguage->selectEntry(0);
-        }
-        else {
-            themeLanguage->add(_("NONE DEFINED"), "none", true);
-            themeLanguage->setEnabled(false);
-            themeLanguage->setOpacity(DISABLED_OPACITY);
-            themeLanguage->getParent()
-                ->getChild(themeLanguage->getChildIndex() - 1)
-                ->setOpacity(DISABLED_OPACITY);
-        }
-    };
-
-    themeLanguageFunc(Settings::getInstance()->getString("Theme"),
-                      Settings::getInstance()->getString("ThemeLanguage"));
 
     // Application language.
     auto applicationLanguage =
@@ -742,6 +620,14 @@ void GuiMenu::openUIOptions()
     auto systemsSorting =
         std::make_shared<OptionListComponent<std::string>>(_("SYSTEMS SORTING"), false);
     std::string selectedSystemsSorting {Settings::getInstance()->getString("SystemsSorting")};
+    systemsSorting->add(_("LOCALIZED NAME"), "name_localized",
+                        selectedSystemsSorting == "name_localized");
+    systemsSorting->add(_("PLATFORM TYPE, THEN NAME"), "platform_type",
+                        selectedSystemsSorting == "platform_type");
+    systemsSorting->add(_("MANUFACTURER, THEN NAME"), "manufacturer_name",
+                        selectedSystemsSorting == "manufacturer_name");
+    const unsigned int defaultSortingEntry {
+        static_cast<unsigned int>(systemsSorting->getNumEntries())};
     systemsSorting->add(_("FULL NAMES OR CUSTOM"), "default", selectedSystemsSorting == "default");
     systemsSorting->add(_("RELEASE YEAR"), "year", selectedSystemsSorting == "year");
     systemsSorting->add(_("MANUFACTURER, RELEASE YEAR"), "manufacturer_year",
@@ -753,18 +639,31 @@ void GuiMenu::openUIOptions()
     // If there are no objects returned, then there must be a manually modified entry in the
     // configuration file. Simply set the systems sorting to "default" in this case.
     if (systemsSorting->getSelectedObjects().size() == 0)
-        systemsSorting->selectEntry(0);
+        systemsSorting->selectEntry(defaultSortingEntry);
     s->addWithLabel(_("SYSTEMS SORTING"), systemsSorting);
     s->addSaveFunc([this, systemsSorting, s] {
-        if (systemsSorting->getSelected() != Settings::getInstance()->getString("SystemsSorting")) {
-            Settings::getInstance()->setString("SystemsSorting", systemsSorting->getSelected());
-            s->setNeedsSaving();
-            if (mThemeDownloaderReloadCounter == 0)
-                s->setNeedsCloseMenu([this] { delete this; });
-            else
-                ++mThemeDownloaderReloadCounter;
-            s->setNeedsRescanROMDirectory();
+        const std::string newSorting {systemsSorting->getSelected()};
+
+        if (newSorting == Settings::getInstance()->getString("SystemsSorting"))
+            return;
+
+        Settings::getInstance()->setString("SystemsSorting", newSorting);
+        s->setNeedsSaving();
+
+        // The localized sorting modes only re-order the loaded systems, so no ROM directory
+        // rescan is needed (devdoc/56).
+        if (newSorting == "name_localized" || newSorting == "platform_type" ||
+            newSorting == "manufacturer_name") {
+            SystemData::sortSystems();
+            ViewController::getInstance()->sortSystemsAndRefresh();
+            return;
         }
+
+        if (mThemeDownloaderReloadCounter == 0)
+            s->setNeedsCloseMenu([this] { delete this; });
+        else
+            ++mThemeDownloaderReloadCounter;
+        s->setNeedsRescanROMDirectory();
     });
 
     // Default gamelist sort order.
@@ -1215,8 +1114,6 @@ void GuiMenu::openUIOptions()
             themeColorSchemesFunc(themeName, themeColorScheme->getSelected());
             themeFontSizeFunc(themeName, themeFontSize->getSelected());
             themeAspectRatiosFunc(themeName, themeAspectRatio->getSelected());
-            themeLanguageFunc(themeName, themeLanguage->getSelected());
-            themeTransitionsFunc(themeName, themeTransitions->getSelected());
         }
         int selectableVariants {0};
         for (auto& variant : selectedTheme->second.capabilities.variants) {
@@ -1263,20 +1160,6 @@ void GuiMenu::openUIOptions()
             themeFontSize->setOpacity(DISABLED_OPACITY);
             themeFontSize->getParent()
                 ->getChild(themeFontSize->getChildIndex() - 1)
-                ->setOpacity(DISABLED_OPACITY);
-        }
-        if (selectedTheme->second.capabilities.languages.size() > 0) {
-            themeLanguage->setEnabled(true);
-            themeLanguage->setOpacity(1.0f);
-            themeLanguage->getParent()
-                ->getChild(themeLanguage->getChildIndex() - 1)
-                ->setOpacity(1.0f);
-        }
-        else {
-            themeLanguage->setEnabled(false);
-            themeLanguage->setOpacity(DISABLED_OPACITY);
-            themeLanguage->getParent()
-                ->getChild(themeLanguage->getChildIndex() - 1)
                 ->setOpacity(DISABLED_OPACITY);
         }
         if (selectedTheme->second.capabilities.aspectRatios.size() > 0) {
@@ -2814,12 +2697,14 @@ void GuiMenu::onSizeChanged()
 void GuiMenu::addEntry(const std::string& name,
                        unsigned int color,
                        bool add_arrow,
-                       const std::function<void()>& func)
+                       const std::function<void()>& func,
+                       const std::string& helpText)
 {
     std::shared_ptr<Font> font {getMenuThemeFont(FONT_SIZE_MEDIUM)};
 
     // Populate the list.
     ComponentListRow row;
+    row.helpText = helpText;
     row.addElement(std::make_shared<TextComponent>(name, font, color), true);
 
     if (add_arrow) {

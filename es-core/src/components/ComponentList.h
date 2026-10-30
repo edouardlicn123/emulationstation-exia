@@ -35,6 +35,7 @@ struct ComponentListRow {
     // If no input handler is supplied (inputHandler == nullptr), then the default behavior
     // is to forward the input to the rightmost element in the currently selected row.
     std::function<bool(InputConfig*, Input)> inputHandler;
+    std::string helpText;
 
     void addElement(const std::shared_ptr<GuiComponent>& comp,
                     bool resizeWidth,
@@ -92,6 +93,15 @@ public:
     const float getRowHeight() const { return mRowHeight; }
     void setRowHeight(float height) { mRowHeight = height; }
     const float getTotalRowHeight() const { return mRowHeight * mEntries.size(); }
+
+    bool isFocused() const { return mFocused; }
+    const std::string& getRowHelpText(int index) const
+    {
+        static const std::string emptyString;
+        if (index < 0 || static_cast<size_t>(index) >= mEntries.size())
+            return emptyString;
+        return mEntries.at(index).data.helpText;
+    }
 
     void resetSelectedRow()
     {

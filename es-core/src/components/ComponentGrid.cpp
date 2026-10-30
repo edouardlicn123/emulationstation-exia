@@ -9,6 +9,7 @@
 #include "components/ComponentGrid.h"
 
 #include "Settings.h"
+#include "Window.h"
 #include "components/TextComponent.h"
 #include "utils/LocalizationUtil.h"
 
@@ -252,9 +253,16 @@ const ComponentGrid::GridEntry* ComponentGrid::getCellAt(int x, int y) const
 
 bool ComponentGrid::input(InputConfig* config, Input input)
 {
+    Window* const window {mWindow};
+    GuiComponent* const shownGui {window != nullptr ? window->peekGui() : nullptr};
     const GridEntry* cursorEntry {getCellAt(mCursor)};
     if (cursorEntry && cursorEntry->component->input(config, input))
         return true;
+
+    // A child input handler may have closed and deleted the Gui that owns this grid, in which case
+    // this object is already gone and the navigation logic below must not run.
+    if (window != nullptr && window->peekGui() != shownGui)
+        return false;
 
     if (!input.value)
         return false;

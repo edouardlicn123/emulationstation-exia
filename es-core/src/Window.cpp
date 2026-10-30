@@ -453,6 +453,11 @@ void Window::update(int deltaTime)
 
     mTimeSinceLastInput += deltaTime;
 
+    // Polled before the GUI stack so that background work (e.g. batch scraping) is not tied to
+    // the lifecycle of a specific GUI.
+    if (mBackgroundUpdateCallback)
+        mBackgroundUpdateCallback();
+
     // If there is a popup notification queued, then display it.
     if (mInfoPopupQueue.size() > 0) {
         bool popupIsRunning = false;

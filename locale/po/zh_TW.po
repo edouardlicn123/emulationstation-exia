@@ -982,6 +982,21 @@ msgstr "遊戲列表"
 msgid "SYSTEMS SORTING"
 msgstr "平台分類"
 
+msgid "PLATFORM SORTING"
+msgstr "平台排序"
+
+msgid "SORT PLATFORMS BY"
+msgstr "平台排序方式"
+
+msgid "LOCALIZED NAME"
+msgstr "本地化名稱"
+
+msgid "PLATFORM TYPE, THEN NAME"
+msgstr "平台類型，然後名稱"
+
+msgid "MANUFACTURER, THEN NAME"
+msgstr "開發商，然後名稱"
+
 msgid "FULL NAMES OR CUSTOM"
 msgstr "完整名稱或自定義"
 
@@ -1245,6 +1260,15 @@ msgstr "在其他螢幕上啟動"
 
 msgid "GAME MEDIA DIRECTORY"
 msgstr "遊戲媒體目錄"
+
+msgid "MEDIA SAVE LOCATION"
+msgstr "媒體儲存位置"
+
+msgid "DOWNLOAD MEDIA TO ROM FOLDER"
+msgstr "下載媒體到 ROM 資料夾"
+
+msgid "Only images are saved to the ROM folder, videos and manuals always use the game media directory."
+msgstr "僅圖片會儲存到 ROM 資料夾，影片和手冊一律使用遊戲媒體目錄。"
 
 msgid "ENTER GAME MEDIA DIRECTORY"
 msgstr "請輸入遊戲媒體目錄"
@@ -1939,6 +1963,12 @@ msgstr "無影片的遊戲"
 
 msgid "FOLDERS ONLY"
 msgstr "僅限資料夾內的遊戲"
+
+msgid "GAMES MISSING ANY MEDIA"
+msgstr "缺少任一媒體的遊戲"
+
+msgid "GAMES MISSING ALL MEDIA"
+msgstr "缺少全部媒體的遊戲"
 
 msgid "SCRAPE THESE SYSTEMS"
 msgstr "抓取哪些平台"
@@ -3441,3 +3471,30 @@ msgstr "錯誤：無法渲染 PDF 檔案"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "~/biosalt 中沒有相符的 BIOS 檔案"
+
+msgid "SUNSHINE SERVICE"
+msgstr "遠端存取服務"
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "特定遊戲按鍵設定"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "特定遊戲按鍵設定"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "離開按鍵頁面時，這些按鍵會寫入街機模擬器的設定檔。只影響模擬器，不影響本前端；僅限鍵盤，手把保留各自綁定。"
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "未覆寫的列沿用全域按鍵設定。按 Enter 開始擷取，長按一秒恢復為全域按鍵，按 B 完成並儲存。"
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "在某一列按 Enter 開始擷取，然後按下實體按鍵。長按一秒略過該列，按 B 完成並儲存。"
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "每個遊戲都有獨立的 Demul 鍵盤設定檔。未覆寫的列沿用全域按鍵設定，在全域設定儲存會同步更新所有設定檔。"
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "右側數字表示該遊戲已覆寫的按鍵數量，「繼承」表示使用全域設定。"
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "未覆寫的列沿用全域按鍵設定。"

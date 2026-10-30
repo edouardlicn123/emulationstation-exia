@@ -216,6 +216,9 @@ private:
         unsigned int spaceChar;
         std::string substring;
         std::vector<std::pair<unsigned int, int>> glyphIndexes;
+        // Exia local addition: parallel to glyphIndexes, true for characters where a line break is
+        // allowed in CJK text (ideographs, kana and hangul, but not CJK punctuation).
+        std::vector<bool> cjkBreakable;
 
         ShapeSegment()
             : startPos {0}

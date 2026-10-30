@@ -3579,3 +3579,30 @@ msgstr "BŁĄD: NIE MOŻNA WYŚWIETLIĆ PLIKU PDF"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "BRAK PASUJĄCEGO PLIKU BIOS W ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Klawisze dla gry"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Ustawienia klawiszy dla gry"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Te klawisze są zapisywane w konfiguracji emulatorów arcade po opuszczeniu strony klawiszy. Dotyczy to tylko emulatorów, nie tego frontendu. Tylko klawiatura; pady zachowują własne przypisania."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Wiersze bez nadpisania używają ustawień globalnych. Enter rozpoczyna przechwytywanie, przytrzymanie sekundy przywraca globalny klawisz, B kończy i zapisuje."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Enter w wierszu rozpoczyna przechwytywanie, następnie naciśnij fizyczny klawisz. Przytrzymanie sekundy pomija wiersz, B kończy i zapisuje."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Każda gra ma własny profil klawiatury Demul. Wiersze bez nadpisania używają globalnych ustawień klawiszy, a zapis tutaj aktualizuje wszystkie profile."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "Liczba po prawej to liczba nadpisanych klawiszy w tej grze; odziedziczone oznacza użycie ustawień globalnych."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Wiersze bez nadpisania używają globalnych ustawień klawiszy."

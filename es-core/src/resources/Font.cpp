@@ -644,6 +644,23 @@ void Font::initLibrary()
     }
 }
 
+namespace {
+// Exia local addition: characters where a line break is allowed in CJK text. CJK punctuation
+// (U+3000 to U+303F) is excluded so that a line does not start with a punctuation mark.
+bool isCJKBreakable(const unsigned int unicode)
+{
+    if (unicode >= 0x3400 && unicode <= 0x9FFF)
+        return true;
+    if (unicode >= 0xF900 && unicode <= 0xFAFF)
+        return true;
+    if (unicode >= 0x3040 && unicode <= 0x30FF)
+        return true;
+    if (unicode >= 0xAC00 && unicode <= 0xD7AF)
+        return true;
+    return false;
+}
+} // namespace
+
 void Font::shapeText(const std::string& text, std::vector<ShapeSegment>& segmentsHB)
 {
     hb_font_t* lastFont {nullptr};
@@ -743,6 +760,7 @@ void Font::shapeText(const std::string& text, std::vector<ShapeSegment>& segment
         cursor = 0;
         length = 0;
         segment.glyphIndexes.clear();
+        segment.cjkBreakable.clear();
 
         if (segment.doShape) {
             hb_buffer_reset(mBufHB);
@@ -775,6 +793,10 @@ void Font::shapeText(const std::string& text, std::vector<ShapeSegment>& segment
                     std::round(static_cast<float>(glyphPos[cursor].x_advance) / 256.0f))};
                 segment.shapedWidth += advanceX;
                 segment.glyphIndexes.emplace_back(std::make_pair(character, advanceX));
+                // Exia local addition: the cluster is the byte offset of the source character.
+                size_t clusterOffset {glyphInfo[cursor].cluster};
+                segment.cjkBreakable.push_back(
+                    isCJKBreakable(Utils::String::chars2Unicode(text, clusterOffset)));
                 ++cursor;
             }
             else {
@@ -784,6 +806,7 @@ void Font::shapeText(const std::string& text, std::vector<ShapeSegment>& segment
                 Glyph* glyph {getGlyph(character)};
                 segment.shapedWidth += glyph->advance.x;
                 segment.glyphIndexes.emplace_back(std::make_pair(character, glyph->advance.x));
+                segment.cjkBreakable.push_back(isCJKBreakable(character));
             }
         }
     }
@@ -919,10 +942,25 @@ void Font::wrapText(std::vector<ShapeSegment>& segmentsHB,
                         // New row.
                         size_t offset {0};
 
+                        // Exia local change: CJK text may break between any two characters.
+                        // Without this the glyphs already placed on the line are moved back to a
+                        // preceding space or segment start, which leaves a large gap after digits
+                        // in mixed Latin/CJK text.
+                        const bool cjkBreak {
+                            i < segment.cjkBreakable.size() && segment.cjkBreakable[i] &&
+                            segment.glyphIndexes[i].first != spaceChar};
+
                         bool shapedSegmentChange {false};
-                        if (lastSpace == 0 && resultSegments.size() > 0 &&
+                        if (!cjkBreak && lastSpace == 0 && resultSegments.size() > 0 &&
                             !resultSegments.back().lineBreak)
                             shapedSegmentChange = true;
+
+                        if (cjkBreak) {
+                            // The break is placed right here, so the space based break
+                            // opportunities must not be reused for the following segments.
+                            lastSegmentSpace = false;
+                            firstGlyphSpace = false;
+                        }
 
                         if (lastSpace == i && !lastSegmentSpace && !shapedSegmentChange) {
                             if (segment.rightToLeft)
@@ -933,7 +971,8 @@ void Font::wrapText(std::vector<ShapeSegment>& segmentsHB,
 
                             ++i;
                         }
-                        else if (lastSpace != 0 || firstGlyphSpace || lastSegmentSpace) {
+                        else if (!cjkBreak &&
+                                 (lastSpace != 0 || firstGlyphSpace || lastSegmentSpace)) {
                             size_t accum {0};
                             if (lastSegmentSpace)
                                 ++accum;

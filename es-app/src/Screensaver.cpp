@@ -656,7 +656,7 @@ void Screensaver::pickRandomImage(std::string& path)
         mCurrentGame = mImageFiles.front();
         path = mImageFiles.front()->getImagePath();
         mGameName = mImageFiles.front()->getName();
-        mSystemName = mImageFiles.front()->getSystem()->getFullName();
+        mSystemName = mImageFiles.front()->getSystem()->getFullNameLocalized();
         mCurrentGame = mImageFiles.front();
         mImageFiles.clear();
         return;
@@ -675,7 +675,7 @@ void Screensaver::pickRandomImage(std::string& path)
 
     path = mImageFiles.at(index)->getImagePath();
     mGameName = mImageFiles.at(index)->getName();
-    mSystemName = mImageFiles.at(index)->getSystem()->getFullName();
+    mSystemName = mImageFiles.at(index)->getSystem()->getFullNameLocalized();
     mCurrentGame = mImageFiles.at(index);
 
     // Don't display the same image again until we've cycled through all entries.
@@ -695,7 +695,7 @@ void Screensaver::pickRandomVideo(std::string& path)
         mCurrentGame = mVideoFiles.front();
         path = mVideoFiles.front()->getVideoPath();
         mGameName = mVideoFiles.front()->getName();
-        mSystemName = mVideoFiles.front()->getSystem()->getFullName();
+        mSystemName = mVideoFiles.front()->getSystem()->getFullNameLocalized();
         mCurrentGame = mVideoFiles.front();
         mVideoFiles.clear();
         return;
@@ -714,7 +714,7 @@ void Screensaver::pickRandomVideo(std::string& path)
 
     path = mVideoFiles.at(index)->getVideoPath();
     mGameName = mVideoFiles.at(index)->getName();
-    mSystemName = mVideoFiles.at(index)->getSystem()->getFullName();
+    mSystemName = mVideoFiles.at(index)->getSystem()->getFullNameLocalized();
     mCurrentGame = mVideoFiles.at(index);
 
     // Don't play the same video again until we've cycled through all entries.
@@ -802,5 +802,5 @@ void Screensaver::triggerCustomEvent()
     Scripting::fireEvent("screensaver-game-select", mCurrentGame->getPath(),
 #endif
                          mCurrentGame->metadata.get("name"), mCurrentGame->getSystem()->getName(),
-                         mCurrentGame->getSystem()->getFullName());
+                         mCurrentGame->getSystem()->getFullNameLocalized());
 }

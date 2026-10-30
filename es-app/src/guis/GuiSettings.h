@@ -28,9 +28,13 @@ public:
     {
         mMenu.addRow(row, setCursorHere);
     }
-    void addWithLabel(const std::string& label, const std::shared_ptr<GuiComponent>& comp)
+    void addWithLabel(const std::string& label,
+                      const std::shared_ptr<GuiComponent>& comp,
+                      bool setCursorHere = false,
+                      bool invert_when_selected = true,
+                      const std::string& helpText = "")
     {
-        mMenu.addWithLabel(label, comp);
+        mMenu.addWithLabel(label, comp, setCursorHere, invert_when_selected, helpText);
     }
     void addEditableTextComponent(const std::string label,
                                   std::shared_ptr<GuiComponent> ed,

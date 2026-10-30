@@ -10,6 +10,7 @@
 //
 
 #include "SystemData.h"
+#include "SystemDataSqlite.h"
 
 #include "CollectionSystemsManager.h"
 #include "FileFilterIndex.h"
@@ -537,6 +538,9 @@ SystemData::SystemData(const std::string& name,
                        bool CustomCollectionSystem)
     : mName {name}
     , mFullName {fullName}
+    , mFullNameLocalized {CollectionSystem ?
+                              fullName :
+                              SystemDataSqlite::getLocalizedFullName(name, fullName)}
     , mSortName {sortName}
     , mEnvData {envData}
     , mThemeFolder {themeFolder}
@@ -826,6 +830,12 @@ bool SystemData::loadConfig()
     }
 
     const std::vector<std::string>& configPaths {getConfigPath()};
+    pugi::xml_document sqliteDocument;
+    std::string sqliteSource;
+    const bool sqliteLoaded {SystemDataSqlite::loadSystems(sqliteDocument, sqliteSource)};
+    std::vector<std::string> effectivePaths {configPaths};
+    if (sqliteLoaded)
+        effectivePaths.assign(1, sqliteSource);
     const std::string& rompath {FileData::getROMDirectory()};
     bool onlyProcessCustomFile {false};
 
@@ -835,16 +845,19 @@ bool SystemData::loadConfig()
     unsigned int gameCount {0};
 
     // This is only done to get the total system count, for calculating the progress bar position.
-    for (auto& configPath : configPaths) {
-        pugi::xml_document doc;
+    for (auto& configPath : effectivePaths) {
+        pugi::xml_document xmlDocument;
+        pugi::xml_document& doc {sqliteLoaded ? sqliteDocument : xmlDocument};
+        if (!sqliteLoaded) {
 #if defined(_WIN64)
-        const pugi::xml_parse_result& res {
-            doc.load_file(Utils::String::stringToWideString(configPath).c_str())};
+            const pugi::xml_parse_result& res {
+                doc.load_file(Utils::String::stringToWideString(configPath).c_str())};
 #else
-        const pugi::xml_parse_result& res {doc.load_file(configPath.c_str())};
+            const pugi::xml_parse_result& res {doc.load_file(configPath.c_str())};
 #endif
-        if (!res)
-            break;
+            if (!res)
+                break;
+        }
         const pugi::xml_node& systemList {doc.child("systemList")};
         if (!systemList)
             continue;
@@ -856,7 +869,7 @@ bool SystemData::loadConfig()
             break;
     }
 
-    for (auto& configPath : configPaths) {
+    for (auto& configPath : effectivePaths) {
         // If the loadExclusive tag is present in the custom es_systems.xml file, then skip
         // processing of the bundled configuration file.
         if (onlyProcessCustomFile)
@@ -869,22 +882,25 @@ bool SystemData::loadConfig()
         LOG(LogInfo) << "Parsing systems configuration file \"" << configPath << "\"...";
 #endif
 
-        pugi::xml_document doc;
+        pugi::xml_document xmlDocument;
+        pugi::xml_document& doc {sqliteLoaded ? sqliteDocument : xmlDocument};
+        if (!sqliteLoaded) {
 #if defined(_WIN64)
-        const pugi::xml_parse_result& res {
-            doc.load_file(Utils::String::stringToWideString(configPath).c_str())};
+            const pugi::xml_parse_result& res {
+                doc.load_file(Utils::String::stringToWideString(configPath).c_str())};
 #else
-        const pugi::xml_parse_result& res {doc.load_file(configPath.c_str())};
+            const pugi::xml_parse_result& res {doc.load_file(configPath.c_str())};
 #endif
 
-        if (!res) {
-            LOG(LogError) << "Couldn't parse es_systems.xml: " << res.description();
-            return true;
+            if (!res) {
+                LOG(LogError) << "Couldn't parse es_systems.xml: " << res.description();
+                return true;
+            }
         }
 
         const pugi::xml_node& loadExclusive {doc.child("loadExclusive")};
         if (loadExclusive) {
-            if (configPath == configPaths.front() && configPaths.size() > 1) {
+            if (configPath == effectivePaths.front() && effectivePaths.size() > 1) {
                 LOG(LogInfo) << "Only loading custom file as the <loadExclusive> tag is present";
                 onlyProcessCustomFile = true;
             }
@@ -936,6 +952,11 @@ bool SystemData::loadConfig()
             fullname = Utils::String::replace(system.child("fullname").text().get(), "\n", "");
             sortName = system.child("systemsortname").text().get();
             path = system.child("path").text().get();
+
+            // Platform sorting metadata provided by the sqlite system store (devdoc/54/56).
+            const std::string manufacturer {system.child("manufacturer").text().get()};
+            const std::string hardwareType {system.child("hardwareType").text().get()};
+            const std::string releaseDate {system.child("releaseDate").text().get()};
 
             for (auto& importRule : sImportRules->mSystems) {
                 if (importRule.first == name) {
@@ -1141,6 +1162,9 @@ bool SystemData::loadConfig()
             envData->mPlatformIds = platformIds;
 
             SystemData* newSys {new SystemData(name, fullname, sortName, envData, themeFolder)};
+            newSys->setManufacturer(manufacturer);
+            newSys->setHardwareType(hardwareType);
+            newSys->setReleaseDate(releaseDate);
             bool onlyHidden {false};
 
             // If the option to show hidden games has been disabled, then check whether all
@@ -1192,20 +1216,9 @@ bool SystemData::loadConfig()
         }
     }
 
-    // Sort systems by sortName, and always perform secondary sorting by the full name.
-    std::sort(std::begin(sSystemVector), std::end(sSystemVector), [](SystemData* a, SystemData* b) {
-        if (Utils::String::toUpper(a->getSortName()) < Utils::String::toUpper(b->getSortName()))
-            return true;
-        if (Utils::String::toUpper(a->getSortName()) > Utils::String::toUpper(b->getSortName()))
-            return false;
-
-        if (Utils::String::toUpper(a->getFullName()) < Utils::String::toUpper(b->getFullName()))
-            return true;
-        if (Utils::String::toUpper(a->getFullName()) > Utils::String::toUpper(b->getFullName()))
-            return false;
-
-        return false;
-    });
+    // Sort systems according to the "SystemsSorting" setting, and always perform secondary
+    // sorting by the full name.
+    sortSystems();
 
     // Don't load any collections if there are no systems available.
     if (sSystemVector.size() > 0)
@@ -1214,9 +1227,172 @@ bool SystemData::loadConfig()
     return false;
 }
 
+namespace
+{
+    // Platform type groups used by the "platform_type" sorting mode (devdoc/56).
+    int getHardwareTypeOrder(const std::string& hardwareType)
+    {
+        if (hardwareType == "街机")
+            return 0;
+        if (hardwareType == "家用机")
+            return 1;
+        if (hardwareType == "掌机")
+            return 2;
+        if (hardwareType == "电脑")
+            return 3;
+        return 4;
+    }
+
+    // Name sections for the two-part localized name sorting: the '#' group first, then Latin
+    // names and finally CJK names (devdoc/56 section 2.2).
+    int getNameSection(const std::string& name)
+    {
+        const std::string nameTrimmed {Utils::String::trim(name)};
+
+        if (nameTrimmed.empty())
+            return 0;
+
+        if (Utils::String::startsWithCJK(nameTrimmed))
+            return 2;
+
+        size_t cursor {0};
+        const unsigned int codepoint {Utils::String::chars2Unicode(nameTrimmed, cursor)};
+
+        if ((codepoint >= 'A' && codepoint <= 'Z') || (codepoint >= 'a' && codepoint <= 'z'))
+            return 1;
+
+        if (codepoint < 128)
+            return 0;
+
+        // Other scripts such as Cyrillic or Greek are transliterated to Latin, so they are
+        // sorted together with the Latin names.
+        return 1;
+    }
+
+    struct SystemSortKey {
+        int typeOrder {4};
+        bool hasManufacturer {false};
+        std::string manufacturerInitial;
+        std::string manufacturer;
+        int section {0};
+        std::string initial;
+        std::string name;
+    };
+
+    SystemSortKey getSystemSortKey(SystemData* system)
+    {
+        SystemSortKey key;
+        key.name = Utils::String::toUpper(system->getFullNameLocalized());
+        key.section = getNameSection(key.name);
+        key.initial = Utils::String::getSortingInitial(system->getFullNameLocalized());
+        key.typeOrder = getHardwareTypeOrder(system->getHardwareType());
+        key.manufacturer = Utils::String::toUpper(system->getManufacturer());
+        key.manufacturerInitial = Utils::String::getSortingInitial(system->getManufacturer());
+        key.hasManufacturer = !Utils::String::trim(system->getManufacturer()).empty();
+        return key;
+    }
+
+    bool compareNameKeys(const SystemSortKey& a, const SystemSortKey& b)
+    {
+        if (a.section != b.section)
+            return a.section < b.section;
+
+        if (a.initial != b.initial)
+            return a.initial < b.initial;
+
+        if (a.name != b.name)
+            return a.name < b.name;
+
+        return false;
+    }
+} // namespace
+
+void SystemData::sortSystems()
+{
+    if (sSystemVector.empty())
+        return;
+
+    const std::string sortSetting {Settings::getInstance()->getString("SystemsSorting")};
+    const bool localizedNameSort {sortSetting == "name_localized"};
+    const bool platformTypeSort {sortSetting == "platform_type"};
+    const bool manufacturerSort {sortSetting == "manufacturer_name"};
+
+    LOG(LogDebug) << "SystemData::sortSystems(): Sorting systems using the \"" << sortSetting
+                  << "\" mode";
+
+    // Collections are managed separately and are always kept after the platforms.
+    std::vector<SystemData*> platforms;
+    std::vector<SystemData*> collections;
+    for (SystemData* system : sSystemVector) {
+        if (system->isCollection())
+            collections.push_back(system);
+        else
+            platforms.push_back(system);
+    }
+
+    if (!localizedNameSort && !platformTypeSort && !manufacturerSort) {
+        std::sort(platforms.begin(), platforms.end(), [](SystemData* a, SystemData* b) {
+            if (Utils::String::toUpper(a->getSortName()) <
+                Utils::String::toUpper(b->getSortName()))
+                return true;
+            if (Utils::String::toUpper(a->getSortName()) >
+                Utils::String::toUpper(b->getSortName()))
+                return false;
+
+            if (Utils::String::toUpper(a->getFullName()) <
+                Utils::String::toUpper(b->getFullName()))
+                return true;
+            if (Utils::String::toUpper(a->getFullName()) >
+                Utils::String::toUpper(b->getFullName()))
+                return false;
+
+            return false;
+        });
+    }
+    else {
+        std::map<SystemData*, SystemSortKey> sortKeys;
+        for (SystemData* system : platforms)
+            sortKeys.emplace(system, getSystemSortKey(system));
+
+        std::sort(platforms.begin(), platforms.end(),
+                  [&sortKeys, platformTypeSort, manufacturerSort](SystemData* a, SystemData* b) {
+                      const SystemSortKey& keyA {sortKeys[a]};
+                      const SystemSortKey& keyB {sortKeys[b]};
+
+                      if (platformTypeSort && keyA.typeOrder != keyB.typeOrder)
+                          return keyA.typeOrder < keyB.typeOrder;
+
+                      if (manufacturerSort) {
+                          // Systems without a manufacturer are placed last within their group.
+                          if (keyA.hasManufacturer != keyB.hasManufacturer)
+                              return keyA.hasManufacturer;
+                          if (keyA.manufacturerInitial != keyB.manufacturerInitial)
+                              return keyA.manufacturerInitial < keyB.manufacturerInitial;
+                          if (keyA.manufacturer != keyB.manufacturer)
+                              return keyA.manufacturer < keyB.manufacturer;
+                      }
+
+                      return compareNameKeys(keyA, keyB);
+                  });
+    }
+
+    sSystemVector.clear();
+    sSystemVector.insert(sSystemVector.end(), platforms.begin(), platforms.end());
+    sSystemVector.insert(sSystemVector.end(), collections.begin(), collections.end());
+}
+
 void SystemData::loadSortingConfig()
 {
     const std::string sortSetting {Settings::getInstance()->getString("SystemsSorting")};
+
+    // The localized sorting modes do not use the bundled/custom sorting configuration files.
+    if (sortSetting == "name_localized" || sortSetting == "platform_type" ||
+        sortSetting == "manufacturer_name") {
+        LOG(LogDebug) << "No systems sorting file loaded as the \"" << sortSetting
+                      << "\" sorting mode is active";
+        return;
+    }
+
     const std::string customFilePath {Utils::FileSystem::getAppDataDirectory() +
                                       "/custom_systems/es_systems_sorting.xml"};
     const bool customFileExists {Utils::FileSystem::exists(customFilePath)};
@@ -1452,6 +1628,11 @@ bool SystemData::createSystemDirectories()
 
     std::vector<std::pair<std::string, std::string>> systemsVector;
 
+    bool sqliteUsed {false};
+    // sqlite integration point preserved (devdoc/54); directory creation falls back
+    // to the XML-based loop to ensure complete processing.
+
+    if (!sqliteUsed) {
     for (auto& configPath : configPaths) {
         // If the loadExclusive tag is present.
         if (onlyProcessCustomFile && configPath == configPaths.front())
@@ -1652,6 +1833,7 @@ bool SystemData::createSystemDirectories()
             }
         }
     }
+    } // close sqliteUsed conditional
 
     // Also generate a systems.txt file directly in the ROM directory root that contains the
     // mappings between the system directory names and the full system names. This makes it
@@ -1939,6 +2121,15 @@ void SystemData::sortSystem(bool reloadGamelist, bool jumpToFirstRow)
     }
 }
 
+std::string SystemData::getDescription() const
+{
+    const std::string description {SystemDataSqlite::getIntro(mName)};
+    // The theme variable must never resolve to an empty string, otherwise
+    // ThemeData logs a parse error for every system without an introduction.
+    // devdoc/54 section 4.6 allows the "Play <fullname>" fallback.
+    return description.empty() ? "Play " + mFullName : description;
+}
+
 std::pair<unsigned int, unsigned int> SystemData::getDisplayedGameCount() const
 {
     // Return all games for the system which are marked as 'countasgame'. As this flag is set
@@ -1986,12 +2177,14 @@ void SystemData::loadTheme(ThemeTriggers::TriggerType trigger)
         }
         sysData.insert(std::pair<std::string, std::string>("system.name", name));
         sysData.insert(std::pair<std::string, std::string>("system.theme", getThemeFolder()));
-        sysData.insert(std::pair<std::string, std::string>("system.fullName", fullName));
+        std::string localizedFullName {SystemDataSqlite::getLocalizedFullName(mName, fullName)};
+        sysData.insert(std::pair<std::string, std::string>("system.fullName", localizedFullName));
+        sysData.insert(std::pair<std::string, std::string>("system.description", getDescription()));
         if (isCollection() && isCustomCollection()) {
             sysData.insert(
                 std::pair<std::string, std::string>("system.name.customCollections", name));
             sysData.insert(
-                std::pair<std::string, std::string>("system.fullName.customCollections", fullName));
+                std::pair<std::string, std::string>("system.fullName.customCollections", localizedFullName));
             sysData.insert(std::pair<std::string, std::string>("system.theme.customCollections",
                                                                getThemeFolder()));
             sysData.insert(
@@ -2009,7 +2202,7 @@ void SystemData::loadTheme(ThemeTriggers::TriggerType trigger)
             sysData.insert(
                 std::pair<std::string, std::string>("system.name.autoCollections", name));
             sysData.insert(
-                std::pair<std::string, std::string>("system.fullName.autoCollections", fullName));
+                std::pair<std::string, std::string>("system.fullName.autoCollections", localizedFullName));
             sysData.insert(std::pair<std::string, std::string>("system.theme.autoCollections",
                                                                getThemeFolder()));
             sysData.insert(
@@ -2026,7 +2219,7 @@ void SystemData::loadTheme(ThemeTriggers::TriggerType trigger)
         else {
             sysData.insert(std::pair<std::string, std::string>("system.name.noCollections", name));
             sysData.insert(
-                std::pair<std::string, std::string>("system.fullName.noCollections", fullName));
+                std::pair<std::string, std::string>("system.fullName.noCollections", localizedFullName));
             sysData.insert(std::pair<std::string, std::string>("system.theme.noCollections",
                                                                getThemeFolder()));
             sysData.insert(

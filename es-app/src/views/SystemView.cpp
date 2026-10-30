@@ -16,6 +16,7 @@
 #include "Window.h"
 #include "animations/LambdaAnimation.h"
 #include "guis/GuiMsgBox.h"
+#include "guis/GuiSystemSortOptions.h"
 #include "guis/PlatformSettings.h"
 #include "utils/LocalizationUtil.h"
 #include "views/ViewController.h"
@@ -123,6 +124,20 @@ bool SystemView::input(InputConfig* config, Input input)
             return true;
         }
 
+        // The select button or the keyboard Home key opens the platform sorting menu
+        // (devdoc/56). The "back" mapping is only used for gamepads as F1 is already
+        // occupied elsewhere.
+        const bool sortingMenuKey {
+            (config->getDeviceId() == DEVICE_KEYBOARD && input.id == SDLK_HOME) ||
+            (config->getDeviceId() != DEVICE_KEYBOARD && config->isMappedTo("back", input))};
+        if (!UIModeController::getInstance()->isUIModeKid() && sortingMenuKey) {
+            ViewController::getInstance()->cancelViewTransitions();
+            mPrimary->stopScrolling();
+            pauseViewVideos();
+            mWindow->pushGui(new GuiSystemSortOptions());
+            return true;
+        }
+
         if (config->isMappedTo("a", input)) {
             mPrimary->stopScrolling();
             pauseViewVideos();
@@ -148,6 +163,22 @@ bool SystemView::input(InputConfig* config, Input input)
                 ViewController::getInstance()->cancelViewTransitions();
                 mWindow->startScreensaver(false);
             }
+            return true;
+        }
+
+        // Shoulder buttons navigate between systems (same behavior as gamelist quick select).
+        if (mPrimary->getNumEntries() > 1 && config->isMappedTo("rightshoulder", input)) {
+            mPrimary->stopScrolling();
+            NavigationSounds::getInstance().playThemeNavigationSound(QUICKSYSSELECTSOUND);
+            goToSystem(mPrimary->getSelected()->getNext(), true);
+            mNavigated = true;
+            return true;
+        }
+        if (mPrimary->getNumEntries() > 1 && config->isMappedTo("leftshoulder", input)) {
+            mPrimary->stopScrolling();
+            NavigationSounds::getInstance().playThemeNavigationSound(QUICKSYSSELECTSOUND);
+            goToSystem(mPrimary->getSelected()->getPrev(), true);
+            mNavigated = true;
             return true;
         }
     }
@@ -240,6 +271,9 @@ std::vector<HelpPrompt> SystemView::getHelpPrompts()
     }
 
     prompts.push_back(HelpPrompt("a", _("select")));
+
+    if (!UIModeController::getInstance()->isUIModeKid())
+        prompts.push_back(HelpPrompt("back", _("options")));
 
     if (Settings::getInstance()->getString("RandomEntryButton") == "gamessystems")
         prompts.push_back(HelpPrompt("thumbstickclick", _("random")));
@@ -562,7 +596,7 @@ void SystemView::populate()
         elements.system = it;
         if (theme->hasView("system")) {
             elements.name = it->getName();
-            elements.fullName = it->getFullName();
+            elements.fullName = it->getFullNameLocalized();
             for (auto& element : theme->getViewElements("system").elements) {
                 if (element.second.type == "gameselector") {
                     elements.gameSelectors.emplace_back(
@@ -872,7 +906,7 @@ void SystemView::populate()
         if (mCarousel != nullptr) {
             CarouselComponent<SystemData*>::Entry entry;
             if (itemText == "")
-                entry.name = it->getFullName();
+                entry.name = it->getFullNameLocalized();
             else
                 entry.name = itemText;
             letterCaseFunc(entry.name);
@@ -884,7 +918,7 @@ void SystemView::populate()
         else if (mGrid != nullptr) {
             GridComponent<SystemData*>::Entry entry;
             if (itemText == "")
-                entry.name = it->getFullName();
+                entry.name = it->getFullNameLocalized();
             else
                 entry.name = itemText;
             letterCaseFunc(entry.name);
@@ -895,7 +929,7 @@ void SystemView::populate()
         }
         else if (mTextList != nullptr) {
             TextListComponent<SystemData*>::Entry entry;
-            entry.name = it->getFullName();
+            entry.name = it->getFullNameLocalized();
             letterCaseFunc(entry.name);
             entry.object = it;
             entry.data.entryType = TextListEntryType::PRIMARY;
@@ -1465,13 +1499,13 @@ void SystemView::updateGameSelectors()
             else if (metadata == "systemName")
                 text->setValue(games.at(gameSelectorEntry)->getSystem()->getName());
             else if (metadata == "systemFullname")
-                text->setValue(games.at(gameSelectorEntry)->getSystem()->getFullName());
+                text->setValue(games.at(gameSelectorEntry)->getSystem()->getFullNameLocalized());
             else if (metadata == "sourceSystemName")
                 text->setValue(
                     games.at(gameSelectorEntry)->getSourceFileData()->getSystem()->getName());
             else if (metadata == "sourceSystemFullname")
                 text->setValue(
-                    games.at(gameSelectorEntry)->getSourceFileData()->getSystem()->getFullName());
+                    games.at(gameSelectorEntry)->getSourceFileData()->getSystem()->getFullNameLocalized());
         }
         else {
             text->setValue("");

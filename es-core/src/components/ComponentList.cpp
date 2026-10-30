@@ -8,6 +8,7 @@
 
 #include "components/ComponentList.h"
 
+#include "Window.h"
 #include "resources/Font.h"
 #include "utils/LocalizationUtil.h"
 
@@ -71,6 +72,9 @@ bool ComponentList::input(InputConfig* config, Input input)
     if (size() == 0)
         return false;
 
+    Window* const window {mWindow};
+    GuiComponent* const shownGui {window != nullptr ? window->peekGui() : nullptr};
+
     mSingleRowScroll = false;
 
     if (input.value &&
@@ -93,6 +97,11 @@ bool ComponentList::input(InputConfig* config, Input input)
                 return true;
         }
     }
+
+    // A row handler may have closed and deleted the Gui that owns this list, in which case this
+    // object is already gone and the scrolling logic below must not run.
+    if (window != nullptr && window->peekGui() != shownGui)
+        return false;
 
     // Input handler didn't consume the input - try to scroll.
     if (config->isMappedLike("up", input)) {

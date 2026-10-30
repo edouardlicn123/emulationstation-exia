@@ -294,7 +294,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
 
                     s->setMenuSize(glm::vec2 {maxWidth, s->getMenuSize().y});
                     s->setMenuPosition(
-                        glm::vec3 {(s->getSize().x - maxWidth) / 2.0f, mPosition.y, mPosition.z});
+                        glm::vec3 {MenuComponent::getMenuLeft(), mPosition.y, mPosition.z});
                     mWindow->pushGui(s);
                 });
                 break;
@@ -439,7 +439,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
                                               maxWidthModifier};
 
                         s->setMenuSize(glm::vec2 {maxWidth, s->getMenuSize().y});
-                        s->setMenuPosition(glm::vec3 {(s->getSize().x - maxWidth) / 2.0f,
+                        s->setMenuPosition(glm::vec3 {MenuComponent::getMenuLeft(),
                                                       mPosition.y, mPosition.z});
                         mWindow->pushGui(s);
                     });
@@ -518,7 +518,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
 
                     s->setMenuSize(glm::vec2 {maxWidth, s->getMenuSize().y});
                     s->setMenuPosition(
-                        glm::vec3 {(s->getSize().x - maxWidth) / 2.0f, mPosition.y, mPosition.z});
+                        glm::vec3 {MenuComponent::getMenuLeft(), mPosition.y, mPosition.z});
                     mWindow->pushGui(s);
                 });
                 break;
@@ -637,7 +637,7 @@ GuiMetaDataEd::GuiMetaDataEd(MetaDataList* md,
 
                     s->setMenuSize(glm::vec2 {maxWidth, s->getMenuSize().y});
                     s->setMenuPosition(
-                        glm::vec3 {(s->getSize().x - maxWidth) / 2.0f, mPosition.y, mPosition.z});
+                        glm::vec3 {MenuComponent::getMenuLeft(), mPosition.y, mPosition.z});
                     mWindow->pushGui(s);
                 });
                 break;

@@ -281,7 +281,7 @@ GuiGameImporter::GuiGameImporter(std::string title, std::function<void()> update
 
     setSize(mMenu.getSize());
 
-    setPosition((mRenderer->getScreenWidth() - mSize.x) / 2.0f,
+    setPosition(MenuComponent::getMenuLeft(),
                 mRenderer->getScreenHeight() * 0.13f);
 
     mBusyAnim.setSize(mSize);

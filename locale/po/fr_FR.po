@@ -3594,3 +3594,30 @@ msgstr "ERREUR: IMPOSIBLE D'AFFICHER LE FICHIER PDF"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "AUCUN FICHIER BIOS CORRESPONDANT DANS ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Touches par jeu"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Réglage des touches par jeu"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Ces touches sont écrites dans la configuration des émulateurs d'arcade lorsque vous quittez une page de touches. Cela n'affecte que les émulateurs, pas ce frontend. Clavier uniquement ; les manettes gardent leurs propres affectations."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Les lignes non redéfinies suivent la configuration globale. Entrée lance la capture, maintenir une seconde restaure la touche globale, B termine et enregistre."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Entrée sur une ligne lance la capture, puis appuyez sur la touche physique. Maintenir une seconde ignore la ligne, B termine et enregistre."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Chaque jeu dispose de son propre profil clavier Demul. Les lignes non redéfinies suivent la configuration globale et enregistrer ici met à jour tous les profils."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "Le nombre à droite indique combien de touches sont redéfinies pour ce jeu ; hérité signifie qu'il utilise la configuration globale."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Les lignes non redéfinies suivent la configuration globale."

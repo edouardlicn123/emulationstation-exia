@@ -76,12 +76,12 @@ msgstr "该收藏包含 1 个游戏：'%s [%s]'"
 #, c-format
 msgctxt "theme"
 msgid "This collection contains 2 games: '%s [%s]' and '%s [%s]'"
-msgstr "该收藏包含 2 个游戏：'%s [%s]' and '%s [%s]'"
+msgstr "该收藏包含 2 个游戏：'%s [%s]' 和 '%s [%s]'"
 
 #, c-format
 msgctxt "theme"
 msgid "This collection contains 3 games: '%s [%s]', '%s [%s]' and '%s [%s]'"
-msgstr "该收藏包含 3 个游戏：'%s [%s]', '%s [%s]' and '%s [%s]'"
+msgstr "该收藏包含 3 个游戏：'%s [%s]', '%s [%s]' 和 '%s [%s]'"
 
 #, c-format
 msgctxt "theme"
@@ -844,6 +844,12 @@ msgstr "已从自定义收藏中移除"
 msgid "LAUNCHING GAME"
 msgstr "启动游戏"
 
+msgid "MENU TIPS"
+msgstr "菜单提示"
+
+msgid "TIPS"
+msgstr "提示"
+
 msgid "HELP PROMPTS"
 msgstr "帮助提示"
 
@@ -987,6 +993,21 @@ msgstr "游戏列表"
 
 msgid "SYSTEMS SORTING"
 msgstr "平台分类"
+
+msgid "PLATFORM SORTING"
+msgstr "平台排序"
+
+msgid "SORT PLATFORMS BY"
+msgstr "平台排序方式"
+
+msgid "LOCALIZED NAME"
+msgstr "本地化名称"
+
+msgid "PLATFORM TYPE, THEN NAME"
+msgstr "平台类型，然后名称"
+
+msgid "MANUFACTURER, THEN NAME"
+msgstr "开发商，然后名称"
 
 msgid "FULL NAMES OR CUSTOM"
 msgstr "完整名称或自定义"
@@ -1251,6 +1272,15 @@ msgstr "在其他屏幕上启动"
 
 msgid "GAME MEDIA DIRECTORY"
 msgstr "游戏媒体目录"
+
+msgid "MEDIA SAVE LOCATION"
+msgstr "媒体保存位置"
+
+msgid "DOWNLOAD MEDIA TO ROM FOLDER"
+msgstr "下载媒体到 ROM 文件夹"
+
+msgid "Only images are saved to the ROM folder, videos and manuals always use the game media directory."
+msgstr "仅图片会保存到 ROM 文件夹，视频和手册始终保存到游戏媒体目录。"
 
 msgid "ENTER GAME MEDIA DIRECTORY"
 msgstr "请输入游戏媒体目录"
@@ -1945,6 +1975,12 @@ msgstr "无视频的游戏"
 
 msgid "FOLDERS ONLY"
 msgstr "仅限文件夹内的游戏"
+
+msgid "GAMES MISSING ANY MEDIA"
+msgstr "缺少任一媒体的游戏"
+
+msgid "GAMES MISSING ALL MEDIA"
+msgstr "缺少全部媒体的游戏"
 
 msgid "SCRAPE THESE SYSTEMS"
 msgstr "抓取哪些平台"
@@ -3451,6 +3487,39 @@ msgstr "错误：无法渲染 PDF 文件"
 msgid "ARCADE SIMULATOR KEY SETUP"
 msgstr "街机模拟器按键设置"
 
+msgid "GAME-SPECIFIC KEYS"
+msgstr "特定游戏按键设置"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "特定游戏按键设置"
+
+msgid "INHERITED"
+msgstr "继承"
+
+msgid "ONLY THE DEMUL CONFIGURATION AND ITS PER-GAME PROFILES ARE WRITTEN FROM THIS PAGE"
+msgstr "此页面只写入 Demul 配置及其每游戏配置"
+
+msgid "PER-GAME DEMUL PROFILES"
+msgstr "每游戏 Demul 配置"
+
+msgid ""
+"EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN "
+"FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr ""
+"每个游戏都有独立的 Demul 按键配置。未覆盖的行跟随全局按键设置，在全局设置页保存会同步更新所有配置。"
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "右侧数字表示该游戏已覆盖的按键数量，“继承”表示使用全局设置。"
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "未覆盖的行跟随全局按键设置。"
+
+msgid ""
+"ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO "
+"CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO STOP."
+msgstr ""
+"未覆盖的行跟随全局按键设置。按回车开始捕获，长按一秒恢复继承全局按键，按 B 键停止。"
+
 msgid "BOOST"
 msgstr "加速"
 
@@ -3526,6 +3595,9 @@ msgstr "右"
 msgid "S TO SKIP"
 msgstr "秒跳过"
 
+msgid "SAVE AND WRITE THE PER-GAME PROFILE"
+msgstr "保存并写入该游戏配置"
+
 msgid "SAVE AND WRITE TO THE EMULATORS"
 msgstr "保存并写入模拟器"
 
@@ -3565,3 +3637,57 @@ msgstr "上"
 
 msgid "WRITTEN"
 msgstr "已写入"
+
+msgid "System-specific settings: BIOS, info, Git proxy, LightDM countdown, font, sudo password."
+msgstr "本机专用设置：BIOS 切换、系统信息、Git 代理、LightDM 倒计时、菜单字体和 sudo 密码。"
+
+msgid "Configure scraper: source, account, media types, language."
+msgstr "配置刮削器：选择数据源、账号、媒体类型和刮削语言。"
+
+msgid "Appearance and interaction: theme, language, clock, menu tips, hidden games."
+msgstr "外观与交互设置：主题、语言、时钟、菜单提示、隐藏游戏。"
+
+msgid "Adjust volume, navigation sounds and system audio."
+msgstr "调整音量、导航音效与系统音频。"
+
+msgid "View and configure wired/wireless network connections."
+msgstr "查看与配置有线/无线网络连接。"
+
+msgid "Controller and keyboard mapping, input device selection."
+msgstr "控制器与键盘映射、输入设备选择。"
+
+msgid "Manage collections, groups and custom collections."
+msgstr "管理收藏、分组与自定义收藏。"
+
+msgid "Emulator and launch options per platform."
+msgstr "各平台的模拟器与启动选项。"
+
+msgid "Updater, screensaver, startup screen and miscellaneous."
+msgstr "更新程序、屏保、启动画面及杂项。"
+
+msgid "Maintenance tools: cleanup, import, offline generation."
+msgstr "维护工具：清理、导入、离线生成。"
+
+msgid "Build version, system statistics, ES-DE paths, session status."
+msgstr "构建版本、系统统计、ES-DE 路径、会话状态。"
+
+msgid "Restart the frontend with current launch parameters."
+msgstr "使用当前启动参数重启前端。"
+
+msgid "Exit the frontend and return to desktop."
+msgstr "退出前端并返回桌面。"
+
+msgid "Reboot the computer."
+msgstr "重启计算机。"
+
+msgid "SUNSHINE SERVICE"
+msgstr "远程访问服务"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "离开按键页面时，这些按键会写入街机模拟器的配置文件。只影响模拟器，不影响本前端；仅限键盘，手柄保留各自绑定。"
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "未覆盖的行沿用全局按键设置。按回车开始捕获，长按一秒恢复为全局按键，按 B 完成并保存。"
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "在某行按回车开始捕获，然后按下物理按键。长按一秒跳过该行，按 B 完成并保存。"

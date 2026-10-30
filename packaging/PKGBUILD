@@ -23,3 +23,23 @@ build() {
 package() {
   make -C build DESTDIR="$pkgdir" install
 }
+
+# devdoc/54: the system definitions live in a user-owned sqlite store. After an
+# install/upgrade the bundled builtin store may have new systems, so run the
+# user-side sync hook (backup + sync + check) when it is available.
+_systems_sync_hook() {
+  local user="${SUDO_USER:-emu}"
+  local hook="/home/$user/tools/systems/install-hook.sh"
+  if [ -x "$hook" ] && [ -f "/home/$user/.config/ES-DE/custom_systems/es_systems_user.sqlite" ]; then
+    echo "==> 同步 es_systems 用户库 (devdoc/54)"
+    sudo -u "$user" "$hook" || echo "警告: systems sync 失败，请手动执行 $hook"
+  fi
+}
+
+post_install() {
+  _systems_sync_hook
+}
+
+post_upgrade() {
+  _systems_sync_hook
+}

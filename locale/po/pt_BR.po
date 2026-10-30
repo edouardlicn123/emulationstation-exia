@@ -3559,3 +3559,30 @@ msgstr "ERRO: FALHA AO RENDERIZAR O ARQUIVO PDF"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "NENHUM ARQUIVO BIOS CORRESPONDENTE EM ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Teclas por jogo"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Configuração de teclas por jogo"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Estas teclas são gravadas na configuração dos emuladores de arcade ao sair de uma página de teclas. Afeta apenas os emuladores, não este frontend. Somente teclado; os controles mantêm suas próprias atribuições."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "As linhas sem override seguem a configuração global. Enter inicia a captura, mantenha um segundo para voltar à tecla global, B conclui e salva."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Enter em uma linha inicia a captura e depois pressione a tecla física. Mantenha um segundo para pular a linha, B conclui e salva."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Cada jogo tem seu próprio perfil de teclado do Demul. As linhas sem override seguem a configuração global e salvar ali atualiza todos os perfis."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "O número à direita mostra quantas teclas foram sobrescritas nesse jogo; herdado significa que usa a configuração global."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "As linhas sem override seguem a configuração global."

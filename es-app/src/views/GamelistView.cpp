@@ -249,9 +249,10 @@ void GamelistView::onThemeChanged(const std::shared_ptr<ThemeData>& theme)
                     mVideoComponents.back()->applyTheme(theme, "gamelist", element.first, ALL);
                     if (mVideoComponents.back()->getThemeImageTypes().size() != 0)
                         mVideoComponents.back()->setScrollHide(true);
-                    // Lets the nflix variants advance to the next game when a video ends.
+                    // Lets any view advance to a random game of the same platform when a video
+                    // has finished playing.
                     mVideoComponents.back()->setVideoEndedCallback(
-                        [this] { return advanceToNextGameVideo(); });
+                        [this] { return advanceToRandomGameVideo(); });
                     addChild(mVideoComponents.back().get());
                 }
             }
@@ -663,26 +664,30 @@ std::vector<HelpPrompt> GamelistView::getHelpPrompts()
     return prompts;
 }
 
-bool GamelistView::advanceToNextGameVideo()
+bool GamelistView::advanceToRandomGameVideo()
 {
-    // Only the nflix variants auto-advance, every other view keeps looping the video.
-    const std::string variant {
-        Utils::String::toUpper(Settings::getInstance()->getString("ThemeVariant"))};
-    if (variant != "NFLIXIMMERSIVE" && variant != "NFLIXCOINOPS")
-        return false;
-
     // Several video elements may play the same file, only the first one may switch the game.
     if (mVideoEndedHandled)
         return true;
 
-    FileData* next {getNextEntry()};
-    // getNextEntry() returns the current entry at the end of the list, wrap around so the
-    // platform keeps cycling.
-    if (next == getCursor())
-        next = getFirstEntry();
+    FileData* current {getCursor()};
+    if (current == nullptr || current->getType() == PLACEHOLDER)
+        return false;
 
-    // A platform with a single game has nowhere to advance to, fall back to looping.
-    if (next == nullptr || next == getCursor())
+    // Pick a random game from the platform currently shown and only accept entries that actually
+    // have a playable video, as the fallback video would end the slideshow after one round.
+    FileData* next {nullptr};
+    for (int attempt {0}; attempt < 20 && next == nullptr; ++attempt) {
+        FileData* candidate {current->getSystem()->getRandomGame(current)};
+        if (candidate == nullptr || candidate == current)
+            break;
+        const std::string video {candidate->getVideoPath()};
+        if (!video.empty() && Utils::FileSystem::exists(video))
+            next = candidate;
+    }
+
+    // Nothing else to advance to, fall back to looping the current video.
+    if (next == nullptr)
         return false;
 
     mVideoEndedHandled = true;
@@ -1136,11 +1141,11 @@ void GamelistView::updateView(const CursorState& state)
                      !file->getSystem()->isCustomCollection())
                 return _p("theme", file->getSystem()->getFullName().c_str());
             else if (metadata == "systemFullname")
-                return file->getSystem()->getFullName();
+                return file->getSystem()->getFullNameLocalized();
             else if (metadata == "sourceSystemName")
                 return file->getSourceFileData()->getSystem()->getName();
             else if (metadata == "sourceSystemFullname")
-                return file->getSourceFileData()->getSystem()->getFullName();
+                return file->getSourceFileData()->getSystem()->getFullNameLocalized();
             else if (!file->getSystem()->isGroupedCustomCollection() &&
                      metadata == "customCollectionNameGrouped")
                 return "";

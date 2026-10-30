@@ -3535,3 +3535,30 @@ msgstr "FEL: KUNDE INTE RENDERA PDF-FIL"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "INGEN MATCHANDE BIOS-FIL I ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Tangenter per spel"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Tangentinställningar per spel"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Dessa tangenter skrivs till arkademulatorernas konfiguration när du lämnar en tangentbordssida. Det påverkar bara emulatorerna, inte detta gränssnitt. Endast tangentbord; handkontroller behåller sina egna bindningar."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Rader som inte är överstyrda följer den globala inställningen. Enter startar inspelningen, håll en sekund för att återgå till den globala tangenten, B avslutar och sparar."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Enter på en rad startar inspelningen, tryck sedan på den fysiska tangenten. Håll en sekund för att hoppa över raden, B avslutar och sparar."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Varje spel har en egen Demul-tangentbordsprofil. Rader som inte är överstyrda följer den globala tangentinställningen, och att spara där uppdaterar alla profiler."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "Siffran till höger visar hur många tangenter som är överstyrda för spelet; ärvd betyder att den globala inställningen används."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Rader som inte är överstyrda följer den globala tangentinställningen."

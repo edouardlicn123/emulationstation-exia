@@ -17,11 +17,14 @@
 
 #include <assert.h>
 #include <functional>
+#include <map>
 #include <memory>
 #include <queue>
+#include <set>
 #include <utility>
 
-#define MAX_SCRAPER_RESULTS 7
+// Maximum number of results that are kept and displayed from a single scraping source.
+#define MAX_SCRAPER_RESULTS 20
 
 class FileData;
 class SystemData;
@@ -40,6 +43,12 @@ struct ScraperSearchParams {
 
     std::string nameOverride;
     bool automaticMode;
+    // Explicitly selected scraping source, an empty value means that the source configured
+    // in the settings file is used. Needed to query multiple sources for a single game.
+    std::string scraperName;
+    // Whether existing media files may be replaced. Only used for the current scrape queue,
+    // it is not saved to the settings file.
+    bool overwriteMedia {true};
 
     ScraperSearchParams()
         : fileSize {0}
@@ -124,6 +133,10 @@ class ScraperHttpRequest : public ScraperRequest
 {
 public:
     ScraperHttpRequest(std::vector<ScraperSearchResult>& resultsWrite, const std::string& url);
+    // Used by scrapers that need custom headers or a POST body (IGDB and HfsDB).
+    ScraperHttpRequest(std::vector<ScraperSearchResult>& resultsWrite,
+                       const std::string& url,
+                       const HttpReqOptions& options);
     void update() override;
 
 protected:
@@ -148,6 +161,8 @@ public:
     }
 
 protected:
+    friend class Scraper;
+
     friend std::unique_ptr<ScraperSearchHandle> startScraperSearch(
         const ScraperSearchParams& params);
 
@@ -155,6 +170,63 @@ protected:
 
     std::queue<std::unique_ptr<ScraperRequest>> mRequestQueue;
     std::vector<ScraperSearchResult> mResults;
+};
+
+// Minimal scraper abstraction inspired by the Batocera implementation. It only exposes the
+// capabilities needed to build a dynamic source list, filter sources by platform and query
+// multiple sources for a single game. The existing request and download framework is left
+// untouched.
+class Scraper
+{
+public:
+    enum ScraperMediaSource {
+        Screenshot = 1,
+        Video,
+        Marquee,
+        Box2d,
+        Box3d,
+        FanArt,
+        TitleShot,
+        Manual,
+        Wheel,
+        BoxBack,
+        PhysicalMedia
+    };
+
+    // The keys are the identifiers stored in the Scraper setting and are kept lowercase for
+    // backward compatibility with existing configuration files.
+    static std::vector<std::pair<std::string, Scraper*>> scrapers;
+
+    static Scraper* getScraper(const std::string& name = "");
+    static std::string getScraperName(Scraper* scraper);
+    static std::vector<std::string> getScraperList();
+    static int getScraperIndex(const std::string& name);
+
+    virtual ~Scraper() = default;
+
+    // Display name of the scraping source. This is an Exia extension, the name is provided
+    // by the scraper registry in Batocera where the base class has no such method.
+    virtual const std::string getName() const = 0;
+
+    virtual bool isSupportedPlatform(SystemData* system) const = 0;
+    virtual const std::set<ScraperMediaSource>& getSupportedMedias() const = 0;
+
+    // Whether the source has all the credentials it requires (e.g. IGDB and HfsDB).
+    virtual bool isConfigured() const { return true; }
+
+    virtual int getThreadCount(std::string& result) { return 1; }
+
+    virtual bool hasMissingMedia(FileData* file);
+    virtual bool hasAnyMedia(FileData* file);
+
+    bool isMediaSupported(const ScraperMediaSource& media);
+
+    std::unique_ptr<ScraperSearchHandle> search(const ScraperSearchParams& params);
+
+protected:
+    virtual void generateRequests(const ScraperSearchParams& params,
+                                  std::queue<std::unique_ptr<ScraperRequest>>& requests,
+                                  std::vector<ScraperSearchResult>& results) = 0;
 };
 
 // Will use the current scraper settings to pick the result source.
@@ -165,10 +237,46 @@ std::unique_ptr<ScraperSearchHandle> startMediaURLsFetch(const std::string& game
 // Returns true if the scraper configured in the settings is still valid.
 bool isValidConfiguredScraper();
 
+// Returns true if at least one of the media types enabled for scraping is missing for this
+// game. Returns false if no media types are enabled at all.
+bool hasMissingEnabledMedia(FileData* game);
+
+// Returns true if at least one of the media types enabled for scraping exists for this game.
+// Returns true if no media types are enabled at all.
+bool hasAnyEnabledMedia(FileData* game);
+
 using generate_scraper_requests_func =
     void (*)(const ScraperSearchParams& params,
              std::queue<std::unique_ptr<ScraperRequest>>& requests,
              std::vector<ScraperSearchResult>& results);
+
+// Returns true if this game should be included in the scrape queue.
+using GameFilterFunc = std::function<bool(SystemData*, FileData*)>;
+
+// A game filter as shown in the batch scraping menu.
+struct ScrapeFilter {
+    // Untranslated name, used by the command line scraping entry.
+    std::string name;
+    // Localized label shown in the menu.
+    std::string label;
+    GameFilterFunc func;
+};
+
+// The scrape filters shown in the batch scraping menu. The order matches the ScraperFilter
+// setting, so entries must not be reordered without adjusting the stored values.
+const std::vector<ScrapeFilter>& getScrapeFilters();
+
+// Whether the most recently modified scraped media file of this game is newer than the
+// provided number of days. A value of zero or less disables the check.
+bool isGameRecentlyUpdated(FileData* game, int skipRecentDays);
+
+// Builds a scrape queue for the provided systems. This contains no GUI dependency so it can
+// be shared by the batch scraping menu and the command line scraping entry.
+std::pair<std::queue<ScraperSearchParams>, std::map<SystemData*, int>>
+buildScrapeQueue(const std::vector<SystemData*>& systems,
+                 const GameFilterFunc& selector,
+                 bool overwriteMedia,
+                 int skipRecentDays);
 
 // -------------------------------------------------------------------------
 

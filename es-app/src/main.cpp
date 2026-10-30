@@ -27,6 +27,7 @@
 #include "Settings.h"
 #include "Sound.h"
 #include "SystemData.h"
+#include "scrapers/BackgroundScraper.h"
 #include "SystemStatus.h"
 #include "guis/GuiDetectDevice.h"
 #include "guis/GuiExiaSettings.h"
@@ -59,9 +60,11 @@
 #endif
 
 #include <FreeImage.h>
+#include <chrono>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <thread>
 #include <time.h>
 
 namespace
@@ -83,6 +86,11 @@ namespace
     bool createSystemDirectories {false};
     bool settingsNeedSaving {false};
     bool portableMode {false};
+
+    // Command line scraping (--scrape), the values are only used when scrapeMode is set.
+    bool scrapeMode {false};
+    std::string scrapeSystemName;
+    std::string scrapeFilterName;
 
     enum loadSystemsReturnCode {
         LOADING_OK,
@@ -393,6 +401,17 @@ bool parseArguments(const std::vector<std::string>& arguments)
         else if (arguments[i] == "--create-system-dirs") {
             createSystemDirectories = true;
         }
+        else if (arguments[i] == "--scrape") {
+            scrapeMode = true;
+            // An optional system short name may follow the flag.
+            if (i + 1 < arguments.size() && arguments[i + 1].compare(0, 2, "--") != 0) {
+                scrapeSystemName = arguments[i + 1];
+                ++i;
+            }
+        }
+        else if (arguments[i].compare(0, 16, "--scrape-filter=") == 0) {
+            scrapeFilterName = arguments[i].substr(16);
+        }
         else if (arguments[i] == "--debug") {
             Settings::getInstance()->setBool("Debug", true);
             Settings::getInstance()->setBool("DebugFlag", true);
@@ -432,6 +451,8 @@ bool parseArguments(const std::vector<std::string>& arguments)
 "  --force-kid                           Force the UI mode to Kid\n"
 "  --force-input-config                  Force configuration of input devices\n"
 "  --create-system-dirs                  Create game system directories\n"
+"  --scrape [system]                     Scrape games and exit, optionally for a single system\n"
+"  --scrape-filter=[filter]              Game filter for --scrape, for example \"ALL GAMES\"\n"
 "  --home [path]                         Directory to use as home path\n"
 "  --debug                               Enable debug mode\n"
 "  --version, -v                         Display version information\n"
@@ -495,6 +516,122 @@ loadSystemsReturnCode loadSystemConfigFile()
     }
 
     return LOADING_OK;
+}
+
+// Command line scraping (--scrape). The game queue is built without any GUI interaction and the
+// background scraper is pumped from a plain loop instead of the GUI main loop, the progress is
+// written to the log rather than shown as notifications.
+// Return codes: 0 = everything scraped, 1 = at least one game was skipped, 2 = invalid argument.
+int runCommandLineScrape()
+{
+    std::vector<SystemData*> systems;
+
+    if (scrapeSystemName.empty()) {
+        for (auto system : SystemData::sSystemVector) {
+            if (!system->isCollection())
+                systems.push_back(system);
+        }
+    }
+    else {
+        SystemData* system {SystemData::getSystemByName(scrapeSystemName)};
+
+        if (system == nullptr) {
+            LOG(LogError) << "Unknown system \"" << scrapeSystemName << "\"";
+            return 2;
+        }
+
+        systems.push_back(system);
+    }
+
+    if (systems.empty()) {
+        LOG(LogError) << "There are no systems to scrape";
+        return 1;
+    }
+
+    // The filter names are matched case insensitively, the labels are localized.
+    const std::vector<ScrapeFilter>& filters {getScrapeFilters()};
+    GameFilterFunc selector {filters.front().func};
+    size_t filterIndex {0};
+
+    if (!scrapeFilterName.empty()) {
+        bool filterFound {false};
+
+        for (size_t i {0}; i < filters.size(); ++i) {
+            if (Utils::String::toLower(filters[i].name) ==
+                Utils::String::toLower(scrapeFilterName)) {
+                selector = filters[i].func;
+                filterIndex = i;
+                filterFound = true;
+                break;
+            }
+        }
+
+        if (!filterFound) {
+            LOG(LogError) << "Unknown scrape filter \"" << scrapeFilterName << "\"";
+            return 2;
+        }
+    }
+
+    // The "games missing any media" filter must not overwrite existing media files, while every
+    // other filter keeps the overwrite behavior of the settings.
+    bool overwriteMedia {Settings::getInstance()->getBool("ScraperOverwriteData") &&
+                         Settings::getInstance()->getBool("ScraperOverwriteMedia")};
+
+    if (filterIndex == 6)
+        overwriteMedia = false;
+
+    const std::pair<std::queue<ScraperSearchParams>, std::map<SystemData*, int>> searches {
+        buildScrapeQueue(systems, selector, overwriteMedia, 0)};
+
+    if (searches.first.empty()) {
+        LOG(LogInfo) << "No games matched the scrape filter, nothing to scrape";
+        return 0;
+    }
+
+    LOG(LogInfo) << "Scraping " << searches.first.size() << " games from " << systems.size()
+                 << " systems using the source \"" << Settings::getInstance()->getString("Scraper")
+                 << "\"";
+
+    BackgroundScraper::setHeadless(true);
+    BackgroundScraper::start(searches);
+
+    if (!BackgroundScraper::isRunning()) {
+        LOG(LogError) << "Couldn't start the scraping, is the configured scraper valid?";
+        return 1;
+    }
+
+    // Poll the scraper until the queue is empty, with a stall guard in case a handle never
+    // completes.
+    std::string lastProgress;
+    std::chrono::steady_clock::time_point lastProgressTime {std::chrono::steady_clock::now()};
+
+    while (BackgroundScraper::isRunning()) {
+        BackgroundScraper::update();
+
+        const std::string progress {BackgroundScraper::getProgressText()};
+
+        if (progress != lastProgress) {
+            lastProgress = progress;
+            lastProgressTime = std::chrono::steady_clock::now();
+        }
+        else if (std::chrono::steady_clock::now() - lastProgressTime >
+                 std::chrono::minutes(10)) {
+            LOG(LogError) << "The scraping stalled at " << progress << ", aborting";
+            BackgroundScraper::stop();
+            break;
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+
+    const int skipped {BackgroundScraper::getLastSkippedGames()};
+
+    if (skipped > 0) {
+        LOG(LogWarning) << skipped << " games could not be scraped";
+        return 1;
+    }
+
+    return 0;
 }
 
 void onExit()
@@ -1107,6 +1244,9 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    // Batch scraping is polled once per frame so that it keeps running in the background.
+    window->setBackgroundUpdateCallback([] { BackgroundScraper::update(); });
+
 #if !defined(__ANDROID__) && !defined(__IOS__)
     // Runtime header for support and emulator-log correlation. SDL only reports the
     // driver after the window exists, hence this placement.
@@ -1230,6 +1370,20 @@ int main(int argc, char* argv[])
     ViewController::getInstance()->setMenuColors();
     loadSystemsReturnCode loadSystemsStatus {loadSystemConfigFile()};
 
+    // Command line scraping does not enter the GUI main loop, it only uses the already loaded
+    // systems. The regular shutdown path is still executed by skipping the GUI startup below.
+    int applicationExitCode {0};
+
+    if (scrapeMode) {
+        if (loadSystemsStatus == loadSystemsReturnCode::LOADING_OK)
+            applicationExitCode = runCommandLineScrape();
+        else
+            LOG(LogError) << "Couldn't load the systems, scraping aborted";
+
+        LOG(LogInfo) << "Scraping completed, shutting down";
+        SystemData::sStartupExitSignal = true;
+    }
+
     if (!SystemData::sStartupExitSignal) {
         if (loadSystemsStatus) {
             // If there was an issue parsing the es_systems.xml file, display an error message.
@@ -1247,8 +1401,11 @@ int main(int argc, char* argv[])
         // Don't generate controller events while we're loading.
         SDL_GameControllerEventState(SDL_DISABLE);
 
-        // Preload system view and all gamelist views.
+        // Preload system view and all gamelist views (step 3: only first system).
         ViewController::getInstance()->preload();
+
+        // Generate controller events early since only the first system is loaded now.
+        SDL_GameControllerEventState(SDL_ENABLE);
     }
 
     if (!SystemData::sStartupExitSignal) {
@@ -1278,9 +1435,6 @@ int main(int argc, char* argv[])
             }
         }
 #endif
-
-        // Generate controller events since we're done loading.
-        SDL_GameControllerEventState(SDL_ENABLE);
 
         lastTime = SDL_GetTicks();
 
@@ -1348,7 +1502,7 @@ int main(int argc, char* argv[])
 #endif
         }
     }
-    else {
+    else if (!scrapeMode) {
         LOG(LogInfo) << "Exit signal received, aborting application startup";
     }
 
@@ -1385,5 +1539,5 @@ int main(int argc, char* argv[])
     exit(0);
 #endif
 
-    return 0;
+    return applicationExitCode;
 }

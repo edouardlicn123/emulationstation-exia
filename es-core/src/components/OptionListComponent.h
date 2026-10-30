@@ -549,7 +549,7 @@ private:
                                 });
             }
 
-            mMenu.setPosition((Renderer::getScreenWidth() - mMenu.getSize().x) / 2.0f,
+            mMenu.setPosition(MenuComponent::getMenuLeft(),
                               Renderer::getScreenHeight() * 0.13f);
             addChild(&mMenu);
         }

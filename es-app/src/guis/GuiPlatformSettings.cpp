@@ -75,8 +75,10 @@ GuiPlatformSettings::GuiPlatformSettings(const std::string& title)
 
     std::vector<SystemData*> sortedSystems;
     for (SystemData* system : SystemData::sSystemVector) {
-        // Collections are not platforms, they are left out of this page entirely.
-        if (!system->isCollection())
+        // Collections are not platforms, they are left out of this page entirely. The manual
+        // image viewer is excluded as well, it is a helper system without an emulator and has
+        // nothing that could be configured here (devdoc/58 section T5).
+        if (!system->isCollection() && system->getName() != "manual")
             sortedSystems.push_back(system);
     }
 
@@ -88,7 +90,8 @@ GuiPlatformSettings::GuiPlatformSettings(const std::string& title)
         ComponentListRow row;
 
         std::shared_ptr<TextComponent> nameText {
-            std::make_shared<TextComponent>(system->getFullName(), getMenuThemeFont(FONT_SIZE_MEDIUM),
+            std::make_shared<TextComponent>(system->getFullNameLocalized(),
+                                            getMenuThemeFont(FONT_SIZE_MEDIUM),
                                             0x777777FF, ALIGN_LEFT, ALIGN_CENTER,
                                             glm::ivec2 {0, 0})};
         nameText->setSize(nameSizeX, nameText->getSize().y);
@@ -131,7 +134,7 @@ static GuiSettings* buildPlatformInfoPage(SystemData* system)
     auto page = new GuiSettings(_("PLATFORM INFO"));
 
     // Read only information, useful when diagnosing a platform.
-    page->addRow(makeInfoRow(_("FULL NAME"), system->getFullName()));
+    page->addRow(makeInfoRow(_("FULL NAME"), system->getFullNameLocalized()));
     page->addRow(makeInfoRow(_("INTERNAL NAME"), system->getName()));
     page->addRow(makeInfoRow(_("THEME DIRECTORY"), system->getThemeFolder()));
 
@@ -143,7 +146,7 @@ static GuiSettings* buildPlatformInfoPage(SystemData* system)
 
 static GuiSettings* buildPlatformPage(SystemData* system, Window* window)
 {
-    auto page = new GuiSettings(Utils::String::toUpper(system->getFullName()));
+    auto page = new GuiSettings(Utils::String::toUpper(system->getFullNameLocalized()));
 
     const std::string systemName {system->getName()};
 
@@ -194,27 +197,30 @@ static GuiSettings* buildPlatformPage(SystemData* system, Window* window)
         page->addRow(row);
     }
 
-    // Display mode. When the emulator of the platform does not support windowed mode the row
+    // Display mode. Platforms that are always fullscreen have no such setting and the row is
+    // left out entirely. For every other emulator, when windowed mode is not supported the row
     // explains that instead of offering a setting that could not work.
-    const PlatformSettings::WindowBackend backend {
-        PlatformSettings::windowBackendOfSystem(system)};
+    if (!PlatformSettings::isFixedFullscreen(system)) {
+        const PlatformSettings::WindowBackend backend {
+            PlatformSettings::windowBackendOfSystem(system)};
 
-    if (backend != PlatformSettings::WindowBackend::UNSUPPORTED) {
-        auto displayMode =
-            std::make_shared<OptionListComponent<std::string>>(_("DISPLAY MODE"), false);
-        const bool windowed {PlatformSettings::isWindowed(systemName)};
-        displayMode->add(_("FULLSCREEN"), "0", !windowed);
-        displayMode->add(_("WINDOWED"), "1", windowed);
-        page->addWithLabel(_("DISPLAY MODE"), displayMode);
-        page->addSaveFunc([systemName, displayMode] {
-            const bool newWindowed {displayMode->getSelected() == "1"};
-            if (newWindowed != PlatformSettings::isWindowed(systemName))
-                PlatformSettings::setWindowed(systemName, newWindowed);
-        });
-    }
-    else {
-        page->addRow(makeInfoRow(_("DISPLAY MODE"),
-                                 _("NOT SUPPORTED BY THE CURRENT EMULATOR")));
+        if (backend != PlatformSettings::WindowBackend::UNSUPPORTED) {
+            auto displayMode =
+                std::make_shared<OptionListComponent<std::string>>(_("DISPLAY MODE"), false);
+            const bool windowed {PlatformSettings::isWindowed(systemName)};
+            displayMode->add(_("FULLSCREEN"), "0", !windowed);
+            displayMode->add(_("WINDOWED"), "1", windowed);
+            page->addWithLabel(_("DISPLAY MODE"), displayMode);
+            page->addSaveFunc([systemName, displayMode] {
+                const bool newWindowed {displayMode->getSelected() == "1"};
+                if (newWindowed != PlatformSettings::isWindowed(systemName))
+                    PlatformSettings::setWindowed(systemName, newWindowed);
+            });
+        }
+        else {
+            page->addRow(makeInfoRow(_("DISPLAY MODE"),
+                                     _("NOT SUPPORTED BY THE CURRENT EMULATOR")));
+        }
     }
 
     // Show or hide the platform in the system carousel.

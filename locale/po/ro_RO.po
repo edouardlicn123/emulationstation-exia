@@ -3580,3 +3580,30 @@ msgstr "EROARE: NU SE POATE AFIȘA FIȘIERUL PDF"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "NICIUN FIȘIER BIOS CORESPUNZĂTOR ÎN ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Taste pentru joc"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Setări taste pentru joc"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Aceste taste sunt scrise în configurația emulatoarelor arcade la părăsirea unei pagini de taste. Afectează doar emulatoarele, nu acest frontend. Doar tastatură; gamepad-urile își păstrează propriile atribuiri."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Rândurile neînlocuite folosesc configurația globală. Enter începe capturarea, ține o secundă pentru a reveni la tasta globală, B termină și salvează."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Enter pe un rând începe capturarea, apoi apasă tasta fizică. Ține o secundă pentru a sări rândul, B termină și salvează."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Fiecare joc are propriul profil de tastatură Demul. Rândurile neînlocuite folosesc configurația globală, iar salvarea aici actualizează toate profilele."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "Numărul din dreapta arată câte taste sunt înlocuite pentru acel joc; moștenit înseamnă că folosește configurația globală."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Rândurile neînlocuite folosesc configurația globală."

@@ -274,7 +274,7 @@ GuiGamelistOptions::GuiGamelistOptions(SystemData* system)
 
     // Center the menu.
     setSize(Renderer::getScreenWidth(), Renderer::getScreenHeight());
-    mMenu.setPosition((mSize.x - mMenu.getSize().x) / 2.0f, (mSize.y - mMenu.getSize().y) / 2.0f);
+    mMenu.setPosition(MenuComponent::getMenuLeft(), (mSize.y - mMenu.getSize().y) / 2.0f);
 }
 
 GuiGamelistOptions::~GuiGamelistOptions()
@@ -416,6 +416,8 @@ void GuiGamelistOptions::openMetaDataEd()
     p.game = file;
     p.system = file->getSystem();
     p.automaticMode = false;
+    p.overwriteMedia = Settings::getInstance()->getBool("ScraperOverwriteData") &&
+                       Settings::getInstance()->getBool("ScraperOverwriteMedia");
 
     std::function<void()> clearGameBtnFunc;
     std::function<void()> deleteGameBtnFunc;

@@ -3551,3 +3551,30 @@ msgstr "エラー：PDFファイルをレンダリングできませんでした
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "~/biosalt に対応する BIOS ファイルがありません"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "ゲーム別キー"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "ゲーム別キー設定"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "キー画面を閉じると、このキー設定はアーケードエミュレーターの設定に書き込まれます。影響するのはエミュレーターのみで、このフロントエンドには影響しません。キーボード専用で、ゲームパッドは独自の割り当てを保ちます。"
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "上書きされていない行は全体設定に従います。Enter で取り込みを開始し、1 秒長押しで全体キーに戻し、B で完了して保存します。"
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "行を選んで Enter で取り込みを開始し、実際のキーを押します。1 秒長押しでその行を飛ばし、B で完了して保存します。"
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "各ゲームには専用の Demul キーボードプロファイルがあります。上書きされていない行は全体設定に従い、ここで保存するとすべてのプロファイルが更新されます。"
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "右側の数字はそのゲームで上書きされているキーの数です。継承は全体設定を使用することを意味します。"
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "上書きされていない行は全体設定に従います。"

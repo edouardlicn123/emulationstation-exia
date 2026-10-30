@@ -18,11 +18,20 @@
 #include <queue>
 #include <sstream>
 #include <thread>
+#include <utility>
+#include <vector>
+
+// Optional request details. Added for scrapers that need custom HTTP headers
+// (e.g. API tokens) or to POST a request body (IGDB and HfsDB).
+struct HttpReqOptions {
+    std::vector<std::string> customHeaders;
+    std::string dataToPost;
+};
 
 class HttpReq
 {
 public:
-    HttpReq(const std::string& url, bool scraperRequest);
+    HttpReq(const std::string& url, bool scraperRequest, const HttpReqOptions* options = nullptr);
     ~HttpReq();
 
     enum Status {
@@ -99,7 +108,7 @@ private:
     static inline CURLM* sMultiHandle;
     static inline std::map<CURL*, HttpReq*> sRequests;
     static inline std::queue<CURL*> sAddHandleQueue;
-    static inline std::queue<CURL*> sRemoveHandleQueue;
+    static inline std::queue<std::pair<CURL*, curl_slist*>> sRemoveHandleQueue;
 
     std::atomic<Status> mStatus;
     CURL* mHandle;
@@ -110,6 +119,8 @@ private:
 
     std::stringstream mContent;
     std::string mErrorMsg;
+    std::string mPostData;
+    curl_slist* mHeaders;
     static inline std::atomic<bool> sStopPoll = false;
     std::atomic<long> mTotalBytes;
     std::atomic<long> mDownloadedBytes;

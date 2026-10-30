@@ -3547,3 +3547,30 @@ msgstr "ERROR: NO ES POT RENDERITZAR L'ARXIU PDF"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "NO HI HA CAP FITXER BIOS CORRESPONENT A ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Tecles per joc"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Configuració de tecles del joc"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Aquestes tecles s'escriuen a la configuració dels emuladors d'arcade en sortir d'una pàgina de tecles. Només afecta els emuladors, no aquest frontend. Només teclat; els comandaments conserven les seves assignacions."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Les files no sobreescrites segueixen la configuració global. Intro inicia la captura, mantén un segon per tornar a la tecla global, B acaba i desa."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Intro en una fila inicia la captura i després prem la tecla física. Mantén un segon per saltar la fila, B acaba i desa."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Cada joc té el seu propi perfil de teclat de Demul. Les files no sobreescrites segueixen la configuració global i, en desar-hi, s'actualitzen tots els perfils."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "El número de la dreta indica quantes tecles estan sobreescrites per a aquest joc; heretat vol dir que usa la configuració global."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Les files no sobreescrites segueixen la configuració global."

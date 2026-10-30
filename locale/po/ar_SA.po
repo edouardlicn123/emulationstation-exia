@@ -3576,3 +3576,30 @@ msgstr "خطأ لا يمكن تقديم ملف pdf"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "لا يوجد ملف BIOS مطابق في ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "مفاتيح خاصة باللعبة"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "إعدادات مفاتيح اللعبة"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "تُكتب هذه المفاتيح في إعدادات محاكيات الأركيد عند مغادرة صفحة المفاتيح. يؤثر ذلك في المحاكيات فقط وليس في هذه الواجهة. لوحة المفاتيح فقط؛ تحتفظ أذرع اللعب بربطها الخاص."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "الصفوف غير المستبدلة تتبع الإعدادات العامة. يبدأ Enter الالتقاط، والضغط لمدة ثانية يعيد المفتاح العام، وB ينهي ويحفظ."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "يبدأ Enter في صف الالتقاط ثم اضغط المفتاح الفعلي. الضغط لمدة ثانية يتخطى الصف، وB ينهي ويحفظ."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "كل لعبة لها ملف مفاتيح Demul خاص بها. الصفوف غير المستبدلة تتبع الإعدادات العامة، والحفظ هناك يحدّث كل الملفات."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "الرقم على اليمين هو عدد المفاتيح المستبدلة لتلك اللعبة، و«موروث» يعني أنها تستخدم الإعدادات العامة."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "الصفوف غير المستبدلة تتبع الإعدادات العامة."

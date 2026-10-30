@@ -418,6 +418,10 @@ void GuiScraperSearch::stop()
 
 void GuiScraperSearch::onSearchDone(std::vector<ScraperSearchResult>& results)
 {
+    // Only keep a limited number of entries so that a single service cannot fill the list.
+    if (results.size() > MAX_SCRAPER_RESULTS)
+        results.resize(MAX_SCRAPER_RESULTS);
+
     mResultList->clear();
     mScraperResults = results;
 
@@ -1176,8 +1180,17 @@ bool GuiScraperSearch::saveMetadata(const ScraperSearchResult& result,
         if (key == "releasedate" && metadata.get(key) == "19700101T000000")
             metadata.set(key, mMetaDataDecl.at(i).defaultValue);
 
-        // Overwrite all the other values if the flag to overwrite data has been set.
-        if (Settings::getInstance()->getBool("ScraperOverwriteData")) {
+        // Overwrite existing values according to the granular overwrite settings.
+        bool overwriteValue {false};
+
+        if (key == "name")
+            overwriteValue = Settings::getInstance()->getBool("ScraperOverwriteNames");
+        else if (key == "desc")
+            overwriteValue = Settings::getInstance()->getBool("ScraperOverwriteDescription");
+        else
+            overwriteValue = Settings::getInstance()->getBool("ScraperOverwriteMetadata");
+
+        if (overwriteValue) {
             metadata.set(key, result.mdl.get(key));
             metadataUpdated = true;
         }

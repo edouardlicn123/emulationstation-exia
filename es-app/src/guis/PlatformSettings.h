@@ -35,7 +35,14 @@ namespace PlatformSettings
     enum class WindowBackend {
         UNSUPPORTED,
         RETROARCH,
-        MAME
+        MAME,
+        DOLPHIN,
+        PLAY,
+        FLYCAST,
+        FLYCAST_DOJO,
+        FINALBURN_NEO,
+        DEMUL,
+        SM2_EMU
     };
 
     // Key part of the two per platform settings, the full key is "system.<name>.<key>".
@@ -62,6 +69,12 @@ namespace PlatformSettings
     // empty string if the command does not contain one.
     WindowBackend windowBackendOf(const std::string& launchCommand);
     WindowBackend windowBackendOfSystem(const SystemData* system);
+
+    // True when the platform has no configurable display mode and always launches in
+    // fullscreen. Demul reads UseFullscreen from its plugin ini instead of a launch argument,
+    // and on this machine it only works reliably in fullscreen, so the platform page does not
+    // offer a display mode for such systems at all.
+    bool isFixedFullscreen(const SystemData* system);
 
     // Arguments appended to the launch command for windowed mode. Empty for UNSUPPORTED and
     // for fullscreen.

@@ -25,6 +25,7 @@
 #include "resources/TextureResource.h"
 
 #include <atomic>
+#include <functional>
 #include <memory>
 #include <queue>
 
@@ -106,6 +107,13 @@ public:
 
     void setBlockInput(const bool state) { mBlockInput = state; }
     void normalizeNextUpdate() { mNormalizeNextUpdate = true; }
+
+    // Polled once per frame before any GUI updates, so that long running tasks (e.g. batch
+    // scraping) keep running regardless of which GUI is on top of the stack.
+    void setBackgroundUpdateCallback(const std::function<void()>& callback)
+    {
+        mBackgroundUpdateCallback = callback;
+    }
 
     enum class SplashScreenState {
         SCANNING,
@@ -263,6 +271,7 @@ private:
 
     bool mBlockInput;
     bool mNormalizeNextUpdate;
+    std::function<void()> mBackgroundUpdateCallback;
 
     bool mRenderScreensaver;
     bool mRenderMediaViewer;

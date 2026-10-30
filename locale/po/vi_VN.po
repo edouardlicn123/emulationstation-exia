@@ -3513,3 +3513,30 @@ msgstr "LỖI: KHÔNG THỂ HIỂN THỊ TỆP PDF"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "KHÔNG CÓ TỆP BIOS KHỚP TRONG ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Phím riêng cho game"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Cài đặt phím riêng cho game"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Các phím này được ghi vào cấu hình trình giả lập arcade khi bạn rời trang phím. Chỉ ảnh hưởng đến trình giả lập, không ảnh hưởng giao diện này. Chỉ bàn phím; tay cầm giữ liên kết riêng."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Các hàng chưa ghi đè dùng thiết lập phím toàn cục. Enter bắt đầu thu nhận, giữ một giây để trở lại phím toàn cục, B kết thúc và lưu."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Enter trên một hàng để bắt đầu thu nhận, sau đó nhấn phím vật lý. Giữ một giây để bỏ qua hàng, B kết thúc và lưu."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Mỗi trò chơi có hồ sơ bàn phím Demul riêng. Các hàng chưa ghi đè dùng thiết lập phím toàn cục và lưu tại đây sẽ cập nhật mọi hồ sơ."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "Số bên phải cho biết số phím đã ghi đè cho trò chơi đó; kế thừa nghĩa là dùng thiết lập toàn cục."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Các hàng chưa ghi đè dùng thiết lập phím toàn cục."

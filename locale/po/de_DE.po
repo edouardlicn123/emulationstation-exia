@@ -3583,3 +3583,30 @@ msgstr "FEHLER: PDF NICHT DARSTELLBAR"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "KEINE PASSENDE BIOS-DATEI IN ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Spielspezifische Tasten"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Spielspezifische Tasteneinstellungen"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Diese Tasten werden in die Konfiguration der Arcade-Emulatoren geschrieben, sobald eine Tastenseite verlassen wird. Das betrifft nur die Emulatoren, nicht diese Oberfläche. Nur Tastatur; Gamepads behalten ihre eigenen Belegungen."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Nicht überschriebene Zeilen folgen der globalen Tastenbelegung. Enter startet die Aufnahme, eine Sekunde halten setzt die globale Taste wieder ein, B schließt und speichert."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Enter auf einer Zeile startet die Aufnahme, dann die physische Taste drücken. Eine Sekunde halten überspringt die Zeile, B schließt und speichert."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Jedes Spiel hat ein eigenes Demul-Tastaturprofil. Nicht überschriebene Zeilen folgen der globalen Tastenbelegung, und Speichern dort aktualisiert alle Profile."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "Die Zahl rechts zeigt, wie viele Tasten für dieses Spiel überschrieben sind; geerbt bedeutet, dass die globale Belegung gilt."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Nicht überschriebene Zeilen folgen der globalen Tastenbelegung."

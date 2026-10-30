@@ -45,7 +45,7 @@ GuiEmulatorSelector::GuiEmulatorSelector(SystemData* system, FileData* game)
     // Take the size of the menu so that this component is centered on screen like a top level
     // GUI, which is also what the scale-up menu opening effect uses.
     setSize(mMenu.getSize());
-    setPosition((Renderer::getScreenWidth() - mSize.x) / 2.0f, Renderer::getScreenHeight() * 0.13f);
+    setPosition(MenuComponent::getMenuLeft(), Renderer::getScreenHeight() * 0.13f);
 }
 
 void GuiEmulatorSelector::buildMenu(bool invalidEntry, const std::string& currentValue)

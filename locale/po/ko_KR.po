@@ -3486,3 +3486,30 @@ msgstr "오류: PDF 파일을 렌더링할 수 없습니다"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "~/biosalt 에 일치하는 BIOS 파일이 없습니다"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "게임별 키"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "게임별 키 설정"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "키 페이지를 나가면 이 키가 아케이드 에뮬레이터 설정에 기록됩니다. 에뮬레이터에만 적용되며 이 프런트엔드에는 영향이 없습니다. 키보드 전용이며 게임패드는 자체 바인딩을 유지합니다."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "재정의되지 않은 행은 전역 키 설정을 따릅니다. Enter로 캡처를 시작하고, 1초 길게 눌러 전역 키로 돌아가며, B로 완료하고 저장합니다."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "행에서 Enter로 캡처를 시작한 뒤 실제 키를 누릅니다. 1초 길게 누르면 해당 행을 건너뛰고, B로 완료하고 저장합니다."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "각 게임은 자체 Demul 키보드 프로필을 가집니다. 재정의되지 않은 행은 전역 키 설정을 따르며, 여기서 저장하면 모든 프로필이 갱신됩니다."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "오른쪽 숫자는 해당 게임에서 재정의된 키 수이며, 상속은 전역 설정을 사용함을 뜻합니다."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "재정의되지 않은 행은 전역 키 설정을 따릅니다."

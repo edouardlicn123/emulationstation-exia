@@ -328,6 +328,11 @@ boot.lightdm.timeout=7
 git.proxy.enabled=0
 git.proxy.url=http://127.0.0.1:20171
 
+# ------------ G - Remote Access ------------ #
+
+## Sunshine 远程访问服务开关(1=启用,0=禁用)。启动时运行 /usr/bin/sunshine,停止时终止进程。
+sunshine.enabled=0
+
 # ------------ E - BIOS ------------ #
 
 ## 各平台当前 BIOS 版本(源 ~/biosalt → 目标 ~/bios)。
@@ -538,8 +543,91 @@ GuiExiaSettings::GuiExiaSettings(const std::string& title)
     ExiaConfig::getInstance();
 
     addRow(makeNavRow(_("Chinese Localization settings"), "", [this] { openBiosSwitch(); }));
-    addRow(makeNavRow(_("SYSTEM INFO"), "", [this] { openSystemInfo(); }));
     addRow(makeNavRow(_("GIT PROXY"), "", [this] { openGitProxy(); }));
+
+    // SUNSHINE SERVICE 开关：启动 / 停止远程访问服务，并同步修改 ~/系统工具/.directory 图标。
+    const std::string sunshineStatus {ExiaConfig::getInstance().get("sunshine.enabled", "0")};
+    auto sunshineToggle = std::make_shared<OptionListComponent<std::string>>("SUNSHINE SERVICE", false);
+    sunshineToggle->add("ENABLED", "on", sunshineStatus == "1");
+    sunshineToggle->add("DISABLED", "off", sunshineStatus != "1");
+    addWithLabel("SUNSHINE SERVICE", sunshineToggle);
+    addSaveFunc([sunshineToggle, window = mWindow] {
+        const bool enable {sunshineToggle->getSelected() == "on"};
+        const std::string dirPath {Utils::FileSystem::getSystemHomeDirectory() + "/系统工具/.directory"};
+        const std::string pidPath {Utils::FileSystem::getSystemHomeDirectory() + "/.config/emu/sunshine.pid"};
+        int result {0};
+        bool serviceRunning {false};
+        if (enable) {
+            // 启动 sunshine 服务：通过 system 后台执行（避免多线程应用中直接 fork 引起状态污染）。
+            std::system("/usr/bin/sunshine > /dev/null 2>&1 & echo $! > /home/emu/.config/emu/sunshine.pid");
+            result = 0;
+            // 启动后短暂延迟并检查端口状态（服务是否实际运行）。
+            std::system("sleep 1");
+            const std::string portCheck {popenOutput("ss -tlnp | grep ':47990 '")};
+            serviceRunning = !portCheck.empty();
+            if (serviceRunning) {
+                // 启动成功：同步修改 .directory 图标为运行状态，并重置开关条目。
+                sunshineToggle->clearEntries();
+                sunshineToggle->add("ENABLED", "on", true);
+                sunshineToggle->add("DISABLED", "off", false);
+                std::vector<std::string> dirLines;
+                if (readFileLines(dirPath, dirLines)) {
+                    for (std::string& line : dirLines) {
+                        if (line.find("Icon=") != std::string::npos) {
+                            line = "Icon=sunshine";
+                        }
+                    }
+                    if (!writeFileLines(dirPath, dirLines)) {
+                        LOG(LogError) << "Failed to write .directory icon for sunshine";
+                        window->queueInfoPopup(_("FAILED TO UPDATE SYSTEM TOOLS ICON"), 6000);
+                    }
+                }
+                ExiaConfig::getInstance().set("sunshine.enabled", "1");
+                window->queueInfoPopup(_("SUNSHINE ENABLED"), 4000);
+            }
+            else {
+                // 启动失败（端口未被占用，服务未实际运行）：恢复开关为禁用，不修改图标。
+                sunshineToggle->clearEntries();
+                sunshineToggle->add("ENABLED", "on", false);
+                sunshineToggle->add("DISABLED", "off", true);
+                ExiaConfig::getInstance().set("sunshine.enabled", "0");
+                window->queueInfoPopup(_("FAILED TO START SUNSHINE"), 6000);
+                return;
+            }
+        }
+        else {
+            // 停止服务：优先读取 PID 文件精确终止，若无则用 pkill。
+            std::vector<std::string> pidLines;
+            if (readFileLines(pidPath, pidLines) && !pidLines.empty()) {
+                const std::string pidStr {trimString(pidLines.front())};
+                if (!pidStr.empty() && pidStr.find_first_not_of("0123456789") == std::string::npos) {
+                    result = std::system(("kill " + pidStr).c_str());
+                }
+            }
+            if (result != 0 || !pidLines.empty()) {
+                // 无论 PID 终止结果如何，都尝试 pkill 作为兜底（避免残留进程）。
+                std::system("pkill -f /usr/bin/sunshine");
+            }
+            std::remove(pidPath.c_str());
+            // 停止成功：同步修改 .directory 图标为系统设置状态。
+            std::vector<std::string> dirLines;
+            if (readFileLines(dirPath, dirLines)) {
+                for (std::string& line : dirLines) {
+                    if (line.find("Icon=") != std::string::npos) {
+                        line = "Icon=preferences-system";
+                    }
+                }
+                if (!writeFileLines(dirPath, dirLines)) {
+                    LOG(LogError) << "Failed to write .directory icon for sunshine";
+                }
+            }
+            ExiaConfig::getInstance().set("sunshine.enabled", "0");
+            sunshineToggle->clearEntries();
+            sunshineToggle->add("ENABLED", "on", false);
+            sunshineToggle->add("DISABLED", "off", true);
+            window->queueInfoPopup(_("SUNSHINE DISABLED"), 4000);
+        }
+    });
 
 #if !defined(__ANDROID__) && !defined(__IOS__)
     // Read current timeout from lightdm.conf (fallback to exia.conf).
@@ -578,6 +666,12 @@ GuiExiaSettings::GuiExiaSettings(const std::string& title)
 
     addFontSizeRow();
     addPasswordRow();
+    LOG(LogInfo) << "VERIFY GuiExiaSettings constructed";
+}
+
+GuiExiaSettings::~GuiExiaSettings()
+{
+    LOG(LogInfo) << "VERIFY GuiExiaSettings destroyed";
 }
 
 ComponentListRow GuiExiaSettings::makeNavRow(const std::string& label,
@@ -688,7 +782,7 @@ void GuiExiaSettings::openBiosPlatform(const std::string& title,
     mWindow->pushGui(platformMenu);
 }
 
-void GuiExiaSettings::openSystemInfo()
+void GuiExiaSettings::showSystemInfo(Window* window)
 {
     auto infoMenu = new GuiSettings(_("SYSTEM INFO"));
 
@@ -702,7 +796,6 @@ void GuiExiaSettings::openSystemInfo()
                                         menuValueFont(), mMenuColorPrimary, ALIGN_RIGHT));
 
     // Section 1, counted live from the ES-DE system list.
-    infoMenu->addRow(makeSectionRow(_("SYSTEM STATISTICS")));
     unsigned int systemCount {0};
     unsigned int gameCount {0};
     unsigned int favoriteCount {0};
@@ -756,7 +849,7 @@ void GuiExiaSettings::openSystemInfo()
 #endif
     infoMenu->addRow(sessionRow);
 
-    mWindow->pushGui(infoMenu);
+    window->pushGui(infoMenu);
 }
 
 void GuiExiaSettings::openGitProxy()

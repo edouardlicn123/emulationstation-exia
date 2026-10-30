@@ -3576,3 +3576,30 @@ msgstr "GREŠKA: NIJE MOGUĆE PRIKAZATI PDF DATOTEKU"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "NEMA ODGOVARAJUĆE BIOS DATOTEKE U ~/biosalt"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Tipke za pojedinu igru"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Podešavanje tipki za igru"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Ove tipke se upisuju u konfiguraciju arkadnih emulatora pri napuštanju stranice tipki. Utječe samo na emulatore, ne na ovaj frontend. Samo tastatura; gamepadi zadržavaju vlastita povezivanja."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Redovi koji nisu preuzeti slijede globalna podešavanja. Enter započinje snimanje, držanje jedne sekunde vraća globalnu tipku, B završava i čuva."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Enter u redu započinje snimanje, zatim pritisnite fizičku tipku. Držanje jedne sekunde preskače red, B završava i čuva."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Svaka igra ima vlastiti Demul profil tipkovnice. Redovi koji nisu preuzeti slijede globalno podešavanje tipki, a čuvanje ovdje ažurira sve profile."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "Broj desno pokazuje koliko je tipki preuzeto za tu igru; naslijeđeno znači da koristi globalno podešavanje."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Redovi koji nisu preuzeti slijede globalno podešavanje tipki."

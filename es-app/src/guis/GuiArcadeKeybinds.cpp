@@ -23,11 +23,14 @@
 
 #include "guis/GuiArcadeKeybinds.h"
 
+#include "FileData.h"
 #include "Log.h"
 #include "MenuFontUtil.h"
+#include "SystemData.h"
 #include "Window.h"
 #include "guis/GuiMsgBox.h"
 #include "utils/FileSystemUtil.h"
+#include "utils/StringUtil.h"
 
 #include <algorithm>
 #include <cctype>
@@ -36,6 +39,7 @@
 #include <iomanip>
 #include <set>
 #include <sstream>
+#include <vector>
 
 ///////////////////////////////////////////////////////////////////////////////
 // ArcadeKeybindStore
@@ -62,11 +66,17 @@ void ArcadeKeybindStore::load()
                  {"p1.btn1", "Left Ctrl"},     {"p1.btn2", "Left Alt"},      {"p1.btn3", "Space"},
                  {"p1.btn4", "Left Shift"},    {"p1.btn5", "Z"},             {"p1.btn6", "X"},
                  {"p1.throttle", "Up"},        {"p1.brake", "Down"},         {"p1.boost", ""},
+                 {"p1.s1up", ""},              {"p1.s1down", ""},            {"p1.s1left", ""},
+                 {"p1.s1right", ""},           {"p1.s2up", ""},              {"p1.s2down", ""},
+                 {"p1.s2left", ""},            {"p1.s2right", ""},
                  {"p2.coin", "6"},             {"p2.start", "2"},            {"p2.up", ""},
                  {"p2.down", ""},              {"p2.left", ""},              {"p2.right", ""},
                  {"p2.btn1", ""},              {"p2.btn2", ""},              {"p2.btn3", ""},
                  {"p2.btn4", ""},              {"p2.btn5", ""},              {"p2.btn6", ""},
                  {"p2.throttle", ""},          {"p2.brake", ""},             {"p2.boost", ""},
+                 {"p2.s1up", ""},              {"p2.s1down", ""},            {"p2.s1left", ""},
+                 {"p2.s1right", ""},           {"p2.s2up", ""},              {"p2.s2down", ""},
+                 {"p2.s2left", ""},            {"p2.s2right", ""},
                  {"global.service", "F2"},     {"global.test", "F4"},        {"global.reset", "F3"}};
 
     if (!Utils::FileSystem::exists(getPath()))
@@ -122,6 +132,142 @@ bool ArcadeKeybindStore::save()
     }
     file << out.str();
     return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// ArcadePerGameStore
+///////////////////////////////////////////////////////////////////////////////
+
+ArcadePerGameStore& ArcadePerGameStore::getInstance()
+{
+    static ArcadePerGameStore instance;
+    return instance;
+}
+
+std::string ArcadePerGameStore::getPath()
+{
+    return Utils::FileSystem::getAppDataDirectory() + "/arcade_keybinds_games.xml";
+}
+
+std::string ArcadePerGameStore::getSnapshotRoot()
+{
+    return Utils::FileSystem::getAppDataDirectory() + "/arcade_keybinds/demul";
+}
+
+void ArcadePerGameStore::load()
+{
+    mGames.clear();
+    if (!Utils::FileSystem::exists(getPath()))
+        return;
+    std::ifstream file(getPath(), std::ios::binary);
+    if (!file.is_open()) {
+        LOG(LogWarning) << "GuiArcadeKeybinds: cannot read " << getPath();
+        return;
+    }
+    std::stringstream stream;
+    stream << file.rdbuf();
+    const std::string xml {stream.str()};
+
+    // Flat records keep the parser as small as the global store one:
+    // <override system="hikaru" rom="sgnascar" key="p1.throttle" value="V" />
+    size_t searchPos {0};
+    while (true) {
+        const size_t at {xml.find("<override ", searchPos)};
+        if (at == std::string::npos)
+            break;
+        const size_t tagEnd {xml.find('>', at)};
+        if (tagEnd == std::string::npos)
+            break;
+        const auto attribute {[&xml, at, tagEnd](const char* name) {
+            const std::string needle {std::string(name) + "=\""};
+            const size_t nameAt {xml.find(needle, at)};
+            if (nameAt == std::string::npos || nameAt + needle.size() > tagEnd)
+                return std::string("");
+            const size_t valueStart {nameAt + needle.size()};
+            const size_t valueEnd {xml.find('"', valueStart)};
+            if (valueEnd == std::string::npos || valueEnd > tagEnd)
+                return std::string("");
+            return xml.substr(valueStart, valueEnd - valueStart);
+        }};
+        const std::string system {attribute("system")};
+        const std::string rom {attribute("rom")};
+        const std::string key {attribute("key")};
+        const std::string value {attribute("value")};
+        if (!system.empty() && !rom.empty() && !key.empty() && !value.empty())
+            mGames[{system, rom}][key] = value;
+        searchPos = tagEnd;
+    }
+}
+
+bool ArcadePerGameStore::save()
+{
+    std::stringstream out;
+    out << "<arcadeKeybindGames version=\"1\">\n";
+    for (const auto& [game, overrides] : mGames) {
+        for (const auto& [key, value] : overrides) {
+            if (value.empty())
+                continue;
+            out << "  <override system=\"" << game.first << "\" rom=\"" << game.second
+                << "\" key=\"" << key << "\" value=\"" << value << "\" />\n";
+        }
+    }
+    out << "</arcadeKeybindGames>\n";
+
+    std::ofstream file(getPath(), std::ios::binary | std::ios::trunc);
+    if (!file.is_open()) {
+        LOG(LogError) << "GuiArcadeKeybinds: cannot write " << getPath();
+        return false;
+    }
+    file << out.str();
+    return true;
+}
+
+std::string ArcadePerGameStore::get(const std::string& system, const std::string& rom,
+                                    const std::string& key) const
+{
+    const auto game {mGames.find({system, rom})};
+    if (game == mGames.end())
+        return "";
+    const auto entry {game->second.find(key)};
+    return (entry != game->second.end()) ? entry->second : "";
+}
+
+void ArcadePerGameStore::set(const std::string& system, const std::string& rom,
+                             const std::string& key, const std::string& value)
+{
+    if (value.empty()) {
+        const auto game {mGames.find({system, rom})};
+        if (game == mGames.end())
+            return;
+        game->second.erase(key);
+        if (game->second.empty())
+            mGames.erase(game);
+        return;
+    }
+    mGames[{system, rom}][key] = value;
+}
+
+size_t ArcadePerGameStore::overrideCount(const std::string& system,
+                                         const std::string& rom) const
+{
+    const auto game {mGames.find({system, rom})};
+    return (game != mGames.end()) ? game->second.size() : 0;
+}
+
+const ArcadePerGameStore::Overrides& ArcadePerGameStore::overridesFor(
+    const std::string& system, const std::string& rom) const
+{
+    static const Overrides empty;
+    const auto game {mGames.find({system, rom})};
+    return (game != mGames.end()) ? game->second : empty;
+}
+
+std::vector<std::pair<std::string, std::string>> ArcadePerGameStore::gameList() const
+{
+    std::vector<std::pair<std::string, std::string>> games;
+    for (const auto& entry : mGames)
+        games.push_back(entry.first);
+    return games;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -219,7 +365,8 @@ int scancodeOf(const std::string& keyName)
 
 // RetroArch key names (input_config_key_map in input/input_keymaps.c). The SDL
 // scancode name is translated into the spelling RetroArch writes into its
-// configuration files: letters are lower case, digits carry a "num" prefix and the
+// configuration files: letters are lower case, main-keyboard digits keep their
+// raw name ("5", "1"), numpad digits get a "num" prefix ("num5", "num1"), and the
 // named keys use short forms such as "ctrl", "enter" or "pageup".
 std::string retroArchKeyName(int scan)
 {
@@ -227,12 +374,15 @@ std::string retroArchKeyName(int scan)
     if (raw == nullptr || *raw == '\0')
         return std::string();
     const std::string name {raw};
+    // Numpad digits: SDL returns "KP_0"..."KP_9", RetroArch expects "num0"..."num9".
+    if (name.size() == 3 && name[0] == 'K' && name[1] == 'P' && name[2] >= '0' && name[2] <= '9')
+        return "num" + name.substr(2);
     if (name.size() == 1) {
         const char character {name.front()};
         if (character >= 'A' && character <= 'Z')
             return std::string(1, static_cast<char>(character - 'A' + 'a'));
         if (character >= '0' && character <= '9')
-            return "num" + name;
+            return "num" + name;  // main-keyboard digit: RetroArch expects "num0".."num9"
         switch (character) {
             case '-': return "minus";
             case '=': return "equals";
@@ -370,7 +520,8 @@ void endReport(const EmuResult& demul,
                const EmuResult& flycast,
                const EmuResult& play,
                const EmuResult& lindbergh,
-               const EmuResult& retroarch)
+               const EmuResult& retroarch,
+               bool demulOnly = false)
 {
     if (!sReportFile.is_open())
         return;
@@ -385,6 +536,12 @@ void endReport(const EmuResult& demul,
 
     sReportFile << "\n# summary\n";
     sReportFile << "# " << summary("Demul", demul) << "\n";
+    if (demulOnly) {
+        sReportFile << "# scope: Demul only (per game profile save)\n";
+        sReportFile.close();
+        LOG(LogInfo) << "GuiArcadeKeybinds: audit report written to " << sReportPath;
+        return;
+    }
     sReportFile << "# " << summary("Dolphin", dolphin) << "\n";
     sReportFile << "# " << summary("Flycast", flycast) << "\n";
     sReportFile << "# " << summary("Play!", play) << "\n";
@@ -1026,13 +1183,19 @@ struct SubBind {
 };
 
 // Demul: [JAMMA0_0]/[JAMMA0_1] use evdev codes, [GLOBAL0] holds the machine keys.
-EmuResult writeDemul(const ArcadeKeybindStore& store)
+std::string demulIniPath()
 {
-    const std::string path {Utils::FileSystem::getSystemHomeDirectory() +
-                            "/Applications/demul/padDemul.ini"};
-    EmuResult result;
+    return Utils::FileSystem::getSystemHomeDirectory() + "/Applications/demul/padDemul.ini";
+}
 
-    auto evdevOf {[&store, &result](const std::string& prefix, const char* unifiedKey) {
+// Builds the patch list for one binding set. Shared by the global writer and the per
+// game snapshots so both always translate the keys the exact same way.
+std::vector<KeyPatch> demulPatches(const ArcadeKeybindStore& store,
+                                   const std::string& emulator,
+                                   EmuResult& result)
+{
+    auto evdevOf {[&store, &result, &emulator](const std::string& prefix,
+                                               const char* unifiedKey) {
         const std::string value {store.get(prefix + unifiedKey)};
         if (value.empty())
             return std::string("");
@@ -1040,28 +1203,40 @@ EmuResult writeDemul(const ArcadeKeybindStore& store)
         const KeyEntry* entry {(scan >= 0) ? findEntry(scan) : nullptr};
         if (entry == nullptr) {
             result.skippedCount++;
-            reportRow("Demul", prefix + unifiedKey, value, scan, "evdev", "", "SKIP",
+            reportRow(emulator, prefix + unifiedKey, value, scan, "evdev", "", "SKIP",
                       "unsupported key (no Demul evdev mapping)");
-            LOG(LogInfo) << "GuiArcadeKeybinds: Demul " << prefix << unifiedKey
+            LOG(LogInfo) << "GuiArcadeKeybinds: " << emulator << " " << prefix << unifiedKey
                          << ": unsupported key " << value;
             return std::string("");
         }
         const std::string evdev {std::to_string(entry->evdev_)};
-        reportRow("Demul", prefix + unifiedKey, value, scan, "evdev", evdev, "MAPPED");
+        reportRow(emulator, prefix + unifiedKey, value, scan, "evdev", evdev, "MAPPED");
         return evdev;
     }};
 
     const std::vector<std::pair<const char*, const char*>> jamm {
         {"JAMMA0_0", "p1."}, {"JAMMA0_1", "p2."}};
     std::vector<KeyPatch> patches;
-    static const std::vector<std::pair<const char*, const char*>> digitals {
-        {"DIGITALUP", "up"}, {"DIGITALDOWN", "down"}, {"DIGITALLEFT", "left"},
-        {"DIGITALRIGHT", "right"}};
+    // The analog steering axis follows the same keys as the digital dpad; racing
+    // titles (Gaelco GA3D, ...) read ANALOGLEFT/ANALOGRIGHT instead of the
+    // DIGITAL* pair, so both must be kept in sync.
+    struct DigitalKey {
+        const char* demulKey;
+        const char* unifiedKey;
+        const char* analogKey;
+    };
+    static const std::vector<DigitalKey> digitals {
+        {"DIGITALUP", "up", nullptr}, {"DIGITALDOWN", "down", nullptr},
+        {"DIGITALLEFT", "left", "ANALOGLEFT"},
+        {"DIGITALRIGHT", "right", "ANALOGRIGHT"}};
     for (const auto& [section, prefix] : jamm) {
-        for (const auto& [demulKey, unifiedKey] : digitals) {
-            const std::string value {evdevOf(prefix, unifiedKey)};
-            if (!value.empty())
-                patches.push_back({section, demulKey, value});
+        for (const auto& key : digitals) {
+            const std::string value {evdevOf(prefix, key.unifiedKey)};
+            if (value.empty())
+                continue;
+            patches.push_back({section, key.demulKey, value});
+            if (key.analogKey != nullptr)
+                patches.push_back({section, key.analogKey, value});
         }
         for (int button {1}; button <= 6; ++button) {
             const std::string sub {"btn" + std::to_string(button)};
@@ -1089,6 +1264,23 @@ EmuResult writeDemul(const ArcadeKeybindStore& store)
             patches.push_back({section, "ANALOGDOWN", brake});
     }
 
+    // Twin stick cabinets (Hikaru Planet Harriers) read their two analog sticks from the JOY
+    // sections instead of the JAMMA axes: player 1 is JOY0_0, player 2 is JOY0_1, and S1/S2 are
+    // the two sticks inside each section.
+    static const std::vector<std::pair<const char*, const char*>> joySections {
+        {"JOY0_0", "p1."}, {"JOY0_1", "p2."}};
+    static const std::vector<std::pair<const char*, const char*>> sticks {
+        {"s1up", "S1UP"},       {"s1down", "S1DOWN"},   {"s1left", "S1LEFT"},
+        {"s1right", "S1RIGHT"}, {"s2up", "S2UP"},       {"s2down", "S2DOWN"},
+        {"s2left", "S2LEFT"},   {"s2right", "S2RIGHT"}};
+    for (const auto& [section, prefix] : joySections) {
+        for (const auto& [unifiedKey, demulKey] : sticks) {
+            const std::string value {evdevOf(prefix, unifiedKey)};
+            if (!value.empty())
+                patches.push_back({section, demulKey, value});
+        }
+    }
+
     // Boost and reset have no Demul bucket, they are skipped on purpose.
     for (const auto& [prefix, key] :
          std::initializer_list<std::pair<const char*, const char*>> {
@@ -1096,7 +1288,7 @@ EmuResult writeDemul(const ArcadeKeybindStore& store)
         const std::string value {store.get(std::string(prefix) + key)};
         if (!value.empty()) {
             ++result.skippedCount;
-            reportRow("Demul", std::string(prefix) + key, value, scancodeOf(value),
+            reportRow(emulator, std::string(prefix) + key, value, scancodeOf(value),
                       "no Demul slot", "", "SKIP", "no matching Demul option");
         }
     }
@@ -1114,6 +1306,15 @@ EmuResult writeDemul(const ArcadeKeybindStore& store)
     if (!service.empty())
         patches.push_back({"GLOBAL0", "SERVICE", service});
 
+    return patches;
+}
+
+EmuResult writeDemul(const ArcadeKeybindStore& store)
+{
+    const std::string path {demulIniPath()};
+    EmuResult result;
+
+    const std::vector<KeyPatch> patches {demulPatches(store, "Demul", result)};
     if (patches.empty())
         return result;
     if (!patchIniFile(path, patches, false, result)) {
@@ -1125,6 +1326,184 @@ EmuResult writeDemul(const ArcadeKeybindStore& store)
     }
     verifyIniPatches("Demul", path, patches, result, false);
     return result;
+}
+
+// Demul has a single padDemul.ini and no per game input configuration, so one complete
+// copy of it is generated per game and swapped in by demul-wine.sh before the launch.
+bool isDemulSystem(SystemData* system)
+{
+    if (system == nullptr || system->isCollection())
+        return false;
+    for (const auto& command : system->getSystemEnvData()->mLaunchCommands) {
+        const std::string text {Utils::String::toLower(command.second)};
+        if (text.find("demul") != std::string::npos)
+            return true;
+    }
+    return false;
+}
+
+std::vector<SystemData*> demulSystems()
+{
+    std::vector<SystemData*> systems;
+    for (SystemData* system : SystemData::sSystemVector) {
+        if (isDemulSystem(system))
+            systems.push_back(system);
+    }
+    return systems;
+}
+
+// The -rom= argument is the file name without directory and extension, lower case.
+std::string romNameOf(FileData* file)
+{
+    std::string name {Utils::FileSystem::getFileName(file->getPath())};
+    const size_t dot {name.find_last_of('.')};
+    if (dot != std::string::npos)
+        name.erase(dot);
+    return Utils::String::toLower(name);
+}
+
+ArcadeKeybindStore effectiveStore(const ArcadeKeybindStore& global, const std::string& system,
+                                  const std::string& rom)
+{
+    ArcadeKeybindStore effective {global};
+    for (const auto& [key, value] : ArcadePerGameStore::getInstance().overridesFor(system, rom)) {
+        if (!value.empty())
+            effective.set(key, value);
+    }
+    return effective;
+}
+
+int writeDemulSnapshots(const ArcadeKeybindStore& globalStore, bool report)
+{
+    const std::string basePath {demulIniPath()};
+    std::string base;
+    if (!readFileBytes(basePath, base)) {
+        LOG(LogWarning) << "GuiArcadeKeybinds: cannot read " << basePath
+                        << ", skipping the per game Demul profiles";
+        return 0;
+    }
+
+    const std::string root {ArcadePerGameStore::getSnapshotRoot()};
+    int written {0};
+    std::set<std::string> demulSystemNames;
+    for (SystemData* system : demulSystems()) {
+        const std::string systemName {system->getName()};
+        demulSystemNames.insert(systemName);
+        const std::string directory {root + "/" + systemName};
+        std::set<std::string> validRoms;
+
+        for (FileData* file : system->getRootFolder()->getFilesRecursive(GAME)) {
+            if (file->getType() != GAME || Utils::FileSystem::isDirectory(file->getPath()))
+                continue;
+            const std::string rom {romNameOf(file)};
+            if (rom.empty())
+                continue;
+            validRoms.insert(rom);
+            if (!Utils::FileSystem::createDirectory(directory))
+                continue;
+
+            const std::string target {directory + "/" + rom + ".ini"};
+            // Start from the freshly written global ini so every snapshot is complete,
+            // then apply this game's overrides on top of it.
+            std::string current;
+            const bool upToDate {readFileBytes(target, current) && current == base};
+            if (!upToDate) {
+                std::ofstream out(target, std::ios::binary | std::ios::trunc);
+                if (!out.is_open()) {
+                    LOG(LogError) << "GuiArcadeKeybinds: cannot write " << target;
+                    continue;
+                }
+                out << base;
+            }
+
+            const std::string emulator {"Demul[" + systemName + "/" + rom + "]"};
+            const ArcadeKeybindStore effective {effectiveStore(globalStore, systemName, rom)};
+            EmuResult result;
+            std::vector<KeyPatch> patches {demulPatches(effective, emulator, result)};
+            // ATV Track has no action buttons, and Demul's PUSH1-6 defaults are U/I/O/J/K/L,
+            // the same keys the throttle and brake use. Without this the throttle key also
+            // fires the game's emergency stop, so the six PUSH slots are blanked here.
+            if (rom == "atvtrack" || rom == "atvtracka") {
+                for (const char* section : {"JAMMA0_0", "JAMMA0_1"}) {
+                    for (int slot = 1; slot <= 6; ++slot)
+                        patches.push_back({section, "PUSH" + std::to_string(slot), "0"});
+                }
+            }
+            // Gaelco Football reads the stick as ANALOGUP/ANALOGDOWN, and its buttons are the
+            // same U/I keys, so pushing the stick up also shot the ball. Blank only the slots
+            // that really collide; a button the player reassigns keeps its own key. Games with
+            // real action buttons on those keys (Air Trix, ...) are left alone.
+            const bool axisWins {rom == "gfootbal"};
+            static const std::vector<std::pair<const char*, const char*>> jammaSections {
+                {"JAMMA0_0", "p1."}, {"JAMMA0_1", "p2."}};
+            static const std::vector<const char*> axisKeys {
+                "up", "down", "left", "right", "throttle", "brake", "coin", "start"};
+            if (axisWins) {
+                for (const auto& [section, prefix] : jammaSections) {
+                    std::set<int> axisCodes;
+                    for (const char* axisKey : axisKeys) {
+                        const std::string name {effective.get(std::string(prefix) + axisKey)};
+                        if (name.empty())
+                            continue;
+                        const int scan {scancodeOf(name)};
+                        const KeyEntry* entry {(scan >= 0) ? findEntry(scan) : nullptr};
+                        if (entry != nullptr)
+                            axisCodes.insert(entry->evdev_);
+                    }
+                    for (int slot = 1; slot <= 6; ++slot) {
+                        const std::string name {
+                            effective.get(std::string(prefix) + "btn" +
+                                           std::to_string(slot))};
+                        if (name.empty())
+                            continue;
+                        const int scan {scancodeOf(name)};
+                        const KeyEntry* entry {(scan >= 0) ? findEntry(scan) : nullptr};
+                        if (entry == nullptr ||
+                            axisCodes.find(entry->evdev_) == axisCodes.end())
+                            continue;
+                        patches.push_back({section, "PUSH" + std::to_string(slot), "0"});
+                        if (report)
+                            reportRow(emulator,
+                                      std::string(prefix) + "btn" + std::to_string(slot), name,
+                                      scan, section, "0", "SKIP",
+                                      "same key as a movement axis, button slot blanked");
+                    }
+                }
+            }
+            patchIniFile(target, patches, false, result);
+            if (report)
+                reportRow(emulator, "snapshot", rom, -1, target, "",
+                          upToDate ? "UNCHANGED" : "WRITTEN", "per game Demul profile");
+            ++written;
+        }
+
+        // Drop the profiles of games which no longer exist.
+        for (const std::string& path : Utils::FileSystem::getDirContent(directory)) {
+            if (Utils::FileSystem::getExtension(path) != ".ini")
+                continue;
+            const size_t dot {path.find_last_of('.')};
+            const std::string rom {Utils::String::toLower(
+                Utils::FileSystem::getFileName(path.substr(0, dot)))};
+            if (validRoms.find(rom) == validRoms.end())
+                Utils::FileSystem::removeFile(path);
+        }
+    }
+
+    // Systems which no longer launch through Demul keep no profiles either.
+    for (const std::string& path : Utils::FileSystem::getDirContent(root)) {
+        if (!Utils::FileSystem::isDirectory(path))
+            continue;
+        if (demulSystemNames.find(Utils::FileSystem::getFileName(path)) !=
+            demulSystemNames.end())
+            continue;
+        for (const std::string& profile : Utils::FileSystem::getDirContent(path)) {
+            if (Utils::FileSystem::getExtension(profile) == ".ini")
+                Utils::FileSystem::removeFile(profile);
+        }
+    }
+
+    LOG(LogInfo) << "GuiArcadeKeybinds: " << written << " Demul per game profiles in " << root;
+    return written;
 }
 
 // Dolphin: GCPadNew.ini uses X11 keysym names inside [GCPad1]/[GCPad2].
@@ -1596,6 +1975,37 @@ EmuResult writeRetroArch(const ArcadeKeybindStore& store)
         }
     }
 
+    // System RetroArch (used by ES-DE launch command) also needs Port 1 set to
+    // keyboard so Flycast receives keyboard input. Flycast ignores .rmp remaps for
+    // arcade controls; the port device type drives the mapping.
+    {
+        const std::string systemConfigPath {
+            Utils::FileSystem::getSystemHomeDirectory() + "/.config/retroarch/retroarch.cfg"};
+        std::string systemConfig;
+        if (readFileBytes(systemConfigPath, systemConfig)) {
+            if (setTopLevelValue(systemConfig, "input_libretro_device_port1", "3")) {
+                if (backupAndWrite(systemConfigPath, systemConfig)) {
+                    result.touched = true;
+                    reportRow("RetroArch", "system-config", "input_libretro_device_port1", -1,
+                              systemConfigPath, "3", "WRITTEN",
+                              "Flycast keyboard input via port device type");
+                }
+                else {
+                    ++result.failedCount;
+                    reportRow("RetroArch", "system-config", "input_libretro_device_port1", -1,
+                              systemConfigPath, "", "ERROR", "cannot update system retroarch.cfg");
+                    LOG(LogError) << "GuiArcadeKeybinds: cannot update " << systemConfigPath;
+                }
+            }
+        }
+        else {
+            result.missing = true;
+            reportRow("RetroArch", "system-config", "input_libretro_device_port1", -1,
+                      systemConfigPath, "", "MISSING", "system retroarch.cfg not found");
+            LOG(LogWarning) << "GuiArcadeKeybinds: " << systemConfigPath << " not found";
+        }
+    }
+
     // Read the setting back: a later write or an unusual quoting style must not leave
     // remap_save_on_exit enabled, because RetroArch then truncates the .rmp files.
     {
@@ -1704,54 +2114,113 @@ EmuResult writeRetroArch(const ArcadeKeybindStore& store)
         }
     }
 
-    // Only patch cores that were already used on this station (their option
-    // directory exists); the directory name is the core library name.
-    static const std::vector<const char*> cores {
-        "MAME", "HBMAME", "FinalBurn Neo", "MAME 2003-Plus", "MAME 2010",
-        "FB Alpha 2012", "FB Alpha 2012 CPS-1", "FB Alpha 2012 CPS-2",
-        "FB Alpha 2012 CPS-3", "FB Alpha 2012 Neo Geo", "Flycast"};
+    // Derive remap file/directory names from the actual installed core .so files,
+    // so the file paths match RetroArch's core-name lookup. RetroArch looks up
+    // {input_remapping_directory}/<core_display_name>/<core_display_name>.rmp
+    // where <core_display_name> is the .so basename without _libretro suffix,
+    // first letter capitalised (e.g. flycast_libretro.so -> "Flycast").
+    // This matches the core option directory names under config/ (e.g. config/Flycast/).
+    std::map<std::string, std::string> coreBasenameToDisplayName;
+    std::vector<std::string> installedCores;
+    {
+        const std::string coresDir {retroarchDir + "/cores"};
+        Utils::FileSystem::StringList soFiles = Utils::FileSystem::getDirContent(coresDir);
+        for (const std::string& entry : soFiles) {
+            if (entry.find(".so") == std::string::npos)
+                continue;
+            std::string basename {entry};
+            const size_t lastSlash {basename.find_last_of('/')};
+            if (lastSlash != std::string::npos)
+                basename = basename.substr(lastSlash + 1);
+            if (basename.rfind(".so", basename.size() - 3) != std::string::npos)
+                basename = basename.substr(0, basename.size() - 3);
+            // Strip _libretro suffix for display name
+            const std::string suffix{"_libretro"};
+            if (basename.size() > suffix.size() &&
+                basename.compare(basename.size() - suffix.size(), suffix.size(), suffix) == 0)
+                basename = basename.substr(0, basename.size() - suffix.size());
+            // Capitalise first letter for core display name (matches RetroArch lookup)
+            if (!basename.empty())
+                basename.front() = static_cast<char>(std::toupper(static_cast<unsigned char>(basename.front())));
+            std::string lower {basename};
+            std::transform(lower.begin(), lower.end(), lower.begin(),
+                           [](unsigned char c) { return std::tolower(c); });
+            installedCores.push_back(lower);
+            coreBasenameToDisplayName[lower] = basename;
+        }
+    }
+
+    std::string previous;
     int coreCount {0};
-    for (const char* core : cores) {
-        const std::string coreOptionDirectory {retroarchDir + "/config/" + core};
+    for (const std::string& coreBasename : installedCores) {
+        const std::string displayName {coreBasenameToDisplayName.at(coreBasename)};
+        // Only process arcade-relevant cores that have option directories.
+        const std::string coreOptionDirectory {retroarchDir + "/config/" + displayName};
+        const std::string remapDirName {displayName};  // Use core display name for remap path
+        const std::string targetDirectory {remapDirectory + "/" + remapDirName};
+        const std::string path {targetDirectory + "/" + remapDirName + ".rmp"};
+        const std::string rootPath {remapDirectory + "/" + remapDirName + ".rmp"};
         if (!Utils::FileSystem::exists(coreOptionDirectory))
             continue;
         ++coreCount;
-        const std::string targetDirectory {remapDirectory + "/" + core};
         if (!Utils::FileSystem::exists(targetDirectory) &&
             !Utils::FileSystem::createDirectory(targetDirectory)) {
             ++result.failedCount;
-            reportRow("RetroArch", "core", core, -1, targetDirectory, "", "ERROR",
+            reportRow("RetroArch", "core", displayName.c_str(), -1, targetDirectory, "", "ERROR",
                       "cannot create remap directory");
             LOG(LogError) << "GuiArcadeKeybinds: cannot create " << targetDirectory;
             continue;
         }
-        const std::string path {targetDirectory + "/" + core + ".rmp"};
-        std::string previous;
         const bool existed {readFileBytes(path, previous)};
         if (existed && previous == remap.str()) {
             LOG(LogInfo) << "GuiArcadeKeybinds: " << path << " unchanged";
         }
         else if (!backupAndWrite(path, remap.str())) {
             ++result.failedCount;
-            reportRow("RetroArch", "core", core, -1, path, "", "ERROR", "write failed");
+            reportRow("RetroArch", "core", displayName.c_str(), -1, path, "", "ERROR",
+                      "write failed");
             continue;
         }
         else {
             result.touched = true;
         }
 
+        // Also write to remaps root so RetroArch's auto-loader (which looks up
+        // {input_remapping_directory}/{core_name}.rmp) finds the file.
+        const bool rootExisted {readFileBytes(rootPath, previous)};
+        if (!rootExisted || previous != remap.str()) {
+            if (!backupAndWrite(rootPath, remap.str())) {
+                ++result.failedCount;
+                reportRow("RetroArch", "core", displayName.c_str(), -1, rootPath, "", "ERROR",
+                          "root write failed");
+                continue;
+            }
+            result.touched = true;
+        }
+
         std::string written;
         if (!readFileBytes(path, written) || written != remap.str()) {
             ++result.failedCount;
-            reportRow("RetroArch", "core", core, -1, path, "", "MISMATCH",
+            reportRow("RetroArch", "core", displayName.c_str(), -1, path, "", "MISMATCH",
                       "read-back content differs");
             LOG(LogError) << "GuiArcadeKeybinds: " << path
                           << " does not match the generated remap after write";
             continue;
         }
+        std::string rootWritten;
+        if (!readFileBytes(rootPath, rootWritten) || rootWritten != remap.str()) {
+            ++result.failedCount;
+            reportRow("RetroArch", "core", displayName.c_str(), -1, rootPath, "", "MISMATCH",
+                      "root read-back content differs");
+            LOG(LogError) << "GuiArcadeKeybinds: " << rootPath
+                          << " does not match the generated remap after write";
+            continue;
+        }
         ++result.verifiedCount;
-        reportRow("RetroArch", "core", core, -1, path, "remap", "OK",
+        reportRow("RetroArch", "core", displayName.c_str(), -1, path, "remap", "OK",
                   "read-back content matches");
+        reportRow("RetroArch", "core", displayName.c_str(), -1, rootPath, "remap", "OK",
+                  "root read-back content matches");
     }
     if (coreCount == 0) {
         result.missing = true;
@@ -1767,67 +2236,92 @@ EmuResult writeRetroArch(const ArcadeKeybindStore& store)
 ///////////////////////////////////////////////////////////////////////////////
 
 namespace {
-void applyAllConfigs(Window* window, bool report)
+// demulOnly is used by the per game pages: those profiles only describe Demul input, so
+// no other emulator configuration is written or reported from there.
+void applyAllConfigs(Window* window, bool report, bool demulOnly = false)
 {
+    ArcadePerGameStore::getInstance().load();
     const ArcadeKeybindStore& store {ArcadeKeybindStore::getInstance()};
     if (report)
         beginReport(ArcadeKeybindStore::getPath());
 
+    // The global ini is rewritten first in both modes because the per game copies use it
+    // as their base.
     const EmuResult demul {writeDemul(store)};
-    const EmuResult dolphin {writeDolphin(store)};
-    const EmuResult play {writePlay(store)};
 
-    // Flycast: the standalone SDL keyboard hangs off port 0 only, so P1 is written
-    // while P2 keeps its defaults (devdoc/43 section 2.6).
+    EmuResult dolphin;
     EmuResult flycast;
-    {
-        std::map<std::string, std::string> binds;
-        const auto addBind {[&store, &binds](const char* option, const char* unifiedKey) {
-            const std::string value {store.get(std::string("p1.") + unifiedKey)};
-            if (value.empty())
-                return false;
-            const int scan {scancodeOf(value)};
-            if (scan < 0 || findEntry(scan) == nullptr)
-                return false;
-            binds[option] = value;
-            // Analog mirrors of the dpad keys give plain arrows for the stick axes too.
-            const std::string dpad {"btn_dpad1_"};
-            if (std::string(option).rfind("btn_", 0) == 0 &&
-                std::string(option).compare(0, dpad.size(), dpad) == 0) {
-                const std::string direction {std::string(option).substr(dpad.size())};
-                binds["btn_analog_" + direction] = value;
+    EmuResult play;
+    EmuResult lindbergh;
+    EmuResult retroarch;
+    int perGameProfiles {0};
+
+    if (!demulOnly) {
+        dolphin = writeDolphin(store);
+        play = writePlay(store);
+
+        // Flycast: the standalone SDL keyboard hangs off port 0 only, so P1 is written
+        // while P2 keeps its defaults (devdoc/43 section 2.6).
+        {
+            std::map<std::string, std::string> binds;
+            const auto addBind {[&store, &binds](const char* option, const char* unifiedKey) {
+                const std::string value {store.get(std::string("p1.") + unifiedKey)};
+                if (value.empty())
+                    return false;
+                const int scan {scancodeOf(value)};
+                if (scan < 0 || findEntry(scan) == nullptr)
+                    return false;
+                binds[option] = value;
+                // Analog mirrors of the dpad keys give plain arrows for the stick axes too.
+                const std::string dpad {"btn_dpad1_"};
+                if (std::string(option).rfind("btn_", 0) == 0 &&
+                    std::string(option).compare(0, dpad.size(), dpad) == 0) {
+                    const std::string direction {std::string(option).substr(dpad.size())};
+                    binds["btn_analog_" + direction] = value;
+                }
+                return true;
+            }};
+            addBind("btn_d", "coin");
+            addBind("btn_start", "start");
+            addBind("btn_dpad1_up", "up");
+            addBind("btn_dpad1_down", "down");
+            addBind("btn_dpad1_left", "left");
+            addBind("btn_dpad1_right", "right");
+            addBind("btn_a", "btn1");
+            addBind("btn_b", "btn2");
+            addBind("btn_x", "btn3");
+            addBind("btn_y", "btn4");
+            addBind("btn_z", "btn5");
+            addBind("btn_c", "btn6");
+            addBind("btn_trigger_right", "throttle");
+            addBind("btn_trigger_left", "brake");
+            // Boost, service, test and reset have no Flycast mapping bucket.
+            if (!binds.empty()) {
+                const std::string home {Utils::FileSystem::getSystemHomeDirectory()};
+                // System RetroArch (launched by ES-DE) loads Flycast's SDL keyboard mapping
+                // from the system config home, not the flatpak sandbox. Write to both
+                // likely locations so the libretro core finds it regardless of which
+                // home-folder convention the compiled core uses.
+                const std::vector<std::string> flycastPaths {
+                    home + "/.config/flycast/mappings/SDL_Keyboard.cfg",
+                    home + "/.config/retroarch/config/flycast/mappings/SDL_Keyboard.cfg",
+                };
+                for (const auto& path : flycastPaths) {
+                    writeFlycastMapping(path, binds, flycast);
+                }
             }
-            return true;
-        }};
-        addBind("btn_d", "coin");
-        addBind("btn_start", "start");
-        addBind("btn_dpad1_up", "up");
-        addBind("btn_dpad1_down", "down");
-        addBind("btn_dpad1_left", "left");
-        addBind("btn_dpad1_right", "right");
-        addBind("btn_a", "btn1");
-        addBind("btn_b", "btn2");
-        addBind("btn_x", "btn3");
-        addBind("btn_y", "btn4");
-        addBind("btn_z", "btn5");
-        addBind("btn_c", "btn6");
-        addBind("btn_trigger_right", "throttle");
-        addBind("btn_trigger_left", "brake");
-        // Boost, service, test and reset have no Flycast mapping bucket.
-        if (!binds.empty()) {
-            const std::string path {
-                Utils::FileSystem::getSystemHomeDirectory() +
-                "/.var/app/org.flycast.Flycast/config/flycast/mappings/"
-                "SDL_Keyboard.cfg"};
-            writeFlycastMapping(path, binds, flycast);
         }
+
+        lindbergh = writeLindbergh(store);
+        retroarch = writeRetroArch(store);
     }
 
-    const EmuResult lindbergh {writeLindbergh(store)};
-    const EmuResult retroarch {writeRetroArch(store)};
+    // Runs after the global ini was rewritten so the per game copies always start from
+    // the current global setup, this is what keeps both in sync on a single SAVE.
+    perGameProfiles = writeDemulSnapshots(store, report);
 
     if (report)
-        endReport(demul, dolphin, flycast, play, lindbergh, retroarch);
+        endReport(demul, dolphin, flycast, play, lindbergh, retroarch, demulOnly);
 
     if (!report || window == nullptr) {
         LOG(LogInfo) << "GuiArcadeKeybinds: applied all configs (report off)";
@@ -1853,15 +2347,26 @@ void applyAllConfigs(Window* window, bool report)
     }};
 
     std::stringstream message;
-    message << line("Demul", demul) << "\n" << line("Dolphin", dolphin) << "\n"
-            << line("Flycast", flycast) << " (" << _("PLAYER 1 ONLY") << ")"
-            << "\n"
-            << line("Play!", play) << "\n"
-            << line("Lindbergh", lindbergh) << "\n"
-            << line("RetroArch", retroarch) << "\n"
-            << "\n"
-            << _("SOME ENTRIES ARE SKIPPED WHEN THE EMULATOR HAS NO MATCHING OPTION; "
-                 "DETAILS ARE IN THE LOG");
+    if (demulOnly) {
+        // Per game pages only ever affect Demul, so no other emulator is mentioned here.
+        message << line("Demul", demul) << "\n"
+                << _("PER-GAME DEMUL PROFILES") << ": " << perGameProfiles << "\n"
+                << "\n"
+                << _("ONLY THE DEMUL CONFIGURATION AND ITS PER-GAME PROFILES ARE WRITTEN "
+                     "FROM THIS PAGE");
+    }
+    else {
+        message << line("Demul", demul) << "\n" << line("Dolphin", dolphin) << "\n"
+                << line("Flycast", flycast) << " (" << _("PLAYER 1 ONLY") << ")"
+                << "\n"
+                << line("Play!", play) << "\n"
+                << line("Lindbergh", lindbergh) << "\n"
+                << line("RetroArch", retroarch) << "\n"
+                << _("PER-GAME DEMUL PROFILES") << ": " << perGameProfiles << "\n"
+                << "\n"
+                << _("SOME ENTRIES ARE SKIPPED WHEN THE EMULATOR HAS NO MATCHING OPTION; "
+                     "DETAILS ARE IN THE LOG");
+    }
 
     LOG(LogInfo) << "GuiArcadeKeybinds: save summary:\n" << message.str();
     window->pushGui(new GuiMsgBox(message.str(), _("OK"), nullptr, "", nullptr, "", nullptr,
@@ -1877,32 +2382,30 @@ GuiArcadeKeybinds::GuiArcadeKeybinds() : GuiSettings(_("ARCADE SIMULATOR KEY SET
 {
     ArcadeKeybindStore::getInstance().load();
 
-    addRow(makeNoteRow(
-        _("THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS ON SAVE. THIS "
-          "ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP "
-          "THEIR OWN BINDINGS.")));
+    const std::string help {
+        _("THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A "
+          "KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, "
+          "GAMEPADS KEEP THEIR OWN BINDINGS.")};
 
     addRow(makeNavRow(_("PLAYER 1 KEYBOARD"), "",
-                      [this] { mWindow->pushGui(new GuiArcadeKeybindPage(_("PLAYER 1"), "p1.")); }));
+                      [this] { mWindow->pushGui(new GuiArcadeKeybindPage(_("PLAYER 1"), "p1.")); },
+                      help));
     addRow(makeNavRow(_("PLAYER 2 KEYBOARD"), "",
-                      [this] { mWindow->pushGui(new GuiArcadeKeybindPage(_("PLAYER 2"), "p2.")); }));
+                      [this] { mWindow->pushGui(new GuiArcadeKeybindPage(_("PLAYER 2"), "p2.")); },
+                      help));
     addRow(makeNavRow(_("COMMON MACHINE KEYS"), "",
                       [this] {
                           mWindow->pushGui(new GuiArcadeKeybindPage(
                               _("COMMON MACHINE KEYS"), "global."));
-                      }));
-
-    ComponentListRow saveRow;
-    saveRow.addElement(std::make_shared<TextComponent>(_("SAVE AND WRITE TO THE EMULATORS"),
-                                                       getMenuThemeFont(FONT_SIZE_MEDIUM),
-                                                       mMenuColorPrimary, ALIGN_CENTER),
-                       true);
-    saveRow.makeAcceptInputHandler([this] { saveAll(); });
-    addRow(saveRow);
+                      },
+                      help));
+    addRow(makeNavRow(_("GAME-SPECIFIC KEYS"), "",
+                      [this] { mWindow->pushGui(new GuiArcadePerGameSystems()); }, help));
 }
 
 ComponentListRow GuiArcadeKeybinds::makeNavRow(const std::string& label, const std::string& value,
-                                               const std::function<void()>& func)
+                                               const std::function<void()>& func,
+                                               const std::string& help)
 {
     ComponentListRow row;
     row.addElement(std::make_shared<TextComponent>(label, getMenuThemeFont(FONT_SIZE_MEDIUM),
@@ -1914,24 +2417,11 @@ ComponentListRow GuiArcadeKeybinds::makeNavRow(const std::string& label, const s
                        true);
     }
     row.addElement(getMenu().makeArrow(), false);
+    // Explanations belong to the menu's TIPS panel, not to the option list itself.
+    row.helpText = help;
     if (func)
         row.makeAcceptInputHandler(func);
     return row;
-}
-
-ComponentListRow GuiArcadeKeybinds::makeNoteRow(const std::string& text)
-{
-    ComponentListRow row;
-    row.addElement(std::make_shared<TextComponent>(text, menuValueFont(), mMenuColorSecondary,
-                                                   ALIGN_LEFT, ALIGN_CENTER, glm::ivec2 {0, 0}),
-                   true);
-    return row;
-}
-
-void GuiArcadeKeybinds::saveAll()
-{
-    ArcadeKeybindStore::getInstance().save();
-    applyAllConfigs(mWindow, true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1946,20 +2436,111 @@ const std::vector<std::pair<const char*, const char*>> sP1P2Rows {
     {"btn6", "BUTTON 6"}, {"throttle", "THROTTLE"}, {"brake", "BRAKE"},
     {"boost", "BOOST"}};
 
+// Racing cabinets have a wheel and pedals, not a dpad, so the per game page must not offer
+// UP/DOWN/LEFT/RIGHT for them (devdoc/43: left/right also drive ANALOGLEFT/ANALOGRIGHT and
+// throttle/brake drive ANALOGUP/ANALOGDOWN). Only the labels and the visible rows differ, the
+// stored p1./p2. keys are unchanged so untouched rows still inherit the global setup. Boost is
+// left out on purpose because Demul has no bucket for it and the writer skips it.
+const std::vector<std::pair<const char*, const char*>> sRacingRows {
+    {"coin", "COIN"}, {"start", "START"}, {"left", "STEER LEFT"},
+    {"right", "STEER RIGHT"}, {"throttle", "THROTTLE"}, {"brake", "BRAKE"},
+    {"btn1", "BUTTON 1"}, {"btn2", "BUTTON 2"}, {"btn3", "BUTTON 3"},
+    {"btn4", "BUTTON 4"}, {"btn5", "BUTTON 5"}, {"btn6", "BUTTON 6"}};
+
+// ATV Track has steering and pedals only, its cabinet has no action buttons at all, so the
+// page must not offer BUTTON 1-6 for it.
+const std::vector<std::pair<const char*, const char*>> sPedalRows {
+    {"coin", "COIN"},       {"start", "START"},
+    {"left", "STEER LEFT"}, {"right", "STEER RIGHT"},
+    {"throttle", "THROTTLE"}, {"brake", "BRAKE"}};
+
+// Twin stick cabinet (Planet Harriers): one stick moves, the other aims, so the page shows
+// both sticks instead of a single dpad. These rows write the JOY sections (S1/S2) rather than
+// the JAMMA axes, see demulPatches().
+const std::vector<std::pair<const char*, const char*>> sTwinStickRows {
+    {"coin", "COIN"},
+    {"start", "START"},
+    {"s1up", "LEFT STICK UP"},
+    {"s1down", "LEFT STICK DOWN"},
+    {"s1left", "LEFT STICK LEFT"},
+    {"s1right", "LEFT STICK RIGHT"},
+    {"s2up", "RIGHT STICK UP"},
+    {"s2down", "RIGHT STICK DOWN"},
+    {"s2left", "RIGHT STICK LEFT"},
+    {"s2right", "RIGHT STICK RIGHT"},
+    {"btn1", "BUTTON 1"}, {"btn2", "BUTTON 2"}, {"btn3", "BUTTON 3"},
+    {"btn4", "BUTTON 4"}, {"btn5", "BUTTON 5"}, {"btn6", "BUTTON 6"}};
+
+// Light gun cabinet (Brave Firefighters): aiming is the mouse in Demul and cannot be captured
+// here, only the trigger and the hose pump are keyboard bound.
+const std::vector<std::pair<const char*, const char*>> sLightGunRows {
+    {"coin", "COIN"}, {"start", "START"}, {"btn1", "TRIGGER"}, {"btn2", "HOSE"}};
+
+// Football Power (gaelco3d footbpow): movement is the AD stick (Demul drives its Y axis
+// through ANALOGUP/DOWN, i.e. the throttle/brake slots) plus the two documented action buttons.
+const std::vector<std::pair<const char*, const char*>> sSportsRows {
+    {"coin", "COIN"},   {"start", "START"},   {"throttle", "STICK UP"},
+    {"brake", "STICK DOWN"}, {"left", "STICK LEFT"}, {"right", "STICK RIGHT"},
+    {"btn1", "DRIBBLING"}, {"btn2", "DEFENSE"}};
+
+// Per game row sets; titles without special controls keep the full unified list.
+std::vector<std::pair<const char*, const char*>> perGameRows(const std::string& rom)
+{
+    if (rom == "atvtrack" || rom == "atvtracka")
+        return sPedalRows;
+    static const std::set<std::string> racing {
+        "atvtrack", "atvtracka", "smashdrv", "airtrix", "airtrixo",
+        "swracer", "sgnascar", "sgnascaro"};
+    if (racing.find(rom) != racing.end())
+        return sRacingRows;
+    if (rom == "pharrier")
+        return sTwinStickRows;
+    if (rom == "braveff")
+        return sLightGunRows;
+    if (rom == "gfootbal")
+        return sSportsRows;
+    return {};
+}
+
 const std::vector<std::pair<const char*, const char*>> sGlobalRows {
     {"service", "SERVICE"}, {"test", "TEST"}, {"reset", "RESET"}};
 
 constexpr int sHoldToSkipMs {1000};
 } // namespace
 
-GuiArcadeKeybindPage::GuiArcadeKeybindPage(const std::string& title, const std::string& prefix)
-    : GuiSettings(title)
+GuiArcadeKeybindPage::GuiArcadeKeybindPage(const std::string& title, const std::string& prefix,
+                                           const std::string& system, const std::string& rom)
+    : GuiSettings(title), mSystem(system), mRom(rom),
+      mPerGame(!system.empty() && !rom.empty())
 {
     ArcadeKeybindStore::getInstance().load();
+    if (mPerGame)
+        ArcadePerGameStore::getInstance().load();
 
     const bool global {prefix == "global."};
-    const auto& rows {global ? sGlobalRows : sP1P2Rows};
-    const ArcadeKeybindStore& store {ArcadeKeybindStore::getInstance()};
+    // Racing titles show their wheel/pedal rows instead of the generic dpad list, everything
+    // that is not overridden is still inherited from the global setup.
+    std::vector<std::pair<const char*, const char*>> rows;
+    if (global) {
+        rows = sGlobalRows;
+    }
+    else if (mPerGame) {
+        rows = perGameRows(mRom);
+        if (rows.empty())
+            rows = sP1P2Rows;
+    }
+    else {
+        rows = sP1P2Rows;
+    }
+
+    // The capture instructions live in the TIPS panel of the menu instead of taking a row
+    // of the option list.
+    const std::string help {
+        mPerGame ? _("ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER "
+                     "TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO "
+                     "FINISH AND SAVE.")
+                 : _("PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. "
+                     "HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE.")};
 
     for (const auto& [sub, labelMsgid] : rows) {
         ComponentListRow row;
@@ -1967,6 +2548,7 @@ GuiArcadeKeybindPage::GuiArcadeKeybindPage(const std::string& title, const std::
                                                    getMenuThemeFont(FONT_SIZE_MEDIUM),
                                                    mMenuColorPrimary)};
         row.addElement(text, true);
+        row.helpText = help;
 
         auto mapping {std::make_shared<TextComponent>("", menuValueFont(), mMenuColorPrimary,
                                                       ALIGN_RIGHT)};
@@ -2018,25 +2600,9 @@ GuiArcadeKeybindPage::GuiArcadeKeybindPage(const std::string& title, const std::
         };
 
         mTargetKeys.push_back({prefix + std::string(sub), labelMsgid});
-        if (const std::string value {store.get(prefix + sub)}; !value.empty())
-            mapping->setText(value);
-        else
-            setNotDefined(static_cast<int>(mTargetKeys.size() - 1));
+        refreshRow(static_cast<int>(mTargetKeys.size() - 1));
         addRow(row);
     }
-
-    ComponentListRow saveRow;
-    saveRow.addElement(
-        std::make_shared<TextComponent>(_("SAVE AND WRITE TO THE EMULATORS"),
-                                        getMenuThemeFont(FONT_SIZE_MEDIUM), mMenuColorPrimary,
-                                        ALIGN_CENTER),
-        true);
-    saveRow.makeAcceptInputHandler([this] { saveAll(); });
-    addRow(saveRow);
-
-    addRow(makeNoteRow(
-        _("PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR "
-          "ONE SECOND TO SKIP THE ROW, PRESS B TO STOP.")));
 
     // The scroll list starts on the first row to make the capture flow obvious.
     getMenu().setCursorToFirstListEntry();
@@ -2044,21 +2610,20 @@ GuiArcadeKeybindPage::GuiArcadeKeybindPage(const std::string& title, const std::
 
 bool GuiArcadeKeybindPage::input(InputConfig* config, Input input)
 {
-    // During capture the B key cancels the capture for any device, otherwise it
-    // reaches GuiSettings and closes the page as usual.
-    if (mConfiguringRow && config->isMappedTo("b", input) && input.value != 0) {
-        mConfiguringRow = false;
-        mConfiguringAll = false;
-        mHoldingInput = false;
-        for (size_t i {0}; i < mMappings.size(); ++i) {
-            const std::string value {ArcadeKeybindStore::getInstance().get(
-                mTargetKeys.at(i).settingsKey)};
-            if (value.empty())
-                setNotDefined(static_cast<int>(i));
-            else
-                mMappings.at(i)->setText(value);
+    // During capture the B key cancels the capture for any device. Outside capture it
+    // leaves the page, and the mappings captured so far are persisted right before the
+    // page is removed; this replaces the old explicit SAVE row.
+    if (config->isMappedTo("b", input) && input.value != 0) {
+        if (mConfiguringRow) {
+            mConfiguringRow = false;
+            mConfiguringAll = false;
+            mHoldingInput = false;
+            for (size_t i {0}; i < mMappings.size(); ++i)
+                refreshRow(static_cast<int>(i));
+            return true;
         }
-        return true;
+        saveAll(false);
+        return GuiSettings::input(config, input);
     }
     return GuiSettings::input(config, input);
 }
@@ -2072,10 +2637,17 @@ void GuiArcadeKeybindPage::update(int deltaTime)
     mHeldTime += deltaTime;
     const int curSec {mHeldTime / 1000};
     if (mHeldTime >= sHoldToSkipMs) {
-        // Long press: clear the row and move on without capturing.
-        ArcadeKeybindStore::getInstance().set(mTargetKeys.at(mHeldInputId).settingsKey, "");
-        mMappings.at(mHeldInputId)->setText("-" + _("NOT DEFINED") + "-");
-        mMappings.at(mHeldInputId)->setColor(mMenuColorSecondary);
+        // Long press: in the per game page this removes the override so the row falls
+        // back to the global setup, in the global pages it clears the key.
+        if (mPerGame)
+            ArcadePerGameStore::getInstance().set(mSystem, mRom,
+                                                  mTargetKeys.at(mHeldInputId).settingsKey, "");
+        else
+            ArcadeKeybindStore::getInstance().set(
+                mTargetKeys.at(mHeldInputId).settingsKey, "");
+        setNotDefined(mHeldInputId);
+        if (mPerGame)
+            refreshRow(mHeldInputId);
         mHoldingInput = false;
         rowDone();
         return;
@@ -2090,12 +2662,16 @@ void GuiArcadeKeybindPage::update(int deltaTime)
 
 void GuiArcadeKeybindPage::captureAssign(const Input& input, int index)
 {
-    ArcadeKeybindStore& store {ArcadeKeybindStore::getInstance()};
     const std::string name {SDL_GetKeyName(static_cast<SDL_Keycode>(input.id))};
-    store.set(mTargetKeys.at(index).settingsKey, name);
+    if (mPerGame)
+        ArcadePerGameStore::getInstance().set(mSystem, mRom,
+                                              mTargetKeys.at(index).settingsKey, name);
+    else
+        ArcadeKeybindStore::getInstance().set(mTargetKeys.at(index).settingsKey, name);
     mMappings.at(index)->setText(name);
     mMappings.at(index)->setColor(mMenuColorPrimary);
     LOG(LogInfo) << "GuiArcadeKeybinds: captured [" << name << "] for ["
+                 << (mPerGame ? mSystem + "/" + mRom + " " : "")
                  << mTargetKeys.at(index).settingsKey << "]";
 }
 
@@ -2133,7 +2709,119 @@ void GuiArcadeKeybindPage::setNotDefined(int index)
     mMappings.at(index)->setColor(mMenuColorSecondary);
 }
 
-ComponentListRow GuiArcadeKeybindPage::makeNoteRow(const std::string& text)
+// Shows the override when there is one, otherwise the inherited global key. Overrides
+// are in the primary colour, inherited rows are dimmed and labelled.
+void GuiArcadeKeybindPage::refreshRow(int index)
+{
+    if (index < 0 || index >= static_cast<int>(mMappings.size()))
+        return;
+    const std::string key {mTargetKeys.at(index).settingsKey};
+    if (mPerGame) {
+        const std::string override {
+            ArcadePerGameStore::getInstance().get(mSystem, mRom, key)};
+        if (!override.empty()) {
+            mMappings.at(index)->setText(override);
+            mMappings.at(index)->setColor(mMenuColorPrimary);
+            return;
+        }
+        const std::string inherited {ArcadeKeybindStore::getInstance().get(key)};
+        if (inherited.empty()) {
+            setNotDefined(index);
+            return;
+        }
+        mMappings.at(index)->setText(inherited + " (" + _("INHERITED") + ")");
+        mMappings.at(index)->setColor(mMenuColorSecondary);
+        return;
+    }
+    const std::string value {ArcadeKeybindStore::getInstance().get(key)};
+    if (value.empty()) {
+        setNotDefined(index);
+        return;
+    }
+    mMappings.at(index)->setText(value);
+    mMappings.at(index)->setColor(mMenuColorPrimary);
+}
+
+void GuiArcadeKeybindPage::saveAll(bool report)
+{
+    if (mPerGame) {
+        // Only the override file changes, arcade_keybinds.xml keeps the global setup and
+        // the other emulators are left untouched.
+        ArcadePerGameStore::getInstance().save();
+        applyAllConfigs(mWindow, report, true);
+        return;
+    }
+    ArcadeKeybindStore::getInstance().save();
+    applyAllConfigs(mWindow, report);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Per game setup pages (Demul)
+///////////////////////////////////////////////////////////////////////////////
+
+GuiArcadePerGameSystems::GuiArcadePerGameSystems()
+    : GuiSettings(_("GAME-SPECIFIC KEY SETTINGS"))
+{
+    ArcadePerGameStore::getInstance().load();
+
+    const std::string help {
+        _("EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN "
+          "FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE.")};
+
+    std::vector<SystemData*> systems {demulSystems()};
+    if (systems.empty()) {
+        for (const char* name : {"gaelco", "hikaru"}) {
+            SystemData* system {SystemData::getSystemByName(name)};
+            if (system != nullptr)
+                systems.push_back(system);
+        }
+    }
+    if (systems.empty()) {
+        addRow(makeNoteRow(_("NO GAMES FOUND")));
+        return;
+    }
+
+    for (SystemData* system : systems) {
+        const std::string systemName {system->getName()};
+        size_t gameCount {0};
+        size_t overriddenCount {0};
+        for (FileData* file : system->getRootFolder()->getFilesRecursive(GAME)) {
+            if (file->getType() != GAME || Utils::FileSystem::isDirectory(file->getPath()))
+                continue;
+            ++gameCount;
+            if (ArcadePerGameStore::getInstance().overrideCount(systemName, romNameOf(file)) > 0)
+                ++overriddenCount;
+        }
+        const std::string value {
+            std::to_string(overriddenCount) + "/" + std::to_string(gameCount)};
+        addRow(makeNavRow(Utils::String::toUpper(system->getFullNameLocalized()), value,
+                          [this, system] {
+                              mWindow->pushGui(new GuiArcadePerGameGames(system));
+                          },
+                          help));
+    }
+}
+
+ComponentListRow GuiArcadePerGameSystems::makeNavRow(const std::string& label,
+                                                     const std::string& value,
+                                                     const std::function<void()>& func,
+                                                     const std::string& help)
+{
+    ComponentListRow row;
+    row.addElement(std::make_shared<TextComponent>(label, getMenuThemeFont(FONT_SIZE_MEDIUM),
+                                                   mMenuColorPrimary),
+                   true);
+    row.addElement(std::make_shared<TextComponent>(value, menuValueFont(), mMenuColorSecondary,
+                                                   ALIGN_RIGHT),
+                   true);
+    row.addElement(getMenu().makeArrow(), false);
+    row.helpText = help;
+    if (func)
+        row.makeAcceptInputHandler(func);
+    return row;
+}
+
+ComponentListRow GuiArcadePerGameSystems::makeNoteRow(const std::string& text)
 {
     ComponentListRow row;
     row.addElement(std::make_shared<TextComponent>(text, menuValueFont(), mMenuColorSecondary,
@@ -2142,8 +2830,149 @@ ComponentListRow GuiArcadeKeybindPage::makeNoteRow(const std::string& text)
     return row;
 }
 
-void GuiArcadeKeybindPage::saveAll()
+GuiArcadePerGameGames::GuiArcadePerGameGames(SystemData* system)
+    : GuiSettings(Utils::String::toUpper(system != nullptr ? system->getFullNameLocalized() : ""))
 {
-    ArcadeKeybindStore::getInstance().save();
-    applyAllConfigs(mWindow, true);
+    ArcadePerGameStore::getInstance().load();
+    ArcadeKeybindStore::getInstance().load();
+
+    if (system == nullptr) {
+        addRow(makeNoteRow(_("NO GAMES FOUND")));
+        return;
+    }
+
+    const std::string systemName {system->getName()};
+    std::vector<FileData*> games;
+    for (FileData* file : system->getRootFolder()->getFilesRecursive(GAME)) {
+        if (file->getType() != GAME || Utils::FileSystem::isDirectory(file->getPath()))
+            continue;
+        games.push_back(file);
+    }
+    if (games.empty()) {
+        addRow(makeNoteRow(_("NO GAMES FOUND")));
+        return;
+    }
+    std::sort(games.begin(), games.end(), [](FileData* first, FileData* second) {
+        return Utils::String::toLower(first->getName()) <
+               Utils::String::toLower(second->getName());
+    });
+
+    // Some sets ship several revisions of the same game (for example atvtrack and atvtracka,
+    // both shown as "Atv Track"). The rom name is appended in that case so the entry the
+    // player edits is unambiguous.
+    std::map<std::string, int> nameCounts;
+    for (FileData* file : games)
+        ++nameCounts[Utils::String::toLower(file->getName())];
+
+    const std::string help {
+        _("THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, "
+          "INHERITED MEANS IT USES THE GLOBAL SETUP.")};
+
+    for (FileData* file : games) {
+        const std::string rom {romNameOf(file)};
+        const size_t count {ArcadePerGameStore::getInstance().overrideCount(systemName, rom)};
+        const std::string value {count > 0 ? std::to_string(count) : _("INHERITED")};
+        std::string title {Utils::String::toUpper(file->getName())};
+        if (nameCounts[Utils::String::toLower(file->getName())] > 1)
+            title += " (" + Utils::String::toUpper(rom) + ")";
+        std::shared_ptr<TextComponent> valueText;
+        addRow(makeNavRow(
+            title, value,
+            [this, title, systemName, rom] {
+                mRefreshPending = true;
+                mWindow->pushGui(new GuiArcadePerGamePlayers(title, systemName, rom));
+            },
+            &valueText, help));
+        mValues.emplace_back(rom, valueText);
+    }
+
+    mSystemName = systemName;
+}
+
+bool GuiArcadePerGameGames::input(InputConfig* config, Input input)
+{
+    // A child page persists its changes when it closes, so the override counters are
+    // refreshed the first time this page takes input again.
+    if (mRefreshPending) {
+        mRefreshPending = false;
+        for (const auto& entry : mValues) {
+            const size_t count {
+                ArcadePerGameStore::getInstance().overrideCount(mSystemName, entry.first)};
+            if (entry.second)
+                entry.second->setText(count > 0 ? std::to_string(count) : _("INHERITED"));
+        }
+    }
+    return GuiSettings::input(config, input);
+}
+
+ComponentListRow GuiArcadePerGameGames::makeNavRow(const std::string& label,
+                                                   const std::string& value,
+                                                   const std::function<void()>& func,
+                                                   std::shared_ptr<TextComponent>* valueText,
+                                                   const std::string& help)
+{
+    ComponentListRow row;
+    row.addElement(std::make_shared<TextComponent>(label, getMenuThemeFont(FONT_SIZE_MEDIUM),
+                                                   mMenuColorPrimary),
+                   true);
+    auto text {std::make_shared<TextComponent>(value, menuValueFont(), mMenuColorSecondary,
+                                              ALIGN_RIGHT)};
+    row.addElement(text, true);
+    if (valueText != nullptr)
+        *valueText = text;
+    row.addElement(getMenu().makeArrow(), false);
+    row.helpText = help;
+    if (func)
+        row.makeAcceptInputHandler(func);
+    return row;
+}
+
+ComponentListRow GuiArcadePerGameGames::makeNoteRow(const std::string& text)
+{
+    ComponentListRow row;
+    row.addElement(std::make_shared<TextComponent>(text, menuValueFont(), mMenuColorSecondary,
+                                                   ALIGN_LEFT, ALIGN_CENTER, glm::ivec2 {0, 0}),
+                   true);
+    return row;
+}
+
+GuiArcadePerGamePlayers::GuiArcadePerGamePlayers(const std::string& title,
+                                                 const std::string& system,
+                                                 const std::string& rom)
+    : GuiSettings(title)
+{
+    const std::string help {_("ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP.")};
+    addRow(makeNavRow(
+        _("PLAYER 1 KEYBOARD"), "",
+        [this, title, system, rom] {
+            mWindow->pushGui(new GuiArcadeKeybindPage(
+                title + " " + _("PLAYER 1"), "p1.", system, rom));
+        },
+        help));
+    addRow(makeNavRow(
+        _("PLAYER 2 KEYBOARD"), "",
+        [this, title, system, rom] {
+            mWindow->pushGui(new GuiArcadeKeybindPage(
+                title + " " + _("PLAYER 2"), "p2.", system, rom));
+        },
+        help));
+}
+
+ComponentListRow GuiArcadePerGamePlayers::makeNavRow(const std::string& label,
+                                                     const std::string& value,
+                                                     const std::function<void()>& func,
+                                                     const std::string& help)
+{
+    ComponentListRow row;
+    row.addElement(std::make_shared<TextComponent>(label, getMenuThemeFont(FONT_SIZE_MEDIUM),
+                                                   mMenuColorPrimary),
+                   true);
+    row.addElement(std::make_shared<TextComponent>(value, menuValueFont(), mMenuColorPrimary,
+                                                   ALIGN_RIGHT),
+                   true);
+    row.addElement(getMenu().makeArrow(), false);
+    row.helpText = help;
+    if (func)
+        row.makeAcceptInputHandler(func);
+    return row;
 }

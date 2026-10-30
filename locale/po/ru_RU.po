@@ -3570,3 +3570,30 @@ msgstr "ОШИБКА: НЕ УДАЛОСЬ ОТОБРАЗИТЬ PDF-ФАЙЛ"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "В ~/biosalt НЕТ ПОДХОДЯЩЕГО ФАЙЛА BIOS"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Клавиши для игры"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Настройка клавиш для игры"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Эти клавиши записываются в конфигурацию аркадных эмуляторов при выходе со страницы клавиш. Это затрагивает только эмуляторы, но не этот фронтенд. Только клавиатура; геймпады сохраняют свои привязки."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Не переопределённые строки используют глобальные настройки. Enter начинает захват, удержание на секунду возвращает глобальную клавишу, B завершает и сохраняет."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Enter в строке начинает захват, затем нажмите физическую клавишу. Удержание на секунду пропускает строку, B завершает и сохраняет."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "У каждой игры есть собственный профиль клавиатуры Demul. Строки без переопределения используют глобальные настройки, а сохранение здесь обновляет все профили."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "Число справа показывает, сколько клавиш переопределено для этой игры; наследуется означает использование глобальных настроек."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Строки без переопределения используют глобальные настройки."

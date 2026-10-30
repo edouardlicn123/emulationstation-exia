@@ -28,7 +28,7 @@ class MenuComponent : public GuiComponent
 public:
     MenuComponent(std::string title,
                   const std::shared_ptr<Font>& titleFont =
-                      Font::get(FONT_SIZE_LARGE * Utils::Localization::sMenuTitleScaleFactor));
+                      Font::get(FONT_SIZE_LARGE * Utils::Localization::sMenuTitleScaleFactor * 0.8f));
     virtual ~MenuComponent();
 
     void save();
@@ -46,9 +46,11 @@ public:
     void addWithLabel(const std::string& label,
                       const std::shared_ptr<GuiComponent>& comp,
                       bool setCursorHere = false,
-                      bool invert_when_selected = true)
+                      bool invert_when_selected = true,
+                      const std::string& helpText = "")
     {
         ComponentListRow row;
+        row.helpText = helpText;
         row.addElement(std::make_shared<TextComponent>(label, getMenuThemeFont(FONT_SIZE_MEDIUM),
                                                        mMenuColorPrimary, ALIGN_LEFT, ALIGN_CENTER,
                                                        glm::ivec2 {0, 0}),
@@ -69,6 +71,11 @@ public:
     std::shared_ptr<ImageComponent> makeArrow();
 
     void setTitle(std::string title, const std::shared_ptr<Font>& font);
+    static float getMenuLeft();
+
+    void refreshHelp();
+    bool input(InputConfig* config, Input input) override;
+
     std::shared_ptr<ComponentList> getList() { return mList; }
 
     void setCursorToFirstListEntry() { mList->moveCursor(-mList->getCursorId()); }
@@ -104,6 +111,10 @@ private:
     std::shared_ptr<ComponentGrid> mButtonGrid;
     std::vector<std::shared_ptr<ButtonComponent>> mButtons;
     std::vector<std::function<void()>> mSaveFuncs;
+
+    std::shared_ptr<BackgroundComponent> mHelpBackground;
+    std::shared_ptr<TextComponent> mHelpTitle;
+    std::shared_ptr<TextComponent> mHelpBody;
 
     bool mNeedsSaving;
 };

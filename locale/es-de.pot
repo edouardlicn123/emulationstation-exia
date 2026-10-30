@@ -979,6 +979,21 @@ msgstr ""
 msgid "SYSTEMS SORTING"
 msgstr ""
 
+msgid "PLATFORM SORTING"
+msgstr ""
+
+msgid "SORT PLATFORMS BY"
+msgstr ""
+
+msgid "LOCALIZED NAME"
+msgstr ""
+
+msgid "PLATFORM TYPE, THEN NAME"
+msgstr ""
+
+msgid "MANUFACTURER, THEN NAME"
+msgstr ""
+
 msgid "FULL NAMES OR CUSTOM"
 msgstr ""
 

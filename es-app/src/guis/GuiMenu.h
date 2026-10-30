@@ -30,7 +30,8 @@ private:
     void addEntry(const std::string& name,
                   unsigned int color,
                   bool add_arrow,
-                  const std::function<void()>& func);
+                  const std::function<void()>& func,
+                  const std::string& helpText = "");
     void addVersionInfo();
 
     void openExiaSettings();
@@ -49,6 +50,7 @@ private:
     void openPlatformSettings();
     void openOtherOptions();
     void openUtilities();
+    void openSystemInfo();
     void openQuitMenu();
     void openRestartDialog();
 

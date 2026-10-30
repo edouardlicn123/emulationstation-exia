@@ -3536,3 +3536,30 @@ msgstr "CHYBA: NELZE ZOBRAZIT SOUBOR PDF"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "V ~/biosalt ŽÁDNÁ ODPOVÍDAJÍCÍ BIOS SOUBOR"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Klávesy pro konkrétní hru"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Nastavení kláves pro hru"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Tyto klávesy se zapíší do konfigurace arkádových emulátorů při opuštění stránky kláves. Týká se to pouze emulátorů, ne tohoto frontendu. Pouze klávesnice; gamepady si ponechávají vlastní přiřazení."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Nepřepsané řádky používají globální nastavení. Enter zahájí zachytávání, podržením jedné sekundy vrátíte globální klávesu, B dokončí a uloží."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Enter v řádku zahájí zachytávání, poté stiskněte fyzickou klávesu. Podržením jedné sekundy řádek přeskočíte, B dokončí a uloží."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Každá hra má vlastní profil klávesnice pro Demul. Nepřepsané řádky používají globální nastavení a uložení zde aktualizuje všechny profily."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "Číslo vpravo udává, kolik kláves je pro tuto hru přepsáno; zděděno znamená, že se používá globální nastavení."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Nepřepsané řádky používají globální nastavení."

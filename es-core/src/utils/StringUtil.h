@@ -45,6 +45,11 @@ namespace Utils
         bool startsWith(const std::string& stringArg, const std::string& start);
         bool endsWith(const std::string& stringArg, const std::string& end);
         std::string removeParenthesis(const std::string& stringArg);
+        // Uppercase Latin initial used for name sorting. CJK names are transliterated to
+        // pinyin/romaji/romanized Hangul, and digits or symbols return "#" (devdoc/56).
+        std::string getSortingInitial(const std::string& stringArg);
+        // Whether the first character of the string belongs to a CJK script.
+        bool startsWithCJK(const std::string& stringArg);
         std::vector<std::string> delimitedStringToVector(const std::string& stringArg,
                                                          const std::string& delimiter,
                                                          bool sort = false,

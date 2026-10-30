@@ -20,11 +20,14 @@
 #include "utils/PlatformUtil.h"
 
 #include <unicode/brkiter.h>
+#include <unicode/translit.h>
+#include <unicode/unistr.h>
 #include <unicode/ustring.h>
 
 #include <algorithm>
 #include <cstdarg>
 #include <locale>
+#include <memory>
 
 namespace Utils
 {
@@ -451,6 +454,62 @@ namespace Utils
                 buffer[i] = input[i] ^ key[i];
 
             return buffer;
+        }
+
+        std::string getSortingInitial(const std::string& stringArg)
+        {
+            const std::string stringTrimmed {trim(stringArg)};
+
+            if (stringTrimmed.empty())
+                return "#";
+
+            // Transliterates Latin diacritics, Han characters to pinyin, Japanese kana to
+            // romaji and Hangul to romanized text, which gives a Latin sorting initial for
+            // all scripts supported by the bundled ICU data (devdoc/56 section 7.2).
+            static icu::Transliterator* transliterator {[] {
+                UErrorCode status {U_ZERO_ERROR};
+                icu::Transliterator* instance {icu::Transliterator::createInstance(
+                    "Any-Latin; Latin-ASCII", UTRANS_FORWARD, status)};
+                return U_FAILURE(status) ? nullptr : instance;
+            }()};
+
+            if (transliterator == nullptr)
+                return "#";
+
+            icu::UnicodeString text {icu::UnicodeString::fromUTF8(stringTrimmed)};
+            transliterator->transliterate(text);
+
+            if (text.isEmpty())
+                return "#";
+
+            const UChar32 first {text.char32At(0)};
+
+            if (first >= 'A' && first <= 'Z')
+                return std::string(1, static_cast<char>(first));
+
+            if (first >= 'a' && first <= 'z')
+                return std::string(1, static_cast<char>(first - ('a' - 'A')));
+
+            return "#";
+        }
+
+        bool startsWithCJK(const std::string& stringArg)
+        {
+            const std::string stringTrimmed {trim(stringArg)};
+
+            if (stringTrimmed.empty())
+                return false;
+
+            size_t cursor {0};
+            const unsigned int codepoint {chars2Unicode(stringTrimmed, cursor)};
+
+            // CJK radicals and symbols, kana, bopomofo, Hangul and Han ideographs including
+            // the supplementary ideographic planes.
+            return (codepoint >= 0x2E80 && codepoint <= 0x9FFF) ||
+                   (codepoint >= 0xA960 && codepoint <= 0xA97F) ||
+                   (codepoint >= 0xAC00 && codepoint <= 0xD7AF) ||
+                   (codepoint >= 0xF900 && codepoint <= 0xFAFF) ||
+                   (codepoint >= 0x20000 && codepoint <= 0x2FA1F);
         }
 
     } // namespace String

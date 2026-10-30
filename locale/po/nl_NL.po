@@ -3557,3 +3557,30 @@ msgstr "FOUT: PDF-BESTAND KAN NIET WEERGEVEN"
 
 #~ msgid "NO MATCHING BIOS FILE IN ~/biosalt"
 #~ msgstr "GEEN BIOS-DATEI IN ~/biosalt DIE OVEREENKOMT"
+
+msgid "SUNSHINE SERVICE"
+msgstr ""
+
+msgid "GAME-SPECIFIC KEYS"
+msgstr "Toetsen per spel"
+
+msgid "GAME-SPECIFIC KEY SETTINGS"
+msgstr "Toetsinstellingen per spel"
+
+msgid "THESE KEYS ARE WRITTEN TO THE ARCADE EMULATOR CONFIGURATIONS WHEN YOU LEAVE A KEY PAGE. THIS ONLY AFFECTS THE EMULATORS, NOT THIS FRONTEND. KEYBOARD ONLY, GAMEPADS KEEP THEIR OWN BINDINGS."
+msgstr "Deze toetsen worden in de configuratie van de arcade-emulators geschreven wanneer je een toetsenpagina verlaat. Dit geldt alleen voor de emulators, niet voor deze frontend. Alleen toetsenbord; gamepads behouden hun eigen bindingen."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP. PRESS ENTER TO CAPTURE, HOLD FOR ONE SECOND TO INHERIT THE GLOBAL KEY, PRESS B TO FINISH AND SAVE."
+msgstr "Niet-overschreven rijen volgen de globale toetsen. Enter start de opname, een seconde vasthouden zet de globale toets terug, B sluit af en slaat op."
+
+msgid "PRESS ENTER ON A ROW TO START CAPTURING, THEN PRESS THE PHYSICAL KEY. HOLD FOR ONE SECOND TO SKIP THE ROW, PRESS B TO FINISH AND SAVE."
+msgstr "Enter op een rij start de opname, druk daarna de fysieke toets. Een seconde vasthouden slaat de rij over, B sluit af en slaat op."
+
+msgid "EACH GAME GETS ITS OWN DEMUL KEYBOARD PROFILE. ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP, AND SAVING THERE UPDATES EVERY PROFILE."
+msgstr "Elk spel heeft een eigen Demul-toetsenbordprofiel. Niet-overschreven rijen volgen de globale toetsen en opslaan hier past alle profielen aan."
+
+msgid "THE NUMBER ON THE RIGHT IS HOW MANY KEYS ARE OVERRIDDEN FOR THAT GAME, INHERITED MEANS IT USES THE GLOBAL SETUP."
+msgstr "Het getal rechts toont hoeveel toetsen voor dat spel zijn overschreven; overgenomen betekent dat de globale instelling geldt."
+
+msgid "ROWS THAT ARE NOT OVERRIDDEN FOLLOW THE GLOBAL KEY SETUP."
+msgstr "Niet-overschreven rijen volgen de globale toetsen."

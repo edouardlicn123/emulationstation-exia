@@ -9,8 +9,11 @@
 
 #include "scrapers/Scraper.h"
 
+#include "ArcadeDBJSONScraper.h"
 #include "FileData.h"
 #include "GamesDBJSONScraper.h"
+#include "HfsDBScraper.h"
+#include "IGDBScraper.h"
 #include "Log.h"
 #include "ScreenScraper.h"
 #include "Settings.h"
@@ -23,75 +26,403 @@
 #endif
 
 #include <FreeImage.h>
+#include <chrono>
 #include <cmath>
+#include <filesystem>
 #include <fstream>
 
 namespace
 {
-    const std::map<std::string, generate_scraper_requests_func> scraper_request_funcs {
-        {"thegamesdb", &thegamesdb_generate_json_scraper_requests},
-        {"screenscraper", &screenscraper_generate_scraper_requests}};
+    // Adapter so that the two original scraper implementations, which are plain functions,
+    // can be registered as Scraper instances. Their platform support is intentionally not
+    // restricted to keep the previous behavior unchanged.
+    class LegacyFunctionScraper : public Scraper
+    {
+    public:
+        LegacyFunctionScraper(std::string name,
+                              std::string displayName,
+                              generate_scraper_requests_func generateFunc,
+                              int (*threadCountFunc)(std::string&) = nullptr)
+            : mName {std::move(displayName)}
+            , mGenerateFunc {generateFunc}
+            , mThreadCountFunc {threadCountFunc}
+        {
+        }
+
+        const std::string getName() const override { return mName; }
+        bool isSupportedPlatform(SystemData*) const override { return true; }
+
+        int getThreadCount(std::string& result) override
+        {
+            return mThreadCountFunc != nullptr ? mThreadCountFunc(result) : 1;
+        }
+
+        const std::set<ScraperMediaSource>& getSupportedMedias() const override
+        {
+            static std::set<ScraperMediaSource> supportedMedias {
+                Screenshot, Video,   Marquee, Box2d,  Box3d, FanArt,
+                TitleShot,  Manual,  Wheel,   BoxBack, PhysicalMedia};
+            return supportedMedias;
+        }
+
+    protected:
+        void generateRequests(const ScraperSearchParams& params,
+                              std::queue<std::unique_ptr<ScraperRequest>>& requests,
+                              std::vector<ScraperSearchResult>& results) override
+        {
+            mGenerateFunc(params, requests, results);
+        }
+
+    private:
+        std::string mName;
+        generate_scraper_requests_func mGenerateFunc;
+        int (*mThreadCountFunc)(std::string&);
+    };
+
+    bool isMediaEnabled(Scraper::ScraperMediaSource media,
+                        const std::set<Scraper::ScraperMediaSource>* supportedMedias)
+    {
+        return supportedMedias == nullptr || supportedMedias->count(media) > 0;
+    }
+
+    // Returns the paths of the media types that are enabled for scraping. An empty string or
+    // a path to a nonexistent file means that the media is missing for this game.
+    std::vector<std::string>
+    hasEnabledMedia(FileData* game,
+                    const std::set<Scraper::ScraperMediaSource>* supportedMedias = nullptr)
+    {
+        Settings* settings {Settings::getInstance()};
+        std::vector<std::string> mediaPaths;
+
+        if (settings->getBool("ScrapeCovers") &&
+            isMediaEnabled(Scraper::Box2d, supportedMedias))
+            mediaPaths.push_back(game->getCoverPath());
+        if (settings->getBool("ScrapeScreenshots") &&
+            isMediaEnabled(Scraper::Screenshot, supportedMedias))
+            mediaPaths.push_back(game->getScreenshotPath());
+        if (settings->getBool("ScrapeTitleScreens") &&
+            isMediaEnabled(Scraper::TitleShot, supportedMedias))
+            mediaPaths.push_back(game->getTitleScreenPath());
+        if (settings->getBool("ScrapeMarquees") &&
+            isMediaEnabled(Scraper::Marquee, supportedMedias))
+            mediaPaths.push_back(game->getMarqueePath());
+        if (settings->getBool("ScrapeFanArt") &&
+            isMediaEnabled(Scraper::FanArt, supportedMedias))
+            mediaPaths.push_back(game->getFanArtPath());
+        if (settings->getBool("Scrape3DBoxes") &&
+            isMediaEnabled(Scraper::Box3d, supportedMedias))
+            mediaPaths.push_back(game->get3DBoxPath());
+        if (settings->getBool("ScrapeBackCovers") &&
+            isMediaEnabled(Scraper::BoxBack, supportedMedias))
+            mediaPaths.push_back(game->getBackCoverPath());
+        if (settings->getBool("ScrapePhysicalMedia") &&
+            isMediaEnabled(Scraper::PhysicalMedia, supportedMedias))
+            mediaPaths.push_back(game->getPhysicalMediaPath());
+        if (settings->getBool("ScrapeVideos") && isMediaEnabled(Scraper::Video, supportedMedias))
+            mediaPaths.push_back(game->getVideoPath());
+        if (settings->getBool("ScrapeManuals") && isMediaEnabled(Scraper::Manual, supportedMedias))
+            mediaPaths.push_back(game->getManualPath());
+
+        return mediaPaths;
+    }
+
+    bool hasMediaFile(const std::string& path)
+    {
+        return !path.empty() && Utils::FileSystem::exists(path);
+    }
+
+    bool hasMissingMediaFor(FileData* game,
+                            const std::set<Scraper::ScraperMediaSource>* supportedMedias)
+    {
+        const std::vector<std::string> mediaPaths {hasEnabledMedia(game, supportedMedias)};
+
+        // If no media types are enabled then there is nothing to fill in, don't flag the game.
+        if (mediaPaths.empty())
+            return false;
+
+        for (const std::string& path : mediaPaths) {
+            if (!hasMediaFile(path))
+                return true;
+        }
+
+        return false;
+    }
+
+    bool hasAnyMediaFor(FileData* game,
+                        const std::set<Scraper::ScraperMediaSource>* supportedMedias)
+    {
+        const std::vector<std::string> mediaPaths {hasEnabledMedia(game, supportedMedias)};
+
+        // Without any enabled media types all games are considered to have media, this avoids
+        // flagging the complete game library as missing everything.
+        if (mediaPaths.empty())
+            return true;
+
+        for (const std::string& path : mediaPaths) {
+            if (hasMediaFile(path))
+                return true;
+        }
+
+        return false;
+    }
+} // namespace
+
+std::vector<std::pair<std::string, Scraper*>> Scraper::scrapers {
+    {"screenscraper",
+     new LegacyFunctionScraper("screenscraper", "SCREENSCRAPER",
+                               &screenscraper_generate_scraper_requests,
+                               &screenscraper_get_thread_count)},
+    {"thegamesdb",
+     new LegacyFunctionScraper("thegamesdb", "THEGAMESDB",
+                               &thegamesdb_generate_json_scraper_requests)},
+    {"arcadedb", new ArcadeDBScraper()},
+    {"hfsdb", new HfsDBScraper()},
+    {"igdb", new IGDBScraper()}};
+
+Scraper* Scraper::getScraper(const std::string& name)
+{
+    std::string scraperName {name};
+
+    if (scraperName.empty())
+        scraperName = Settings::getInstance()->getString("Scraper");
+
+    for (auto& entry : scrapers) {
+        if (entry.first == scraperName)
+            return entry.second;
+    }
+
+    return nullptr;
+}
+
+std::string Scraper::getScraperName(Scraper* scraper)
+{
+    for (auto& entry : scrapers) {
+        if (entry.second == scraper)
+            return entry.first;
+    }
+
+    return std::string();
+}
+
+std::vector<std::string> Scraper::getScraperList()
+{
+    std::vector<std::string> scraperList;
+
+    for (auto& entry : scrapers)
+        scraperList.push_back(entry.first);
+
+    return scraperList;
+}
+
+int Scraper::getScraperIndex(const std::string& name)
+{
+    for (int i {0}; i < static_cast<int>(scrapers.size()); ++i) {
+        if (scrapers[i].first == name)
+            return i;
+    }
+
+    return -1;
+}
+
+bool Scraper::hasMissingMedia(FileData* file)
+{
+    return hasMissingMediaFor(file, &getSupportedMedias());
+}
+
+bool Scraper::hasAnyMedia(FileData* file)
+{
+    return hasAnyMediaFor(file, &getSupportedMedias());
+}
+
+bool Scraper::isMediaSupported(const ScraperMediaSource& media)
+{
+    return getSupportedMedias().count(media) > 0;
+}
+
+std::unique_ptr<ScraperSearchHandle> Scraper::search(const ScraperSearchParams& params)
+{
+    std::unique_ptr<ScraperSearchHandle> handle(new ScraperSearchHandle());
+    generateRequests(params, handle->mRequestQueue, handle->mResults);
+    return handle;
+}
+
+bool hasMissingEnabledMedia(FileData* game)
+{
+    return hasMissingMediaFor(game, nullptr);
+}
+
+bool hasAnyEnabledMedia(FileData* game)
+{
+    return hasAnyMediaFor(game, nullptr);
 }
 
 std::unique_ptr<ScraperSearchHandle> startScraperSearch(const ScraperSearchParams& params)
 {
-    std::string name {Settings::getInstance()->getString("Scraper")};
-    // Handle a potentially invalid entry in the configuration file.
-    if (name != "screenscraper" && name != "thegamesdb") {
-        name = "screenscraper";
-        Settings::getInstance()->setString("Scraper", name);
-        Settings::getInstance()->saveFile();
-    }
+    const std::string name {params.scraperName.empty() ?
+                                Settings::getInstance()->getString("Scraper") :
+                                params.scraperName};
 
     std::unique_ptr<ScraperSearchHandle> handle(new ScraperSearchHandle());
+    Scraper* scraper {Scraper::getScraper(name)};
 
-    // Check if the scraper in the settings still exists as a registered scraping source.
-    if (scraper_request_funcs.find(name) == scraper_request_funcs.end()) {
+    // Check if the scraper still exists as a registered scraping source.
+    if (scraper == nullptr) {
         LOG(LogError) << "Configured scraper (" << name << ") unavailable, scraping aborted";
+        return handle;
     }
-    else {
-        LOG(LogDebug) << "Scraper::startScraperSearch(): Scraping system \""
-                      << params.system->getName()
-                      << (params.game->getType() == FOLDER ? "\", folder \"" : "\", game file \"")
+
+    LOG(LogDebug) << "Scraper::startScraperSearch(): Scraping system \""
+                  << params.system->getName()
+                  << (params.game->getType() == FOLDER ? "\", folder \"" : "\", game file \"")
 #if defined(_WIN64)
-                      << Utils::String::replace(
-                             params.game->getPath().substr(
-                                 params.game->getSystemEnvData()->mStartPath.length() + 1),
-                             "/", "\\")
+                  << Utils::String::replace(
+                         params.game->getPath().substr(
+                             params.game->getSystemEnvData()->mStartPath.length() + 1),
+                         "/", "\\")
 #else
-                      << params.game->getPath().substr(
-                             params.game->getSystemEnvData()->mStartPath.length() + 1)
+                  << params.game->getPath().substr(
+                         params.game->getSystemEnvData()->mStartPath.length() + 1)
 #endif
-                      << "\"";
-        scraper_request_funcs.at(name)(params, handle->mRequestQueue, handle->mResults);
-    }
+                  << "\"";
+
+    handle = scraper->search(params);
 
     return handle;
 }
 
 std::unique_ptr<ScraperSearchHandle> startMediaURLsFetch(const std::string& gameIDs)
 {
-    const std::string& name {Settings::getInstance()->getString("Scraper")};
     std::unique_ptr<ScraperSearchHandle> handle(new ScraperSearchHandle());
 
-    ScraperSearchParams params;
-    // Check if the scraper in the settings still exists as a registered scraping source.
-    if (scraper_request_funcs.find(name) == scraper_request_funcs.end()) {
-        LOG(LogWarning) << "Configured scraper (" << name << ") unavailable, scraping aborted";
+    // This type of request is specific to TheGamesDB and will never occur for the other
+    // scraping sources.
+    if (Scraper::getScraper("thegamesdb") == nullptr) {
+        LOG(LogWarning) << "TheGamesDB scraper unavailable, media URL fetch aborted";
+        return handle;
     }
-    else {
-        // Specifically use the TheGamesDB function as this type of request
-        // will never occur for ScreenScraper.
-        thegamesdb_generate_json_scraper_requests(gameIDs, handle->mRequestQueue, handle->mResults);
-    }
+
+    thegamesdb_generate_json_scraper_requests(gameIDs, handle->mRequestQueue, handle->mResults);
 
     return handle;
 }
 
 bool isValidConfiguredScraper()
 {
-    const std::string& name {Settings::getInstance()->getString("Scraper")};
-    return scraper_request_funcs.find(name) != scraper_request_funcs.end();
+    return Scraper::getScraper() != nullptr;
+}
+
+const std::vector<ScrapeFilter>& getScrapeFilters()
+{
+    static const std::vector<ScrapeFilter> filters {
+        {"ALL GAMES", _("ALL GAMES"), [](SystemData*, FileData*) -> bool { return true; }},
+        {"FAVORITE GAMES", _("FAVORITE GAMES"),
+         [](SystemData*, FileData* g) -> bool { return g->getFavorite(); }},
+        {"NO METADATA", _("NO METADATA"),
+         [](SystemData*, FileData* g) -> bool { return g->metadata.get("desc").empty(); }},
+        {"NO GAME IMAGE", _("NO GAME IMAGE"),
+         [](SystemData*, FileData* g) -> bool { return g->getImagePath().empty(); }},
+        {"NO GAME VIDEO", _("NO GAME VIDEO"),
+         [](SystemData*, FileData* g) -> bool { return g->getVideoPath().empty(); }},
+        {"FOLDERS ONLY", _("FOLDERS ONLY"),
+         [](SystemData*, FileData* g) -> bool { return g->getType() == FOLDER; }},
+        {"GAMES MISSING ANY MEDIA", _("GAMES MISSING ANY MEDIA"),
+         [](SystemData*, FileData* g) -> bool { return hasMissingEnabledMedia(g); }},
+        {"GAMES MISSING ALL MEDIA", _("GAMES MISSING ALL MEDIA"),
+         [](SystemData*, FileData* g) -> bool { return !hasAnyEnabledMedia(g); }}};
+
+    return filters;
+}
+
+bool isGameRecentlyUpdated(FileData* game, int skipRecentDays)
+{
+    if (skipRecentDays <= 0)
+        return false;
+
+    Settings* settings {Settings::getInstance()};
+    std::vector<std::string> mediaPaths;
+
+    if (settings->getBool("Scrape3DBoxes"))
+        mediaPaths.push_back(game->get3DBoxPath());
+    if (settings->getBool("ScrapeBackCovers"))
+        mediaPaths.push_back(game->getBackCoverPath());
+    if (settings->getBool("ScrapeCovers"))
+        mediaPaths.push_back(game->getCoverPath());
+    if (settings->getBool("ScrapeFanArt"))
+        mediaPaths.push_back(game->getFanArtPath());
+    if (settings->getBool("ScrapeMarquees"))
+        mediaPaths.push_back(game->getMarqueePath());
+    if (settings->getBool("ScrapePhysicalMedia"))
+        mediaPaths.push_back(game->getPhysicalMediaPath());
+    if (settings->getBool("ScrapeScreenshots"))
+        mediaPaths.push_back(game->getScreenshotPath());
+    if (settings->getBool("ScrapeTitleScreens"))
+        mediaPaths.push_back(game->getTitleScreenPath());
+    if (settings->getBool("ScrapeVideos"))
+        mediaPaths.push_back(game->getVideoPath());
+    if (settings->getBool("ScrapeManuals"))
+        mediaPaths.push_back(game->getManualPath());
+
+    bool found {false};
+    std::filesystem::file_time_type newest;
+
+    for (const auto& path : mediaPaths) {
+        if (path.empty())
+            continue;
+
+        std::error_code error;
+        const std::filesystem::file_time_type mtime {
+            std::filesystem::last_write_time(path, error)};
+        if (error)
+            continue;
+
+        if (!found || mtime > newest) {
+            newest = mtime;
+            found = true;
+        }
+    }
+
+    if (!found)
+        return false;
+
+    const auto age {std::filesystem::file_time_type::clock::now() - newest};
+
+    return age < std::chrono::hours(24 * skipRecentDays);
+}
+
+std::pair<std::queue<ScraperSearchParams>, std::map<SystemData*, int>>
+buildScrapeQueue(const std::vector<SystemData*>& systems,
+                 const GameFilterFunc& selector,
+                 bool overwriteMedia,
+                 int skipRecentDays)
+{
+    std::pair<std::queue<ScraperSearchParams>, std::map<SystemData*, int>> queue;
+
+    for (auto sys = systems.cbegin(); sys != systems.cend(); ++sys) {
+        std::vector<FileData*> games {(*sys)->getRootFolder()->getScrapeFilesRecursive(
+            Settings::getInstance()->getBool("ScraperIncludeFolders"),
+            Settings::getInstance()->getBool("ScraperExcludeRecursively"),
+            Settings::getInstance()->getBool("ScraperRespectExclusions"))};
+
+        for (auto game = games.cbegin(); game != games.cend(); ++game) {
+            if (!selector((*sys), (*game)))
+                continue;
+
+            // Skip games that have been scraped recently, based on the modification time of
+            // their scraped media files.
+            if (isGameRecentlyUpdated(*game, skipRecentDays))
+                continue;
+
+            ScraperSearchParams search;
+            search.game = *game;
+            search.system = *sys;
+            search.overwriteMedia = overwriteMedia;
+
+            ++queue.second[*sys];
+            queue.first.push(search);
+        }
+    }
+
+    return queue;
 }
 
 void ScraperSearchHandle::update()
@@ -143,6 +474,15 @@ ScraperHttpRequest::ScraperHttpRequest(std::vector<ScraperSearchResult>& results
 {
     setStatus(ASYNC_IN_PROGRESS);
     mReq = std::unique_ptr<HttpReq>(new HttpReq(url, true));
+}
+
+ScraperHttpRequest::ScraperHttpRequest(std::vector<ScraperSearchResult>& resultsWrite,
+                                       const std::string& url,
+                                       const HttpReqOptions& options)
+    : ScraperRequest(resultsWrite)
+{
+    setStatus(ASYNC_IN_PROGRESS);
+    mReq = std::unique_ptr<HttpReq>(new HttpReq(url, true, &options));
 }
 
 void ScraperHttpRequest::update()
@@ -328,10 +668,10 @@ MDResolveHandle::MDResolveHandle(const ScraperSearchResult& result,
             continue;
         }
 
-        // If there is an existing media file on disk and the setting to overwrite data
-        // has been set to no, then don't proceed with downloading or saving a new file.
-        if (it->existingMediaFile != "" &&
-            !Settings::getInstance()->getBool("ScraperOverwriteData"))
+        // If there is an existing media file on disk and overwriting has been turned off for
+        // this scrape, then don't proceed with downloading or saving a new file. The value
+        // covers both the "overwrite files and data" setting and the "missing media" filter.
+        if (it->existingMediaFile != "" && !search.overwriteMedia)
             continue;
 
         // If the image is cached already as the thumbnail, then we don't need
@@ -772,7 +1112,32 @@ std::string getSaveAsPath(const ScraperSearchParams& params,
                           const std::string& extension)
 {
     const std::string systemsubdirectory {params.system->getName()};
-    const std::string name {Utils::FileSystem::getStem(params.game->getPath())};
+    const std::string name {params.game->getDisplayName()};
+
+    // Exia: optionally save images next to the ROM files using the Batocera/Skraper layout
+    // (<romdir>/images/<name>-image.png). Videos and manuals have no ROM directory variant
+    // and always use the media directory. The suffixes have to match the read side in
+    // FileData::getMediafilePath().
+    static const std::map<std::string, std::string> romDirectorySuffixes {
+        {"covers", "-thumb"},       {"screenshots", "-image"}, {"titlescreens", "-title"},
+        {"marquees", "-marquee"},   {"fanart", "-fanart"},     {"3dboxes", "-box"},
+        {"backcovers", "-boxback"}, {"physicalmedia", "-media"}};
+
+    const auto romDirectorySuffix = romDirectorySuffixes.find(filetypeSubdirectory);
+
+    if (Settings::getInstance()->getString("ScraperMediaLayout") == "romdir" &&
+        romDirectorySuffix != romDirectorySuffixes.cend()) {
+        std::string path {Utils::FileSystem::getParent(params.game->getPath()) + "/images/"};
+
+        // No subfolders are appended as the read side only looks for the images inside the
+        // images directory of the ROM directory, games in nested subdirectories included.
+        if (!Utils::FileSystem::exists(path))
+            Utils::FileSystem::createDirectory(path);
+
+        path.append(name).append(romDirectorySuffix->second).append(extension);
+        return path;
+    }
+
     std::string subFolders;
 
     // Extract possible subfolders from the path.

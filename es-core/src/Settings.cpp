@@ -106,6 +106,12 @@ void Settings::setDefaults()
     mStringMap["ScraperUsernameScreenScraper"] = {"", ""};
     mStringMap["ScraperPasswordScreenScraper"] = {"", ""};
     mBoolMap["ScraperUseAccountScreenScraper"] = {true, true};
+    // HfsDB account credentials, entered as separate username and password fields.
+    mStringMap["ScraperHfsDBUsername"] = {"", ""};
+    mStringMap["ScraperHfsDBPassword"] = {"", ""};
+    // IGDB (Twitch) client credentials.
+    mStringMap["ScraperClientIdIGDB"] = {"", ""};
+    mStringMap["ScraperClientSecretIGDB"] = {"", ""};
 
     mBoolMap["ScrapeGameNames"] = {true, true};
     mBoolMap["ScrapeRatings"] = {true, true};
@@ -148,6 +154,16 @@ void Settings::setDefaults()
     mIntMap["ScraperRetryOnErrorTimer"] = {3, 3};
     mIntMap["ScraperSearchFileHashMaxSize"] = {384, 384};
     mBoolMap["ScraperOverwriteData"] = {true, true};
+    // Granular overwrite settings for the single game multi-source scraper. The legacy
+    // ScraperOverwriteData setting is still read by the batch scraper.
+    mBoolMap["ScraperOverwriteNames"] = {true, true};
+    mBoolMap["ScraperOverwriteDescription"] = {true, true};
+    mBoolMap["ScraperOverwriteMetadata"] = {true, true};
+    mBoolMap["ScraperOverwriteMedia"] = {true, true};
+    // Semicolon separated list of scraper ids that are excluded from manual multi-source
+    // scraping.
+    mStringMap["DisabledManualScrapers"] = {"", ""};
+    mStringMap["ScraperMediaLayout"] = {"downloaded_media", "downloaded_media"};
     mBoolMap["ScraperIgnoreHTTP404Errors"] = {true, true};
     mBoolMap["ScraperSearchFileHash"] = {true, true};
     mBoolMap["ScraperSearchMetadataName"] = {true, true};
@@ -221,6 +237,7 @@ void Settings::setDefaults()
 
     mBoolMap["ThemeVariantTriggers"] = {true, true};
     mBoolMap["DisplayClock"] = {false, false};
+    mBoolMap["MenuHelp"] = {true, true};
     mBoolMap["MenuBlurBackground"] = {true, true};
     mBoolMap["FoldersOnTop"] = {true, true};
     mBoolMap["FavoritesFirst"] = {true, true};

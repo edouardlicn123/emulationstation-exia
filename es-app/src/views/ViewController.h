@@ -20,6 +20,10 @@
 #include "utils/StringUtil.h"
 
 #include <vector>
+#include <queue>
+#include <mutex>
+#include <thread>
+#include "GamelistStore.h"
 
 class GamelistView;
 class SystemData;
@@ -54,6 +58,10 @@ public:
     }
     // Reload everything with a theme, used when the "Theme" setting changes.
     void reloadAll();
+
+    // Re-sort the loaded systems and rebuild the system view without rescanning the ROM
+    // directory or resetting gamelist filters (devdoc/56).
+    void sortSystemsAndRefresh();
 
     // On window size changes we need to deinit/init the application, reload the systems etc.
     void setWindowSizeChanged(const int width, const int height);
@@ -207,6 +215,12 @@ private:
     bool mNextSystem;
     int mWindowChangedWidth;
     int mWindowChangedHeight;
+
+    // Step 5: background preload queue (minimal infrastructure).
+    std::mutex mPreloadQueueMutex;
+    std::queue<std::pair<SystemData*, GamelistStore::StoreData>> mPreloadQueue;
+    std::thread mPreloadThread;
+    bool mPreloadRunning {false};
 };
 
 #endif // ES_APP_VIEWS_VIEW_CONTROLLER_H

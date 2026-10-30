@@ -403,8 +403,8 @@ protected:
     static inline unsigned int mMenuColorKeyboardModifier {0xF26767FF};
     static inline unsigned int mMenuColorKeyboardCursorFocused {0x777777FF};
     static inline unsigned int mMenuColorKeyboardCursorUnfocused {0xC7C7C7FF};
-    static inline unsigned int mMenuColorKeyboardText {0x77777700};
-    static inline unsigned int mMenuColorTextInputFrameFocused {0x777777FF};
+    static inline unsigned int mMenuColorKeyboardText {0x000000FF};
+    static inline unsigned int mMenuColorTextInputFrameFocused {0xFFFFFFFF};
     static inline unsigned int mMenuColorTextInputFrameUnfocused {0xFFFFFFFF};
 
     static inline unsigned int mMenuColorSliderKnobDisabled {0xC9C9C9FF};

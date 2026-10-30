@@ -116,9 +116,10 @@ private:
     void updateView(const CursorState& state);
     void setGameImage(FileData* file, GuiComponent* comp);
     void showSelectedGameOptions();
-    // Advances to the next game when a gamelist video has finished playing. Returns true when
-    // the game was switched (or another video component already handled this round).
-    bool advanceToNextGameVideo();
+    // Advances to a random game of the current platform when a gamelist video has finished
+    // playing. Returns true when the game was switched (or another video component already
+    // handled this round).
+    bool advanceToRandomGameVideo();
 
     Renderer* mRenderer;
     bool mStaticVideoAudio;

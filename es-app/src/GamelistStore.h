@@ -12,6 +12,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 class SystemData;
 
@@ -53,6 +54,18 @@ namespace GamelistStore
     // overwritten, external data such as media tags written by other frontends is
     // preserved. Returns the number of systems which were exported.
     int exportAllXml();
+
+    // Step 2/5 split: pure read / apply interfaces (used by background preload).
+    #include <map>
+    struct StoreData
+    {
+        std::vector<std::map<std::string, std::string>> gameRows;
+        std::vector<std::map<std::string, std::string>> folderRows;
+        std::map<std::string, std::string> meta;
+        std::map<std::string, std::string> localizedNames;
+    };
+    bool readStoreData(const std::string& storePath, StoreData& data);
+    void applyStoreData(SystemData* system, const StoreData& data);
 
 } // namespace GamelistStore
 
